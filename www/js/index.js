@@ -64,6 +64,12 @@ document.addEventListener('deviceready', function () {
     .startInit("5870b141-9a5c-4a3e-ad4d-ba95836b1ffa")
     .handleNotificationOpened(notificationOpenedCallback)
     .endInit();
+	
+	window.pluginsOneSignal.idsAvailable((idsAvailable) => { 
+		alert(idsAvailable.playerId);
+		//console.log(idsAvailable.pushToken);
+	});	
+	
   
   // Call syncHashedEmail anywhere in your app if you have the user's email.
   // This improves the effectiveness of OneSignal's "best-time" notification scheduling feature.
