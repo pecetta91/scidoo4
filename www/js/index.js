@@ -65,10 +65,15 @@ document.addEventListener('deviceready', function () {
     .handleNotificationOpened(notificationOpenedCallback)
     .endInit();
 	
-	window.pluginsOneSignal.idsAvailable((idsAvailable) => { 
-		alert(idsAvailable.playerId);
-		//console.log(idsAvailable.pushToken);
-	});	
+	window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+	//status.permissionStatus.hasPrompted;
+	 // status.permissionStatus.status;
+	
+	//  status.subscriptionStatus.subscribed;
+	 // status.subscriptionStatus.userSubscriptionSetting;
+	  alert(status.subscriptionStatus.userId);
+	  //status.subscriptionStatus.pushToken;
+	});
 	
   
   // Call syncHashedEmail anywhere in your app if you have the user's email.
