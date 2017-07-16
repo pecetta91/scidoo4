@@ -35,13 +35,28 @@ var app = {
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
         var notificationOpenedCallback = function(jsonData) {
-          alert('Notifica');
+          //alert('Notifica');
         };
 
         window.plugins.OneSignal
           .startInit("5870b141-9a5c-4a3e-ad4d-ba95836b1ffa")
           .handleNotificationOpened(notificationOpenedCallback)
           .endInit();
+		  
+		  
+		OneSignal.idsAvailable((idsAvailable) => { 
+			alert(idsAvailable.playerId);
+			console.log(idsAvailable.playerId);
+			console.log(idsAvailable.pushToken);
+		});  
+		  
+		/*OneSignal.idsAvailable { (pushID, pushToken) in
+			print(pushID)
+			print(pushToken)
+		}*/
+		
+		  
+		  
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
