@@ -43,12 +43,12 @@ var app = {
           .handleNotificationOpened(notificationOpenedCallback)
           .endInit();
 		  
-		  
+		 /* 
 		OneSignal.idsAvailable((idsAvailable) => { 
 			alert(idsAvailable.playerId);
 			console.log(idsAvailable.playerId);
 			console.log(idsAvailable.pushToken);
-		});  
+		});  */
 		  
 		/*OneSignal.idsAvailable { (pushID, pushToken) in
 			print(pushID)
