@@ -65,15 +65,34 @@ document.addEventListener('deviceready', function () {
     .handleNotificationOpened(notificationOpenedCallback)
     .endInit();
 	
-	window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
-	//status.permissionStatus.hasPrompted;
-	 // status.permissionStatus.status;
+	/*window.plugins.OneSignal.getPermissionSubscriptionState(function(status) {
+		status.permissionStatus.hasPrompted;
+	  status.permissionStatus.status;
 	
-	//  status.subscriptionStatus.subscribed;
-	 // status.subscriptionStatus.userSubscriptionSetting;
+	  status.subscriptionStatus.subscribed;
+	 	status.subscriptionStatus.userSubscriptionSetting;
 	  alert(status.subscriptionStatus.userId);
-	  //status.subscriptionStatus.pushToken;
+	  alert(status.subscriptionStatus.pushToken);
+	});*/
+	
+	
+	window.plugins.OneSignal.getIds(function(ids) {
+		alert(ids.userId);
+	 /* var notificationObj = { contents: {en: "message body"},
+							  include_player_ids: [ids.userId]};
+	  window.plugins.OneSignal.postNotification(notificationObj,
+		function(successResponse) {
+		  console.log("Notification Post Success:", successResponse);
+		},
+		function (failedResponse) {
+		  console.log("Notification Post Failed: ", failedResponse);
+		  alert("Notification Post Failed:\n" + JSON.stringify(failedResponse));
+		}
+	  );*/
 	});
+	
+	
+	
 	
   
   // Call syncHashedEmail anywhere in your app if you have the user's email.
