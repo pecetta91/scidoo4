@@ -59,9 +59,8 @@ $$(window).on('popstate', function(){
 });
 
 
-//var baseurl='http://127.0.0.1/milliont/';
+var baseurl='http://127.0.0.1/milliont/';
 //var baseurl='http://192.168.1.106/milliont/';
-var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.100/milliont/';
 //var baseurl='https://www.scidoo.com/';
 
@@ -1132,58 +1131,45 @@ zoom: 10,mapTypeId: 'roadmap'
 
 
 
-
 function onloadf(time){
 	
 	//alert('aa');
 	//alert();
-	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5000);	
-	
 	IDcode=window.localStorage.getItem("IDcode");
 	
 	var h = window.innerHeight;
 	creasessione(h,86);
+	
 	if(IDcode.length>10){
+		//alert(IDcode);
+		//var url=baseurl+"mobile/";
 		
+		var url=baseurl+'mobile/config/controlloini.php';
+	
 		
-		var url=baseurl+'mobile/www/config/controlloini.php';
-		alert(url);
 		$$.ajax({
             url: url,
-                 method: 'POST',
+                  method: 'POST',
 				dataType: 'text',
 				cache:false,
                 data: {IDcode:IDcode},
                 success: function (data){
 					//alert(data);
-					
-					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
 						data=parseInt(data);
+						//var arr=new Array();
 						
 						if(time==0){
 							agg=0;
 							if(data==1)agg=7;
 							navigation(data,'',agg)
-						}else{
-							$$('#logindiv').css('display','block');
 						}
-					}else{
-						$$('#logindiv').css('display','block');
 					}
-				
-				
     				//myApp.hideIndicator();
 					//mainView.router.loadContent(data);
-       			},
-				error: function (){
-					myApp.hideIndicator();
-					$$('#logindiv').css('display','block');
-				}	
+       			}
     	 });
-	}else{
-		$$('#logindiv').css('display','block');
 	}
 	
 	
