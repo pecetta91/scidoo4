@@ -1164,6 +1164,7 @@ function onloadf(time){
     	 });
 	}else{
 		var IDnotpush=$$('#IDnotpush').val();
+		alert(IDnotpush);
 		setTimeout(function(){
 			$$('#logindiv').css('display','block');	
 		}, 1000);
