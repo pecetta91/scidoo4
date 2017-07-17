@@ -73,15 +73,12 @@ function getUrlVars() {
 }
 
 var guest=getUrlVars()["guest"];
-alert(guest);
 if(typeof guest != 'undefined'){
-	alert('bb');
 	window.localStorage.setItem("IDcode", guest);
 	onloadf(0);
 	
 	//navigation(1,'',7);
 }else{
-		alert('cc');
 	onloadf(0);
 }
 
@@ -121,7 +118,6 @@ var IDutente=0;
 					  myApp.hideIndicator();
 					}
 				  },
-				  
                 success: function (data) {
                     //Find matched items
 					//alert(data);
@@ -1118,23 +1114,15 @@ zoom: 10,mapTypeId: 'roadmap'
 							
 						break;
 					}
-					
 					document.getElementByClass('.page-content').scrollTop=0;
-					
-					
-					
-					
          }
      });	
 }
 
 
-
-
-
 function onloadf(time){
 	
-	//alert('aa');
+	alert('aa');
 	//alert();
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
@@ -1145,19 +1133,18 @@ function onloadf(time){
 	//creasessione(h,86);
 	
 	if(IDcode.length>10){
-		
-		
+	
 		var url=baseurl+'mobile/config/controlloini.php';
-		alert(url);
+	
 		$$.ajax({
             url: url,
-                  method: 'POST',
+                method: 'POST',
 				dataType: 'text',
 				cache:false,
                 data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
 					alert(data);
-					
+				
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
