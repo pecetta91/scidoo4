@@ -1119,7 +1119,6 @@ zoom: 10,mapTypeId: 'roadmap'
      });	
 }
 
-
 function onloadf(time){
 	
 	//alert('aa');
@@ -1134,7 +1133,7 @@ function onloadf(time){
 	
 	if(IDcode.length>10){
 		var url=baseurl+'mobile/config/controlloini.php';
-		alert(IDnotpush);
+		
 		$$.ajax({
             url: url,
                 method: 'POST',
@@ -1142,7 +1141,6 @@ function onloadf(time){
 				cache:false,
                 data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
-					
 				
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
