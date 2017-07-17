@@ -1128,14 +1128,14 @@ function onloadf(time){
 	setTimeout(function(){ hidelo(); }, 5000);	
 	//alert('bb');
 	IDcode=window.localStorage.getItem("IDcode");
-	//alert(IDcode);
+	alert(IDcode);
 	//var h = window.innerHeight;
 	//creasessione(h,86);
 	
 	if(IDcode.length>10){
-	
+		alert(IDcode);
 		var url=baseurl+'mobile/config/controlloini.php';
-	
+	alert(url);
 		$$.ajax({
             url: url,
                 method: 'POST',
@@ -1166,8 +1166,11 @@ function onloadf(time){
        			}
     	 });
 	}else{
-		alert('second');
-		$$('#logindiv').css('display','block');
+		alert('cc');
+		setTimeout(function(){
+			$$('#logindiv').css('display','block');	
+		}, 1000);
+		
 		myApp.hideIndicator();	
 	}
 	
