@@ -1136,28 +1136,27 @@ function onloadf(time){
 	//alert('aa');
 	//alert();
 	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5000);	
-	
+	//alert('bb');
 	IDcode=window.localStorage.getItem("IDcode");
-	
-	var h = window.innerHeight;
-	creasessione(h,86);
+	//alert(IDcode);
+	//var h = window.innerHeight;
+	//creasessione(h,86);
 	
 	if(IDcode.length>10){
 		
 		
 		var url=baseurl+'mobile/config/controlloini.php';
-	
 		
 		$$.ajax({
             url: url,
                   method: 'POST',
 				dataType: 'text',
 				cache:false,
-                data: {IDcode:IDcode},
+                data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
-					//alert(data);
+				//	alert(data);
 					
-					//myApp.hideIndicator();
+					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
 						data=parseInt(data);
@@ -1179,9 +1178,9 @@ function onloadf(time){
        			}
     	 });
 	}else{
+		myApp.hideIndicator();	
 		$$('#logindiv').css('display','block');
 	}
-	
 	
 }
 
