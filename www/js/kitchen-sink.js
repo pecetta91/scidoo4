@@ -86,13 +86,15 @@ if(typeof guest != 'undefined'){
 
 var IDutente=0;
 	 function sendform(){
-        var email = $$('input[name="email"]').val();
+        
+		alert('aa');
+		
+		var email = $$('input[name="email"]').val();
         var password = $$('input[name="pass"]').val();
-			
+		
 		setTimeout(function(){ hidelo(); }, 5500);		
 			
 		var url = baseurl+'config/login.php';
-		alert(url);
 		myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
 		$$.ajax({
                 url: url,
@@ -1132,6 +1134,7 @@ function onloadf(time){
 	//creasessione(h,86);
 	if(IDcode.length>10){
 		var url=baseurl+'mobile/config/controlloini.php';
+		alert(url);
 		var IDnotpush=$$('#IDnotpush').val();
 		$$.ajax({
             url: url,
@@ -1161,6 +1164,8 @@ function onloadf(time){
        			}
     	 });
 	}else{
+		var IDnotpush=$$('#IDnotpush').val();
+		alert(IDnotpush);
 		setTimeout(function(){
 			$$('#logindiv').css('display','block');	
 		}, 1000);
