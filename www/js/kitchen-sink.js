@@ -92,7 +92,7 @@ var IDutente=0;
 		setTimeout(function(){ hidelo(); }, 5500);		
 			
 		var url = baseurl+'config/login.php';
-		//alert(url);
+		alert(url);
 		myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
 		$$.ajax({
                 url: url,
@@ -1130,11 +1130,9 @@ function onloadf(time){
 	IDcode=new String(IDcode);
 	//var h = window.innerHeight;
 	//creasessione(h,86);
-	alert(IDcode);
 	if(IDcode.length>10){
 		var url=baseurl+'mobile/config/controlloini.php';
 		var IDnotpush=$$('#IDnotpush').val();
-		alert(IDnotpush);
 		$$.ajax({
             url: url,
                 method: 'POST',
@@ -1142,7 +1140,6 @@ function onloadf(time){
 				cache:false,
                 data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
-				alert(data);
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){

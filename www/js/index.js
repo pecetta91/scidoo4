@@ -31,9 +31,6 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         
-		
-		alert('pronto');
-		
 		this.receivedEvent('deviceready');
 		
 		
