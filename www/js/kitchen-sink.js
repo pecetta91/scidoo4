@@ -73,14 +73,15 @@ function getUrlVars() {
 }
 
 var guest=getUrlVars()["guest"];
-//alert(guest);
+alert(guest);
 if(typeof guest != 'undefined'){
-	
+	alert('bb');
 	window.localStorage.setItem("IDcode", guest);
 	onloadf(0);
 	
 	//navigation(1,'',7);
 }else{
+		alert('cc');
 	onloadf(0);
 }
 
@@ -1135,7 +1136,8 @@ function onloadf(time){
 	
 	//alert('aa');
 	//alert();
-	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5000);	
+	myApp.showIndicator();
+	setTimeout(function(){ hidelo(); }, 5000);	
 	//alert('bb');
 	IDcode=window.localStorage.getItem("IDcode");
 	//alert(IDcode);
