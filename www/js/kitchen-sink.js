@@ -1129,14 +1129,12 @@ function onloadf(time){
 	//alert('bb');
 	IDcode=window.localStorage.getItem("IDcode");
 	IDcode=new String(IDcode);
-	alert(IDcode);
 	//var h = window.innerHeight;
 	//creasessione(h,86);
 	
 	if(IDcode.length>10){
-		alert(IDcode);
 		var url=baseurl+'mobile/config/controlloini.php';
-	alert(url);
+		alert(IDnotpush);
 		$$.ajax({
             url: url,
                 method: 'POST',
@@ -1144,7 +1142,7 @@ function onloadf(time){
 				cache:false,
                 data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
-					alert(data);
+					
 				
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
