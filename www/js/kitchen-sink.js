@@ -59,10 +59,10 @@ $$(window).on('popstate', function(){
 });
 
 
-var baseurl='http://127.0.0.1/milliont/';
-var baseurl='http://192.168.1.106/milliont/';
+//var baseurl='http://127.0.0.1/milliont/';
+//var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.100/milliont/';
-//var baseurl='https://www.scidoo.com/';
+var baseurl='https://www.scidoo.com/';
 
 function getUrlVars() {
 	var vars = {};
@@ -1146,7 +1146,7 @@ function onloadf(time){
 		
 		
 		var url=baseurl+'mobile/config/controlloini.php';
-		
+		alert(url);
 		$$.ajax({
             url: url,
                   method: 'POST',
@@ -1154,13 +1154,12 @@ function onloadf(time){
 				cache:false,
                 data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
-				//	alert(data);
+					alert(data);
 					
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
 						data=parseInt(data);
-						
 						if(time==0){
 							agg=0;
 							if(data==1)agg=7;
