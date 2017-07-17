@@ -73,6 +73,19 @@ document.addEventListener('deviceready', function () {
 	
 	});
 	
+	var guest=getUrlVars()["guest"];
+	if(typeof guest != 'undefined'){
+		window.localStorage.setItem("IDcode", guest);
+		onloadf(0);
+		
+		//navigation(1,'',7);
+	}else{
+		onloadf(0);
+	}
+
+
+	
+	
 	
 	
 	
