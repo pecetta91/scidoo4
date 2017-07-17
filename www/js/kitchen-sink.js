@@ -1128,6 +1128,7 @@ function onloadf(time){
 	setTimeout(function(){ hidelo(); }, 5000);	
 	//alert('bb');
 	IDcode=window.localStorage.getItem("IDcode");
+	IDcode=new String(IDcode);
 	alert(IDcode);
 	//var h = window.innerHeight;
 	//creasessione(h,86);
