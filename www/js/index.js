@@ -49,15 +49,7 @@ var app = {
 
         console.log('Received Event: ' + id);*/
 		
-		var guest=getUrlVars()["guest"];
-		if(typeof guest != 'undefined'){
-			window.localStorage.setItem("IDcode", guest);
-			onloadf(0);
-			
-			//navigation(1,'',7);
-		}else{
-			onloadf(0);
-		}
+		
 				
 		
 		
@@ -76,6 +68,20 @@ document.addEventListener('deviceready', function () {
     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
   };
 
+	
+	var guest=getUrlVars()["guest"];
+		if(typeof guest != 'undefined'){
+			window.localStorage.setItem("IDcode", guest);
+			onloadf(0);
+			
+			//navigation(1,'',7);
+		}else{
+			onloadf(0);
+		}
+
+
+
+
   window.plugins.OneSignal
     .startInit("5870b141-9a5c-4a3e-ad4d-ba95836b1ffa")
     .handleNotificationOpened(notificationOpenedCallback)
@@ -83,7 +89,7 @@ document.addEventListener('deviceready', function () {
 	
 	window.plugins.OneSignal.getIds(function(ids) {
 		$$('#IDnotpush').val(ids.userId);
-		alert(ids.userId);
+		//alert(ids.userId);
 		
 	
 	});
