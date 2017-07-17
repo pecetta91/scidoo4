@@ -1134,7 +1134,6 @@ function onloadf(time){
 	//creasessione(h,86);
 	if(IDcode.length>10){
 		var url=baseurl+'mobile/config/controlloini.php';
-		alert(url);
 		var IDnotpush=$$('#IDnotpush').val();
 		$$.ajax({
             url: url,
@@ -1165,7 +1164,6 @@ function onloadf(time){
     	 });
 	}else{
 		var IDnotpush=$$('#IDnotpush').val();
-		alert(IDnotpush);
 		setTimeout(function(){
 			$$('#logindiv').css('display','block');	
 		}, 1000);
