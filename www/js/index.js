@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- 
-
- 
 var app = {
     // Application Constructor
     initialize: function() {
@@ -48,6 +45,7 @@ var app = {
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
+
         console.log('Received Event: ' + id);
     }
 };
@@ -68,8 +66,7 @@ document.addEventListener('deviceready', function () {
     .endInit();
 	
 	window.plugins.OneSignal.getIds(function(ids) {
-		 //IDnotpush=ids.userId;
-			alert(ids.userId);
+		alert(ids.userId);
 	
 	});
 	
