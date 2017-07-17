@@ -17,7 +17,7 @@
  * under the License.
  */
  
-var IDnotpush=0; 
+
  
 var app = {
     // Application Constructor
@@ -68,7 +68,7 @@ document.addEventListener('deviceready', function () {
     .endInit();
 	
 	window.plugins.OneSignal.getIds(function(ids) {
-		 IDnotpush=ids.userId;
+		 //IDnotpush=ids.userId;
 			alert(ids.userId);
 	
 	});
