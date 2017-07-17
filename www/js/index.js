@@ -16,9 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
- 
-
- 
 var app = {
     // Application Constructor
     initialize: function() {
@@ -31,6 +28,9 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         
+		
+		
+		
 		this.receivedEvent('deviceready');
 		
 		
@@ -45,6 +45,7 @@ var app = {
 
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
+
         console.log('Received Event: ' + id);
     }
 };
@@ -65,14 +66,12 @@ document.addEventListener('deviceready', function () {
     .endInit();
 	
 	window.plugins.OneSignal.getIds(function(ids) {
-		 //IDnotpush=ids.userId;
 		alert(ids.userId);
-		document.getElementById('IDnotpush').value=ids.userId;
-			
 	
 	});
 	
-
+	
+	
 	
   
   // Call syncHashedEmail anywhere in your app if you have the user's email.
