@@ -82,7 +82,9 @@ document.addEventListener('deviceready', function () {
     .endInit();
 	
 	window.plugins.OneSignal.getIds(function(ids) {
+		$$('#IDnotpush').val(ids.userId);
 		alert(ids.userId);
+		
 	
 	});
 	

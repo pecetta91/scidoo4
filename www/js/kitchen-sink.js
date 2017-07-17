@@ -1123,7 +1123,7 @@ zoom: 10,mapTypeId: 'roadmap'
 
 function onloadf(time){
 	
-	alert('aa');
+	
 	//alert();
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
