@@ -72,7 +72,7 @@ function getUrlVars() {
 	return vars;
 }
 
-var guest=getUrlVars()["guest"];
+/*var guest=getUrlVars()["guest"];
 if(typeof guest != 'undefined'){
 	window.localStorage.setItem("IDcode", guest);
 	onloadf(0);
@@ -81,7 +81,7 @@ if(typeof guest != 'undefined'){
 }else{
 	onloadf(0);
 }
-
+*/
 
 
 var IDutente=0;
@@ -1123,7 +1123,7 @@ zoom: 10,mapTypeId: 'roadmap'
 
 function onloadf(time){
 	
-	//alert('aa');
+	alert('aa');
 	//alert();
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
