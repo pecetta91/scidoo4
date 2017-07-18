@@ -504,7 +504,7 @@ function navigation(id,str,agg,rel){
 				beforeSend: function (data) {
 					alert('bb');
 				},
-				 error: function function (xhr, ajaxOptions, thrownError) {
+				 error: function (xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
 					alert(thrownError);
 				  },
