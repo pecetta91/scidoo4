@@ -49,7 +49,7 @@ body {
 /* Portrait layout (default) */
 .app {
     background:url(../ScidooLOGO.png) no-repeat center center;  /*170px x 200px */
-	background-size:400px 200px;;
+	background-size:300px 145px;;
     position:absolute;  
 	left:0px; top:0px;           /* position in the center of the screen */
    width:100%;
