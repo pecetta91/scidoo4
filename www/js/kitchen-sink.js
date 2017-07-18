@@ -492,6 +492,7 @@ function navigation(id,str,agg,rel){
 			query['dato0']=str;
 		}
 	}
+	alert(url);
 	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
 	$$.ajax({
             url: url,
@@ -501,7 +502,7 @@ function navigation(id,str,agg,rel){
                 data: query,
                 success: function (data) {
 					myApp.hideIndicator();
-					//alert(data);
+					alert(data);
 					clearTimeout();
 					switch(rel){
 						case 1:
@@ -1163,16 +1164,7 @@ function onloadf(time){
     	 });
 	}else{
 		var IDnotpush=$$('#IDnotpush').val();
-		setTimeout(function(){
-			//carica per login con navigation
-			alert('bb');
-			navigation(33,0,0,1);
-			
-			
-			
-			
-		}, 1000);
-		
+		navigation(33,0,0,1);		
 		myApp.hideIndicator();	
 	}
 	
