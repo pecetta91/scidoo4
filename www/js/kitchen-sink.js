@@ -502,6 +502,7 @@ function navigation(id,str,agg,rel){
 				cache:false,
                 data: query,
                 success: function (data) {
+					alert('bb');
 					myApp.hideIndicator();
 					alert(data);
 					clearTimeout();
