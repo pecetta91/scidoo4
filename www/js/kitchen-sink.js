@@ -494,7 +494,7 @@ function navigation(id,str,agg,rel){
 	}
 	
 	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
-	
+	alert(url);
 	$$.ajax({
             url: url,
                 method: 'GET',
@@ -505,8 +505,7 @@ function navigation(id,str,agg,rel){
 					alert('bb');
 				},
 				 error: function (data) {
-					 alert('cc');
-					//alert(data);
+					alert(data);
 					//console.log(data);
 				},
 				statusCode: {
