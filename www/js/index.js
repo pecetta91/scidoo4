@@ -81,8 +81,6 @@ document.addEventListener('deviceready', function () {
 	
 	window.plugins.OneSignal.getIds(function(ids) {
 		$$('#IDnotpush').val(ids.userId);
-		alert(ids.userId);
-		
 		
 		var guest=getUrlVars()["guest"];
 		if(typeof guest != 'undefined'){
@@ -92,7 +90,6 @@ document.addEventListener('deviceready', function () {
 		}else{
 			onloadf(0);
 		}
-		
 		
 	
 	});
