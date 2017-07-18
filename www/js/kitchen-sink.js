@@ -1127,7 +1127,6 @@ function onloadf(time){
 	//alert();
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
-	alert('bb');
 	IDcode=window.localStorage.getItem("IDcode");
 	IDcode=new String(IDcode);
 	//var h = window.innerHeight;
@@ -1166,6 +1165,7 @@ function onloadf(time){
 		var IDnotpush=$$('#IDnotpush').val();
 		setTimeout(function(){
 			//carica per login con navigation
+			alert('bb');
 			navigation(33,0,0,1);
 			
 			
@@ -2715,7 +2715,8 @@ function esci(){
 			cache:false,
 			data: query,
 			success: function (data) {
-				mainView.router.back();
+				//mainView.router.back();
+				navigation(33,0,0,1);
 				window.localStorage.setItem("IDcode", '0');
 				/*
 				var calendarDefault = myApp.calendar({
@@ -2724,7 +2725,6 @@ function esci(){
 				});
 				*/
 				//window.localStorage.getItem("IDcode")='0';
-				
 			}
 	});
 }
