@@ -492,8 +492,9 @@ function navigation(id,str,agg,rel){
 			query['dato0']=str;
 		}
 	}
-	alert(url);
+	
 	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
+	alert(url);
 	$$.ajax({
             url: url,
                 method: 'GET',
