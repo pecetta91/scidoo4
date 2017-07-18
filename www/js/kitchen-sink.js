@@ -504,10 +504,10 @@ function navigation(id,str,agg,rel){
 				beforeSend: function (data) {
 					alert('bb');
 				},
-				 error: function (data) {
-					alert(data);
-					//console.log(data);
-				},
+				 error: function function (xhr, ajaxOptions, thrownError) {
+					alert(xhr.status);
+					alert(thrownError);
+				  },
 				statusCode: {
 					404: function() {
 					  alert( "page not found" );
