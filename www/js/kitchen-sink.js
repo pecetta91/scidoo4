@@ -24,7 +24,6 @@ IDcode=window.localStorage.getItem("IDcode");
 var $$ = Dom7;
 
 // Add main view
-
 var mainView = myApp.addView('.view-main', {});
 // Add another view, which is in right panel
 
@@ -64,6 +63,9 @@ $$(window).on('popstate', function(){
 //var baseurl='http://192.168.1.100/milliont/';
 var baseurl='https://www.scidoo.com/';
 
+
+
+
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -87,7 +89,7 @@ if(typeof guest != 'undefined'){
 var IDutente=0;
 	 function sendform(){
         
-		alert('aa');
+		
 		
 		var email = $$('input[name="email"]').val();
         var password = $$('input[name="pass"]').val();
@@ -498,7 +500,7 @@ function navigation(id,str,agg,rel){
 	$$.ajax({
             url: url,
                 method: 'GET',
-				dataType: 'html',
+				dataType: 'text',
 				cache:false,
                 data: query,
 				error: function (xhr, ajaxOptions, thrownError) {
@@ -1130,11 +1132,12 @@ zoom: 10,mapTypeId: 'roadmap'
 function onloadf(time){
 	
 	
-	//alert();
+
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
 	IDcode=window.localStorage.getItem("IDcode");
 	IDcode=new String(IDcode);
+	
 	//var h = window.innerHeight;
 	//creasessione(h,86);
 	if(IDcode.length>10){
@@ -1147,6 +1150,7 @@ function onloadf(time){
 				cache:false,
                 data: {IDcode:IDcode,IDnotpush:IDnotpush},
                 success: function (data){
+					
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
@@ -1156,10 +1160,10 @@ function onloadf(time){
 							if(data==1)agg=7;
 							navigation(data,'',agg)
 						}else{
-							$$('#logindiv').css('display','block');
+							vislogin();
 						}
 					}else{
-						$$('#logindiv').css('display','block');
+						vislogin();
 					}
 				
 				
@@ -1169,10 +1173,22 @@ function onloadf(time){
     	 });
 	}else{
 		var IDnotpush=$$('#IDnotpush').val();
-		navigation(33,0,0,1);		
+		vislogin();
 		myApp.hideIndicator();	
 	}
 	
+}
+
+//onloadf();
+
+function vislogin(){
+	$$( ".app" ).animate({
+		top: "-150"
+	});
+	$$('#logindiv').animate({
+		opacity: "1"
+	});
+
 }
 
 
@@ -2712,8 +2728,8 @@ function esci(){
 			cache:false,
 			data: query,
 			success: function (data) {
-				//mainView.router.back();
-				navigation(33,0,0,1);
+				mainView.router.back();
+				//navigation(33,0,0,1);
 				window.localStorage.setItem("IDcode", '0');
 				/*
 				var calendarDefault = myApp.calendar({

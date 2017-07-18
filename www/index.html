@@ -1,28 +1,12 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
    
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
+        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="msapplication-tap-highlight" content="no">-->
+        
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
         
@@ -35,19 +19,63 @@
         
         <title>Scidoo</title>
         <script type="text/javascript" src="js/framework7.js"></script>
+        
     </head>
     <body>
+    
+    	<div class="views">
+    	  <div class="view view-main">
+    
+    		<div class="pages">
+          <div data-page="indice" class="page" style="background:#fff;">
+    
+    
+    
         <div class="app">
+        
         </div>
+        <div id="logindiv" style="opacity:0; margin-top:260px;">
+            <div class="list-block inputs-list"  style="width:95%; margin:auto; ">
+            <ul style="background:#fff; border-radius:5px; ">
+    
+            <li class="item-content">
+                <div class="item-inner"> 
+                  <div class="item-title label" style="color:#333; text-transform:none;">E-mail</div>
+                  <div class="item-input">
+                    <input type="text" name="email" id="email" style="font-size:15px;" placeholder="info@scidoo.com"/>
+                  </div>
+                </div>
+              </li>
+             <li class="item-content">
+                <div class="item-inner"> 
+                  <div class="item-title label" style="color:#333; text-transform:none;">Password</div>
+                  <div class="item-input">
+                    <input type="password" name="pass" id="pass" style="font-size:15px;" placeholder="" />
+                  </div>
+                </div>
+              </li>
+             
+            </ul>
+          </div><br>
+            <a href="javascript:void(0)" onclick="sendform()" class="button button-big button-fill sendform" style=" width:60%; margin:auto; background:#ff9c00;;">Accedi</a>
+           <br>
+            <a href="#" onclick="location.href='https://www.scidoo.com/registrati.php';"  class="button button-big button-fill sendform" style=" width:60%; margin:auto; background:#266FAB;;">Registrati</a>
+         </div>
+     
         
         <input type="hidden" id="IDnotpush" value="0">
         
+        
+       </div></div> </div></div>
+        
+        
+       
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
-        
-        
-        <script type="text/javascript" src="js/kitchen-sink.js"></script>
+         <script type="text/javascript" src="js/kitchen-sink.js"></script>
     	<script type="text/javascript" src="js/funzioniprev.js"></script>
+        
+       
         
         
     </body>
