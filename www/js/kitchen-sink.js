@@ -494,17 +494,17 @@ function navigation(id,str,agg,rel){
 	}
 	
 	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
+	var url='https://www.scidoo.com/mobile/config/profilo.php';
+	
 	alert(url);
+	
 	$$.ajax({
             url: url,
                 method: 'GET',
 				dataType: 'text',
 				cache:false,
                 data: query,
-				beforeSend: function (data) {
-					alert('bb');
-				},
-				 error: function (xhr, ajaxOptions, thrownError) {
+				error: function (xhr, ajaxOptions, thrownError) {
 					alert(xhr.status);
 					alert(thrownError);
 				  },
