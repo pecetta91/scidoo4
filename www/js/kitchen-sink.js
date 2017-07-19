@@ -1177,7 +1177,6 @@ function onloadf(time){
 	
 }
 
-onloadf(0);
 function vislogin(){
 	$$( ".app" ).animate({
 		top: "-150"
