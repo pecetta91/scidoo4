@@ -60,7 +60,7 @@ $$(window).on('popstate', function(){
 //var baseurl='http://127.0.0.1/milliont/';
 //var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.100/milliont/';
-//var baseurl='https://www.scidoo.com/';
+var baseurl='https://www.scidoo.com/';
 
 
 
@@ -1171,7 +1171,7 @@ function onloadf(time){
        			}
     	 });
 	}else{
-		alert('cc');
+		//alert('cc');
 		var IDnotpush=$$('#IDnotpush').val();
 		vislogin();
 		myApp.hideIndicator();	

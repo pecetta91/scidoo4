@@ -18,7 +18,7 @@
  */
  
  
-var baseurl='https://www.scidoo.com/'; 
+
  
 var app = {
     // Application Constructor
@@ -53,11 +53,6 @@ var app = {
 
         console.log('Received Event: ' + id);*/
 		myApp.showIndicator();
-		
-				
-		alert('strar');
-		
-		
 		
     }
 };
