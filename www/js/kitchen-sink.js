@@ -1129,10 +1129,11 @@ zoom: 10,mapTypeId: 'roadmap'
 
 function onloadf(time){
 	
-	
+	alert('aa');
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
 	IDcode=window.localStorage.getItem("IDcode");
+	alert('vv');
 	//alert(IDcode);
 	//IDcode=new String(IDcode);
 	
@@ -1170,6 +1171,7 @@ function onloadf(time){
        			}
     	 });
 	}else{
+		alert('cc');
 		var IDnotpush=$$('#IDnotpush').val();
 		vislogin();
 		myApp.hideIndicator();	
