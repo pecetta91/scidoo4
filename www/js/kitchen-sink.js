@@ -1133,11 +1133,11 @@ function onloadf(time){
 	setTimeout(function(){ hidelo(); }, 5000);	
 	IDcode=window.localStorage.getItem("IDcode");
 	//alert(IDcode);
-	//IDcode=new String(IDcode);
+	IDcode2=new String(IDcode);
 	
 	//var h = window.innerHeight;
 	//creasessione(h,86);
-	if(IDcode.length>10){
+	if(IDcode2.length>10){
 	
 		var url=baseurl+'mobile/config/controlloini.php';
 		alert(url);
