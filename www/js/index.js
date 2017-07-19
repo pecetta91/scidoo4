@@ -31,10 +31,7 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-        
-		
-		
-		
+
 		this.receivedEvent('deviceready');
 		
 		
@@ -66,8 +63,12 @@ document.addEventListener('deviceready', function () {
   var notificationOpenedCallback = function(jsonData) {
     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
   };
-	myApp.hideIndicator();
 	
+	/*var notificationOpenedCallback = function(jsonData) {
+alert('push notifications received');
+console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
+};*/
+
 
   window.plugins.OneSignal
     .startInit("5870b141-9a5c-4a3e-ad4d-ba95836b1ffa")
