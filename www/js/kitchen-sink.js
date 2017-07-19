@@ -1129,18 +1129,18 @@ zoom: 10,mapTypeId: 'roadmap'
 
 function onloadf(time){
 	
-	alert('aa');
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
 	IDcode=window.localStorage.getItem("IDcode");
-	alert('vv');
 	//alert(IDcode);
 	//IDcode=new String(IDcode);
 	
 	//var h = window.innerHeight;
 	//creasessione(h,86);
 	if(IDcode.length>10){
+	
 		var url=baseurl+'mobile/config/controlloini.php';
+		alert(url);
 		var IDnotpush=$$('#IDnotpush').val();
 		$$.ajax({
             url: url,
