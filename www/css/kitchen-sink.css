@@ -416,6 +416,7 @@ input.modal-text-input {
 }
 
 
+
 /*FINE MOD*/
 
 
@@ -751,7 +752,6 @@ box-shadow: 0px 1px 5px 0px rgba(171,171,171,1);border-radius:4px;}
 .verticale2 .timeline-item-inner{background:#f7f7f7; font-size:13px; width:100%;}
 
 
-
 #ntavdiv{width:30px; margin-right:10px; text-align:center; line-height:12px;margin-right:7px; margin-left:-5px;} 
 hr{border:none; background:#e1e1e1;height:1px;}
 .page{background:#efeff4; width:100%; overflow-x:hidden;}
@@ -857,7 +857,7 @@ border-spacing: 0px;
   a.link.mipiace{color:#CD292C; }
   
   b{font-weight:600;}
-  .navbar{height:50px; background:#314db5; background:#007bd1; color:#fff;background:#f7f7f8;  color:#007aff; color:#333; }/*background:#f7f7f8;  color:#007aff;*/
+  .navbar{height:50px; background:#314db5; background:#007bd1; color:#fff;background:#f7f7f8; background:#f4f4f4;  color:#007aff; color:#333; }/*background:#f7f7f8;  color:#007aff;*/
   .subnavbar{background:#f7f7f8; color:#007aff; }
   .navbar .titolonav{text-transform:uppercase; font-size:14px; font-weight:600; color:#fff; color:#007aff; color:#333;}/*color:#007aff;*/
   .navbar-inner .left{width:60px;color:#007aff;}
@@ -1033,3 +1033,5 @@ a.item-link .subt{font-size:12px; color:#999;margin-top:4px;}
 .buttonbottom.verde{background-color:#28a164;}
 .buttonbottom.fucsia{background-color:#c22777;}
 .buttonbottom.giallo{background-color:#CEC118;}
+
+

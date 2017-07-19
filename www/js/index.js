@@ -71,13 +71,8 @@ document.addEventListener('deviceready', function () {
   var notificationOpenedCallback = function(jsonData) {
     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
   };
-
-	
 	myApp.hideIndicator();
 	
-
-
-
 
   window.plugins.OneSignal
     .startInit("5870b141-9a5c-4a3e-ad4d-ba95836b1ffa")
@@ -86,7 +81,7 @@ document.addEventListener('deviceready', function () {
 	
 	window.plugins.OneSignal.getIds(function(ids) {
 		$$('#IDnotpush').val(ids.userId);
-		alert(ids.userId);
+		//alert(ids.userId);
 		var guest=getUrlVars()["guest"];
 		if(typeof guest != 'undefined'){
 			window.localStorage.setItem("IDcode", guest);
@@ -95,12 +90,7 @@ document.addEventListener('deviceready', function () {
 		}else{
 			onloadf(0);
 		}
-		
-	
 	});
-	
-	
-	
 	
   
   // Call syncHashedEmail anywhere in your app if you have the user's email.

@@ -1,4 +1,5 @@
 // Init App
+
 var myApp = new Framework7({
     modalTitle: 'Scidoo',
 	 animatePages:true,
@@ -14,7 +15,7 @@ var myApp = new Framework7({
      notificationCloseIcon: true,
      notificationCloseButtonText: 'Close',
 	 smartSelectBackOnSelect: true,
-	 cache: true	 
+	 cache: true	
 });
 //	  swipePanel: 'left'
 
@@ -22,16 +23,14 @@ IDcode=window.localStorage.getItem("IDcode");
 
 // Expose Internal DOM library
 var $$ = Dom7;
-
-// Add main view
 var mainView = myApp.addView('.view-main', {});
-// Add another view, which is in right panel
 
 /*
 $$(window).on('popstate', function(){
   myApp.closeModal('.popup.modal-in');
 });
 */
+
 
 $$(window).on('popstate', function(){
  	if ($$('.modal-in').length > 0) { 
@@ -59,9 +58,9 @@ $$(window).on('popstate', function(){
 
 
 //var baseurl='http://127.0.0.1/milliont/';
-//var baseurl='http://192.168.1.106/milliont/';
+var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.100/milliont/';
-var baseurl='https://www.scidoo.com/';
+//var baseurl='https://www.scidoo.com/';
 
 
 
@@ -90,7 +89,7 @@ var IDutente=0;
 	 function sendform(){
         
 		
-		
+
 		var email = $$('input[name="email"]').val();
         var password = $$('input[name="pass"]').val();
 		
@@ -462,11 +461,13 @@ var reloadnavadd=0;
 var myPhoto=new Array();
 
 function navigation(id,str,agg,rel){
+	
 	var url=baseurl+"mobile/";
 	id=parseInt(id);
 	
 
 	//var apriurl=new Array('profilo/temp.php','calendario.inc.php','detpren2.php','calendario2.inc.php','preventivo/step1.php','preventivo/step0.php','preventivo/step2.php','preventivo/step3.php','preventivo/step4.php','preventivo/step5.php','notifiche.inc.php','promemoria.php','appunti.inc.php','centrobenessere.inc.php','ristorante.inc.php','pulizie.inc.php','domotica.inc.php','arrivi.inc.php','clienti.inc.php','prenotazioni.inc.php','ristorantegiorno.inc.php','centrobenesseregiorno.inc.php','preventivo/step4cerca.php','profilo/servizi.php','profilo/prenotazione.php','profilo/temperatura.php','profilo/menuristorante.php','/profilo/ilconto.php','profilo/elencoservizi.php','profilo/elencoluoghi.php','ricercaclidet.php','ricercaserv.php','centrobenesseregiorno.inc.php');
+	
 	
 	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/home.php');
 	//last 33
@@ -482,6 +483,8 @@ function navigation(id,str,agg,rel){
 	//alert(IDcode);
 	var str=new String(str);
 	
+	
+	
 	if(str.length>0){
 		var vettore=str.split(',');
 		if(vettore.length>0){
@@ -495,7 +498,7 @@ function navigation(id,str,agg,rel){
 	}
 	
 	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);	
-	alert(url);
+	//alert(url);
 	
 	$$.ajax({
             url: url,
@@ -503,13 +506,8 @@ function navigation(id,str,agg,rel){
 				dataType: 'text',
 				cache:false,
                 data: query,
-				error: function (xhr, ajaxOptions, thrownError) {
-					alert(xhr.status);
-				},
                 success: function (data) {
-					alert('bb');
 					myApp.hideIndicator();
-					alert(data);
 					clearTimeout();
 					switch(rel){
 						case 1:
@@ -1132,11 +1130,11 @@ zoom: 10,mapTypeId: 'roadmap'
 function onloadf(time){
 	
 	
-
 	myApp.showIndicator();
 	setTimeout(function(){ hidelo(); }, 5000);	
 	IDcode=window.localStorage.getItem("IDcode");
-	IDcode=new String(IDcode);
+	//alert(IDcode);
+	//IDcode=new String(IDcode);
 	
 	//var h = window.innerHeight;
 	//creasessione(h,86);
@@ -1179,8 +1177,7 @@ function onloadf(time){
 	
 }
 
-//onloadf();
-
+onloadf(0);
 function vislogin(){
 	$$( ".app" ).animate({
 		top: "-150"
@@ -2731,6 +2728,9 @@ function esci(){
 				mainView.router.back();
 				//navigation(33,0,0,1);
 				window.localStorage.setItem("IDcode", '0');
+				setTimeout(function (){
+					vislogin();
+				},600);
 				/*
 				var calendarDefault = myApp.calendar({
 					input: '#kscal',
