@@ -1140,7 +1140,6 @@ function onloadf(time){
 	if(IDcode2.length>10){
 	
 		var url=baseurl+'mobile/config/controlloini.php';
-		alert(url);
 		var IDnotpush=$$('#IDnotpush').val();
 		$$.ajax({
             url: url,
