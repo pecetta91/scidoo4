@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.Scidoo" version="1.2.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.prova.prova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scidoo</name>
     <description>
         Gestionale in Cloud per Strutture ricettive
     </description>
     <author email="info@webcoom.com" href="https://www.webcoom.com">
-        Scidoo Team
+        PhoneGap Team
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
@@ -14,6 +14,7 @@
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
     <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
     <plugin name="cordova-plugin-console" source="npm" spec="~1.0.2" />
+    <plugin name="cordova-plugin-contacts" source="npm" spec="~2.0.1" />
     <plugin name="cordova-plugin-device" source="npm" spec="~1.1.1" />
     <plugin name="cordova-plugin-device-motion" source="npm" spec="~1.2.0" />
     <plugin name="cordova-plugin-device-orientation" source="npm" spec="~1.0.2" />
