@@ -56,15 +56,10 @@ $$(window).on('popstate', function(){
 	} 
 });
 
-
 //var baseurl='http://127.0.0.1/milliont/';
 //var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.100/milliont/';
 var baseurl='https://www.scidoo.com/';
-
-
-
-
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -72,8 +67,8 @@ function getUrlVars() {
 	});
 	return vars;
 }
-
-/*var guest=getUrlVars()["guest"];
+/*
+var guest=getUrlVars()["guest"];
 if(typeof guest != 'undefined'){
 	window.localStorage.setItem("IDcode", guest);
 	onloadf(0);
@@ -88,8 +83,6 @@ if(typeof guest != 'undefined'){
 var IDutente=0;
 	 function sendform(){
         
-		
-
 		var email = $$('input[name="email"]').val();
         var password = $$('input[name="pass"]').val();
 		
@@ -365,7 +358,7 @@ myApp.onPageInit('calendario', function (page) {
 									addprenot(time,app);
 								}
 							});
-							$$('.noteesc').on('click', function () {
+							$$('.notaes').on('click', function () {
 								var time=$$(this).attr('alt');
 								if(!isNaN(time)){
 									var time=parseInt($$('#datacal').val())+parseInt(((time-1)*86400));
@@ -469,8 +462,9 @@ function navigation(id,str,agg,rel){
 	//var apriurl=new Array('profilo/temp.php','calendario.inc.php','detpren2.php','calendario2.inc.php','preventivo/step1.php','preventivo/step0.php','preventivo/step2.php','preventivo/step3.php','preventivo/step4.php','preventivo/step5.php','notifiche.inc.php','promemoria.php','appunti.inc.php','centrobenessere.inc.php','ristorante.inc.php','pulizie.inc.php','domotica.inc.php','arrivi.inc.php','clienti.inc.php','prenotazioni.inc.php','ristorantegiorno.inc.php','centrobenesseregiorno.inc.php','preventivo/step4cerca.php','profilo/servizi.php','profilo/prenotazione.php','profilo/temperatura.php','profilo/menuristorante.php','/profilo/ilconto.php','profilo/elencoservizi.php','profilo/elencoluoghi.php','ricercaclidet.php','ricercaserv.php','centrobenesseregiorno.inc.php');
 	
 	
-	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/home.php');
+	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/detluogo.php');
 	//last 33
+	
 	var url=url+apriurl[id];
 	//alert(url);
 	if(IDcode=='undefined'){
@@ -1180,7 +1174,7 @@ function onloadf(time){
 
 function vislogin(){
 	$$( ".app" ).animate({
-		top: "-150"
+		top: "-30"
 	});
 	$$('#logindiv').animate({
 		opacity: "1"
@@ -1753,7 +1747,7 @@ function modprenot(id,campo,tipo,val2,agg){
 					break;
 					case 8:
 						var tot=$$('#totalevacanza').val();
-						$$('#totaleprev').html(tot+' €');
+						$$('#totaleprev').html(tot+' &euro;');
 					break;
 					case 9:
 						var txt=$$('#IDprenfunc').val()+',0';
@@ -1868,6 +1862,18 @@ function notifiche(){
 				var arr=data.split(',');
 				app=parseInt(arr['1']);
 				not=parseInt(arr['0']);
+				if(not>0){
+					$$('#badgenot').css('display','block');
+				}else{
+					$$('#badgenot').css('display','none');
+				}
+				
+				if(app>0){
+					$$('#badgeapp').css('display','block');
+				}else{
+					$$('#badgeapp').css('display','none');
+				}
+				
 				$$('#numnotifiche2').html(not);
 				//$$('#numappunti2').html(app);
 				//alert();
@@ -2045,7 +2051,6 @@ function backselect2(){
 	$$('#buttonaddprev').css('display','none');
 }
 function selectservice(ID,tipolim,IDtipo,durata,agg,time){
-	
 	var url=baseurl;
 	var url=url+'mobile/config/step2add.php';
 	extra11=ID;
@@ -2065,7 +2070,7 @@ function selectservice(ID,tipolim,IDtipo,durata,agg,time){
 			data: query,
 			success: function (data) {
 				$$('#add2').html(data);
-				document.getElementById('pannellodx').scrollTop=0;
+				//document.getElementById('pannellodx').scrollTop=0;
 				$$('#buttadddiv').css('display','block');
 				//alert(serviziriep);
 				if(isNaN(agg)){
@@ -2673,7 +2678,6 @@ function salvaappunto(){
 			var appunto='';
 			var note=$$('#noteappunto').val();
 			
-			//var dests=$('#dests').val();
 			
 			var dests='';
 			/*
@@ -2714,31 +2718,24 @@ function salvaappunto(){
 }
 
 function esci(){
-	
-	var url=baseurl;
-	var url=url+'config/logout.php';
-	var query = {ID:'0'};
-	$$.ajax({
-			url: url,
-			method: 'GET',
-			dataType: 'text',
-			cache:false,
-			data: query,
-			success: function (data) {
-				mainView.router.back();
-				//navigation(33,0,0,1);
-				window.localStorage.setItem("IDcode", '0');
-				setTimeout(function (){
-					vislogin();
-				},600);
-				/*
-				var calendarDefault = myApp.calendar({
-					input: '#kscal',
-					dateFormat: 'dd/mm/yyyy'
-				});
-				*/
-				//window.localStorage.getItem("IDcode")='0';
-			}
+	myApp.confirm('Vuoi davvero uscire da Scidoo', function () {
+		var url=baseurl;
+		var url=url+'config/logout.php';
+		var query = {ID:'0'};
+		$$.ajax({
+				url: url,
+				method: 'GET',
+				dataType: 'text',
+				cache:false,
+				data: query,
+				success: function (data) {
+					mainView.router.back();
+					window.localStorage.setItem("IDcode", '0');
+					setTimeout(function (){
+						vislogin();
+					},600);
+				}
+		});
 	});
 }
 
@@ -3342,9 +3339,11 @@ function salvarecensione(){
 	
 	var val=titolo+'/////'+recens+'/////'+voti;
 	//alert(val);
-	modprofilo(0,val,9,10,6);
-	
-	
+	if((titolo.length>5)&&(recens.length>10)){
+		modprofilo(0,val,9,10,6);
+	}else{
+		myApp.alert("E' obbligatorio inserire un titolo ed un testo alla recensione. Prego riprovare.");
+	}
 	
 }
 
