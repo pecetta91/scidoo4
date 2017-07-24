@@ -60,6 +60,8 @@ $$(window).on('popstate', function(){
 //var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.100/milliont/';
 var baseurl='https://www.scidoo.com/';
+
+//alert(baseurl);
 function getUrlVars() {
 	var vars = {};
 	var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
@@ -400,7 +402,7 @@ myApp.onPageInit('calendario', function (page) {
 			}
 		}
 		
-		if(off<104){
+		if(off<101){
 				 //var offset2=;
 				var lef=$$('.table-fixed-right').offset().left*-1+parseInt(172);
 				//alert(lef);
@@ -411,10 +413,10 @@ myApp.onPageInit('calendario', function (page) {
 				 //document.getElementById('valore').innerHTML=off2;
 
 				 if(off2<0){
-					 var off2=(off2*-1);
+					 var off2=off2*-1;
 					 //off2=parseInt(off2)+parseInt(2);
 				 }else{
-					 off2=parseInt(2)-off2;
+					 off2=2-off2;
 				}
 				
 				off2=parseInt(off2)+parseInt(50);
@@ -425,7 +427,7 @@ myApp.onPageInit('calendario', function (page) {
 				if(p!=1){ 
 					$$('#tabdate').css('position','fixed');
 					//$$('#tabdate').css('z-index','99999');
-					$$('#tabdate').css('top','50px');
+					$$('#tabdate').css('top','45px');
 					$$('#tabdate').css('left',lef+'px');
 					$$('#tabbody').css('margin-top','49px');
 					p=1;
