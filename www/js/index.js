@@ -18,7 +18,7 @@
  */
  
  
-
+var baseurl='https://www.scidoo.com/'; 
  
 var app = {
     // Application Constructor
@@ -31,7 +31,10 @@ var app = {
     // Bind any cordova events here. Common events are:
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
-
+        
+		
+		
+		
 		this.receivedEvent('deviceready');
 		
 		
@@ -51,6 +54,11 @@ var app = {
         console.log('Received Event: ' + id);*/
 		myApp.showIndicator();
 		
+				
+		
+		
+		
+		
     }
 };
 
@@ -63,12 +71,8 @@ document.addEventListener('deviceready', function () {
   var notificationOpenedCallback = function(jsonData) {
     console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
   };
+	myApp.hideIndicator();
 	
-	/*var notificationOpenedCallback = function(jsonData) {
-alert('push notifications received');
-console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData));
-};*/
-
 
   window.plugins.OneSignal
     .startInit("5870b141-9a5c-4a3e-ad4d-ba95836b1ffa")
@@ -77,6 +81,7 @@ console.log('didReceiveRemoteNotificationCallBack: ' + JSON.stringify(jsonData))
 	
 	window.plugins.OneSignal.getIds(function(ids) {
 		$$('#IDnotpush').val(ids.userId);
+		//alert(ids.userId);
 		var guest=getUrlVars()["guest"];
 		if(typeof guest != 'undefined'){
 			window.localStorage.setItem("IDcode", guest);

@@ -9,14 +9,14 @@ unset($_SESSION['IDsottotip']);
 unset($_SESSION['vis']);
 unset($_SESSION['datecentro']);
 $time=time();
+//  onclick="notifiche()"
 $testo='
 <div data-page="clienti" class="page"> 
 
 			 <div class="navbar" >
 				<div class="navbar-inner">
 					<div class="left">
-					
-					 <a href="#" class="link icon-only back"  onclick="notifiche()">
+					 <a href="#" class="link icon-only back">
 						<i class="material-icons" style="font-size:30px;">apps</i>
 					</a>
 					

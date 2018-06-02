@@ -44,7 +44,7 @@ if($gg!=0){
 		
 }
 
-
+//<br><span style="line-height:5px; color:#999; font-size:15px; font-weight:100; margin-top:-15px;">'.$statodom.'</span>
 
 $txt='<span style="font-size:13px;">
 			  	Prenotazione: '.$nomepren.'<br>
@@ -54,9 +54,9 @@ $txt='<span style="font-size:13px;">
 				  <div class="card ks-card-header-pic" style="border:solid 3px #e6692c;">
 				  <div class="card-content"> 
 					<div class="card-content-inner" style="text-align:center; font-size:20px;"> 
-					  <p class="color-gray">Temperatura Attuale<br><span style="line-height:5px; color:#999; font-size:15px; font-weight:100; margin-top:-15px;">'.$statodom.'</span></p>
+					  <p class="color-gray">Temperatura Attuale</p>
 					</div>
-				  </div><div style="text-align:center; font-size:55px; margin-top:-20px;" valign="bottom" class=" color-white no-border" style="color:#'.$color.'">'.$temp.'&deg;</div>
+				  </div><div style="text-align:center; font-size:55px; margin-top:0px;" valign="bottom" class=" color-white no-border" style="color:#'.$color.'">'.$temp.'&deg;</div>
 				  
 				</div>
 

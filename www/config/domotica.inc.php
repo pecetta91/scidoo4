@@ -103,7 +103,8 @@ switch($vis){
 										$mess='Si attiver&agrave; alle:<br>
 										<span style="font-size:16px;">10:30</span>';*/
 										
-										$queryd="SELECT P.time-(T.dato3*60) FROM tempserv AS T,prenextra AS P,domotica AS D WHERE (P.time-(T.dato3*60))>'$ora'  AND FROM_UNIXTIME(P.time,'%Y-%m-%d')= FROM_UNIXTIME('$ora','%Y-%m-%d')  AND D.ID=T.IDdom AND D.ID='$IDdom' AND P.sottotip=T.IDserv AND P.modi>'0' ORDER BY P.time LIMIT 1";
+										$queryd="SELECT P.time-(T.dato3*60) FROM tempserv AS T,prenextra AS P,domotica AS D WHERE (P.time-(T.dato3*60))>'$ora'  AND FROM_UNIXTIME(P.time,'%Y-%m-%d')= FROM_UNIXTIME('$ora','%Y-%m-%d')  AND D.ID=T.IDdom AND D.ID='$IDdom' AND P.sottotip=T.ID AND P.modi>'0' ORDER BY P.time LIMIT 1";
+										
 										$resultd=mysqli_query($link2,$queryd);
 										if(mysqli_num_rows($resultd)>0){
 											$man=0;
@@ -136,24 +137,29 @@ switch($vis){
 					}
 					
 				//onmousedown="settain(0)" onmouseup="settaout5(this)" alt="'.$funcdom.'" lang="'.$funcdom2.'"
+					$query3="SELECT timei,timef,acceso FROM pianificazione WHERE IDdom='$IDdom' ";
+					$result3=mysqli_query($link2,$query3);
+					$elim=0;
+					if(mysqli_num_rows($result3)>0){$elim=1;}
 					
-					$testo.= '<li class="accordion-item" style="border-top:solid 1px #f1f1f1;"  >
-											<a href="javascript:void(0)" onclick="setdom('.$IDdom.')" class="item-content item-link">
+					$testo.= '<input type="hidden" value="'.$elim.'" id="iddomo'.$IDdom.'">
+					<li class="accordion-item bordodom" >
+											<a href="javascript:void(0)" onclick="pulsdomotica('.$IDdom.')" class="item-content item-link">
 											<div class="item-media ">
 												<div class="ntavolo '.$classdom.'"></div>
 												</div>
 											<div class="item-inner">
-											 <div class="item-title" style="line-height:14px;" >
-											 <span style="color:#e67511;">'.$row['2'].'</span>
+											 <div class="item-title domtitolo" >
+											 '.$row['2'].'
 											 <br>
-											 <span style="font-size:11px;color:#777;">'.wordwrap($mess,25,'<br>').'</span></div>
+											 <div class="c777 fs10 lh11" >'.wordwrap($mess,25,'<br>').'</div></div>
 											 <div class="item-after" >
 											 
-											 <table ><tr><td style="border-right:solid 1px #ccc; color:#1649b1; padding-right:5px;">
+											 <table ><tr><td class="bordotempdom">
 												'.$temp.'
 
 											 </td>
-											 <td style="font-size:10px;width:50px; text-align:center;">
+											 <td class="modalitadom">
 											 '.$title.'
 											 </td></tr></table>
 											 </div>
@@ -266,15 +272,20 @@ switch($vis){
 					break;
 				}
 				
-				$testo.='
-						<li onclick="setdom('.$IDdom.')"><div class="item-content ">
+				$query3="SELECT timei,timef,acceso FROM pianificazione WHERE IDdom='$IDdom' ";
+					$result3=mysqli_query($link2,$query3);
+					$elim=0;
+					if(mysqli_num_rows($result3)>0){$elim=1;}
+				
+				$testo.='<input type="hidden" value="'.$elim.'" id="iddomo'.$IDdom.'">
+						<li onclick="pulsdomotica('.$IDdom.')"><div class="item-content h100" >
 							<div class="item-media" >
 												<div class="ntavolo '.$classdom.'"></div>
 												</div>
 						
-							<div class="item-inner">
-							  <div class="item-title">'.$row['0'].'<br>
-							  <span style="font-size:11px;color:#'.$colorapp[$acc].';">'.wordwrap($mex,25,'<br>').'</span>
+							<div class="item-inner" >
+							  <div class="item-title coloredomalloggi" >'.$row['0'].'<br>
+							  <div  class="fs10 lh11" style="color:#'.$colorapp[$acc].';">'.wordwrap($mex,35,'<br>').'</div>
 							  </div>
 							  <div class="item-after" style="color:#'.$colorapp[$acc].';">'.$temp.'</div>
 							</div>

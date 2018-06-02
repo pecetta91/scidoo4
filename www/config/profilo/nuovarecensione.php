@@ -36,22 +36,57 @@ $testo='<div data-page="suggerimenti" class="page" >
 						<i class="material-icons" style="font-size:40px;">chevron_left</i>
 					</a>
 					</div>
-					<div class="center titolonav">Nuova Recensioni</div>
-					
+					<div class="center titolonav">Nuova Recensione</div>
+					<div class="right"></div>
 				</div>
 			</div>
+			<div class="bottombarpren" style="background:#f1f1f1;z-index:999" align="center">
+			  <table style="width:100%;height:100%;cellpadding:0;cellspacing:0;">
+			   <tr>
+			     <td style="width:15%">
+                 </td>
+				<td>
+		       <button class="button button-fill color-green bottoneprezzo" style="margin:auto;" onclick="salvarecensione2()">Salva Recensione</button>
+			    </td>
+				 <td style="width:15%">
+                 </td>
+			   </tr>
+			  </table>
+			</div>
+			
+			
+			
 			
 		 <div class="page-content ">
 		 	<div class="content-block" id="nuovarecens" >
 			
-			<div style="margin-left:15px;">
-			<b style="font-size:14px;" >TITOLO</b><br>
-			<input type="text" id="titolo" style="border:solid 1px #ccc; border-radius:3px;font-size:17px; width:90%; height:45px;"><br>
-	<br>
-			<b style="font-size:14px;">RECENSIONE</b><br>
-			<textarea id="recens" style="border:solid 1px #ccc; border-radius:3px; width:92%; font-size:15px; padding:5px; min-height:130px;"></textarea>
-	
-	</div>
+				<div class="list-block">
+		  <ul>
+			<li>
+			 <div class="item-content h100" >
+			  <div class="item-inner h100" >
+				  <div class="item-input">
+            		<textarea id="titolo" style="height:90px" placeholder="Titolo"></textarea>
+        	  </div>
+			 </div>
+			 </div>
+			</li>
+			</ul></div>
+			
+			<div class="list-block"><ul>
+				<li>
+			 <div class="item-content h100" >
+			  <div class="item-inner h100" >
+				  <div class="item-input">
+            		<textarea id="recensione" class="textareanew" placeholder="Recensione"></textarea>
+        	  </div>
+			 </div>
+			 </div>
+			</li>
+			
+			</ul></div>
+			
+		
 			<div class="content-block-title titleb">Caratteristiche e Voti</div>
 			<div class="list-block">
       <ul>';
@@ -64,7 +99,7 @@ $testo='<div data-page="suggerimenti" class="page" >
 			 $testo.='
 			 
 			 	<li>
-				  <a href="#" class="item-link smart-select">
+				  <a href="#" class="item-link smart-select" data-open-in="picker">
 					<select class="param" id="param'.$row['0'].'" alt="'.$row['0'].'">
 						<option value="0">--</option>
 					
@@ -92,10 +127,7 @@ $testo='<div data-page="suggerimenti" class="page" >
 			
 		$testo.='</ul></div>
 		
-		
-		<br><br>
-		
-		<p style="font-size:11px; padding:10px;">
+		<p class="privacyinfo">
 		<b style="font-size:13px;">Termini e Condizioni</b><br>
 		La vostra recensione sar&agrave; utilizzata dalla Struttura per migliorare il proprio servizio.<br><br> 
 		I dati immessi sono protetti da privacy e crittografati.<br>
@@ -104,9 +136,6 @@ $testo='<div data-page="suggerimenti" class="page" >
 		
 		<b>(*) La tua recensiona rimarr&agrave;  anonima  ai viaggiatori.</b></p><br><br><br>
 		
-
-<div  onclick="salvarecensione()" style="buttonbottom verde">SALVA  RECENSIONE</div>
-
 </div></div></div>
 
 

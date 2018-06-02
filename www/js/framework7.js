@@ -1940,10 +1940,10 @@ function isFunction(func) {
 }
 function escape(string) {
   return (typeof template7Context !== 'undefined' && template7Context.escape ? template7Context.escape(string) : string)
-        .replace(/&/g, '&amp;')
+        .replace(/&/g, '&')
         .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;');
+        .replace(/>/g, '>')
+        .replace(/"/g, '"');
 }
 var quoteSingleRexExp = new RegExp('\'', 'g');
 var quoteDoubleRexExp = new RegExp('"', 'g');
@@ -2499,7 +2499,7 @@ return t7;
             // Notifications defaults
             notificationCloseOnClick: false,
             notificationCloseIcon: true,
-            notificationCloseButtonText: 'Close',
+            //notificationCloseButtonText: 'Close',
             // Animate Pages
             animatePages: true,
             // Template7
@@ -5115,6 +5115,7 @@ return t7;
         };
         
         app.router._back = function (view, options) {
+			//alert('cc');
             options = options || {};
         
             app.pluginHook('routerBack', view, options);
@@ -5148,6 +5149,10 @@ return t7;
         
             // Animation
             function afterAnimation() {
+				
+				
+				//alert('dd');
+				
                 app.pageBackCallback('after', view, {
                     pageContainer: oldPage[0],
                     url: url,
@@ -5164,6 +5169,7 @@ return t7;
                     query: options.query,
                     fromPage: oldPage && oldPage.length && oldPage[0].f7PageData
                 });
+				
                 app.router.afterBack(view, oldPage[0], newPage[0]);
             }
             function animateBack() {
@@ -5600,8 +5606,7 @@ return t7;
         
             if (view.params.domCache && view.initialPages.indexOf(oldPage[0]) >= 0) {
                 oldPage.removeClass('page-from-center-to-right').addClass('cached');
-            }
-            else {
+            }else{
                 app.pageRemoveCallback(view, oldPage[0], 'right');
                 app.router._remove(oldPage);
             }
@@ -5764,6 +5769,7 @@ return t7;
         };
         app.confirm = function (text, title, callbackOk, callbackCancel) {
             if (typeof title === 'function') {
+				
                 callbackCancel = arguments[2];
                 callbackOk = arguments[1];
                 title = undefined;
@@ -6205,8 +6211,134 @@ return t7;
             if (typeof animated === 'undefined') animated = true;
             if (typeof modal === 'string' && modal.indexOf('<') >= 0) {
                 modal = $(modal);
+				$$('#divsottoover').css("display","block");//modificato
+				
+				//$$(modal).html());
+				//alert('bb');
+				
+				//alert(hh);
+				setTimeout(function(){
+					//alert('dd');
+					//.picker-modal
+					//document.getElementById('tabcalmain').scrollLeft=left;
+					
+					//document.getElementsByClassName('smart-select-picker').scrollTop='100px';
+					
+					
+					//document.getElementsByClassName('smart-select-picker').scrollTop='-100px';
+					/*$$('.smart-select-picker.page-content').animate( {
+					  'scrollTop': 100
+					}, 900);*/
+					
+					//var oggetto=$$(".smart-select-picker" ).find(".list-block");
+					
+					//var oggetto=$$(".smart-select-picker" ).find(".page-content ul");
+					
+					
+					//$$(oggetto).scrollTop(100,200);
+					
+					/*$$(".smart-select-picker" ).find(".page-content ul").attr('id','vaffa');
+					document.getElementById('vaffa').scrollTop='100';
+					alert('bb');*/
+					
+					//var hh=$$(".smart-select-picker").find( "[type=radio]:checked").parent();
+					
+					
+					var li=$$(".smart-select-picker").find( ".label-radio");
+					
+					
+					var len=li.length;
+					var hh=0;
+					var add=0;
+					 $$(".smart-select-picker").find( ".label-radio").each(function( index, element ) {
+						// element == this
+						 
+						/*$( element ).css( "backgroundColor", "yellow" );
+						if ( $( this ).is( "#stop" ) ) {
+						  $( "span" ).text( "Stopped at div index #" + index );
+						  return false;
+						}*/
+						 
+						// alert($$(this).find("[type=radio]").is(":checked"));
+						 
+						 //return false;
+						 
+						 if($$(this).find("[type=radio]").is(":checked")){
+							add=1;
+						 }else{
+							 if(add==0){
+								hh=parseInt(hh)+parseInt(44); 
+							 }
+							
+						 }
+						 
+						 
+						 
+					  });
+					/*
+					
+					for(i=0;i<len;i++){
+						hh=parseInt(hh)+parseInt(50);
+						
+						alert($$(li).item[i].find("[type=radio]:checked"));
+						/*if(li[i].find("[type=radio]:checked")){
+							break;
+						}
+					}*/
+					
+					//alert(hh);
+					//var hh=$("#ciao").find( ".item-media").offset().top;
+				//	alert(hh);
+				//	var hh=document.getElementsByClassName(hh).offsetTop;
+					//alert(hh);
+					
+					$$(".smart-select-picker" ).find(".page-content").attr('id','vaffa');
+					document.getElementById('vaffa').scrollTop=hh;
+
+					
+					
+					/*
+					$$(".smart-select-picker" ).attr('id','vaffa');
+					document.getElementById('vaffa').scrollTop='100';
+					*/
+					
+					//$$(".smart-select-page" ).attr('id','vaffa');
+					//document.getElementById('vaffa').scrollTop='100';
+					//alert($$('#vaffa').html());
+					//document.getElementById('vaffa').scrollTop='400px';
+					//alert(oggetto.html())
+					//alert(oggetto.html());
+					//$$(oggetto).css('background-color','#000');
+					//$$('#vaffa').css('top','-100px');
+					
+					//$$('#vaffa').scrollTop(100,200);
+					
+					
+					
+					
+					
+					/*$$('#vaffa').animate( {
+					 	scrollTop: '100px'
+					},200);*/
+					
+					
+					
+					
+					
+					
+					//$$(modal).find( ".smart-select-picker.page" ).scrollTop('100px');
+					//$$('.picker-modal.smart-select-picker.page').css('background','#000');
+					
+					//$$(oggetto).scrollTo('-100px');
+					
+				},100)
+				
+				
+				
+				
                 if (modal.length > 0) {
                     if (removeOnClose) modal.addClass('remove-on-close');
+					
                     app.root.append(modal[0]);
                 }
                 else return false; //nothing found
@@ -6216,9 +6348,14 @@ return t7;
             if (modal.parents('body').length === 0) {
                 if (removeOnClose) modal.addClass('remove-on-close');
                 app.root.append(modal[0]);
+				
+				
             }
             if ($('.picker-modal.modal-in:not(.modal-out)').length > 0 && !modal.hasClass('modal-in')) {
+				
                 app.closeModal('.picker-modal.modal-in:not(.modal-out)');
+				
+				
             }
             modal.show();
             app.openModal(modal, animated);
@@ -6349,6 +6486,12 @@ return t7;
             return true;
         };
         app.closeModal = function (modal, animated) {
+			//modificato
+			$$('#divsottoover').css("display","none");/*
+			if($$('modal-overlay').css('visibility')== 'visible')
+				{
+					$$('#divsottoover').css("display","block");
+				}*/
             if (typeof animated === 'undefined') animated = true;
             modal = $(modal || '.modal-in');
             if (typeof modal !== 'undefined' && modal.length === 0) {
@@ -6395,6 +6538,9 @@ return t7;
             }
             else if (overlay && overlay.length > 0) {
                 overlay.removeClass('modal-overlay-visible');
+				if ($$('#popoverord').length > 0) {
+                  $$('#divsottoover').css("display","block");//modificato
+                }
             }
             if (overlay) overlay[animated ? 'removeClass' : 'addClass']('not-animated');
         
@@ -8099,7 +8245,9 @@ return t7;
             var virtualList = smartSelectData.virtualList;
             var virtualListHeight = smartSelectData.virtualListHeight;
             var material = app.params.material;
-            var pickerHeight = smartSelectData.pickerHeight || app.params.smartSelectPickerHeight;
+			var Height = smartSelect.attr('pickerHeight');/*modificato aggiunto parametro altezza picker*/
+            var pickerHeight = Height || smartSelectData.pickerHeight || app.params.smartSelectPickerHeight;
+			/*modificato aggiunto parametro altezza picker*/
         
             // Collect all options/values
             var select = smartSelect.find('select')[0];
@@ -8218,13 +8366,16 @@ return t7;
             var toolbarHTML = '', navbarHTML;
             var noNavbar = '', noToolbar = '', noTabbar = '', navbarLayout;
         
+			/*<span>{{closeText}}</span> modificato 8245*/
+			
+			
             if (openIn === 'picker') {
                 if (!app._compiledTemplates.smartSelectToolbar) {
                     app._compiledTemplates.smartSelectToolbar = t7.compile(app.params.smartSelectToolbarTemplate ||
                         '<div class="toolbar {{#if toolbarTheme}}theme-{{toolbarTheme}}{{/if}}">' +
                           '<div class="toolbar-inner">' +
                             '<div class="left"></div>' +
-                            '<div class="right"><a href="#" class="link close-picker"><span>{{closeText}}</span></a></div>' +
+                            '<div class="right"><a href="#" class="link close-picker"><strong>{{closeText}}</strong></a></div>' +
                         '</div>' +
                       '</div>'
                     );
@@ -11184,14 +11335,16 @@ return t7;
                         '<div class="right"></div>' +
                     '</div>' +
                 '</div>';
+			/*<i class="icon icon-prev {{iconsColorClass}}"></i> modificato 11210*/
+			/*<i class="icon icon-next {{iconsColorClass}}"></i> modificato 11213*/
             var toolbarTemplate = pb.params.toolbarTemplate ||
                 '<div class="toolbar tabbar">' +
                     '<div class="toolbar-inner">' +
                         '<a href="#" class="link photo-browser-prev">' +
-                            '<i class="icon icon-prev {{iconsColorClass}}"></i>' +
+                            '<i class="f7-icons {{iconsColorClass}}">chevron_left</i>' +
                         '</a>' +
                         '<a href="#" class="link photo-browser-next">' +
-                            '<i class="icon icon-next {{iconsColorClass}}"></i>' +
+                            '<i class="f7-icons {{iconsColorClass}}">chevron_right</i>' +
                         '</a>' +
                     '</div>' +
                 '</div>';
@@ -12829,18 +12982,23 @@ return t7;
                 animate: true,
                 closeOnSelect: false,
                 monthPicker: true,
+				/*<i class="icon icon-prev"></i>
+				  <i class="icon icon-next"></i> modificato 12859*/
                 monthPickerTemplate:
+				
                     '<div class="picker-calendar-month-picker">' +
-                        '<a href="#" class="link icon-only picker-calendar-prev-month"><i class="icon icon-prev"></i></a>' +
+                        '<a href="#" class="link icon-only picker-calendar-prev-month"><i class="f7-icons {{iconsColorClass}}">chevron_left</i></a>' +
                         '<span class="current-month-value"></span>' +
-                        '<a href="#" class="link icon-only picker-calendar-next-month"><i class="icon icon-next"></i></a>' +
+                        '<a href="#" class="link icon-only picker-calendar-next-month"><i class="f7-icons {{iconsColorClass}}">chevron_right</i></a>' +
                     '</div>',
                 yearPicker: true,
+				/*<i class="icon icon-prev"></i>
+				  <i class="icon icon-next"></i> modificato 12867*/
                 yearPickerTemplate:
                     '<div class="picker-calendar-year-picker">' +
-                        '<a href="#" class="link icon-only picker-calendar-prev-year"><i class="icon icon-prev"></i></a>' +
+                        '<a href="#" class="link icon-only picker-calendar-prev-year"><i class="f7-icons {{iconsColorClass}}">chevron_left</i></a>' +
                         '<span class="current-year-value"></span>' +
-                        '<a href="#" class="link icon-only picker-calendar-next-year"><i class="icon icon-next"></i></a>' +
+                        '<a href="#" class="link icon-only picker-calendar-next-year"><i class="f7-icons {{iconsColorClass}}">chevron_right</i></a>' +
                     '</div>',
                 weekHeader: true,
                 // Common settings
@@ -13832,19 +13990,20 @@ return t7;
                 container = $('.notifications');
             }
             var list = container.children('ul');
-            
+            //riga 13862      ">{{text}}</a> modifica
+			//riga 14000     ><p>messaggio</p>
             var notificationTemplate = app.params.notificationTemplate || 
                 '{{#if custom}}' +
                 '<li>{{custom}}</li>' +
                 '{{else}}' +
-                '<li class="notification-item notification-hidden">' +
+             '<li class="notification-item notification-hidden">' +
                     '<div class="item-content">' +
                         '{{#if material}}' +
                             '<div class="item-inner">' +
-                                '<div class="item-title">{{js "this.message || this.title || this.subtitle"}}</div>' +
+                                '<div class="item-title"><p>{{js "this.message || this.title || this.subtitle"}}</p></div>' +
                                 '{{#if ../button}}{{#button}}' +
                                 '<div class="item-after">' +
-                                    '<a href="#" class="button {{#if color}}color-{{color}}{{/if}} {{#js_compare "this.close !== false"}}close-notification{{/js_compare}}">{{text}}</a>' +
+                                    '<a href="#" class="button {{#if color}}color-{{color}}{{/if}} {{#js_compare "this.close !== false"}}close-notification{{/js_compare}}"></a>' +
                                 '</div>' +
                                 '{{/button}}{{/if}}' +
                             '</div>' +

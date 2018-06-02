@@ -19,13 +19,13 @@ $testo.='
 				<div class="navbar-inner">
 					<div class="left">
 					
-					  <a href="#" class="link icon-only back"   >
+					  <a href="#" class="link icon-only back" onclick="modtemper('.$IDpren.')"   >
 						<i class="material-icons" style="font-size:40px;">chevron_left</i>
 					</a>
 					
 					</div>
 					<div class="center titolonav">Temperatura Alloggio</div>
-					
+					<div class="right"></div>
 				</div>
 			</div>
 		 <div class="page-content">
@@ -58,7 +58,7 @@ $nomepren=estrainome($IDpren);
 $timeora=oraadesso($IDstr);
 
 $alloggio='';
-$statodom='Inattivo';
+$statodom='';
 $color='333';
 
 $query="SELECT rangen,rangep FROM tempdef WHERE IDstruttura='$IDstr' LIMIT 1";
@@ -93,15 +93,15 @@ $result=mysqli_query($link2,$query);
 if(($timeora>$time)&&($timeora<$checkout)){
 	$testo.='
 	
-	<div style="width:100%; text-align:center; font-size:80px; color:#'.$color.'; line-height:45px;">
-	<span style="font-size:14px; color:#888">Temperatura Attuale</span><br>
-	'.$tempg.'&deg;<br>
+	<div style="width:100%; text-align:center; font-size:70px; color:#'.$color.'; line-height:45px;">
+	<span style="font-size:14px; color:#888">Temperatura Attuale</span><br><br>
+	'.$temp.'&deg;<br>
 	<div style="margin-top:0px;;font-size:15px;  font-weight:100; ">'.$statodom.'</div>
 	</div>';
 }else{
 	$testo.='
 	
-	<div style="width:100%; text-align:center; font-size:80px; color:#'.$color.'; line-height:15px;">
+	<div style="width:100%; text-align:center; font-size:70px; color:#'.$color.'; line-height:15px;">
 	<span style="font-size:14px; color:#888">La Temperatura Istantanea sar&agrave;<br>visualizzata qui da momento del tuo check-in</span><br>
 	</div>';
 }
@@ -110,7 +110,22 @@ $ini=$tempgdef-$rangen;
 			$tempf=$tempgdef+$rangep;
 			$i=1;
 			$wid=round((($tempf-$ini)/0.5)*65);
+ 
 
+$testo.='<div class="tempgiornotesto">Temperatura Giorno</div>
+<div class="posizionetemp"> 
+<div class="stepper stepper-big stepper-round stepper-init">
+  <!-- Stepper minus/decrement button -->
+  <div class="stepper-button-minus" onclick="modificatemp(2,'.$IDpren.',1)"></div>
+  <!-- Stepper input -->
+  <div class="stepper-value" min="'.$ini.'" max="'.$tempf.'" id="tempgiorn">'.$tempg.'</div>
+  <!-- Stepper plus/increment button -->
+  <div class="stepper-button-plus" onclick="modificatemp(1,'.$IDpren.',1)"></div>
+</div>
+</div>';
+
+
+/*
 $testo.='
 
 <div style="width:90%; margin:auto; text-align:left;font-weight:400; font-size:16px; margin-top:30px; color:#d94b1a;">Temperatura Giorno</div>
@@ -143,12 +158,35 @@ $testo.='
 	</ul></div><br>
 	
 	';
+
+*/
 	$ini=$tempndef-$rangen;
 			$tempf=$tempndef+$rangep;
 			$i=1;
 	
 	$wid=round((($tempf-$ini)/0.5)*65);
-	
+
+
+
+
+
+$testo.='<div class="tempnottetesto">Temperatura Notte</div>
+<div class="posizionetemp"> 
+<div class="stepper stepper-big stepper-round stepper-init ">
+  <!-- Stepper minus/decrement button -->
+  <div class="stepper-button-minus" onclick="modificatemp(2,'.$IDpren.',2)"></div>
+  <!-- Stepper input -->
+  <div class="stepper-value" min="'.$ini.'" max="'.$tempf.'" id="tempnotte">'.$tempn.'</div>
+  <!-- Stepper plus/increment button -->
+  <div class="stepper-button-plus" onclick="modificatemp(1,'.$IDpren.',2)"></div>
+</div>
+</div>';
+
+
+
+
+
+/*	
 	$testo.='
 	
 	<div style="width:90%; font-size:16px;margin:auto; text-align:left; margin-top:-20px; color:#281ad9;font-weight:400;">Temperatura Notte</div>
@@ -176,17 +214,10 @@ $testo.='
         </li>
 		
 		
-	</ul></div>
-		
-		
-		
+	</ul></div>';
 
 
-
-';
-
-
-
+*/
 
 
 

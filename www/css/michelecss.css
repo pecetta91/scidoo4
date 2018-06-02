@@ -1,0 +1,466 @@
+@charset "utf-8";
+/* CSS Document */
+
+.impriga{
+    padding: 15px;
+    margin-top: 0px;
+    background: #fff;
+    font-weight: 600;
+    font-size: 13px;
+    color: #333;
+}
+
+.infobon{
+    font-weight: 100;
+}
+.carteriga
+{
+	    -webkit-justify-content: unset;
+    justify-content: unset;
+}
+.navfoto{
+	    background: #203a93 !important;
+}
+.biancotool{
+	color:#fff !important;
+}
+
+/* === Stepper === */
+.stepper {
+  display: -webkit-inline-box;
+  display: -webkit-inline-flex;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-align: stretch;
+  -webkit-align-items: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+.stepper-button,
+.stepper-button-minus,
+.stepper-button-plus {
+  text-align: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  position: relative;
+  cursor: pointer;
+}
+.stepper-button .icon,
+.stepper-button-minus .icon,
+.stepper-button-plus .icon {
+  pointer-events: none;
+}
+.stepper-value {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-content: center;
+  -ms-flex-line-pack: center;
+  align-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+}
+.stepper-value {
+  -webkit-flex-shrink: 1;
+  -ms-flex-negative: 1;
+  flex-shrink: 1;
+  text-align: center;
+}
+
+.stepper-button-plus,
+.stepper-button-minus {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.stepper-button-plus:after,
+.stepper-button-minus:after,
+.stepper-button-plus:before,
+.stepper-button-minus:before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+.stepper-button-plus:after,
+.stepper-button-minus:after {
+  width: 15px;
+  height: 2px;
+}
+.stepper-button-plus:before {
+  height: 15px;
+  width: 2px;
+}
+.stepper .stepper-value {
+  width: 45px;
+}
+
+ .stepper {
+  height: 29px;
+}
+ .stepper-button,
+ .stepper-button-minus,
+ .stepper-button-plus {
+  border: 1px solid #007aff;
+  color: #007aff;
+  border-radius: 5px;
+  line-height: 27px;
+  height: 29px;
+  width: 40px;
+}
+ .stepper-button .f7-icons,
+ .stepper-button-minus .f7-icons,
+ .stepper-button-plus .f7-icons {
+  font-size: 22px;
+}
+ .stepper-button:first-child,
+ .stepper-button-minus:first-child,
+ .stepper-button-plus:first-child {
+  border-radius: 5px 0 0 5px;
+}
+ .stepper-button:last-child,
+ .stepper-button-minus:last-child,
+ .stepper-button-plus:last-child {
+  border-radius: 0 5px 5px 0;
+}
+ .stepper-button:active,
+ .stepper-button-minus:active,
+ .stepper-button-plus:active {
+  background: rgba(0, 122, 255, 0.15);
+}
+ .stepper-button + .stepper-button,
+ .stepper-button-minus + .stepper-button,
+ .stepper-button-plus + .stepper-button,
+ .stepper-button + .stepper-button-minus,
+ .stepper-button-minus + .stepper-button-minus,
+ .stepper-button-plus + .stepper-button-minus,
+ .stepper-button + .stepper-button-plus,
+ .stepper-button-minus + .stepper-button-plus,
+.stepper-button-plus + .stepper-button-plus {
+  border-left: none;
+}
+ .stepper-button-plus:after,
+ .stepper-button-minus:after,
+ .stepper-button-plus:before,
+ .stepper-button-minus:before {
+  background: #007aff;
+}
+.stepper-value {
+  border-top: 1px solid #007aff;
+  border-bottom: 1px solid #007aff;
+}
+.stepper .stepper-value {
+  color: #007aff;
+  font-size: 17px;
+}
+
+
+.stepper-round .stepper-button:first-child,
+.stepper-round .stepper-button-minus:first-child,
+.stepper-round .stepper-button-plus:first-child {
+  border-radius: 29px 0 0 29px;
+}
+.stepper-round .stepper-button:last-child,
+.stepper-round .stepper-button-minus:last-child,
+.stepper-round .stepper-button-plus:last-child {
+  border-radius: 0 29px 29px 0;
+}
+ .stepper-big{
+  height: 44px;
+}
+.stepper-big .stepper-button,
+.stepper-big .stepper-button-minus,
+.stepper-big .stepper-button-plus{
+  height: 44px;
+  line-height: 42px;
+}
+
+.prenotanuovoserv{
+	margin:10px;
+	width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    text-align: center;
+    border: solid 1px #ccc;
+    display: inline-block;
+    font-size: 17px;
+    font-weight: 600;
+}
+.dataattivata{
+	background-color: #8ce1ff !important;
+}
+.salacerchio{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    position: relative;
+	display: inline-block;
+	padding:20px;
+	margin-left: calc(50% - 40px);
+	margin-top: 10px;
+}
+
+.dataattiva2{
+	background-color: #f1f1f1 !important;
+}
+.servizidispo{
+	height:100px;
+	width:100%;
+	display:inline-block;
+}
+
+.rigasub{
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+	padding: 0 10px;
+	white-space: nowrap;
+	font-size: 14px;
+	color:#fff;
+	margin-bottom: -10px;
+}
+.activerigasub{
+	-moz-transition: opacity 0.7s linear;
+    -o-transition: opacity 0.7s linear;
+    -webkit-transition: opacity 0.7s linear;
+    transition: opacity 0.7s linear;
+	border-bottom: 4px solid;
+	height: 26px;
+}
+
+.overmano{
+	height:130px;border-top:solid 1px #e1e1e1;border-bottom:solid 1px #e1e1e1; padding-top:10px; background:#fff;overflow-y:hidden;
+}
+.scrollmano{
+	position:relative; background-size:cover; padding:5px;margin-right:10px; height:110px;width:120px;border-radius:5px;color:#fff; font-size:12px;flex: 0 0 auto;display:inline-block;overflow-y: hidden;
+}
+.scrollmano:first-child{
+	margin-left: 20px;
+}
+::-webkit-scrollbar{
+  display: none;
+}
+.subflex{display: -webkit-flex;display: flex;-webkit-box-lines: single; -moz-box-lines: single;-webkit-flex-wrap: nowrap;-ms-flex-wrap: none;-ms-flex-wrap: nowrap; flex-wrap: nowrap;}
+
+.serchauto{
+	border-radius:5px;
+	background: none;
+	padding-top: 0;
+	border:1px solid #203a93;
+	width:80%;
+}
+.autoricerca{text-align:right;text-transform:capitalize;font-size:14px;}
+.notifications	p{margin-top: 5px;}
+.rigainfoutili{font-size:16px;}
+.prendifoto{ border:solid 2px #f4f4f4; height:100px;}
+.fototitolo{font-size:14px; color:#e4492b;  padding:5px; font-weight:600;padding-bottom:10px;}
+.album{position:absolute; bottom:0px; left:0px; width:calc(100%); font-weight:100; height:30px; background:#e4492b; color:#fff;border-bottom-left-radius:5px;border-bottom-right-radius:5px}
+.textcenter{text-align: center !important;}
+.servnome{font-weight:500;font-size:15px;color:#203a93}
+.servprezzo{font-weight:200;font-size:11px;color:#3a3a3a}
+.servora{font-weight:600;font-size:13px;color:#000}
+.servcontainer{width: 100%;height:250px;background: #fff;}
+.rowlist.h30{min-height: 30px;height: auto}
+.campiricerca{margin-top: 5px;}
+.checkbtn{width:50%; border:solid 1px #ccc !important; background:#fff !important; color:#3a2fa3 !important; font-weight:600;  height:35px; margin:auto;}
+.checktitolo{text-align:center;margin-bottom:10px;}
+.textareanew{height:150px !important;}
+.item-content.h100{height: 100% !important;}
+.item-inner.h100{height: 100% !important;width: 100%;}
+.preftelpicker{width:100px!important; height:35px!important; font-size:13px!important;color:#444!important;display:inline-block!important;pointer-events:none}
+.privacyinfo{font-size:11px; padding:10px;}
+.conto1{font-size:14px; line-height:27px; color:#888; font-weight:400;}
+.conto2{color:#fc0101; font-size:13px;}
+.suggerimenti{text-align:left; padding:10px; padding-left:25px; color:#333; font-weight:400; font-size:16px; line-height:23px;}
+.divpagamento{font-weight:600;color:#ff3231;font-size:18px;padding:15px;line-height: 20px;}
+.infocarta{font-size:11px;white-space:nowrap;}
+.infopag{color:#952b44;font-size:15px}
+.tempgiornotesto{width:90%; margin:auto; text-align:center;font-weight:400; font-size:16px; margin-top:30px; color:#d94b1a;}
+.tempnottetesto{width:90%; font-size:16px;margin:auto; text-align:center; margin-top:-20px; color:#281ad9;font-weight:400;}
+.posizionetemp{margin-top:10px;margin-bottom:40px;text-align:center}
+.titoloservattivi{font-size:13px; font-weight:600; text-transform:uppercase;}
+.persservattivi{font-size:11px;color:#777;}
+.noservattivi{font-size: 18px;color:#000;padding-left:10px}
+.infoservattivi{width:95%; margin:auto; text-align:center;color:#af2b44;}
+.infoservattivitxt{font-weight:400; line-height:13px; font-size:13px;}
+.fotodetserv{width:100%; position:relative;height:170px;background-size:cover !important; margin-bottom:20px; margin-top:-28px;box-shadow:1px 1px 5px 0px rgba(168,168,168,1);}
+.overlayserv{position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:1; background:#333; opacity:0.1;}
+.tastoservizio{width:100%; height:50px; font-size:16px; font-weight:bold; line-height:50px; padding:0px; text-align:center; position:fixed; background:#28a164; color:#fff;  bottom:0px; left:0px;transform:translateZ(0); webkit-transform:translateZ(0);}
+.infocheckpren{color:#ffde7d;font-weight:600; }
+.infocheckprentxt{font-size:17px; font-weight:600;color:#fff}
+.rigapren{background:#fff; height:25px; margin-top:-30px; padding:5px;}
+.colrigapren{text-align:center; color:#222; line-height:25px; font-size:13px; font-weight:600;border-left:solid 1px #ccc;}
+.colrigapren:first-child{border-left:none;}
+.iconarigapren{font-size:10px;color:#333;}
+.fotoprenotazione{width:100%; position:relative;height:180px;background-size:cover;box-shadow: 1px 1px 5px 0px rgba(168,168,168,1);}
+.infoprenotazione{position:absolute; top:92px; left:0px;  width:100%;z-index:2;}
+.divinfopren{height:60px; padding:5px; font-weight:600; font-size:13px; color:#fff;}
+.colinfopren1{text-align:center;color:#fff}
+.colinfopren2{text-align:center; border-left:solid 1px #fff;color:#fff}
+.colinfopren3{text-align:center;padding-top:5px;}
+.infoprenmodora{font-weight:600; font-size:14px; color:#fff;}
+.overlaypren{position:absolute; bottom:0px; left:0px; width:100%; height:93px; z-index:1; background:#333; opacity:0.6;}
+.rigaprenotazioneinfo{height:45px; padding:15px; margin-top:0px; background:#fff; font-weight:600; font-size:13px; color:#333; }
+.colprenotazioneinfo1{font-size:24px;padding:0px; line-height:20px;  font-weight:100;}
+.colprenotazioneinfo2{border-left:solid 1px #fff; font-size:20px;}
+.controllaconto{font-size:9px;color:#777; text-align:right; font-weight:400; margin-top:5px;}
+.testometodo{font-size:11px;color:#777; text-align:center; margin-top:5px;}
+.btnpagamento{width:90% !important ;height:35px !important; margin:auto;}
+.rigaservizi{background:#fff; border-top:solid 1px #e1e1e1; border-bottom:solid 1px #e1e1e1; height:35px; margin-top:-30px; padding:5px; }
+.colrigaservizi{text-align:center; color:#222; border-left:solid 1px #ccc; line-height:17px; font-size:13px; font-weight:600;}
+.colrigaservizi:first-child{border-left:none;}
+.modificaelenco{float:right; font-size:12px; color:#666; margin-right:10px; margin-top:10px;}
+.promemoriaserv{font-size:14px; color:#e4492b;  padding:5px; font-weight:600; }
+.h80{height: 80px}
+.h85{height: 85px}
+.h44{height: 44px}
+.infoslidecol{height:16px; float:left; line-height:18px; width:38px; }
+.fs10{font-size: 10px !important}
+.fs11{font-size: 11px !important}
+.fs12{font-size: 12px !important}
+.fs13{font-size: 13px !important}
+.fs14{font-size: 14px !important}
+.fs15{font-size: 15px !important}
+.fs16{font-size: 16px !important}
+.fs18{font-size: 18px !important}
+.fs24{font-size: 24px !important}
+.fs25{font-size: 25px !important}
+.fs30{font-size: 30px !important}
+.fs35{font-size: 35px !important}
+.fs40{font-size: 40px !important}
+.pl5{padding-left: 5px}
+.floatleft{float:left;}
+.ml30{margin-left: 30px}
+.infodomotica{text-align:center; color:#222; line-height:17px; font-size:13px; font-weight:600;}
+.infodomotica2{text-align:center; color:#222; border-left:solid 1px #ccc; line-height:17px; font-size:13px; font-weight:600;}
+.menurist{background:#fff; border-top:solid 1px #e1e1e1; border-bottom:solid 1px #e1e1e1; height:35px;padding:5px; }
+.personalizza{font-size:14px; color:#e13566;  padding:5px; font-weight:600;}
+.prenotaservizio{font-size:12px; font-weight:400; color:#777;}
+.iconesotto{font-size:24px;color:#2c529e;}
+.contattaci{font-size:16px; line-height:14px; font-weight:600;color:#2c529e;}
+.scrollertop{position:absolute;height:25px; width:40%; right:0px; top:0px; background:#333; opacity:0.4;border-top-right-radius: 5px;}
+.scrollertoptxt{position:absolute;height:55px;width:40%; right:0px; text-align:center; padding:2px;font-size:12px; top:0px;}
+.testoscrollerserv{position:absolute; bottom:0px; left:0px; width:calc(100%); font-weight:100;height:40px;background:#e13566; color:#fff;border-bottom-left-radius:5px;border-bottom-right-radius:5px}
+.testodivscroller{font-size:13px;padding-left:5px;padding-top:5px}
+.luoghiscroller{float:right; font-size:12px; color:#666; margin-right:10px; margin-top:10px;}
+.titololuoghiscroller{font-size:14px; color:#a79254; padding:5px; font-weight:400;}
+.testoscrollerluoghi{position:absolute; bottom:0px; left:0px; width:calc(100%); font-weight:100;height:40px;background:#ffde7d;color:#000;border-bottom-left-radius:5px;border-bottom-right-radius:5px}
+.wrapperwidth160{width:calc(100% + 160px)}
+.wrapperwidth550{width:calc(100% + 550px)}
+.mt20{margin-top: 20px}
+.ml10{margin-left: 10px}
+.fw100{font-weight: 100 !important}
+.fw600{font-weight: 600 !important}
+.fw300{font-weight: 300 !important}
+.fw400{font-weight: 400 !important}
+.testocontatti{width:90%; text-align:left; padding-left:15px;}
+hr.width80{width: 80%}
+img.imgnavospite{width:80px;margin-top:8px;}
+.whitetxt{color: #fff !important}
+.subnavscroll{overflow-x:scroll}
+.p10{padding: 10px}
+.pt0{padding-top: 0px !important}
+.c333{color:#333 !important}
+.c666{color: #666 !important}
+.c999{color:#999 !important}
+.c777{color: #777 !important}
+.cfff{color: #fff !important}
+.toupper{text-transform: uppercase !important}
+.mt0{margin-top: 0px !important}
+.bcw{background-color: #fff}
+.dettaglioserviziodiv{width:100%; position:relative;height:160px;background-size:cover !important; margin-bottom:20px; margin-top:-28px;box-shadow: 1px 1px 5px 0px rgba(168,168,168,1);}
+.dettagliservoverlay{position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:1; background:#333; opacity:0.1;}
+.txtservprenot{margin:5px; font-size:15px;  color:#a43c32;font-weight:100;}
+hr.separa{width:90%; margin:auto; background:#ccc;}
+.p20{padding: 20px}
+.p5{padding: 5px}
+.mt10{margin-top: 10px}
+.mt15{margin-top: 15px}
+
+/*Index*/
+.registrati{width:100px; margin:auto;  color:#2769d6; font-size:15px !important; border:none; font-weight: 600; position:fixed; top:5px; right:15px;}
+.accedi{width:60%; font-weight: 600; margin:auto; background:#2769d6 !important; font-size:14px !important; border-radius:25px;}
+.divimg{width:100%; text-align: center; margin-top:60px;}
+img.width340{width: 340px}
+.textleft{text-align: left!important}
+.br5{border-radius: 5px}
+.mt-90{margin-top: -90px}
+.indexopacity{opacity:0; margin-top:10px; text-align: center;}
+.indexdiv{width:95%!important; margin:auto!important;}
+
+img.width90{width: 90px}
+.mt5{margin-top: 5px}
+img.width100{width: 100px}
+.p0{padding: 0px}
+.pb40{padding-bottom: 40px}
+.m0{margin: 0px}
+.pt17{padding-top: 17px}
+.width100per{width:100%}
+.pb0{padding-bottom: 0px}
+.sliderdiv{height:75px; background:#fff; overflow:hidden; border-bottom:solid 1px #ccc;width:100%; padding-top:10px;}
+.mauto{margin: auto !important}
+.width95per{width: 95%}
+.schermoint{margin:auto; margin-top:35px; line-height:63px; height:48px; background:#fff; width:48px; padding:15px;border:solid 1px #ccc; border-radius:10px;border-color:#e1e1e1;}
+.mt-2{margin-top: -2px}
+.mt-5{margin-top: -5px}
+.testoschermoint{color:#222; font-size:12.5px; text-align:center; margin-top:13px;text-transform:uppercase; font-weight:600;}
+.h50{height: 50px}
+.dispnone{display: none}
+.brtop1{border-top:solid 1px #e1e1e1;}
+.btnone{border-top: none !important}
+.mt-20{margin-top: -20px}
+.textright{text-align: right !important}
+.brnone{border: none !important}
+
+.tdesclusivi{background:#BC3B3D; color:#fff;}
+.tdannullate{background:#ce3f18; color:#fff;}
+
+/*centro benessere*/
+.pulscentroben{width:200px; margin-left:10px;}
+.sospesoconf{background:#f5a149!important; width:95%; margin:auto; border-radius:3px;padding-top:4px; height:40px; color:#fff;}
+.prenotazionenorm{height:40px; width:95%; margin:auto; border-radius:3px}
+.tiporisto{width:95%; margin:auto; border-radius:3px; height:40px; color:#fff;}
+.tiporistopresente{background:#f5a149!important; }
+
+/*domotica*/
+.bordodom{border-top:solid 1px #f1f1f1;}
+.domtitolo{color:#e67511 !important;}
+.lh11{line-height: 11px}
+.bordotempdom{border-right:solid 1px #ccc; color:#1649b1; padding-right:5px;}
+.modalitadom{font-size:10px;width:50px; text-align:center;}
+.coloredomalloggi{color:#e67511 !important;}
+.privacyscheda{padding-left: 10px;color:#333;}
+.bordoaccordion{
+    border-bottom: solid 1px #e1e1e1;}
+.bluenavbar{color:#203a93 !important}
+.mr10{margin-right: 10px}
+.marauto{margin: auto}
+.txtnero{color: #000 !important}

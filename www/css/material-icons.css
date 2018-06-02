@@ -23,7 +23,7 @@
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
-  color:#007aff;
+  color:inherit;
 
   /* Support for all WebKit browsers. */
   -webkit-font-smoothing: antialiased;

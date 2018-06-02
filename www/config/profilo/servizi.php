@@ -34,42 +34,35 @@ $timeora=oraadesso($IDstr);
 $IDprenc=prenotcoll($IDpren);
 $id=$IDpren;
 
-
-$serviziarr=array();
-$prodottiarr=array();
+$servizisosp=array(array());
+$serviziarr=array(array());
+$prodottiarr=array(array());
 
 
 $testo='
 <div data-page="serviziospite" class="page" > 
-            <!-- Top Navbar--> 
-             
-	
-			 
-			 	<div class="navbar" id="navcal" >
+		 	<div class="navbar" id="navcal" >
 				<div class="navbar-inner">
 					<div class="left">
 					
 					  <a href="#" class="link icon-only back"   >
-						<i class="material-icons" style="font-size:40px;">chevron_left</i>
+						<i class="material-icons fs40" >chevron_left</i>
 					</a>
 					
 					</div>
 					<div class="center titolonav">Promemoria Servizi</div>
-					
+					<div class="right"></div>
 				</div>
 			</div>
 		 <div class="page-content">
-			
-				
-				
-              <div class="content-block" id="servizidiv"> 
+			<div class="content-block" id="servizidiv"> 
 
 
 ';
 
 
 	
-	$query="SELECT p.ID,p.time,p.modi,COUNT(DISTINCT(p2.IDprenextra)),GROUP_CONCAT(DISTINCT(p.ID) SEPARATOR ','),p.tipolim,p.extra,p.modi,SUM(p2.prezzo),GROUP_CONCAT(DISTINCT(p2.IDinfop) SEPARATOR ','),SUM(p2.qta),p.sala,p.IDtipo,p.sottotip,s.servizio,s.descrizione,MAX(p2.pacchetto) FROM prenextra as p,prenextra2 as p2,servizi as s WHERE  p2.IDpren IN ($IDprenc) AND p.ID=p2.IDprenextra AND p2.paga>'0' AND p.extra=s.ID AND p.IDtipo NOT IN(8,9)  GROUP BY p.ID ORDER BY p.time";
+	$query="SELECT p.ID,p.time,p.modi,COUNT(DISTINCT(p2.IDprenextra)),GROUP_CONCAT(DISTINCT(p.ID) SEPARATOR ','),p.tipolim,p.extra,p.modi,SUM(p2.prezzo),GROUP_CONCAT(DISTINCT(p2.IDinfop) SEPARATOR ','),SUM(p2.qta),p.sala,p.IDtipo,p.sottotip,s.servizio,s.descrizione,MAX(p2.pacchetto) FROM prenextra as p,prenextra2 as p2,servizi as s WHERE  p2.IDpren IN ($IDprenc) AND p.ID=p2.IDprenextra AND p2.paga>'0' AND p.extra=s.ID AND p.IDtipo NOT IN(8,9)  GROUP BY p.ID ORDER BY p.extra,p.time";
 	$result=mysqli_query($link2,$query);
 	if(mysqli_num_rows($result)>0){
 			
@@ -90,7 +83,7 @@ $testo='
 				$descr=$row['15'];
 				$pacchetto=$row['16'];
 			
-				$foto='immagini/'.getfoto($extra,4);
+				//$foto='immagini/'.getfoto($extra,4);
 				
 				$num2='';
 				if($tipolim==6){
@@ -108,29 +101,25 @@ $testo='
 					if($qta==1){
 						$persone='persona';
 					}
-					$qta='<span style="font-size:11px;color:#777;">N.'.$qta.' '.$persone.'</span>';
+					$qta='<span class="fs11 c777">N.'.$qta.' '.$persone.'</span>';
 				}
 			
 							
 		
 			$butt1='';
 			
-		$sala='';
+			$sala='';
 			
 			$vis='<div class="item-media"><img src="'.$route.$foto.'"></div>';
 			
 			$txt='<li>
 				  <a href="#" class="item-link item-content" onclick="navigation(25,'.$ID.',0,0)">
-					<div class="item-media" style="padding:0px;">
-					'.$vis.'
-					</div>
 						<div class="item-inner" >
 					  <div class="item-title-row">
-					  <div class="item-title" style="font-size:13px; font-weight:600;">'.wordwrap($servizio,25,'<br>').'</div>
+					  <div class="item-title fs13 fw600 toupper" >'.wordwrap($servizio,25,'<br>').'</div>
 						<div class="item-after">'.$num2.'</div>
 					  </div>
 					  <div class="item-subtitle">'.$qta.'</div>
-					  
 					</div>
 				  </a>
 				  
@@ -143,17 +132,28 @@ $testo='
 			
 			if($tipolim==6){
 				if(isset($prodottiarr[$dd])){
-					$prodottiarr[$dd].=$txt;
+					$prodottiarr[$IDtipo][$dd].=$txt;
 				}else{
-					$prodottiarr[$dd]=$txt;
+					$prodottiarr[$IDtipo][$dd]=$txt;
 				}
-			
 			}else{
-			
-				if(isset($serviziarr[$dd])){
-					$serviziarr[$dd].=$txt;
+				if($modi!=0){
+					if(isset($serviziarr[$IDtipo][$dd])){
+						$serviziarr[$IDtipo][$dd].=$txt;
+					}else{
+						$serviziarr[$IDtipo][$dd]=$txt;
+					}
 				}else{
-					$serviziarr[$dd]=$txt;
+					
+					if(!isset($serviziarr[$IDtipo][0])){
+						$serviziarr[$IDtipo][0]='';
+					}
+					
+					if(isset($servizisosp[$IDtipo])){
+						$servizisosp[$IDtipo].=$txt;
+					}else{
+						$servizisosp[$IDtipo]=$txt;
+					}				
 				}
 			}
 			
@@ -170,28 +170,82 @@ $testo='
 //sort($prodottiarr);
 
 
-foreach ($serviziarr as $data =>$cont){
-	list($yy, $mm, $dd) = explode("-", $data);
-	$time=mktime(0, 0, 0, $mm, $dd, $yy);
-	
-	$testo.='
-<div class="content-block-title titleb">'.dataita($time).' '.date('Y',$time).'</div>
-			<div class="list-block media-list" >
-			  <ul>'.$cont.'
-			  </ul></div>
-	';
+$testo.='
 
+
+
+
+
+<div class="content-block">
+    <div class="buttons-row" style="width:95%; margin:auto;">
+';
+
+
+
+
+$first=0;
+foreach($serviziarr as $IDtipo =>$arr){
+	if(!empty($arr)){
+		$active='';
+		if($first==0){
+			$first=1;
+			$active=' active';
+		}
+		$query="SELECT tipo FROM tiposervizio WHERE ID='$IDtipo' LIMIT 1";
+		$result=mysqli_query($link2,$query);
+		$row=mysqli_fetch_row($result);
+		$testo.='<a href="#tab'.$IDtipo.'" class="tab-link '.$active.' button">'.$row['0'].'</a>';
+	}
 }
 
 
-$testo.='<br><br><div style="width:90%; margin:auto; text-align:center;color:#af2b44;"><span style="font-weight:300; line-height:12px; font-size:12px;">&Egrave; possibile modificare gli orari fino a 4h prima del suo inizio.<br>Per qualsiasi altre informazioni o modifica contrattare la struttura.</span></div>
-
-
-
-</div></div></div>
-
-
+$testo.='</div></div>
+  <div class="tabs">
 ';
+
+
+
+$first=0;
+foreach($serviziarr as $IDtipo =>$arr){
+	if(!empty($arr)){
+		$active='';
+		if($first==0){
+			$first=1;
+			$active=' active';
+		}
+		
+		$testo.='<div id="tab'.$IDtipo.'" class="tab '.$active.'"><div class="content-block">';
+		
+		
+		if(isset($servizisosp[$IDtipo])){
+			$testo.='<div class="content-block-title titleb" style="color:#f01150;">Servizi Prenotati<br/>
+			<span>Imposta ora un orario; Sarà comunque possibile indicarlo in struttura</span></div>
+					<div class="list-block media-list" >
+					  <ul>'.$servizisosp[$IDtipo].'</ul></div>';
+		}
+		
+		
+		foreach ($arr as $data =>$cont){
+			list($yy, $mm, $dd) = explode("-", $data);
+			$time=mktime(0, 0, 0, $mm, $dd, $yy);
+			
+			if(strlen($cont)>0){
+				$testo.='<div class="content-block-title titleb">'.dataita($time).' '.date('Y',$time).'</div>
+					<div class="list-block media-list" >
+					  <ul>'.$cont.'</ul></div>';
+			}
+		}
+		
+		$testo.='</div></div>';
+	}
+	
+}
+
+$testo.='</div>
+
+<br><br><div style="width:95%; margin:auto; text-align:center;color:#af2b44;"><span style="font-weight:400; line-height:13px; font-size:13px;">&Egrave; possibile modificare gli orari fino a 4h prima del suo inizio.<br>Per qualsiasi altre informazioni o modifica contrattare la struttura.</span></div>
+
+</div></div></div>';
 
 
 

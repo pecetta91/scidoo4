@@ -31,29 +31,34 @@ $testo='
 
 ';
 if($IDappunto==0){
+	/*<div class="item-title" style="width:100%;">
+					<textarea  id="noteappunto" style="width:100%;padding-left:4px; height:110px;font-size:14px;" placeholder="Appunto"></textarea>
+				
+				</div>*/
+
 	
 	$testo.='
 	
 	
 		<div class="list-block">
 		  <ul>
-			
-			<li class="item-content">
-			  <div class="item-inner" style="width:100%;">
-				<div class="item-title" style="width:100%;">
-					<textarea  id="noteappunto" style="width:100%;padding-left:4px; height:110px;font-size:14px;" placeholder="Appunto"></textarea>
-				
-				</div>
-			  </div>
+			<li>
+			 <div class="item-content" style="height:100%;">
+			  <div class="item-inner" style="width:100%;height:100%;">
+				  <div class="item-input">
+            		<textarea id="noteappunto" style="height:150px" placeholder="Appunto"></textarea>
+        	  </div>
+			 </div>
+			 </div>
 			</li>
-			
-			
-			
+			</ul></div>
+		<div class="list-block"><ul>
 			<li>
 		
-		  <a href="#" class="item-link smart-select">
-			<select name="arg" id="argrec">
-			<option value="0" >Seleziona Argomento</option>
+		  <a href="#" class="item-link smart-select" data-open-in="picker" pickerHeight="400px">
+			<select name="arg" id="argrec" onchange="argomentonuov()">
+			<option value=""></option>
+			<option value="0" >Nuovo Argomento</option>
 			';
 			
 			$query="SELECT argomento FROM appunti WHERE IDstr='$IDstruttura' AND argomento!='0' GROUP BY UPPER(argomento)";
@@ -68,28 +73,23 @@ if($IDappunto==0){
 					}
 				}
 				
-			$testo.='</select>
+			$testo.='
+			</select>
 			<div class="item-content">
 			  <div class="item-inner">
 				<div class="item-title">Argomento</div>
-				<div class="item-after"></div>
+				<div class="item-after" id="newval"></div>
 			  </div>
 			</div>
 		  </a>
 		</li>
 			
 			
-			
-			<li class="item-content">
-			  <div class="item-inner" style="width:100%;">
-				<div class="item-title" style="width:100%;">
-					<input type="text" id="argnew" style="width:100%;font-size:14px; " placeholder="Oppure inseriscine uno nuovo qui">
-				</div>
-			  </div>
-			</li>
+			<input type="hidden" id="argnew">
+				
 		<li>
 		
-      <a href="#" class="item-link smart-select">
+      <a href="#" class="item-link smart-select " data-open-in="picker" pickerHeight="400px" >
         <select name="dest" id="destinatari" multiple>';
 		
 		 $query="SELECT IDuser,nome FROM personale WHERE IDstr='$IDstruttura' AND attivo='1' AND IDuser>'0'";
@@ -105,7 +105,7 @@ if($IDappunto==0){
         <div class="item-content">
           <div class="item-inner">
             <div class="item-title">Destinatari</div>
-            <div class="item-after"></div>
+            <div class="item-after" style="font-size:13px"></div>
           </div>
         </div>
       </a>
@@ -152,7 +152,20 @@ if($IDappunto==0){
 		  </ul></div>*/
 			
 			
-		$testo.='	<a href="#" class="button button-raised button-fill color-indigo" style="font-size:16px; width:75%; margin:auto;"   onclick="salvaappunto();">Salva Appunto</a>
+		$testo.='
+		<div class="bottombarpren" style="background:#f1f1f1;z-index:999;" align="center">
+			  <table style="width:100%; height:100%;cellpadding:0;cellspacing:0;">
+			   <tbody><tr>
+			   <td style="width:15%">
+			   </td>
+			     <td>
+				  <button href="#" class="bottoneprezzo" onclick="salvaappunto();">Salva Appunto</button>
+                 </td>
+				 <td style="width:15%">
+			   </td>
+			   </tr>
+			  </tbody></table>
+			</div>
 			
 			';
 				

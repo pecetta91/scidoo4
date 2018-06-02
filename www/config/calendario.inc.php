@@ -9,43 +9,35 @@ $IDstruttura=$_SESSION['IDstruttura'];
 unset($_SESSION['listIDsotto']);
 unset($_SESSION['datecentro']);
 
-$testo=  '
- 
 
+$query="SELECT ID FROM appartamenti WHERE IDstruttura='$IDstruttura' AND attivo='2' LIMIT 1";
+$result=mysqli_query($link2,$query);
+$row=mysqli_fetch_row($result);
+$IDsenzas=$row['0'];
 
-<div data-page="calendario" class="page" > 
+$testo='<div data-page="calendario" class="page" > 
 		 	<div class="navbar" id="navcal" >
 				<div class="navbar-inner">
 					<div class="left">
 					
-					 <a href="#" class="link icon-only back" >
-						<i class="material-icons" style="font-size:30px;">apps</i>
+					 <a href="#" class="link icon-only" onclick="backexplode(10);" >
+						<i class="material-icons fs30" >apps</i>
 					</a>
 					
 					</div>
 					<div class="center titolonav">Calendario</div>
 					<div class="right" >
-						<a href="#" style="width:50px;" onclick="addprenot(0,0)"><i class="icon f7-icons" style="font-size:25px;">add</i></a>
+						<a href="#"  onclick="addprenot(0,0,-1)"><i class="icon f7-icons fs25" >add</i></a>
 					 
 					</div>
 				</div>
 			</div>
-			
-			
-			
-	
-			
-			
-		 <div class="page-content">
-			
-				
-				
-              <div class="content-block" id="calendariodiv"> 
-			
-				
-			
-			
-			 ';
+		<div class="page-content ">
+		
+			<input type="hidden" id="IDsenzas" value="'.$IDsenzas.'">
+		
+			<div class="content-block" id="calendariodiv"> 
+			';
 			 
 		
 			  echo $testo;

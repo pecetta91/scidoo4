@@ -1,7 +1,8 @@
 <?php 
+header('Access-Control-Allow-Origin: *');
 include('../../config/connecti.php');
 include('../../config/funzioni.php');
-header('Access-Control-Allow-Origin: *');
+
 
 $IDpren=$_SESSION['IDstrpren'];
 
@@ -37,21 +38,22 @@ $query="SELECT IDcliente,nome FROM infopren WHERE IDpren IN($IDpren) AND pers='1
 		}
 
 
+/*<img src="ScidooLOGOmin.png" style="width:110px;margin-top:5px;">*/
+/*<div class="fb-like" data-href="https://www.facebook.com/wwwebcoom/"  data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>*/
+$testo.='
 
-
-
-$testo=  '
-
+<div id="fb-root"></div>
 <div data-page="profilocli" class="page"> 	
 
 		
-			<div class="navbar" id="navcal">
+			<div class="navbar h44" id="navcal">
 				<div class="navbar-inner">
-					<div class="left">
+				<div class="left"><div class="ml10 fs24 fw600">
+					<img src="logoscidoow.png" class="imgnavospite">
 					
-					</div>
-					<div class="center"><img src="ScidooLOGOmin.png" style="width:110px;margin-top:5px;"></div>
-					
+					</div></div>
+					<div class="center"></div>
+					<div class="right"><div class="fb-like" data-href="https://www.facebook.com/wwwebcoom/"  data-layout="button" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div></div>
 				</div>
 			</div>
 		
@@ -71,21 +73,34 @@ $testo=  '
 			 include('profilo/prenotazione.php');
 				 
            $testo.=' </div>
-		   
 		   </div> 
      
-			  
-		    <div class="list-block">
-      <ul>
-	   <li class="item-content" onclick="esci();myApp.closePanel('."'left'".');">
-          <div class="item-inner">
-            <div class="item-title menusx2" style="color:#c01313;">ESCI DA SCIDOO</div>
-          </div>
-        </li>
-	  
-	  
-	  </ul></div>
-	  
+	 
+	 
+<div class="list-block" onclick="esci();">
+		  <ul>
+		  
+		  <li  style="background-color:#bc3a30;" >
+			  <a href="#" class="item-link item-content">
+				  <div class="item-media">
+				  </div>
+				  <div class="item-inner">
+					<div class="item-title fs16 whitetxt" >Esci da Scidoo</div>
+					<div class="item-after"></div>
+				  </div></a>
+				</li>
+		  </ul></div>
+		  
+		  <div class="row no-gutter">
+		  	<div class="marauto">
+			<a class="fs13 bluenavbar mr10" onclick="navigation2(11,1,0,0)">Privacy Policy</a>
+			<a class="fs13 bluenavbar" onclick="navigation2(11,2,0,0)">Cookie Policy</a>
+			</div>
+		  		
+		  </div>
+
+<br><br>
+
 		  
 		  ';
 		  

@@ -48,7 +48,7 @@ $IDserv=$ID;
 
 
 
-$foto='immagini/'.getfoto($IDserv,4);
+$foto='immagini/big'.getfoto($IDserv,4);
 
 
 echo '<input type="hidden" id="funcreload" value="navigation(25,'.$ID.',0,1)">';
@@ -64,6 +64,7 @@ $testo='<div data-page="detserv" class="page" >
 					</a>
 					</div>
 					<div class="center titolonav">'.$servizio.'</div>
+					<div class="right"></div>
 				</div>
 			</div>
 			
@@ -80,17 +81,17 @@ $testo='<div data-page="detserv" class="page" >
 
 	
 	
-			  <div style="width:100%; position:relative;height:130px; background:url('.$route.$foto.') no-repeat center center; background-size:cover; margin-bottom:20px; margin-top:-28px;box-shadow: 1px 1px 5px 0px rgba(168,168,168,1);">
-<div style="position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:1; background:#333; opacity:0.1;"></div>
+			  <div class="fotodetserv "style=" background:url('.$route.$foto.') no-repeat center center; ">
+			  	<div class="overlayserv"></div>
 			</div>
 			  
 			  <hr style="width:90%; margin:auto; background:#ccc;">
-			  <div style="padding:20px; text-align:center;"><b>Il Servizio</b><br><br>'.traducis($IDserv,2,0,1).'</div>
+			  <div style="padding:20px; text-align:center;"><b>Il Servizio</b><br><br>'.traducis('',$ID,2,$lang,0).'</div>
 			  <hr style="width:90%; margin:auto; background:#ccc; ">
 			  
 			 ';
 			   
-			   
+			   //'.traducis($IDserv,2,0,1).'
 			  
 			
 			  
@@ -127,13 +128,13 @@ $testo='<div data-page="detserv" class="page" >
 			
 $testo.='<br><br><br><br><br><br>';
 
-
+//$func='navigation(27,'.$IDserv.',0,0)';
 $func='';
 	if(($tipolim==2)||($tipolim==6)){
-		$func='navigation(27,'.$IDserv.',0,0)';
-		$testo.='<div  onclick="'.$func.'" style="width:100%; height:50px; font-size:16px; font-weight:bold; line-height:50px; padding:0px; text-align:center; position:fixed; background:#28a164; color:#fff;  bottom:0px; left:0px;transform:translateZ(0); webkit-transform:translateZ(0);">PRENOTA SUBITO</div>';
+		$func='navigation2(4,'.$IDserv.',2,0)';
+		$testo.='<div  onclick="'.$func.'" class="tastoservizio">PRENOTA SUBITO</div>';
 	}else{
-		$testo.='<div style="width:100%; height:50px; font-size:16px; font-weight:bold; line-height:50px; padding:0px; text-align:center; position:fixed; background:#28a164; color:#fff;  bottom:0px; left:0px;transform:translateZ(0); webkit-transform:translateZ(0);">CONTATTA LA STRUTTURA</div>';
+		$testo.='<div class="tastoservizio">CONTATTA LA STRUTTURA</div>';
 	}
 	
 

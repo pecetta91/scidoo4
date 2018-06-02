@@ -8,17 +8,25 @@ include('../../../../config/funzioni.php');
 $IDserv=$_POST['IDserv'];
 
 $IDins=intval($_POST['IDins']);
+$IDserv=$_POST['IDserv'];
+$timeday=$_POST['time'];
+/*
 if($IDins!=-1){
-	$IDserv=$_POST['IDserv'];
-	$timeday=@$_POST['time'];
+	
 	$_SESSION['IDservprev4']=$IDserv;
 	$_SESSION['timeprev4']=$timeday;
 	$_SESSION['IDinsprev4']=$IDins;
 }else{
 	$IDserv=$_SESSION['IDservprev4'];
-	$timeday=$_SESSION['timeprev4'];
-	$IDins=$_SESSION['IDinsprev4'];
-}
+	//$timeday=$_SESSION['timeprev4'];
+	//$IDins=$_SESSION['IDinsprev4'];
+}*/
+
+//<input type="hidden" id="IDsaladef" value="'.$IDsaladef.'">
+
+echo '<input type="hidden" id="IDservaggiungi" value="'.$IDserv.'">';
+			
+
 
 if($timeday==0){
 	$_SESSION['reload']=1;
@@ -48,7 +56,8 @@ list($yy, $mm, $dd) = explode("-", date('Y-m-d',$check));
 $check0=mktime(0, 0, 0, $mm, $dd, $yy);
 
 	
-	
+
+
 $dcheck=date('d',$check);
 $dcheckout=date('d',$checkout);	
 	
@@ -75,11 +84,11 @@ $testo2='';
 		<div data-page="addservprev" class="page" > 
 		  <div class="navbar">
 					   <div class="navbar-inner">
-							<div class="left" onclick="mainView.router.back();navigationtxt(7,0,'."'step4'".',0);calcolatot();">
-								<div style="float:left; width:100%;"><i class="icon f7-icons">chevron_left</i></div>
+							<div class="left" onclick="mainView.router.back();blockPopstate=true;navigationtxt(6,0,'."'step2'".',0);calcolatot();">
+								<i class="icon f7-icons">chevron_left</i>
 						  </div>
-						  <div class="center"  style="font-size:14px; font-weight:600; ">MODIFICA SERVIZIO</div>
-						  
+						  <div class="center">MODIFICA SERVIZIO</div>
+						  <div class="right"></div>
 					   </div>
 					</div>
 		
@@ -92,11 +101,8 @@ $testo2='';
 
 switch($tipolim){
 	case 2:
-	
-		
-		
 		if($IDins!=0){
-			$query="SELECT time,modi,GROUP_CONCAT(IDrestr SEPARATOR ',') FROM oraripren WHERE IDins='$IDins' AND IDreq='$IDrequest' GROUP BY IDins";
+			$query="SELECT time,modi FROM oraripren WHERE ID='$IDins' AND IDreq='$IDrequest' LIMIT 1";
 			$result=mysqli_query($link2,$query);
 			$row=mysqli_fetch_row($result);
 			$time=$row['0'];
@@ -127,7 +133,12 @@ switch($tipolim){
 			$IDopt='';
 			
 			if($IDins!=0){
-				$query="SELECT o.time,o.modi,GROUP_CONCAT(o.IDrestr SEPARATOR ','),COUNT(*),GROUP_CONCAT(o.pacc SEPARATOR ','),GROUP_CONCAT(r.IDrestr SEPARATOR ',') FROM oraripren as o,richiestep as r WHERE o.IDins='$IDins' AND o.IDreq='$IDrequest' AND o.IDrestr=r.ID GROUP BY o.IDins";
+				
+				//$query="SELECT o.time,o.modi,GROUP_CONCAT(o.IDrestr SEPARATOR ','),COUNT(*),GROUP_CONCAT(o.pacc SEPARATOR ','),GROUP_CONCAT(r.IDrestr SEPARATOR ',') FROM oraripren as o,richiestep as r WHERE o.IDins='$IDins' AND o.IDreq='$IDrequest' AND o.IDrestr=r.ID GROUP BY o.IDins";
+				
+				$query="SELECT o.time,o.modi,GROUP_CONCAT(o2.IDsog SEPARATOR ','),COUNT(*),GROUP_CONCAT(o2.pacchetto SEPARATOR ','),GROUP_CONCAT(r.IDrestr SEPARATOR ',') FROM oraripren as o,oraripren2 as o2,richiestep as r WHERE o.ID='$IDins' AND o.IDreq='$IDrequest' AND o.ID=o2.IDoraripren AND o2.IDsog=r.ID GROUP BY o.ID";
+				
+				
 				$result=mysqli_query($link2,$query);
 				$row=mysqli_fetch_row($result);
 				
@@ -143,16 +154,15 @@ switch($tipolim){
 				$arrpacc=explode(',',$pacc);
 				$arrrestr=explode(',',$row['5']);
 				
-				foreach($arrpacc as $key3=>$dato3){
-					if($dato3!=0){
-						array_push($arrpnot,$arropt[$key3]);
-					}else{
-						array_push($arrpyes,$arropt[$key3]);
-						$IDrestrcalc.=$arrrestr[$key3].',';	
-					}	
-					$IDopt.=$arropt[$key3].',';
+				
+				$arrp=array();
+				
+				foreach($arropt as $key => $IDsog){
+					$arrp[$IDsog]=$arrpacc[$key];
 				}
-				$arrp=explode(',',$opt1);
+				
+				
+				
 			}else{
 				$time=0;
 				$modi=0;
@@ -183,6 +193,7 @@ switch($tipolim){
 		$cols=60/$step1;
 		
 		$data=date('Y-m-d',$timeday);
+		
 		list($yy, $mm, $dd) = explode("-", $data);
 		$time0 = mktime(0,0, 0, $mm, $dd, $yy);
 		
@@ -204,60 +215,38 @@ switch($tipolim){
 		$mint=86400;
 		$maxt=0;
 		
-		$query="SELECT orarioi,orariof FROM orarisotto WHERE IDsotto='$IDsottotip'  $qadd ORDER BY orarioi";
+		$query="SELECT MIN(orarioi),MAX(orariof) FROM orarisotto WHERE IDsotto='$IDsottotip'  $qadd ORDER BY orarioi";
 		$result=mysqli_query($link2,$query);
 		if(mysqli_num_rows($result)>0){
 			while($row=mysqli_fetch_row($result)){
 				$timef=$row['1'];
 				$timei=$row['0'];
 				
-				$var=$timei%3600;
-				if($timef>$maxt){$maxt=$timef;}
-				if($timei<$mint){$mint=$timei;}
-				
-				$timei=$timei-($timei%3600);
-				$timef=$timef-($timef%3600);
-				if($timef<$timei){$timef+=86400;}
-				
-				$timei=$time0+$timei;
-				$timef=$time0+$timef;
-				for($timei;$timei<$timef;$timei+=3600){
-					$arrt[$timei]=$cols;	
-				}
 			}
 		}
 		
-		ksort($arrt);
-		$colspan=count($arrt)*$cols;
-		//prenotazioni di oggi
+		$timei=$timei+$time0;
+		$timef=$timef+$time0-$durata*60;
 		
 		
 		
-		$minG=date('G',$time0+$min);
-		$maxG=date('G',$time0+$max);
-		if($maxG<$minG){$maxG+=24;}
-		$spazi=($maxG-$minG+1)*2;
-		$tmin=$time0+$minG*3600;
-		$tminarr=array($tmin,($tmin+86400));
-		$checked='';
-		if(isset($_SESSION['abilitaall'])){
-			$checked=' checked';
+		$funcnext='';
+		if($IDins==0){
+			$funcnext='addservprev2('.$IDins.','.$IDserv.',this.value,1)';
+		}else{
+			$funcnext='addservprev2('.$IDins.','.$IDserv.',this.value,2)';
 		}
 		
 		
+	
 		$testo2.='
-		
-		
-		
-		
-		
 		<br>
-		<div class="list-block" >
+		<div class="list-block item45" >
 		  <ul>
 		  
 		  <li>
-			  <a href="#" class="item-link  smart-select"  data-searchbar="false" data-open-in="popup">
-				<select id="dataaddserv"  onchange="addservprev2('.$IDins.','.$IDserv.',this.value,1)">';
+			  <a href="#" class="item-link  smart-select"  data-searchbar="false" data-open-in="picker">
+				<select id="dataaddserv"  onchange="'.$funcnext.'">';
 				
 				for($i=0;$i<=$notti;$i++){
 					$tt=$check0+$i*86400;
@@ -270,7 +259,7 @@ switch($tipolim){
 				$testo2.='</select>
 				<div class="item-content">
 				  <div class="item-inner">
-					<div class="item-title">Data</div>
+					<div class="item-title titleform">Data </div>
 					<div class="item-after">'.dataita($time0).'</div>
 				  </div>
 				</div>
@@ -279,21 +268,27 @@ switch($tipolim){
 		  
 		  ';
 		  
-			$timefin=$time+$durata*60;
+		//	$timefin=$time+$durata*60;
 			
 		
 			//oraritxt(date('Y-m-d',$time),$ID,$IDpers);
-			$data=date('Y-m-d',$timeday);
+			//$data=date('Y-m-d',$timeday);
 			$IDsala=0;
 			$IDpers=0;
 			$ID=0;
 			
-			if(isset($_SESSION['orarioprev'][$IDserv][$data])){
+			/*if(isset($_SESSION['orarioprev'][$IDserv][$data])){
 				$or=$_SESSION['orarioprev'][$IDserv][$data];
-			}else{
+			}else{*/
+		
+			
+		
 				$or=orari3(0,$data,$qta,$IDserv,$IDstruttura,0,$IDpers,1,$check,0,$ID,$checkout);
 				$_SESSION['orarioprev'][$IDserv][$data]=$or;
-			}
+			//}
+			
+			
+			
 			
 		
 			$arrsale=array();
@@ -311,6 +306,9 @@ switch($tipolim){
 				}
 			}
 			
+		
+		
+		
 			
 			//controllare i servizi in orari pren e toglierli da $or
 			//eliminare le sale e le fascie orario se ci sono esclusivi
@@ -320,6 +318,7 @@ switch($tipolim){
 			$IDsaladef=0;
 			
 			
+		
 			$query="SELECT s.ID,s.maxp FROM sale as s,saleex as sc WHERE sc.IDserv='$IDserv' AND sc.IDsala=s.ID";
 			$result=mysqli_query($link2,$query);
 			$maxp=0;
@@ -340,12 +339,7 @@ switch($tipolim){
 				}
 			}
 			
-			echo '
-			<input type="hidden" id="IDservadd" value="'.$IDserv.'">
-		<input type="hidden" id="IDsaladef" value="'.$IDsaladef.'">
-			
-			';
-			
+	
 			
 			$arrs=array();
 			$arrs2=array();
@@ -356,8 +350,349 @@ switch($tipolim){
 		
 			
 			
-		$txt1='';
+			$txt1='';
+		
+		
+		
+		
+		
+		
+		
+		
+			
+		$arrdis=array();	
+		if($IDtipo==1){
+		
+		
+		
+			$query2="SELECT o2.IDsog FROM oraripren as o,oraripren2 as o2 WHERE o.IDreq='$IDrequest' AND o.ID=o2.IDoraripren AND o.IDsottotip='$IDsottotip' AND o.IDserv!='$IDserv' AND FROM_UNIXTIME(o.time,'%Y-%m-%d')='$data'";
+			$result2=mysqli_query($link2,$query2);
+			if(mysqli_num_rows($result2)>0){
+				
+				//controlla se tutti eliminia tutto altrimenti abilita normalmente ma solo per chi puo'
+				while($row2=mysqli_fetch_row($result2)){
+					$arrdis[]=$row2['0'];
+				}
+				
+				
+			
+				
+				
+				/*	
+				$query2="SELECT ID,IDrestr FROM richiestep WHERE IDreq='$IDrequest' AND ID NOT IN ($IDr)";
+				
+				$result2=mysqli_query($link2,$query2);
+				if(mysqli_num_rows($result2)>0){
+					$qta=0;
+
+					while($row2=mysqli_fetch_row($result2)){
+						array_push($arrpyes,$row2['0']);
+						$qta++;
+						$IDrestrcalc.=$row2['1'].',';
+						$IDopt.=$row2['0'].',';
+					}
+					
+				}else{
+					unset($arrtime);
+				}*/
+			}
+		
+	
+	}else{
+		//$query2="SELECT o.ID,o.time,o.durata FROM oraripren as o,servizi as s WHERE o.IDreq='$IDrequest' AND o.IDserv=s.ID AND s.IDsottotip='$IDsottotip' AND FROM_UNIXTIME(o.time,'%Y-%m-%d')=FROM_UNIXTIME('$timeday','%Y-%m-%d') AND o.IDins!='$IDins' GROUP BY o.IDins";
+		
+		
+		
+		$query2="SELECT ID,time,durata FROM oraripren WHERE IDreq='$IDrequest' AND IDsottotip='$IDsottotip' AND FROM_UNIXTIME(time,'%Y-%m-%d')=FROM_UNIXTIME('$timeday','%Y-%m-%d') AND ID!='$ID' GROUP BY ID";
+		
+		
+		$result2=mysqli_query($link2,$query2);
+		if(mysqli_num_rows($result2)>0){
+			
+				while($row2=mysqli_fetch_row($result2)){
+					$tt2=$row2['1'];
+					$tt3=$row2['1']+60*$row2['2']-900;
+					for($tt2;$tt2<$tt3;$tt2+=900){
+						if(isset($arrtime[$tt2])){
+							unset($arrtime[$tt2]);
+						}
+					}
+				}
+			
+		}
+			
+		
+	
+	}
+		
+	
+		
+		
+		
+	$okfunc=1;
+
+	if(empty($arrtime)){
+		$okfunc=0;
+	}
+
+
+		
+		$txtinto='';
+		$orario='';
+		
+		
+		//echo '<br><br>'.$timei.'-'.$time;
+		
+		$orarid='';
+		$orarind='';
+		$selected=0;
+		for($timei;$timei<=$timef;$timei+=900){
+			$dis='';
+			$value='';
+			$o1=0;
+			if(isset($arrtime[$timei])){
+				$o1=1;
+				$IDsala=$arrsale[$timei];
+				//$value=$timei."_".$IDsala."_".$IDopt."_".$IDserv;
+				$value=$timei."_".$IDsala;
+			}else{
+				//$value=$timei."_".$IDsaladef."_".$IDopt."_".$IDserv;
+				$value=$timei."_".$IDsaladef;
+			}
+			$sel='';
+			if($timei==$time){
+				$sel='selected="selected"';
+				$selected++;
+			}
+			if($o1==1){
+				$orarid.='<option value="'.$value.'" '.$sel.'>'.date('H:i',$timei).'</option>';
+			}else{
+				$orarind.='<option value="'.$value.'" '.$sel.'>'.date('H:i',$timei).'</option>';
+			}
+		}
+		
+		
+		if(strlen($orarid)>0){
+			$txtinto.='<optgroup label="Orari Disponibili">'.$orarid.'</optgroup>';
+		}
+		if(strlen($orarind)>0){
+			$txtinto.='<optgroup label="Orari Non Disponibili">'.$orarind.'</optgroup>';
+		}
+		
+		if($time!=0){
+			$orario=date('H:i',$time);
+		}
+		
+		$sel='';
+		if($selected==0){
+			$sel='selected="selected"';
+			$orario='Scegli Orario in Seguito';
+		}
+		
+		$txtinto='<option value="'.$time0.'_0" '.$sel.'>Scegli Orario in Seguito</option>'.$txtinto;
+		
+		
+		
+		
+		$funcselect='';
+		if($IDins!=0){
+			$funcselect='nuovoservprev('.$IDins.',this.value,0)';
+		}
+		
+		
+		$testo2.='
+				<li>
+				  <a href="#" class="item-link  smart-select"  data-searchbar="false" data-open-in="picker">
+					<select onchange="'.$funcselect.'" id="orarioadd">
+					
+					'.$txtinto.'</select>
+					<div class="item-content">
+					  <div class="item-inner">
+						<div class="item-title titleform">Orario</div>
+						<div class="item-after">'.$orario.'</div>
+					  </div>
+					</div>
+				  </a>
+				</li>
+				</ul></div>
+			';
+		
+		
+		
+		$testo2.='</br><div class="titleb">Persone</div>
+				<div class="list-block">
+					  <ul>';
+		
+		$persone=0;
+		
+		//print_r($arrp);
+		//print_r($arrdis);
+
+		
+				$totale=0;
+				$query="SELECT ID,restrizione,IDcliente,IDrestr FROM richiestep WHERE IDreq='$IDrequest'";
+				$result=mysqli_query($link2,$query);
+				while($row=mysqli_fetch_row($result)){
+					//$nome=traducis($row['3'],9,$lang,0);
+					$IDsog=$row['0'];
+					$nome=$row['1'];
+					if($row['2']!=0){
+						$query3="SELECT nome,cognome FROM schedine WHERE ID='".$row['2']."' LIMIT 1";
+						$result3=mysqli_query($link2,$query3);
+						$row3=mysqli_fetch_row($result3);
+						$nome=$row3['0'].' '.$row3['1'];
+					}	
+					$IDrestr=$row['3'].',';	
+					
+					$clas='';
+					$pacchetto='';
+					$prezzo=calcolaprezzoserv($IDserv,$time0,$IDrestr,$IDstruttura,0,$IDrequest,1,$durata).' €';
+					
+					/*if(in_array($row['0'],$arrpyes)){
+						$clas=' checked="checked"';
+						$pacchetto=$prezzo.' €';
+						$totale+=$prezzo;	
+						$persone++;
+					}*/
+					$ok=0;
+					$dis='';
+					$back='';
+					if($IDtipo!='1'){
+						$ok=1;
+					}else{
+
+						if(in_array($row['0'],$arrdis)){
+							$ok=2;
+							$dis=' disabled="disabled"';
+							$prezzo='Non selezionabile';	
+							$back=' style="background:#ffe7e8; opacity:0.7; color:#fff;"';
+						}else{
+						
+							$query4="SELECT o.ID FROM oraripren as o,oraripren2 as o2 WHERE o.IDreq='$IDrequest' AND FROM_UNIXTIME(o.time,'%Y-%m-%d')='$data' AND o.IDsottotip='$IDsottotip' AND o.ID!='$IDins' AND o.ID=o2.IDoraripren AND o2.IDsog='".$row['0']."' LIMIT 1";
+							$result4=mysqli_query($link2,$query4);
+							if(mysqli_num_rows($result4)==0){
+								$ok=1;
+							}
+						}
+					}
+					
+					if($ok>0){
+					
+						
+						$color="333";
+						if($ok==1){
+							if(isset($arrp[$IDsog])){
+								if($arrp[$IDsog]!=0){
+									$clas='checked="checked" ';
+									$dis=' disabled="disabled"';
+									$prezzo='Incluso';	
+								}else{
+									$clas='checked="checked" ';
+								}
+								
+							}
+						}
+						
+						
+						$func='';
+						
+						if($IDins!=0){
+							$func='cambiadestprev('.$row['0'].','.$IDins.','.$IDserv.')';
+						}else{
+							$func='ricarcolaadd()';
+						}
+				
+						$testo2.='
+							<li '.$back.'>
+						  <label class="label-checkbox item-content" >
+							<input type="checkbox" class="soggetti"  '.$dis.' id="person'.$row['0'].'" '.$clas.' alt="'.$prezzo.'"  onChange="'.$func.'"  value="'.$row['0'].'" >
+							<div class="item-media">
+							  <i class="icon icon-form-checkbox"></i>
+							</div>
+							<div class="item-inner">
+							  <div class="item-title">'.$nome.'</div>
+							  <div class="item-after">'.$prezzo.'</div>
+							</div>
+						  </label>
+						</li>
+						
+						';
+					}
+			
+		}		
+		$testo2.='
+		</ul></div>';
+		
+		
+		
+			$buttdel='';
+				
+				if($totale==0){
+					if($IDins!=0){
+						$totale='<span style="font-size:16px;">Servizio incluso</span>';
+						$totale='';
+					}else{
+						$buttdel='
+						
+						<div class="list-block">
+						  <ul>
+							<li>
+							  <a href="#" class="item-link list-button " style="font-weight:600; color:#ee1b43;"  onclick="eliminaextraprev('.$IDins.',0,1)">ELIMINA</a>
+							</li>
+						</ul>
+						</div>
+						
+						';//<br><a href="#" class="button  " id="deleteb">Elimina</a>
+						//$totale='Totale: <span id="totaleserv">'.$totale.' Euro</span> ';
+					}
+				}else{
+					//$totale='Totale: <span id="totaleserv">'.$totale.' Euro</span> ';
+					//$totale='';
+					$buttdel='<br><br><br><br><br><br>
+					<div class="list-block">
+						  <ul>
+							<li>
+							  <a href="#" class="item-link list-button " style="font-weight:600; color:#ee1b43;"  onclick="eliminaextraprev('.$IDins.',0,1)">ELIMINA</a>
+							</li>
+						</ul>
+						</div>
+					
+					
+					';
+				}
+
+				$testo2.='<input type="hidden" id="totalecalcolato" value="'.$totale.'">';
+			
+				if($IDins!=0){
+					$testo2.='<div style=" font-size:14px; color:#777;text-align:center;">(*) Ogni modifica viene salvata istantaneamente</div>'.$buttdel;
+				}
+				
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
+		
+		
 			if($IDins==0){
+				
 				$query2="SELECT o.ID,o.time,o.durata FROM oraripren as o,servizi as s WHERE o.IDreq='$IDrequest' AND o.IDserv=s.ID AND s.IDsottotip='$IDsottotip' AND FROM_UNIXTIME(o.time,'%Y-%m-%d')=FROM_UNIXTIME('$timeday','%Y-%m-%d') GROUP BY o.IDins";
 			}else{
 				$query2="SELECT o.ID,o.time,o.durata FROM oraripren as o,servizi as s WHERE o.IDreq='$IDrequest' AND o.IDserv=s.ID AND s.IDsottotip='$IDsottotip' AND FROM_UNIXTIME(o.time,'%Y-%m-%d')=FROM_UNIXTIME('$timeday','%Y-%m-%d') AND o.IDins!='$IDins' GROUP BY o.IDins";
@@ -508,19 +843,7 @@ switch($tipolim){
 								
 							}
 							
-							/*else{
-								$addcla='red';
-							}
-							if($IDins==0){
-								$func='selezorario(this)';
-								//$func='gestioneric('.$IDins.','."'".$func."'".',2,10,1)';	
-							}else{
-								$func='gestioneric('.$IDins.','."'".$dir."'".',2,10,3)';	
-							}*/
-							
-							//$txtinto.=$func.'<br>';
-							//$txtinto.='<a href="#" alt="'.$i.'"  id="'.$ini.'" onclick="'.$func.'" class="roundb6  '.$cla.'">'.date('H:i',$ini).'</a>';
-							
+				
 						}
 			
 				if($IDins==0){
@@ -536,13 +859,13 @@ switch($tipolim){
 				}
 				$txt1.='
 				<li>
-				  <a href="#" class="item-link  smart-select"  data-searchbar="false" data-open-in="popup">
+				  <a href="#" class="item-link  smart-select"  data-searchbar="false" data-open-in="picker">
 					<select onchange="'.$func.'" id="orarioadd">
 					<option value="0">Seleziona Orario</option>
 					'.$txtinto.'</select>
 					<div class="item-content">
 					  <div class="item-inner">
-						<div class="item-title">Orario</div>
+						<div class="item-title titleform">Orario</div>
 						<div class="item-after">'.$orario.'</div>
 					  </div>
 					</div>
@@ -553,7 +876,6 @@ switch($tipolim){
 		
 			if(($stamp==0)&&($IDins==0)&&(isset($_SESSION['reload']))){
 				echo '<input type="text" id="reload" value="1">';
-				/*echo '<script>modorpren('.$IDins.','.$IDserv.','.($time0+90000).')</script>';*/
 			}
 			
 			
@@ -565,7 +887,7 @@ switch($tipolim){
 				}
 			
 				$testo2.=$txt1.'
-				<div class="content-block-title" style="margin-top:-25px;margin-bottom:4px;">Persone</div>
+				<div class="titleb" style="text-align:left; margin-left:20px;">Persone</div>
 				<div class="list-block">
 					  <ul>';
 					  
@@ -616,6 +938,13 @@ switch($tipolim){
 							$color='229068';
 							$prezzo='Incluso';	
 						}
+						if($prezzo==0){
+							$dis=' disabled="disabled"';
+							$clas='checked="checked" ';
+							$color='229068';
+							$prezzo='Incluso';
+						}
+						
 						$func='';
 						if($IDins!=0){
 							$func='cambiadestprev('.$row['0'].','.$IDins.','.$IDserv.')';
@@ -648,24 +977,49 @@ switch($tipolim){
 				if($totale==0){
 					if($IDins!=0){
 						$totale='<span style="font-size:16px;">Servizio incluso</span>';
+						$totale='';
 					}else{
-						$buttdel='<br><a href="#" class="button color-red butt90" id="deleteb" onclick="eliminaextraprev('.$IDins.')">Elimina</a>';
-						$totale='Totale: <span id="totaleserv">'.$totale.' Euro</span> ';
+						$buttdel='
+						
+						<div class="list-block">
+						  <ul>
+							<li>
+							  <a href="#" class="item-link list-button " style="font-weight:600; color:#ee1b43;"  onclick="eliminaextraprev('.$IDins.')">ELIMINA</a>
+							</li>
+						</ul>
+						</div>
+						
+						';//<br><a href="#" class="button  " id="deleteb">Elimina</a>
+						//$totale='Totale: <span id="totaleserv">'.$totale.' Euro</span> ';
 					}
 				}else{
-					$totale='Totale: <span id="totaleserv">'.$totale.' Euro</span> ';
-					$buttdel='<br><br><br><br><a href="#" class="button button-fill color-red butt90" id="deleteb" onclick="eliminaextraprev('.$IDins.')">Elimina</a>';
+					//$totale='Totale: <span id="totaleserv">'.$totale.' Euro</span> ';
+					//$totale='';
+					$buttdel='<br><br><br><br><br><br>
+					
+					<div class="list-block">
+						  <ul>
+							<li>
+							  <a href="#" class="item-link list-button " style="font-weight:600; color:#ee1b43;"  onclick="eliminaextraprev('.$IDins.')">ELIMINA</a>
+							</li>
+						</ul>
+						</div>
+					
+					
+					';
+					//<a href="#" class="button button-fill color-red butt90" id="deleteb" onclick="eliminaextraprev('.$IDins.')">Elimina</a>
 				}
-				$testo2.='<div style=" width:95%; font-size:19px; text-align:right; padding-right:15px;">'.$totale.'</div><hr>';
+				//<div style=" width:95%; font-size:19px; text-align:right; padding-right:15px;">'.$totale.'</div><hr>
+				$testo2.='<input type="hidden" id="totalecalcolato" value="'.$totale.'">';
 			
 				if($IDins==0){
-					$testo2.='<span style=" font-size:13px; color:#999;">(*) Per aggiungiere un servizio è necessario selezionare un orario</span>';
+					//$testo2.='<div style=" font-size:14px; width:90%; margin:auto; color:#777; text-align:center;">(*) Per aggiungiere un servizio è necessario selezionare un orario</div>';
 				}else{
-					$testo2.='<span style=" font-size:13px; color:#999;">(*) Ogni modifica viene salvata istantaneamente</span>'.$buttdel;
+					$testo2.='<div style=" font-size:14px; color:#777;text-align:center;">(*) Ogni modifica viene salvata istantaneamente</div>'.$buttdel;
 				}
 				
 				
-				
+				*/
 				
 				
 				
@@ -701,7 +1055,16 @@ switch($tipolim){
 			
 			if($totale!=0){
 				if($IDins!=0){
-					$testo2.='<br><br><br><br><a href="#" class="button button-fill color-red butt90" id="deleteb" onclick="eliminaextraprev('.$IDins.')">Elimina</a>';
+					$testo2.='<br><br><br><br>
+					<div class="list-block">
+						  <ul>
+							<li>
+							  <a href="#" class="item-link list-button " style="font-weight:600; color:#ee1b43;"  onclick="eliminaextraprev('.$IDins.')">ELIMINA</a>
+							</li>
+						</ul>
+						</div>
+					
+					';
 					}
 			}
 			
@@ -733,14 +1096,23 @@ switch($tipolim){
 					</div>
 				  </div>
 				</li>
-			 
 			  </ul>
 			</div>
 			';
 			
 			if($totale!=0){
 				if($IDins!=0){
-					$testo2.='<br><br><br><br><a href="#" class="button button-fill color-red butt90" id="deleteb" onclick="eliminaextraprev('.$IDins.')">Elimina</a>';
+					$testo2.='<br><br><br><br>
+					
+					<div class="list-block">
+						  <ul>
+							<li>
+							  <a href="#" class="item-link list-button " style="font-weight:600; color:#ee1b43;"  onclick="eliminaextraprev('.$IDins.')">ELIMINA</a>
+							</li>
+						</ul>
+						</div>
+					
+					';
 				}
 			}
 			
@@ -753,7 +1125,7 @@ switch($tipolim){
 	
 	
 	
-	
+
 	
 if($IDins!=0){
 	$testo2.='</div></div>';

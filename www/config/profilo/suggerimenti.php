@@ -45,6 +45,7 @@ $testo='<div data-page="suggerimenti" class="page" >
 					</a>
 					</div>
 					<div class="center titolonav">Suggerimenti della Struttura</div>
+					<div class="right"></div>
 				</div>
 			</div>
 			
@@ -59,7 +60,7 @@ $testo='<div data-page="suggerimenti" class="page" >
 		$result=mysqli_query($link2,$query);
 		$row=mysqli_fetch_row($result);
 			 
-		$testo.='<p style="text-align:left; padding:10px; padding-left:25px; color:#333; font-weight:400; font-size:16px; line-height:23px;">'.$row['0'].'</p>';
+		$testo.='<p class="suggerimenti">'.$row['0'].'</p>';
 			  
 			  
 	

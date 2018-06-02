@@ -31,9 +31,6 @@ $testo='
 				</div>
 			</div>
 	            <div class="page-content">
-			
-				
-				
               <div class="content-block" id="notifichediv"> 
 			 ';
 			 

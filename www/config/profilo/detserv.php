@@ -46,7 +46,7 @@ $IDpersserv=$row['8'];
 $IDsalaserv=$row['9'];
 
 
-$foto='immagini/'.getfoto($IDserv,4);
+$foto='immagini/big'.getfoto($IDserv,4);
 
 
 echo '<input type="hidden" id="funcreload" value="navigation(25,'.$ID.',0,1)">';
@@ -57,18 +57,19 @@ $testo='<div data-page="detserv" class="page" >
 				<div class="navbar-inner">
 					<div class="left">
 					
-					  <a href="#" class="link icon-only " onclick=" backexplode(7,0)"   >
-						<i class="material-icons" style="font-size:40px;">chevron_left</i>
+					  <a href="#" class="link icon-only " onclick=" backexplode2(1,0)"   >
+						<i class="material-icons fs40" >chevron_left</i>
 					</a>
 					</div>
 					<div class="center titolonav">'.$servizio.'</div>
+					<div class="right"></div>
 				</div>
 			</div>
 		 <div class="page-content">
               <div class="content-block" id="detserv"> 
 	
-			  <div style="width:100%; position:relative;height:130px; background:url('.$route.$foto.') no-repeat center center; background-size:cover; margin-bottom:20px; margin-top:-28px;box-shadow: 1px 1px 5px 0px rgba(168,168,168,1);">
-<div style="position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:1; background:#333; opacity:0.1;"></div>
+			  <div class="dettaglioserviziodiv" style="background:url('.$route.$foto.') no-repeat center center;">
+			  	<div class="dettagliservoverlay"></div>
 			</div>
 			  
 			  
@@ -173,7 +174,7 @@ if(isset($_GET['dato1'])){
 						<div class="list-block">
   <ul>
     <li>
-      <a href="#" class="item-link smart-select" data-searchbar="false" data-open-in="popup" >
+      <a href="#" class="item-link smart-select" data-searchbar="false" data-open-in="picker" >
         <select id="datamod" onChange="modificaorario('.$ID.',1,this.value,1)">';
 	
 		 for($i=0;$i<=$notti;$i++){
@@ -209,7 +210,7 @@ if(isset($_GET['dato1'])){
 	
 	
 				if($dis1==1){
-					$testo.='<div style="margin:5px; font-size:15px;  color:#a43c32;font-weight:100;">Questo servizio non pu&ograve; essere ricevuto due volte lo stesso giorno.</div>';
+					$testo.='<div class="txtservprenot">Questo servizio non pu&ograve; essere ricevuto due volte lo stesso giorno.</div>';
 				}else{
 					$testo.='
 					 
@@ -280,7 +281,7 @@ if(isset($_GET['dato1'])){
 					$testo.='
 						
 							<li>
-						  <a href="#" class="item-link smart-select" data-open-in="popup">
+						  <a href="#" class="item-link smart-select" data-open-in="picker">
 							<select   onchange="modprofilo('.$ID.',this.value,6,10,5)">
 							  '.$txtinto.'
 							</select>
@@ -316,14 +317,14 @@ if(isset($_GET['dato1'])){
 			  
 		}else{
 			if($tipolim=='1'){
-				$testo.='<p style="padding:10px;">'."<b>Per modificare l'orario si prega di contattare  il personale addetto. <br>Grazie</b></p>";
+				$testo.='<p class="p10" >'."<b>Per modificare l'orario si prega di contattare  il personale addetto. <br>Grazie</b></p>";
 			}
 		}
 			  
 			  
-			  $testo.='<hr style="width:90%; margin:auto; background:#ccc;">
-			  <div style="padding:20px; text-align:center;"><b>Il Servizio</b><br><br>'.traducis($IDserv,2,0,1).'</div>
-			  <hr style="width:90%; margin:auto; background:#ccc; ">
+			  $testo.='<hr class="separa">
+			  <div class="p20 textcenter" ><b>Il Servizio</b><br><br>'.traducis($IDserv,2,0,1).' </div>
+			  <hr class="separa">
 			  
 			 ';
 			   
@@ -335,12 +336,12 @@ if(isset($_GET['dato1'])){
 			  if(($tipolim==2)||($tipolim==1)){
 					
 				 $testo.=' 
-				 	 <div style="padding:20px; text-align:center;">
+				 	 <div class="p20 textcenter"">
 					   <b>Gli Orari</b><br>
 					  '.orariservizio($IDserv).'
 					  
 					  </div>
-					   <hr style="width:90%; margin:auto; background:#ccc; ">
+					   <hr class="separa">
 				 
 				 
 				  ';	
@@ -350,7 +351,7 @@ if(isset($_GET['dato1'])){
 				$querylim="SELECT s.ID,s.nome,s.maxp FROM sale as s,saleassoc as sa WHERE s.IDstr='$IDstr' AND s.ID=sa.ID AND sa.IDsotto='$IDsotto'";
 				$resultlim=mysqli_query($link2,$querylim);
 				if(mysqli_num_rows($resultlim)>0){
-					$testo.='<div style="padding:20px; text-align:center;">
+					$testo.='<div class="p20 textcenter">
 					   <b>Le Sale</b><br>';
 					 
 					while($rowlim=mysqli_fetch_row($resultlim)){
@@ -358,7 +359,7 @@ if(isset($_GET['dato1'])){
 					}	
 					
 					$testo.='</div>
-					 <hr style="width:90%; margin:auto; background:#ccc; ">';
+					 <hr class="separa">';
 				}
 				
 				
@@ -374,7 +375,7 @@ if(isset($_GET['dato1'])){
 			  //operatori
 			  
 
-$testo.='<br><br><div style="width:90%; margin:auto; text-align:center;color:#af2b44;"><span style="font-weight:300; line-height:12px; font-size:12px;">&Egrave; possibile modificare gli orari fino a 4h prima del suo inizio.<br>Per qualsiasi altre informazioni o modifica contrattare la struttura.</span></div>
+$testo.='<br><br><div class="infoservattivi"><span class="infoservattivitxt">&Egrave; possibile modificare gli orari fino a 4h prima del suo inizio.<br>Per qualsiasi altre informazioni o modifica contrattare la struttura.</span></div>
 
 
 

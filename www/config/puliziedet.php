@@ -226,13 +226,13 @@ $testo='
 			
 			*/
 			$testo.='<div style="width:100%; overflow-x:scroll; height:110px; overflow-y:hidden;"><div style="width:500px;">'.$prox.'</div></div>';
-			
+		/*	
 			$testo.='
 				<div class="content-block-title titleb">Stato Pulizia</div>
 				<div class="list-block" >
 				  <ul>
 					<li>
-					  <a href="#" class="item-link smart-select">
+					  <a href="#" class="item-link smart-select" data-open-in="picker">
 						<select name="fruits" onchange="modprenot('.$IDapp.',this.value,17,10,0)" >';
 						  
 						  foreach ($statoarr as $key=>$dato){
@@ -254,7 +254,7 @@ $testo='
 				</ul>
 				</div>   ';
 			
-			
+			*/
 			
 				//prossime 2 prenotazioni
 				

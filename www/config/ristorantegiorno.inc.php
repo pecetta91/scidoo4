@@ -8,7 +8,7 @@ if(!isset($inc)){
 	
 	$IDutente=$_SESSION['ID'];
 	$IDstruttura=$_SESSION['IDstruttura'];
-		
+}
 		
 	if(isset($_GET['dato0'])){
 			if($_GET['dato0']!='0'){
@@ -33,6 +33,7 @@ if(!isset($inc)){
 		$mmsucc=$mm+1;
 	
 	
+	
 	$data=date('Y-m-d',$time);
 	
 	$dataini=$data;
@@ -42,7 +43,7 @@ if(!isset($inc)){
 		$IDsottotip=$_GET['dato1'];
 	}else{
 		if(isset($_SESSION['IDsottotip'])){
-			$IDsottotip=$_GET['dato1'];
+			$IDsottotip=$_SESSION['IDsottotip'];
 		}else{
 			$query2="SELECT ID FROM sottotipologie WHERE IDstr='$IDstruttura' AND IDmain ='1' ORDER BY ord LIMIT 1";
 			$result2=mysqli_query($link2,$query2);
@@ -65,8 +66,7 @@ if(!isset($inc)){
 	$IDtipo=$row['0'];
 	$sottotipname=$row['1'];
 	$inc=1;
-}
-$_SESSION['visristo']=1;
+
 unset($_SESSION['orario']);
 //estrazione IDsottotip
 $ricrea=1;
@@ -79,461 +79,475 @@ if($ricrea==1){
 	$_SESSION['datecentro'][0]=date('Y-m-d',$time);
 }
 
-$testo='<input type="hidden" id="IDsottoristogiorno" value="'.$IDsottotip.'">
+if(isset($_GET['dato2'])){
+	$button=$_GET['dato2'];
+	$_SESSION['visristo']=$button;
+}else{
+	if(isset($_SESSION['visristo'])){
+		$button=$_SESSION['visristo'];
+	}else{
+		$button=0;
+		$_SESSION['visristo']=$button;
+	}
+}
+
+
+
+$testo='
+
+<input type="hidden" id="IDsottoristogiorno" value="'.$IDsottotip.'">
 <input type="hidden" id="timeristogiorno" value="'.$time.'">
 ';
-
-$numtsala=array();
-
-
-				list($yy, $mm, $dd) = explode("-", $data);
-				$time0=mktime(0, 0, 0, $mm, $dd, $yy);
+list($yy, $mm, $dd) = explode("-", $data);
+$time0=mktime(0, 0, 0, $mm, $dd, $yy);
 				$timef=$time0+86400;
-				
-				
-				$orari=array();
-				$steps=3600;
-				
-					$maxp=array();
-					$sale=array();
-					$IDsalamain=0;
-					$query="SELECT s.ID,s.nome,s.maxp FROM sale as s,saleassoc as sc WHERE sc.IDsotto='$IDsottotip' AND sc.ID=s.ID ORDER BY sc.priorita";
-					$result=mysqli_query($link2,$query);
-					if(mysqli_num_rows($result)>0){
-						while($row = mysqli_fetch_row($result)){
-							if($IDsalamain==0)$IDsalamain=$row['0'];
-							$sale[$row['0']]=$row['1'];
-							$maxp[$row['0']]=$row['2'];
+
+
+switch($button)
+{
+	case 0:
+		     
+		
+		$stamp=0;
+		
+		$query="SELECT GROUP_CONCAT(IDpren SEPARATOR ','),COUNT(*) FROM prenextra WHERE FROM_UNIXTIME(time,'%Y-%m-%d')='$data' AND IDstruttura='$IDstruttura' AND IDtipo='1' AND sottotip='$IDsottotip'  GROUP BY sottotip";
+		$result=mysqli_query($link2,$query);
+		if(mysqli_num_rows($result)>0){
+			$row=mysqli_fetch_row($result);
+			$IDprennot=$row['0'];
+			$num=$row['1'];
+		}else{
+			$IDprennot=0;
+			$num=0;
+		}
+		
+		$txt[0]=array();
+		$txt[2]=array();
+				$IDpreng=array();
+		
+		$numpersone[0]=0;
+		$numpersone[1]=0;
+		
+		$query="SELECT P.ID,P.time,P.note,P.IDpren,P.modi,S.servizio,GROUP_CONCAT(P.ID SEPARATOR ',') FROM prenextra as P,servizi AS S,prenextra2 as p2 WHERE FROM_UNIXTIME(P.time,'%Y-%m-%d')='$data' AND P.IDstruttura='$IDstruttura' AND P.IDtipo='1' AND P.sottotip='$IDsottotip' AND P.extra=S.ID AND P.modi>='0' AND p2.IDprenextra=P.ID AND p2.qta>'0' GROUP BY P.sottotip,P.IDpren ORDER BY P.time DESC,p2.qta ";
+		$result=mysqli_query($link2,$query);
+			
+			
+		if(mysqli_num_rows($result)>0){
+			while($row=mysqli_fetch_row($result)){
+				$IDpren=$row['3'];
+					if(!in_array($IDpren,$IDpreng)){	
+					
+					$IDprenunit=prenotstessotav($IDpren,$IDpreng);
+
+					$IDprenextra=$row['0'];
+					$timeprenextra=$row['1'];
+					$note=$row['2'];
+					$servizio=$row['5'];
+					
+					$add=0;
+					$query2="SELECT ID,stato FROM tavoli  WHERE IDprenextra='$IDprenextra' LIMIT 1 ";
+					$result2=mysqli_query($link2,$query2);
+					if(mysqli_num_rows($result2)>0){
+						$row2=mysqli_fetch_row($result2);
+						switch($row2['1']){
+							case 1:
+								$add=1;
+							break;
+							case 2:
+								$add=2;
+							break;
 						}
 					}
 						
-	
-				$firstmain=0;
-	
-					$query="SELECT GROUP_CONCAT(IDpren SEPARATOR ','),COUNT(*) FROM prenextra WHERE FROM_UNIXTIME(time,'%Y-%m-%d')='$data' AND IDstruttura='$IDstruttura' AND IDtipo='1' AND sottotip='$IDsottotip'  GROUP BY sottotip";
-					$result=mysqli_query($link2,$query);
-					if(mysqli_num_rows($result)>0){
-						$row=mysqli_fetch_row($result);
-						$IDprennot=$row['0'];
-						$num=$row['1'];
-					}else{
-						$IDprennot=0;
-						$num=0;
-					}
-					
-					$group='';
-					$query="SELECT GROUP_CONCAT(t.ID SEPARATOR ',') FROM tavoli as t,tavolipren as tp WHERE FROM_UNIXTIME(timefor,'%Y-%m-%d')='$data'  AND t.IDsottotip='$IDsottotip' AND t.ID=tp.IDtav AND tp.IDpren IN($IDprennot) GROUP BY t.IDsottotip";
-					$result=mysqli_query($link2,$query);
-					if(mysqli_num_rows($result)>0){
-						$row=mysqli_fetch_row($result);
-						$group=$row['0']; //tavoli con un servizio prenextra
-					}
-					if(strlen($group)==0)$group=0;
-			
-					$query="SELECT ID FROM tavoli WHERE FROM_UNIXTIME(timefor,'%Y-%m-%d')='$data'  AND IDstr='$IDstruttura' AND attivo>='1' AND IDsottotip='$IDsottotip'  AND ID NOT IN($group)";
-					$result=mysqli_query($link2,$query);
-					$num+=mysqli_num_rows($result);
-					
-					
-					$k=0;
-					$meta=ceil($num/2);
-					$i=0;	
-					
-					$IDpreng=array();
-		
-					$txtk=array(array());
-		
-		
-					
-					$query="SELECT P.ID,P.time,P.note,P.IDpren,P.modi,S.servizio,GROUP_CONCAT(P.ID SEPARATOR ','),P.sala FROM prenextra as P,servizi AS S,prenextra2 as p2 WHERE P.time>'$time0' AND P.time<='$timef' AND P.IDstruttura='$IDstruttura' AND P.IDtipo='1' AND P.sottotip='$IDsottotip' AND P.extra=S.ID AND P.modi>='0' AND p2.IDprenextra=P.ID AND p2.qta>'0' GROUP BY P.sottotip,P.IDpren ORDER BY P.time,P.sala DESC,p2.qta ";
-		
-					$result=mysqli_query($link2,$query);
-					
-					if(mysqli_num_rows($result)>0){
-						while($row=mysqli_fetch_row($result)){
-							$IDpren=$row['3'];
-								if(!in_array($IDpren,$IDpreng)){	
+					if(($add==0)||($add==2)){
+
+							$arr=explode(',',$IDprenunit);
+							foreach ($arr as $dato){
+								array_push($IDpreng,$dato);
+							}
 								
-									
-								
-								$IDprenunit=prenotstessotav($IDpren,$IDpreng);
-								$IDprenunitmain=$IDprenunit;
-								
-								$IDprenextra=$row['0'];
-								$timeprenextra=$row['1'];
-								$note=$row['2'];
-								$servizio=$row['5'];
-								$IDsalap=$row['7'];
-									
-								$query2="SELECT t.ID,t.num,t.attivo,t.IDpersonale FROM tavoli as t,tavolipren as tp WHERE tp.IDpren='$IDpren'  AND t.IDsottotip='$IDsottotip' AND t.attivo>='1' AND tp.IDtav=t.ID AND t.timefor>'$time0' AND t.timefor<='$timef' ";
-								
-								$result2=mysqli_query($link2,$query2);
-								if(mysqli_num_rows($result2)>0){
-									$row2=mysqli_fetch_row($result2);
-									$nometavolo=''.$row2['1'];
-									$IDtavolo=$row2['0'];	
-									$attivo=$row2['2'];
-									$IDperson=$row2['3'];
-								}else{
-									$nometavolo='-';
-									$IDtavolo=0;
-									$attivo=0;
-									$IDperson=0;
-								}
-								$colort="";$colort2="fff";
-								if($row['4']<='1'){$colort="info";}
-								if($row['4']=='2'){$colort="success";}
-								
-								$nomepren='';
-								$nomeapp='';
 						
-								if($IDtavolo==0){
-									
-									$query2="SELECT GROUP_CONCAT(P.IDpren SEPARATOR ',') FROM prenextra as P WHERE P.time>'$time0' AND P.time<='$timef' AND P.IDstruttura='$IDstruttura' AND P.IDtipo='1' AND P.sottotip='$IDsottotip' AND P.modi>='0' AND P.IDpren IN($IDprenunit) GROUP BY P.IDstruttura";
-									$result2=mysqli_query($link2,$query2);
-									$row2=mysqli_fetch_row($result2);
-									$IDprenunit=$row2['0'];
-									
-									
-									$arr=explode(',',$IDprenunit);
-									foreach ($arr as $dato){
-										array_push($IDpreng,$dato);
-									}
-										
-									
-									
-								}else{
-									//controlla in base a persone interne //IDinfop
-									
-									
-									$query2="SELECT GROUP_CONCAT(IDinfop SEPARATOR ','),COUNT(*),attivo  FROM personetav WHERE IDtavolo='$IDtavolo' AND IDinfop!='0'  GROUP BY IDtavolo ";
-									$result2=mysqli_query($link2,$query2);
-									if(mysqli_num_rows($result2)>0){
-										$row2=mysqli_fetch_row($result2);
-										$IDgroup=$row2['0'];
-										$npers=$row2['1'];
-									}else{
-										$IDgroup=0;
-									}
-									if(strlen($IDgroup)==0){$IDgroup=0;}
-			
-									$query2="SELECT GROUP_CONCAT(DISTINCT(IDpren) SEPARATOR ',') FROM infopren WHERE ID IN($IDgroup) GROUP BY IDstr";
-									$result2=mysqli_query($link2,$query2);
-									$row2=mysqli_fetch_row($result2);
-									
-									$IDprenunit=$row2['0'];
-									
-									$arr=explode(',',$IDprenunit);
-									foreach ($arr as $dato){
-										array_push($IDpreng,$dato);
-									}
-								}
-			
-			
-									
+						$nomepren='';
+						$query2="SELECT a.nome,p.IDv FROM appartamenti as a,prenotazioni as p WHERE p.IDv IN($IDprenunit) AND p.IDstruttura='$IDstruttura' AND p.app=a.ID";
+						$result2=mysqli_query($link2,$query2);
+						$nomeapp='';
+						if(mysqli_num_rows($result2)>0){
+							while($row2=mysqli_fetch_row($result2)){
 								
-								$query2="SELECT a.nome,p.IDv FROM appartamenti as a,prenotazioni as p WHERE p.IDv IN($IDprenunit) AND p.IDstruttura='$IDstruttura' AND p.app=a.ID";
-								$result2=mysqli_query($link2,$query2);
-								$nomeapp='(';
-								if(mysqli_num_rows($result2)>0){
-									while($row2=mysqli_fetch_row($result2)){
-										if($IDtavolo!=0){
-											$query3="SELECT IDpren FROM tavolipren WHERE IDtav='$IDtavolo' AND IDpren='".$row2['1']."' LIMIT 1";
-											$result3=mysqli_query($link2,$query3);
-											if(mysqli_num_rows($result3)>0){
-												$nomepren.='<b>'.estrainome($row2['1']).'</b><br>';
-												$nomeapp.=''.$row2['0'].' , ';
-											}else{
-												$nomepren.='<b style="color:#dc2b00;">'.estrainome($row2['1']).'</b><br>';
-												$nomeapp.=''.$row2['0'].' , ';
-											}
-										}else{
-											$nomepren.='<b>'.estrainome($row2['1']).'</b><br>';
-											$nomeapp.=''.$row2['0'].' , ';
-										}
-									}
-									$nomepren=substr($nomepren, 0, strlen($nomepren)-5).'<br>'; 
-									$nomeapp=substr($nomeapp, 0, strlen($nomeapp)-3); 
+								$nomepren.=estrainome($row2['1']).', ';
+								$nomeapp.=''.$row2['0'].' , ';
+								
+							}
+							$nomepren=substr($nomepren, 0, strlen($nomepren)-2).'<br>'; 
+							$nomeapp=substr($nomeapp, 0, strlen($nomeapp)-3).'<br>'; 
+						}else{
+							$nomeapp="";
+							$nomepren="";
+						}
+						
+						$elimina=1;
+						
+						$query2="SELECT GROUP_CONCAT(p2.IDinfop SEPARATOR ','),COUNT(*),GROUP_CONCAT(p2.pacchetto SEPARATOR ','),GROUP_CONCAT(DISTINCT(p.ID) SEPARATOR ',')  FROM prenextra as p,prenextra2 as p2 WHERE FROM_UNIXTIME(p.time,'%Y-%m-%d')='$data' AND p.IDstruttura='$IDstruttura' AND  p.sottotip='$IDsottotip' AND p2.IDprenextra=p.ID AND p.modi>='0' AND p2.qta>'0' AND p.IDpren IN($IDprenunit) GROUP BY p.IDstruttura ";
+						$result2=mysqli_query($link2,$query2);
+						$row2=mysqli_fetch_row($result2);
+						$IDgroup=$row2['0'];
+						$npers=$row2['1'];
+						$pacchetto=explode(',',$row2['2']);
+						
+						$IDprenextragroup=$row2['3'];
+						
+						
+						foreach($pacchetto as $dato){
+							if(!is_numeric($dato)){
+								$elimina=0;
+								break;
+							}
+						}
 			
-									$nomeapp.=')';
+						
+						$notecli='';
+						/*$query2="SELECT i.ID,GROUP_CONCAT(CONCAT('<b>',s.nome,' ',s.cognome,':</b> ',s.noteristo,' ') SEPARATOR '<br>') FROM infopren as i,schedine as s WHERE i.ID IN($IDgroup) AND i.IDcliente=s.ID AND s.noteristo!='' LIMIT 1";
+						$result2=mysqli_query($link2,$query2);
+						if(mysqli_num_rows($result2)>0){
+							$row2=mysqli_fetch_row($result2);
+							if(strlen($row2['1'])>0){
+								$notecli='<div class="shortcut mini17 danger infoicon popover" style="float:right;"><span>
+								<b style="color:#f02415;">Note Clienti</b><br>'.$row2['1'].'</span></div>';
+							}
+						}*/
+						
+						
+						$query2="SELECT i.ID FROM infopren as i,schedine as s WHERE i.ID IN($IDgroup) AND i.IDcliente=s.ID AND s.noteristo!='' LIMIT 1";
+						$result2=mysqli_query($link2,$query2);
+						if(mysqli_num_rows($result2)>0){
+							$notecli='<i class="f7-icons" style="color:#ba1515;font-size:16px;">info</i>';
+						}
+						
+				            $numpersone[$add]+=$npers;
+							
+							if(!isset($txt[$add][$timeprenextra])){
+								$txt[$add][$timeprenextra]='';
+							}
+						
+							$txt[$add][$timeprenextra].='
+							<div class="row rowlist no-gubber" onclick="elencotavoli('.$IDprenextra.','.$elimina.','."'".$IDprenextragroup."'".');">
+							<div class="col-10">'.date('H:i',$timeprenextra).'</div>
+							<div class="col-5">'.$notecli.'</div>
+							<div class="col-45 h45 f15 coltitle" >
+								<b>'.$nomepren.'</b>
+								<span>'.$nomeapp.'</span>
+							</div>
+							<div class="col-25 h40 f13">
+								<span style="color:#e4492b;">'.$servizio.'</span>
+							</div>
+							<div class="col-15 h40">
+								'.$npers.' <i class="material-icons">person</i>
+							</div>
+							</div>
+							
+							';
+							
+		
+							$timearray[$timeprenextra]=1;
+						}
+					}
+				}
+			}
+		
+		
+		
+			
+			
+			
+			if(!empty($txt[0])){
+				$testo.='<br/>
+					 <div class="sale" style="margin-left:15px; margin-bottom:5px; text-align:left;">
+					 <div style="width:100%; font-size:15px; font-weight:600;  color:#888; ">Tavoli Prenotati</div></div>';
+				ksort($txt['0']);
+					
+				foreach ($txt['0'] as $timep =>$dato){
+					//$testo.='<div class="titleb">'.date('H:i',$timep).'</div>'.$dato.'<br>';
+					$stamp=1;
+					$testo.=$dato;
+				}
+				
+
+			}
+		
+		
+		
+		$query="SELECT sale.ID,sale.nome FROM sale,saleassoc WHERE sale.IDstr='$IDstruttura' AND saleassoc.IDsotto='$IDsottotip' AND saleassoc.ID=sale.ID ORDER BY saleassoc.priorita";
+		$result=mysqli_query($link2,$query);
+		while($row=mysqli_fetch_row($result)){
+			$IDsala=$row['0'];
+			$nomesala=$row['1'];
+			
+			
+
+			$arrt=array();
+			$query2="SELECT GROUP_CONCAT(IDprenextra SEPARATOR ','),num FROM tavoli WHERE 	IDsottotip='$IDsottotip' AND sala='$IDsala' AND FROM_UNIXTIME(time,'%Y-%m-%d')='$data' AND stato='1' GROUP BY num";
+			$result2=mysqli_query($link2,$query2);
+			if(mysqli_num_rows($result2)>0){
+				
+				$testo.='<br/><br/>
+				 <div class="sale" style="margin-left:15px; margin-bottom:5px; text-align:left;">
+					 <div style="width:100%; font-size:15px; font-weight:600;  color:#777; ">'.$nomesala.'</div></div>
+				
+				';
+				$stamp=1;
+				
+				while($row2=mysqli_fetch_row($result2)){
+					$arrt[$row2['1']]=$row2['0'];
+
+				}
+			}
+
+
+			$query3="SELECT dato1,dato2 FROM sale WHERE ID='$IDsala' AND IDstr='$IDstruttura' LIMIT 1";
+			$result3=mysqli_query($link2,$query3);
+			$row3=mysqli_fetch_row($result3);
+			$dato1=$row3['0'];
+			$dato2=$row3['1'];
+
+
+			for($i=$dato1;$i<=$dato2;$i++){
+				if(isset($arrt[$i])){
+
+
+
+						$query4="SELECT GROUP_CONCAT(P.IDpren SEPARATOR ','),ID,P.time FROM prenextra as P WHERE  FROM_UNIXTIME(P.time,'%Y-%m-%d')='$data' AND P.IDstruttura='$IDstruttura' AND P.IDtipo='1' AND P.sottotip='$IDsottotip' AND P.modi>='0' AND P.ID IN(".$arrt[$i].") GROUP BY P.IDstruttura";
+						$result4=mysqli_query($link2,$query4);
+						$row4=mysqli_fetch_row($result4);
+						$IDprenunit=$row4['0'];
+						$arr2=explode(',',$IDprenunit);
+						$IDpren=$arr2['0'];
+						$IDprenextra=$row4['1'];
+						$timeprenextra=$row4['2'];
+
+						$nomepren='';
+							$query5="SELECT a.nome,p.IDv FROM appartamenti as a,prenotazioni as p WHERE p.IDv IN($IDprenunit) AND p.IDstruttura='$IDstruttura' AND p.app=a.ID";
+							$result5=mysqli_query($link2,$query5);
+							$nomeapp='';
+							if(mysqli_num_rows($result5)>0){
+								while($row5=mysqli_fetch_row($result5)){
+
+									$nomepren.=estrainome($row5['1']).', ';
+									$nomeapp.=''.$row5['0'].' , ';
+
+								}
+								$nomepren=substr($nomepren, 0, strlen($nomepren)-2).'<br>'; 
+								$nomeapp=substr($nomeapp, 0, strlen($nomeapp)-3); 
+
+
+							}else{
+								$nomeapp="";
+								$nomepren="";
+							}
+
+							$query6="SELECT GROUP_CONCAT(p2.IDinfop SEPARATOR ','),COUNT(*)  FROM prenextra as p,prenextra2 as p2 WHERE FROM_UNIXTIME(p.time,'%Y-%m-%d')='$data' AND p.IDstruttura='$IDstruttura' AND  p.sottotip='$IDsottotip' AND p2.IDprenextra=p.ID AND p.modi>='0' AND p2.qta>'0' AND p.IDpren IN($IDprenunit) GROUP BY p.IDstruttura ";
+							$result6=mysqli_query($link2,$query6);
+							$row6=mysqli_fetch_row($result6);
+							$IDgroup=$row6['0'];
+							$npers=$row6['1'];
+
+
+
+							$notecli='';
+					
+						$query2="SELECT i.ID FROM infopren as i,schedine as s WHERE i.ID IN($IDgroup) AND i.IDcliente=s.ID AND s.noteristo!='' LIMIT 1";
+						$result2=mysqli_query($link2,$query2);
+						if(mysqli_num_rows($result2)>0){
+							$notecli='<i class="f7-icons" style="color:#ba1515;font-size:16px;">info</i>';
+						}
+					/*
+							$query7="SELECT i.ID,GROUP_CONCAT(CONCAT('<b>',s.nome,' ',s.cognome,':</b> ',s.noteristo,' ') SEPARATOR '<br>') FROM infopren as i,schedine as s WHERE i.ID IN($IDgroup) AND i.IDcliente=s.ID AND s.noteristo!='' LIMIT 1";
+							$result7=mysqli_query($link2,$query7);
+							if(mysqli_num_rows($result7)>0){
+								$row7=mysqli_fetch_row($result7);
+								if(strlen($row7['1'])){
+									$notecli='<div class="shortcut mini17 info infoicon popover" style="position:absolute; right:-2px;z-index:2; top:4px;"><span>
+									<b style="color:#f02415;">Note Clienti</b><br><br>
+
+									'.$row7['1'].'</span></div>';
+								}
+							}*/
+
+
+						$testo.='
+						
+						
+						<div class="row rowlist no-gubber" onclick="tavolisala('.$IDprenextra.');">
+							<div class="col-10"><div style="background:#ff9c00; width:100%; text-align:center; font-weight:400; color:#fff; padding:3px; border-radius:4px;">'.$i.'</div></div>
+							<div class="col-5">'.$notecli.'</div>
+							<div class="col-45 f15 h40 coltitle" >
+								<b>'.$nomepren.'</b>
+								<span>'.$nomeapp.'</span>
+							</div>
+							<div class="col-25 h45 f13">
+								<span style="color:#e4492b;">'.$servizio.'</span>
+							</div>
+							<div class="col-15 h40">
+								'.$npers.' <i class="material-icons">person</i>
+							</div>
+							</div>
+					';
+				}
+
+			}
+		}
+		
+		
+		if(!empty($txt[2])){
+			$testo.='<br/>
+				<div class="sale" style="margin-left:20px; margin-bottom:15px; text-align:left;">
+				<div style="border-bottom:solid 1px #33ae59; color:#33ae59;">Tavoli conclusi</div></div>';
+			$stamp=1;
+			foreach ($txt['2'] as $timep =>$dato){
+				$testo.=$dato;
+				
+			}
+		}
+		
+		
+		if($stamp==0){
+			$testo.='<br/><br/>Non ci sono tavoli prenotati<br><br><br><br>
+			
+			<button class="button button-raised button-fill" onclick="navigation(34,'."'".$time.','.$IDsottotip."'".','."'nuovotavolo'".',0);">Aggiungi una Prenotazione</button>
+			';
+		}
+		
+		
+		$testo.='<br/><br/><br/><br/>';	    
+	break;
+		
+	case 1:  
+		    // $testo.='sale ';
+		
+		     
+		
+		$query="SELECT sale.ID,sale.nome FROM sale,saleassoc WHERE sale.IDstr='$IDstruttura' AND saleassoc.IDsotto='$IDsottotip' AND saleassoc.ID=sale.ID ORDER BY saleassoc.priorita";
+		$result=mysqli_query($link2,$query);
+		while($row=mysqli_fetch_row($result)){
+				$IDsala=$row['0'];
+				$nomesala=$row['1'];
+
+				$testo.='<div class="titleb" style="font-size:16px;  width:90%; text-align:left;color:#333; margin-left:15px;">'.$nomesala.'</div><br/>
+				<div class="row no-gutter">
+
+				';
+
+				$arrt=array();
+				$query2="SELECT GROUP_CONCAT(IDprenextra SEPARATOR ','),num FROM tavoli WHERE 	IDsottotip='$IDsottotip' AND sala='$IDsala' AND FROM_UNIXTIME(time,'%Y-%m-%d')='$data' AND stato='1' GROUP BY num";
+				$result2=mysqli_query($link2,$query2);
+				if(mysqli_num_rows($result2)>0){
+					while($row2=mysqli_fetch_row($result2)){
+						$arrt[$row2['1']]=$row2['0'];
+
+					}
+				}
+
+
+				$query3="SELECT dato1,dato2 FROM sale WHERE ID='$IDsala' AND IDstr='$IDstruttura' LIMIT 1";
+				$result3=mysqli_query($link2,$query3);
+				$row3=mysqli_fetch_row($result3);
+				$dato1=$row3['0'];
+				$dato2=$row3['1'];
+
+
+				for($i=$dato1;$i<=$dato2;$i++){
+					if(isset($arrt[$i])){
+
+							$query4="SELECT GROUP_CONCAT(P.IDpren SEPARATOR ','),ID,P.time FROM prenextra as P WHERE  FROM_UNIXTIME(P.time,'%Y-%m-%d')='$data' AND P.IDstruttura='$IDstruttura' AND P.IDtipo='1' AND P.sottotip='$IDsottotip' AND P.modi>='0' AND P.ID IN(".$arrt[$i].") GROUP BY P.IDstruttura";
+							$result4=mysqli_query($link2,$query4);
+							$row4=mysqli_fetch_row($result4);
+							$IDprenunit=$row4['0'];
+							$arr2=explode(',',$IDprenunit);
+							$IDpren=$arr2['0'];
+							$IDprenextra=$row4['1'];
+							$timeprenextra=$row4['2'];
+
+
+							$nomepren='';
+								$query5="SELECT a.nome,p.IDv FROM appartamenti as a,prenotazioni as p WHERE p.IDv IN($IDprenunit) AND p.IDstruttura='$IDstruttura' AND p.app=a.ID";
+								$result5=mysqli_query($link2,$query5);
+								$nomeapp='';
+								if(mysqli_num_rows($result5)>0){
+									while($row5=mysqli_fetch_row($result5)){
+
+										$nomepren.=estrainome($row5['1']).', ';
+										$nomeapp.=''.$row5['0'].' , ';
+
+									}
+									$nomepren=substr($nomepren, 0, strlen($nomepren)-2).'<br>'; 
+									$nomeapp=substr($nomeapp, 0, strlen($nomeapp)-3); 
+
+
 								}else{
 									$nomeapp="";
 									$nomepren="";
 								}
-								
-								
-								if($IDtavolo==0){				
-									$query2="SELECT GROUP_CONCAT(p2.IDinfop SEPARATOR ','),COUNT(*)  FROM prenextra as p,prenextra2 as p2 WHERE p.time>'$time0' AND p.time<='$timef' AND p.IDstruttura='$IDstruttura' AND  p.sottotip='$IDsottotip' AND p2.IDprenextra=p.ID AND p.modi>='0' AND p2.qta>'0' AND p.IDpren IN($IDprenunit) GROUP BY p.IDstruttura ";
-									$result2=mysqli_query($link2,$query2);
-									$row2=mysqli_fetch_row($result2);
-									$IDgroup=$row2['0'];
-									$npers=$row2['1'];
-					
-								
-								}else{
-									$query2="SELECT GROUP_CONCAT(IDinfop SEPARATOR ','),COUNT(*)  FROM personetav WHERE IDtavolo='$IDtavolo' AND IDinfop!='0' AND attivo='1' GROUP BY IDtavolo ";
-									$result2=mysqli_query($link2,$query2);
-									$row2=mysqli_fetch_row($result2);
-									$IDgroup=$row2['0'];
-									$npers=$row2['1'];
-								}
-	
-								
-								
-								$notecli='';
-								$query2="SELECT i.ID FROM infopren as i,schedine as s WHERE i.ID IN($IDgroup) AND i.IDcliente=s.ID AND s.noteristo!='' LIMIT 1";
-								$result2=mysqli_query($link2,$query2);
-								$nott='';
-								if(mysqli_num_rows($result2)>0){
-									$nott='<br><b style="color:#bb2c1d;font-size:10px;">Ci sono delle note</b>';
-								}
-	
-								
-								$funct='nuovotavolo('.$IDtavolo.','.$row['3'].')';
-								if($nott==1){
-									$cl='infcol';
-								}else{
-									$cl='setcol';
-								}
-		
-									$statop='Prenotato';
-									switch($attivo){
-										case 1:
-											$statop='In Sospeso';
-											$class='tav1';
-										break;
-										case 2:
-											$statop='Stampato';
-											$class='tav2';
-										break;
-										case 3:
-											$statop='Prenotato';
-											$class='tav4';
-										break;
-										default:
-											$statop='Prenotato';
-											$class='tav3';
-										break;
-									}
-									
-									//$azz='';
-									
-									if($IDsalap==0){$IDsalap=$IDsalamain;}
-									
-									if(!isset($txtk[$IDsalap])){
-										$txtk[$IDsalap]='';
-										$numtsala[$IDsalap]=0;
-										//$azz='aaa';
-									}
-									$numtsala[$IDsalap]++;
-	
-								$txtk[$IDsalap].='
-								
-									
-									<li>
-									  <a href="#" onclick="navigation(15,'.$IDprenextra.',0,0)" class="item-link item-content">
-										<div class="item-media"><div class="ntavolo '.$class.'">'.$nometavolo.'</div></div>
-										<div class="item-inner">
-										  <div class="item-title">'.$nomepren.'<br><span style="font-size:11px;color:#666; font-weight:400;">'.$nomeapp.' '.$servizio.'</span>'.$nott.'</div>
-										  <div class="item-after"><table><tr><td style="border-right:solid 1px #ccc; color:#1649b1;">
-											 '.$npers.' <i class="material-icons" style="font-size:15px; color:#1649b1;">person</i>
-											 </td>
-											 <td>
-											 '.date('H:i',$timeprenextra).'
-											 </td></tr></table></div>
-										</div>
-									  </a>
-									</li>
-									
-								
-								
-								
-								
-								';
-	
-	
-	
-	
-	
-								}
-						}
-					}
-					
-		
-				
-		$query="SELECT ID,num,note,menu,attivo,IDpersonale,timefor FROM tavoli WHERE timefor>'$time0' AND timefor<='$timef' AND IDstr='$IDstruttura' AND attivo>='1' AND IDsottotip='$IDsottotip' AND ID NOT IN($group) ORDER BY time DESC ";
-		$result=mysqli_query($link2,$query);
-		if(mysqli_num_rows($result)>0){
-			while($row=mysqli_fetch_row($result)){
-				$IDperson=$row['5'];
-				$IDtav=$row['0'];				
-				$group2='0';		
-				$query2="SELECT GROUP_CONCAT(IDinfop SEPARATOR ',') FROM personetav WHERE IDtavolo='$IDtav' AND IDinfop!='0' AND attivo='1' GROUP BY IDtavolo ";
-				$result2=mysqli_query($link2,$query2);
-				if(mysqli_num_rows($result2)>0){
-					$row2=mysqli_fetch_row($result2);
-					$IDgroup=$row2['0'];
-					if(strlen($IDgroup)>0){
-						$query2="SELECT GROUP_CONCAT(DISTINCT(IDpren) SEPARATOR ',') FROM infopren WHERE ID IN($IDgroup) GROUP BY IDstr";
-						$result2=mysqli_query($link2,$query2);
-						$row2=mysqli_fetch_row($result2);
-						$group2=$row2['0'];	
-					}else{
-						$query2="SELECT GROUP_CONCAT(IDpren) FROM tavolipren WHERE IDtav='$IDtav' GROUP BY IDtav";
-						$result2=mysqli_query($link2,$query2);
-						
-						if(mysqli_num_rows($result2)>0){
-							$row2=mysqli_fetch_row($result2);
-							$group2=$row2['0'];
-							if(strlen($group2)==0)$group2='0';
-						}	
-					}
-					
-				}else{
-					$query2="SELECT GROUP_CONCAT(IDpren) FROM tavolipren WHERE IDtav='$IDtav' GROUP BY IDtav";
-					$result2=mysqli_query($link2,$query2);
-					$group2='0';
-					if(mysqli_num_rows($result2)>0){
-						$row2=mysqli_fetch_row($result2);
-						$group2=$row2['0'];
-						if(strlen($group2)==0)$group2='0';
-					}				
-				}
-				
-				if($group2==0){
-					$note=$row['2'].'<br><span style="font-size:11px;">'.$menus[$row['3']].'</span>';
-				}else{
-					$note=estrainome($group2).'<br><span style="font-size:11px;">('.estrainomeapp($group2,0).')</span>';
-				}
-				
-				
-				$funct='openord('.$row['0'].')';
-				
-				$tdadd='<td class="infoicon setcol" label="'.$row['0'].'" style="width:30px;" onclick="nuovotavolo('.$row['0'].',0,1)"></td>';
-				
-				//$tdadd='<td class="settingmod3" style="width:30px;background-color:#ccc;" onclick="nuovotavolo('.$row['0'].',0,1)"></td>';
-				
-				$servizio=$menus[$row['3']];
-				
-				$query2="SELECT ID FROM personetav WHERE IDtavolo='$IDtav' AND attivo='1'";
-				$result2=mysqli_query($link2,$query2);
-				$numerop=mysqli_num_rows($result2);
-				
-				
-			
-				$statop='Prenotato';
-				switch($row['4']){
-					case 1:
-						$statop='In Sospeso';
-						$class='tav1';
-					break;
-					case 2:
-						$statop='Stampato';
-						$class='tav2';
-					break;
-					case 3:
-						$statop='Prenotato';
-						$class='tav4';
-					break;
-					default:
-						$statop='Prenotato';
-						$class='tav3';
-					break;
-				}
-		
-				
-				
-				if(!isset($txtk[$IDsalamain])){$txtk[$IDsalamain]='';}								
-									$txtk[$IDsalamain].='
-									
-										<li class="accordion-item">
-										 <a href="#" class="item-content item-link">
-										  <div class="item-inner">
-										  	<div class="item-media">'.$row['1'].'</div>
-											<div class="item-title" >'.$note.'<br><span style="font-size:11px;">'.$person[$IDperson].'</span></div>
-											<div class="item-after">'.date('H:i',$row['6']).'</div>
-										  </div>
-										  </a>
-										
-										 <div class="accordion-item-content">
-											<div class="content-block">
-											</div>
-										  </div>
-										</li>
-									
-									';
-				
-			}
-		}
-				
-				
-						$testo.= ' 
-					<div class="subnavbar">
-							  <div class="buttons-row" >
-								';
-	
-					$txtinto='';
-					
-					foreach($sale as $IDsala =>$nomesala){
-							$active='';
-						if($firstmain==0){
-							$active='active';
-							$firstmain++;
-						}	
-						$badge='';	
-						if(isset($txtk[$IDsala])){
-							$badge='<div class="badge bg-red bagristo">'.$numtsala[$IDsala].'</div>';
-						}
-							
-						$testo.='<a href="#IDsalaristo'.$IDsala.'"  onclick="IDtabac2='."'IDsalaristo".$IDsala."';".'" class="tab-link button   '.$active.' " style="overflow:visible;">'.$nomesala.'
-						'.$badge.'
-						</a>';
-								
-						$txtinto.='<div id="IDsalaristo'.$IDsala.'" class="tab   '.$active.'" >
-						
-						';
-						
-						
-						if(isset($txtk[$IDsala])){
-							$txtinto.='<br/><div class="list-block">
-      							<ul>'.$txtk[$IDsala].'<ul></div>';
-							
-							/*sort($txtk[$IDsala]);
-							foreach ($txtk[$IDsala] as $times =>$dato){
-								$txtinto.=$dato;
-							}*/
-							//$txtinto.='<ul></div>';
-						}else{
-						
-						}
-	
-						
-						
-						$txtinto.='</div>';
-						
-					}
-						
-					$testo.='
-					</div>
-					</div>
-					</div>
-		       	 <div class="page-content">
-		     	 <div class="content-block" id="ristorantegiornodiv" style="padding:0px; width:100%;">
-					
-						<div class="tabs-swipeable-wrap" >
-						<div class="tabs"  valign="top" id="tabscentro">
-							'.$txtinto.'
-							</div>	
-						  </div>
-						 
-						</div>
-						 </div>
-						  ';
-						  
-		if($solotxtinto==0){
-			echo $testo;	
-		}else{
-			echo $txtinto;
-		}
 
-?>
+								$query6="SELECT GROUP_CONCAT(p2.IDinfop SEPARATOR ','),COUNT(*)  FROM prenextra as p,prenextra2 as p2 WHERE FROM_UNIXTIME(p.time,'%Y-%m-%d')='$data' AND p.IDstruttura='$IDstruttura' AND  p.sottotip='$IDsottotip' AND p2.IDprenextra=p.ID AND p.modi>='0' AND p2.qta>'0' AND p.IDpren IN($IDprenunit) GROUP BY p.IDstruttura ";
+								$result6=mysqli_query($link2,$query6);
+								$row6=mysqli_fetch_row($result6);
+								$IDgroup=$row6['0'];
+								$npers=$row6['1'];
+
+
+
+								$notecli='';
+								$query7="SELECT i.ID,GROUP_CONCAT(CONCAT('<b>',s.nome,' ',s.cognome,':</b> ',s.noteristo,' ') SEPARATOR '<br>') FROM infopren as i,schedine as s WHERE i.ID IN($IDgroup) AND i.IDcliente=s.ID AND s.noteristo!='' LIMIT 1";
+								$result7=mysqli_query($link2,$query7);
+								if(mysqli_num_rows($result7)>0){
+									$row7=mysqli_fetch_row($result7);
+									if(strlen($row7['1'])){
+										$notecli='<div class="shortcut mini17 info infoicon popover" style="position:absolute; right:-2px;z-index:2; top:4px;"><span>
+										<b style="color:#f02415;">Note Clienti</b><br><br>
+
+										'.$row7['1'].'</span></div>';
+									}
+								}
+			
+								$testo.='
+									<div class="col-33">
+									<div class="tavolodiv occupato" onclick="tavoloprenotato('.$IDprenextra.');"><div style="line-height:20px;">
+									'.$notecli.'
+
+									  <div class="num">'.$i.'</div>
+									  <div class="nomeprent">'.$nomepren.'</div>
+									  <div style="font-size:11px;">'.$nomeapp.'</div>
+									  <span style="font-size:13px;line-height:25px;">'.date('H:i',$timeprenextra).'</span>
+									  <span style="margin-left:25px">'.$npers.' <i class="material-icons" style="font-size:12px;">person</i></span>
+									</div>	
+							</div>
+							</div>
+						 ';
+
+				}else{
+						$tavolo="'".$i.'_'.$IDsala."'";
+						$testo.='
+						<div class="col-33">
+							<div class="tavolodiv libero" onclick="vistasalelib('.$time.','.$IDsottotip.','.$tavolo.');">
+
+							<div class="num">'.$i.'</div>
+							<div  style="color:#39b071;">Libero</div>
+							</div>
+						</div>
+
+						';
+				}
+			}//chiusura for
+			
+			$testo.='<div style="width:100%; height:35px;"></div>';
+		}										
+		$testo.='</div>';
+
+		break;
+}
+
+echo '<div class="content-block" id="ristorantegiornodiv" align="center" style="padding:0px; width:100%;">'.$testo.'</div>';	
+				 
+?>	
+
+						  
+						  

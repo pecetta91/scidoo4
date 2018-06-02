@@ -58,7 +58,21 @@ $testo='<div data-page="suggerimenti" class="page" >
 					</a>
 					</div>
 					<div class="center titolonav">Recensioni</div>
+					<div class="right"></div>
 				</div>
+			</div>
+			<div class="bottombarpren" style="background:#f1f1f1;z-index:999" align="center">
+			  <table style="width:100%;height:100%;cellpadding:0;cellspacing:0;">
+			   <tr>
+			     <td style="width:15%">
+                 </td>
+				<td>
+		       <button class="button button-fill color-green bottoneprezzo" style="margin:auto;" onclick="navigation(32,0,0,0)">Scrivi Recensione</button>
+			    </td>
+				 <td style="width:15%">
+                 </td>
+			   </tr>
+			  </table>
 			</div>
 			
 			
@@ -106,7 +120,7 @@ $testo='<div data-page="suggerimenti" class="page" >
 							}
 							
 							$testo.=$row['1'].'</div>
-							<div class="item-after" style="font-size:11px; color:#999;">'.dataita5($row['3']).'</div>
+							<div class="item-after fs11 c999">'.dataita5($row['3']).'</div>
 						  </div>
 						  
 						  <div class="item-text">'.$row['2'].'</div>

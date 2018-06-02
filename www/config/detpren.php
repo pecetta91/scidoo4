@@ -55,15 +55,11 @@ $arrstato=array('Da Confermare','Confermata Senza Acconto','Confemata Con Accont
 $colorstato=array('d43650','3688d4','d4b836','d436cb','27be59');
 
 <div data-page="detpren" class="page navbar-fixed" style="overflow:hidden; padding-top:40px;" > 
-
+<a href="#" class="button tl tab-link" id="m2" onclick="navigationtxt(2,'."'".$id.",2'".','."'contenutop'".',1)"" >Ospiti</a>
 */
 $testo=  '
 <div class="pages navbar-fixed">
   <div data-page="depren" class="page with-subnavbar">
-
-
-            <!-- Scrollable page content--> 
-			
 			
 			<input type="hidden" id="IDprenfunc" value="'.$id.'">
 			<input type="hidden" id="IDprentime" value="'.$time.'">
@@ -72,14 +68,12 @@ $testo=  '
 		<div class="navbar">
       <div class="navbar-inner">
         
-		<div class="left" > <a href="#" class="link back" onclick="openp=0;">
-							<i class="material-icons" style="font-size:40px;">chevron_left</i>
+		<div class="left"><a href="#" class="link" onclick="openp=0;backexplode(9);">
+							<i class="material-icons">chevron_left</i>
 						</a></div>
 					<div class="center titolonav">'.$nome.'</div>
 					<div class="right">
-						<a href="#" onclick="addservice('.$id.')">
-							<i class="material-icons">add</i>
-						</a>
+						<a href="#"  onclick="addserv('.$id.')"><i class="icon f7-icons" style="font-size:25px;">add</i></a>
 					
 					</div>
 		
@@ -88,7 +82,7 @@ $testo=  '
             <a href="#" class="button tab-link tl active" id="m0" onclick="navigationtxt(2,'."'".$id.",0'".','."'contenutop'".',1);" >Dettagli</a>
 			<a href="#" class="button tl tab-link"  id="m4" onclick="navigationtxt(2,'."'".$id.",4'".','."'contenutop'".',1)" >Orari</a>
 			<a href="#" class="button tl tab-link"  id="m1" onclick="navigationtxt(2,'."'".$id.",1'".','."'contenutop'".',1)" >Il Conto</a>
-			<a href="#" class="button tl tab-link" id="m2" onclick="navigationtxt(2,'."'".$id.",2'".','."'contenutop'".',1)"" >Ospiti</a>
+			
 
 			<a href="#" class="button tl tab-link" id="m3" onclick="navigationtxt(2,'."'".$id.",3'".','."'contenutop'".',1)"" >Pagamenti</a>
           </div>

@@ -1,5 +1,4 @@
 <?php
-
 if(!isset($inc)){
 	header('Access-Control-Allow-Origin: *');
 	include('../../config/connecti.php');
@@ -62,24 +61,20 @@ switch($tipo){
 			}
 		
 		
-		/*
-		$arrstato=array('Da Confermare','Conf. Senza Acconto','Conf. Con Acconto','Arrivato','Saldato');
-				$statimin=array('DC','CSA','CCA','AS','SC');
-		$colorstato=array('d43650','3688d4','d4b836','d436cb','27be59');
-		*/
+		
 		$testo.=  '
 		 <div class="content-block-title" style="color:#2d4e99;"><b>Dettagli Prenotazione</b></div>
-						<div class="list-block " id="infoprentab" >
+		 	<div class="list-block " >
 							<ul>
 				
 	<li>
-      <a href="#" class="item-link  smart-select" data-open-in="page" data-searchbar="false">
+      <a href="#"  class="item-link  smart-select" data-open-in="picker" data-searchbar="false" >
         <select  onchange="modprenot('.$id.',this.value,31,10,0)">'.generaorario(date('H:i',$time),1,24,60).'</select>
-        <div class="item-content">
-		<div class="item-media"><i class="icon f7-icons">calendar</i></div>
-          <div class="item-inner">
-            <div class="item-title">Arrivo<br><span style="font-size:12px;">'.dataita2($time).'</span></div>
-            <div class="item-after">'.date('H:i',$time).'</div>
+        <div class="item-content"" >
+		<div class="item-media" ><i class="icon f7-icons">calendar</i></div>
+          <div class="item-inner" ">
+            <div class="item-title">Arrivo<br><span>'.dataita2($time).'</span></div>
+            <div class="item-after" >'.date('H:i',$time).'</div>
           </div>
         </div>
       </a>
@@ -87,12 +82,12 @@ switch($tipo){
 	
 		
 	<li>
-      <a href="#" class="item-link  smart-select" data-open-in="page" data-searchbar="false">
+      <a href="#" class="item-link  smart-select" data-open-in="picker" data-searchbar="false">
         <select onchange="modprenot('.$id.',this.value,149,10,0)">'.generaorario(date('H:i',$checkout),1,24,60).'</select>
         <div class="item-content">
 		<div class="item-media"><i class="icon f7-icons">calendar</i></div>
           <div class="item-inner">
-            <div class="item-title">Partenza<br><span style="font-size:12px;">'.dataita2($checkout).'</span></div>
+            <div class="item-title">Partenza<br><span>'.dataita2($checkout).'</span></div>
             <div class="item-after">'.date('H:i',$checkout).'</div>
           </div>
         </div>
@@ -101,31 +96,12 @@ switch($tipo){
 	
 							
 							  
-							  <li>
-							   <div class="item-content">
-								<div class="item-media"><i class="icon f7-icons">person</i></div>
-								<div class="item-inner">
-								  <div class="item-title">Persone</div>
-								  <div class="item-after">';
-								  
-								  
-								  
-									$query="SELECT GROUP_CONCAT(IDrest SEPARATOR ',') FROM infopren WHERE IDpren='$id' AND pers='1' GROUP BY IDstr";
-									$result=mysqli_query($link2,$query);
-									if(mysqli_num_rows($result)>0){
-										$row=mysqli_fetch_row($result);
-										$group=$row['0'].',';
-										$testo.=txtrestr($group,0);
-									}
-								  $testo.='</div>
-								</div>
-								</div>
-							  </li>
+							  
 							  
 							  
 							  
 							  <li>
-								  <a href="#" class="item-link  smart-select" data-open-in="page" data-searchbar="false">
+								  <a href="#" class="item-link  smart-select" data-open-in="picker" data-searchbar="false">
 									<select onchange="modprenot('.$id.',this.value,29,10,0)">';
 									
 									$statotxt='Annullata';
@@ -155,13 +131,19 @@ switch($tipo){
 								  </a>
 								</li>
 							  
+							  <li>
+						 <div class="item-content" style="height:100%;">
+						  <div class="item-inner" style="width:100%;height:100%;">
+							  <div class="item-input">
+								<textarea style="height:70px;font-size:13px;" onchange="modprenot('.$id.','."'notepren'".',14,6)" id="notepren" placeholder="Note Prenotazione" placeholder="Note">'.str_replace('<br/>','&#013;',$note).'</textarea>
+						  </div>
+						 </div>
+						 </div>
+						</li>
 							  
 							  
 							  
-							  <li class="item-content" style="padding:10px;">
-								<textarea style="border:solid 1px #ccc; margin-top:5px; font-size:12px; border-radius:3px;" onchange="modprenot('.$IDpren.','."'notepren'".',14,6)" id="notepren" placeholder="Note Prenotazione">'.str_replace('<br/>','&#013;',$note).'</textarea>
-								
-							  </li>
+							 
 							  
 							  
 							  
@@ -171,6 +153,155 @@ switch($tipo){
 						
 							';
 							
+		
+		
+		
+		
+					$query="SELECT ID,nome,IDcliente FROM infopren WHERE IDpren='$id' AND pers='1'";
+					$result=mysqli_query($link2,$query);
+					$j=1;
+					$numpers=mysqli_num_rows($result);
+					$testo.='<div class="content-block-title"  style="color:#2d4e99;"><b>Persone (N.'.$numpers.')</b></div>
+					
+					<div class="list-block " >
+							<ul>
+					';
+		
+		
+					while($row=mysqli_fetch_row($result)){
+						$IDinfop=$row['0'];
+						$IDsend=$IDinfop;
+
+						$nome='';
+						$tipocli=$row['1'];
+						$IDcliente=$row['2'];
+						$tel='';
+						$cognome='';
+						$email='';
+						$datanas='';
+						$query3="SELECT nome,cognome,tel,mail,datanas,sesso,note,noteristo,cell,prefissotel,prefissocell FROM schedine WHERE ID='$IDcliente' LIMIT 1";
+						$result3=mysqli_query($link2,$query3);
+						if(mysqli_num_rows($result3)>0){
+							$row3=mysqli_fetch_row($result3);
+							//$IDsend=$IDcliente;
+							$nome=$row3['0'];
+							$cognome=$row3['1'];
+							$tel=$row3['2'];
+							$email=$row3['3'];
+							$datanas=$row3['4'];
+							$sesso=$row3['5'];
+							$note=$row3['6'];
+							$noteristo=$row3['7'];
+							$cell=$row3['8'];
+							$prefissotel=$row3['9'];
+							$prefissocell=$row3['10'];
+
+						}else{
+							$nome=$row['1'];
+							$cognome='';
+							$tel='';
+							$cell='';
+							$email='';
+							$datanas='';
+							$sesso='';
+							$note='';
+							$noteristo='';
+
+
+
+						}
+
+
+						$query4="SELECT SUM(p2.prezzo) FROM prenextra as p,prenextra2 AS p2 WHERE p.IDpren='$id' AND p2.paga>'0' AND p2.IDinfop='".$row['0']."' AND p.ID=p2.IDprenextra";
+						$result4=mysqli_query($link2,$query4);
+						$row4=mysqli_fetch_row($result4);
+						$prezzotot=$row4['0'];
+						if($prezzotot==''){
+							$prezzotot=0;
+						}
+
+						if(isset($arr4[$row['0']])){ //sconto
+							$prezzotot+=$arr4[$row['0']];
+						}
+						if(isset($arr7[$row['0']])){ //sconto
+							$prezzotot+=$arr7[$row['0']];
+						}
+
+
+
+					$teltxt=$tel;
+					$celltxt=$cell;
+					$emailtxt=$email;
+					if(strlen($tel)<2){$tel=0;}
+
+					if(strlen($cell)<2){$cell=0;}
+					if(strlen($email)<2){$email=0;}
+
+
+
+
+					//navigation(24,'.$IDsend.',0,0)
+
+
+						$testo.='<li  id="IDinfop'.$IDinfop.'" onclick="detinfop('.$IDsend.','."'".$tel."','".$cell."','".$email."'".')">
+									  <a href="#" class="item-link item-content" >
+
+										<div class="item-inner">
+											<div class="item-title"><b style="color:#a3002e;">'.stripslashes($nome).' '.stripslashes($cognome).'</b><br>
+											<span style="font-size:13px; line-height:15px; color:#0e42a2;"  >
+											'.$emailtxt.' '.$teltxt.' '.$celltxt.'</span>
+
+
+											</div>
+											<div class="item-after" style="font-size:11px;">'.$tipocli.'</div>
+
+
+
+										</div>
+
+
+									  </a>
+
+
+
+									</li>';
+
+
+					}
+
+
+
+
+
+
+
+
+								 $testo.='</ul></div> 
+
+
+							';
+
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 							  
 				if($notti>0){			  
 						$testo.='  
@@ -190,7 +321,7 @@ switch($tipo){
 							
 							
 							<li>
-      <a href="#" class="item-link  smart-select" data-open-in="page" data-searchbar="false">
+      <a href="#" class="item-link  smart-select" data-open-in="picker" data-searchbar="false">
         <select onchange="modprenot('.$IDapp.',this.value,17,10,0)">';
 		
 		$q8="SELECT stato FROM appartamenti WHERE ID='$IDapp' LIMIT 1";
@@ -255,7 +386,7 @@ switch($tipo){
 									$testo.='
 									
 									<li>
-      <a href="#" class="item-link  smart-select" data-open-in="page" data-searchbar="false">
+      <a href="#" class="item-link  smart-select" data-open-in="picker" data-searchbar="false">
         <select  id="tempg" onchange="modprenot('.$id.','."'tempg'".',21,1)">'.generadeg(15,30,intval($tempg)).'</select>
         <div class="item-content">
 		<div class="item-media"><i class="icon f7-icons">filter</i></div>
@@ -268,7 +399,7 @@ switch($tipo){
     </li>
 	
 		<li>
-      <a href="#" class="item-link  smart-select" data-open-in="page" data-searchbar="false">
+      <a href="#" class="item-link  smart-select" data-open-in="picker" data-searchbar="false">
         <select  id="tempg" onchange="modprenot('.$id.','."'tempn'".',22,1)">'.generadeg(15,30,intval($tempn)).'</select>
         <div class="item-content">
 		<div class="item-media"><i class="icon f7-icons">filter</i></div>
@@ -290,49 +421,97 @@ switch($tipo){
 						';
 				}
 				
-				$testo.='<div style="width:100;" align="center">';
-				
-		$query2="SELECT ID FROM stopconferma WHERE IDstr='$IDstruttura' AND IDpren='$id' AND reinvio='0' LIMIT 1";
+		
+		
+		$query2="SELECT ID,attivo FROM autoconf WHERE IDstr='$IDstruttura' LIMIT 1";
 		$result2=mysqli_query($link2,$query2);
 		if(mysqli_num_rows($result2)>0){
 			$row2=mysqli_fetch_row($result2);
-			//controllo non inviare e rinviare
-			$testo.='
-			<br>
-			<b style="font-size:18px;line-height:22px;color:#9647aa;">'."Invio notifica di inserimento ed<br>abilitazione all'APP stoppata".'</b><br><br><a href="#" class="button button-fill color-green" style="width:50%;"  onclick="modprenot(0,'.$row2['0'].',159,10,9)">Invia Notifica</a>
-			';
-		}else{
-			if((time()-300)<$datapren){
-				$query2="SELECT ID FROM messaggi WHERE tipofrom='1' AND fromID='$IDstruttura' AND toID='$id' AND tipoto='2' LIMIT 1";
-				$result2=mysqli_query($link2,$query2);
-				if(mysqli_num_rows($result2)==0){
-					//sta per inviare
-					$stamp=1;
-					$testo.='
-					<br>
-						<b style="font-size:18px;line-height:22px;color:#9647aa;">'."Sara' inviata la notifica di inserimento ed abilitazione all'APP  tra 5 minuti..".'</b><br><br><a href="#" class="button button-fill" style="width:80%;height:35px; margin:auto; line-height:30px;" onclick="modprenot(0,'.$id.',158,10,9)"  >Non inviare</a>
-						
-						
-						';
-				}
-			}else{
-				$query2="SELECT ID FROM messaggi WHERE tipofrom='1' AND fromID='$IDstruttura' AND toID='$id' AND tipoto='2' LIMIT 1";
+			$check='';
+			$IDauto=$row2['0'];
+
+			if($row2['1']==1){
+				$query2="SELECT ID FROM confermaplus WHERE IDstr='$IDstruttura' AND IDpren='$id' LIMIT 1";
 				$result2=mysqli_query($link2,$query2);
 				if(mysqli_num_rows($result2)>0){
-					$testo.='<br><li><b style="font-size:16px; color:#9647aa;">Nofica di inserimento prenotazione inviata correttamente</b></li>';
+					$testo.='
+				<div class="titleb" style="color:#30b383; font-size:14px;">'."La prenotazione non e' stata ancora confermata sull'APP Mobile".'</div>';
 				}else{
-					$query2="SELECT ID FROM stopconferma WHERE IDstr='$IDstruttura' AND IDpren='$id' AND reinvio='1' LIMIT 1";
-					$result2=mysqli_query($link2,$query2);
-					if(mysqli_num_rows($result2)>0){
-						$testo.='<br><li><b style="font-size:16px; color:#9647aa;">'."Invio notifica di inserimento  ed abilitazione all'APP in corso..</b></li>";
-					}
+					$testo.='
+				<div class="titleb" style="color:#a42a2a; font-size:14px;"><li>'."(!) La prenotazione non e' stata ancora confermata sull'APP Mobile".'</li></div>';
 				}
 			}
+
+
 		}
+
+
+		
+		
+		$testo.='<div style="width:100;" align="center">';
+		
+		
+		
+		
+		if((oraadesso($IDstruttura)-300)<$datapren){
+			$query2="SELECT ID FROM stopconferma WHERE IDstr='$IDstruttura' AND IDpren='$id' AND reinvio='0' LIMIT 1";
+			$result2=mysqli_query($link2,$query2);
+			if(mysqli_num_rows($result2)>0){
+				$row2=mysqli_fetch_row($result2);
+					//controllo non inviare e rinviare
+					$testo.='
+					 <div class="content-block-title titleb">'."Invio notifica di inserimento ed<br>abilitazione all'APP stoppata".'</div>
+					<div class="list-block" >
+					  <ul>
+						<li style="background:#3cb878;">
+						  <a href="javascript:void(0);" onclick="modprenot(0,'.$row2['0'].',159,10,9)" class="item-link item-content">
+							<div class="item-inner">
+							  <div class="item-title" style="color:#fff;">Invia Notifica</div>
+							</div>
+						  </a>
+						</li>
+					</ul></div>
+					
+				';
+			}else{
+
+				$testo.='
+				
+					<div class="content-block-title titleb">'."Sara' inviata la notifica di inserimento ed abilitazione all'APP  tra pochi minuti..".'</div>
+					<div class="list-block" >
+					  <ul>
+						<li style="background:#fb9605; ">
+						  <a href="javascript:void(0);" onclick="modprenot(0,'.$id.',158,10,9)" class="item-link item-content">
+							<div class="item-inner">
+							  <div class="item-title" style="color:#fff;">Stop Notifica</div>
+							</div>
+						  </a>
+						</li>
+					</ul></div>';
+
+
+			}
+		}
+		
+		
+		
 					$testo.='</div>
-					<br><br><hr>
-										
-					<a href="#" class="button button-fill  " onclick="msgboxelimina('.$id.',1,0,2)" style="background:#c12323; width:80%;  height:35px; margin:auto; line-height:30px;">Annulla Prenotazione</a>
+					<br><br/>
+					
+					<div class="content-block-title titleb">Altre Funzioni</div>
+					<div class="list-block">
+					  <ul>
+						<li style="background:#a62626;">
+						  <a href="javascript:void(0);" onclick="msgboxelimina('.$id.',1,0,2)" class="item-link item-content">
+							<div class="item-inner">
+							  <div class="item-title" style="color:#fff;">Annulla Prenotazione</div>
+							</div>
+						  </a>
+						</li>
+					</ul></div>		
+							
+							
+				
 	
 				  
 				  </div>
@@ -538,7 +717,7 @@ switch($tipo){
 					$groupinfoID=$row['9'];
 					$qta2=' <span style="font-size:12px;">per '.round($qta/$num).' persone</span>';
 					$arrg=explode(',',$IDgroup);
-					$prezzo=0;
+				
 					foreach ($arrg as $dato){
 						$pacchetto=$extra.'/'.$dato;
 						$query2="SELECT SUM(prezzo) FROM prenextra2 WHERE pacchetto ='$pacchetto' AND IDpren IN ($IDprenc) AND IDinfop IN ($groupinfoID) AND IDinfop!='0' AND paga='1'";
@@ -563,21 +742,16 @@ switch($tipo){
 					$qta2=' <span style="font-size:12px;">N.'.$qta.'</span>';
 				}else{
 					if(($num==1)&&(($tipolim=='2')||($tipolim=='1')||($tipolim=='4'))){
-						//$num2=datafunc($time,$row['7'],$tipolim,'openmorph(2,'.$ID.','.$id.')',$ID);
-						
 						if(($row['12']==2)||($row['12']==1)){
 							$sottot=$row['12'];
 						}else{
 							$sottot=$row['13'];
 						}
-						
-						//$num2=datafunc2($time,$row['7'],$tipolim,'',$ID);
-						//$num2='prova';
 					}
 				}
 				$num2='<div class="mdiv">'.dataita2($time).'</div>';
 				
-				$numtxt=$num.'+';
+				$numtxt=$num;
 
 				$butt1='';//prezzo
 				$butt3='';//sposta
@@ -610,7 +784,7 @@ switch($tipo){
 					
 				}else{
 					if(($tipolim=='5')||($tipolim=='7')||($tipolim=='8')){
-						$vis=$num.'+';
+						$vis=$num;
 						
 						//$vis='<button class="shortcut mini10 info popover" onclick="vis2(-'.$ID.$IDplus.',1,'.$num.',1);" '.$dis2.'><span>Visualizza contenuto</span>'.$num.'+</button> ';
 					}else{
@@ -631,7 +805,7 @@ switch($tipo){
 						}
 					}else{
 						$butt1=$prezzotxt.'€';
-						$modprezzo=0;
+						$modprezzo=3;
 						//$butt1='<input type="number" value="'.$prezzotxt.'" disabled="disabled" class="ptb">';
 					}
 				}
@@ -663,75 +837,19 @@ switch($tipo){
 				//$func='onclick="vis2(-'.$ID.$IDplus.',1,'.$num.',1);"';			
 				$href='#';
 				$stamp=1;
-				/*$func='onclick="aprimod('.$ID.$IDplus.',this)"';
-				if($vis==1){
-					if(($tipolim!='5')&&($tipolim!=7)&&($tipolim!=8)){
-						$href='javascript:void(0)';
-						$stamp=0;
-						$func='';
-					}
-				}*/
-					
-					/*$swipeout='<div class="swipeout-actions-right">';
-					
-					if($tipolim==6){$stamp=0;$href='javascript:void(0)';}
-					
-					if($tipolim!='4'){
-							$swipeout.='<a href="#"onclick="msgboxelimina(-'.$ID.$IDplus.',3,0,1,1);" class="action1 bg-red"><i class="material-icons" style="color:#fff;">delete_forever</i></a>';		
-					}
-					$swipeout.='</div>';*/
-						
-				/*
-				<div class="item-media mediaright2">
-					<div class="IDtipo">'.$vis.'</div>
-					</div>*/
-					
 				
-				
-				/*
-				if($IDtipomain!=$IDtipo){
-					
-					$IDtipomain=$IDtipo;
-					$query7="SELECT tipo FROM tiposervizio WHERE ID='$IDtipo' LIMIT 1";
-					$result7=mysqli_query($link2,$query7);
-					$row7=mysqli_fetch_row($result7);
-					
-					
-				}
-				*/
-				
-			
-				/*$testo.=
-				'<input type="hidden" id="'.$txtsend.'" value="-'.$ID.$IDplus.'">
-				
-				 <li  id="tr-'.$ID.$IDplus.'" lang="'.$txtsend.'" >
-				 
-     			 <div class="item-content" >
-				  <div class="item-media" '.$funcexp.' style="line-height:6px; width:50px; margin-left:-15px; margin-right:-10px;" align="center"><div style="width:20px; margin:0px; height:20px; border-radius:50%; font-size:12px; font-weight:bold; text-align:center; background:#0286ca; color:#fff; line-height:19px;">'.$num.'</div><br><div style="font-size:10px; color:#0286ca; margin-left:-1px;"><b>Dettagli</b></div>
-				  </div>
-				 
-				 <div class="item-inner">
-				  <div class="item-title label" style="width:70%">'.$servizio.'<br><span class="subtitle">'.$qtabutt.' '.$num2.' '.$sala.'  </span></div>
-				  <div class="item-input" style="width:30%">
-					'.$butt1.'
-				  </div>
-				  
-				</div>
-				</div>
-				</li>
-				';*/
 				
 				if($tipolim==4){
 					$del=0;
 				}
-				
+				//'.$funcexp.'
 				$testo.=
 				'<input type="hidden" id="'.$txtsend.'" value="-'.$ID.$IDplus.'" alt="'.$num.'" lang="'.$del.'">
 				
 				 <li id="tr-'.$ID.$IDplus.'" lang="'.$txtsend.'" title="'.$ID.'"  alt="'.$modprezzo.'" dir="'.$txtsend2.'" onclick="modservice(-'.$ID.$IDplus.')" >
 
      			 <div class="item-content" >
-				  <div class="item-media mediaright" '.$funcexp.'><div style="width:20px; margin:0px; height:20px; border-radius:50%; font-size:12px; font-weight:bold; text-align:center; background:#0286ca; color:#fff; line-height:19px;">'.$num.'</div>
+				  <div class="item-media mediaright"><div  class="roundfunc">'.$num.'</div>
 				  </div>
 				 
 				 <div class="item-inner">
@@ -894,25 +1012,7 @@ while($row=mysqli_fetch_row($result)){
 
 
 
-/*
 
-
-<div style="float:right; width:75px; text-align:right;">';
-						
-						if(strlen($tel)>0){
-							$testo.='<i class="material-icons" style="border:solid 1px #333; border-radius:50%;margin-right:4px; padding:4px;"  onclick="location.href='."'tel:".$tel."'".'">local_phone</i>';
-						}
-						if(strlen($cell)>0){
-							$testo.='<i class="material-icons" style="border:solid 1px #333; border-radius:50%;margin-right:4px; padding:4px;"  onclick="location.href='."'tel:".$cell."'".'">local_phone</i>';
-						}
-						
-						if(strlen($email)>0){
-							$testo.='<i class="material-icons" style="border:solid 1px #333;border-radius:50%; padding:4px;" onclick="location.href='."'mailto:".$email."'".'">email</i>';
-						}
-						$testo.='</div>
-*/
-	
-	
 $teltxt=$tel;
 $celltxt=$cell;
 $emailtxt=$email;
@@ -971,6 +1071,10 @@ if(strlen($email)<2){$email=0;}
 	
 	break;
 	case 3:
+		
+		
+		/*
+		
 		$testo.='
 		<br>
 
@@ -1187,21 +1291,7 @@ if(strlen($email)<2){$email=0;}
 						
 						$quotaagenzia+=$agetot;
 						//controllo pagamento acconto
-					/*
-						$txtagenzia.='
-						
-						<li class="item-content">
-									<div class="item-media payicon"></div>
-									<div class="item-inner">
-									  
-									  <div class="item-after">Paga ad Agenzia<br><br>
-									  <b style="font-size:12px;">'.round($agetot-$rowag['3'],2).'€ &euro;</b> - <span style="font-size:12px;">'.date('d/m/Y',$rowag['1']).'</span>
-									  
-									  </div>
-									</div>
-								  </li>
-						';*/
-					
+				
 					
 						if($agetot>0){
 			
@@ -1252,23 +1342,7 @@ if(strlen($email)<2){$email=0;}
 					
 					break;
 					case 1: //paga alla struttura
-						/*
-						$txtagenzia.='
 						
-						
-						<li class="item-content">
-									<div class="item-media payicon"></div>
-									<div class="item-inner">
-									  <div class="item-title">Agenzia</div>
-									  <div class="item-after">Paga in Struttura<br>
-									  <b style="font-size:12px;">'.round($agetot-$rowag['3'],2).'€</b> - <span style="font-size:12px;">'.date('d/m/Y',$rowag['1']).'</span>
-									  
-									  </div>
-									</div>
-								  </li>
-						
-						';	
-						*/
 						
 						
 						
@@ -1322,24 +1396,6 @@ if(strlen($email)<2){$email=0;}
 					
 					break;
 					case 2: //pagamento automatico
-						/*
-						$txtagenzia.='
-						
-						
-						<li class="item-content">
-									<div class="item-media payicon"></div>
-									<div class="item-inner">
-									  <div class="item-title">Agenzia</div>
-									  <div class="item-after">Prelievo Auto<br>
-									  <b style="font-size:12px;">'.round($agetot-$rowag['3'],2).'€</b> - <span style="font-size:12px;">'.date('d/m/Y',$rowag['1']).'</span>
-									  
-									  </div>
-									</div>
-								  </li>
-						
-						
-						';	
-						*/
 						
 						
 						if($agetot>0){
@@ -1594,8 +1650,6 @@ if(strlen($email)<2){$email=0;}
 				$testo.=$txtdapag;
 			}
 			
-			
-			
 			if(strlen($txteffet)>0){
 				$testo.=$txteffet;
 			}
@@ -1603,68 +1657,6 @@ if(strlen($email)<2){$email=0;}
 			if(strlen($txtdaeffet)>0){
 				$testo.=$txtdaeffet;
 			}
-			/*
-			$testo.='<br><br>
-			<div style="color:#666;  margin-bottom:8px; font-size:21px;">Ricevute & Fatture Fiscali</div>
-			';
-			
-			
-			
-			
-			
-			
-			$tipofatt=array('Fattura','Ricevuta');
-			$queryacc="SELECT ID,data,numero,anno,testovoce,totale,IDintestazione,tipo,voci FROM fatture WHERE IDobj IN($IDprenc) AND tipoobj='0' AND stampa='1'";
-			$resultacc=mysqli_query($link2,$queryacc);
-			if(mysqli_num_rows($resultacc)>0){
-				$testo.='
-				<table  class="tabcli" width="100%" style=" font-size:14px;" cellspacing="0" cellpadding="0">';
-				while($rowag=mysqli_fetch_row($resultacc)){
-				
-					if($rowag['8']=='1'){
-						$testovoce=$rowag['4'];
-					}else{
-						$testovoce='Elenco Servizi';
-					}
-					if($rowag['7']=='0'){
-						$intestazione='';
-						$queryint="SELECT intestazione FROM intestazioni WHERE ID='".$rowag['7']."' LIMIT 1";
-						$resultint=mysqli_query($link2,$queryint);
-						$rowi=mysqli_fetch_row($resultint);
-						$intestazione=$rowi['0'];
-						$txtric='Fattura';
-					}else{
-						$txtric='Ricevuta';
-						$intestazione=estrainomeschedina($rowag['6']);
-					}
-					
-					
-					
-					$testo.='<tr><td>'.$tipofatt[$rowag['7']].'</td><td>n.<u>'.$rowag['2'].'</u>/'.$rowag['3'].'<br><b style="font-size:11px;">'.date('d/m/Y',$rowag['1']).'<b></td><td><b>'.round($rowag['5'],2).' &euro;</b></td><td>'.$testovoce.'</td><td>'.$intestazione.'</td><td>
-					
-					
-					<button class="shortcut mini10 popover success iconfatture" style="background-size:19px 19px;" onclick="location.href='."'config/fatture/".$txtric.$rowag['0'].".pdf'".'"><span>Apri PDF</span></button>
-					<button class="shortcut mini10 danger del3icon popover" onclick="msgboxelimina('.$rowag['0'].',23,0,4)"><span>Elimina Documento</span></button></td></tr>';		
-				}
-				$testo.='</table>';
-			}else{
-				$testo.='<span style="font-size:16px;">Non è stato registrata nessuna ricevuta/fattura</span><br>';
-			}
-			
-			$txtcarta='';
-			$queryc="SELECT ID FROM carte WHERE IDpren IN($IDprenc)";
-			$resultc=mysqli_query($link2,$queryc);
-			if(mysqli_num_rows($resultc)>0){
-				$rowc=mysqli_fetch_row($resultc);
-				$txtcarta='<br><b style="font-size:14px; color:#d42aa6;">PRENOTAZIONE GARANTITA<br>con Carta di Credito</b><br><span style="font-size:10px;">Clicca su Carta di Credito per visualizzare</span><br><br>';
-			}
-				
-							   
-							   */
-						   
-							   
-							   
-							  
 							  
 							  $testo.='
 							  
@@ -1727,7 +1719,981 @@ if(strlen($email)<2){$email=0;}
 								  </li>
 							  </ul>';
 	
+	*/
+		
+		
+		
+		
+		
+		
+		
+	$IDprenc=prenotcoll($id);	
+		
 	
+	$txtcarta='';
+	$queryc="SELECT ID FROM carte WHERE IDpren IN($IDprenc)";
+	$resultc=mysqli_query($link2,$queryc);
+	if(mysqli_num_rows($resultc)>0){
+		$rowc=mysqli_fetch_row($resultc);
+		$testo.='<div style="float:right; margin-right:20px; text-align:right;font-size:14px; color:#d42aa6;"><strong>PRENOTAZIONE GARANTITA<br></strong> con Carta di Credito</b><br><span style="font-size:10px;">Clicca su Carta di Credito (da PC) per visualizzare</span></div><br><br><br><hr>';
+	}
+	
+	$_SESSION['IDagenziaprenfatt']=array();
+	$arroggetti=array(array());
+	$codobj=0;
+	
+	
+	//0 oggetto
+	//1 quota sospeso
+	//2 quota da pagare
+	//3 informazioni
+	//4 pulsanti
+	//5 fattura	
+	
+	
+	
+		
+	$query="SELECT time FROM prenotazioni WHERE IDv='$id' LIMIT 1";
+	$result=mysqli_query($link2,$query);
+	$row=mysqli_fetch_row($result);
+	$timearr=$row['0'];
+	
+	$query="SELECT SUM(p2.prezzo) FROM prenextra2 as p2,prenextra as p WHERE p.IDpren IN($IDprenc) AND p.ID=p2.IDprenextra AND p2.datacar='0' AND p2.IDpren=p.IDpren  AND p2.paga='1'  AND p.tipolim NOT IN(7,8)";
+	$result=mysqli_query($link2,$query);
+	$row=mysqli_fetch_row($result);
+	$prezzoini=round($row['0'],2);
+	
+	$query="SELECT SUM(p2.prezzo) FROM prenextra2 as p2,prenextra as p WHERE p.IDpren IN($IDprenc) AND p.ID=p2.IDprenextra AND p2.datacar='1' AND p2.IDpren=p.IDpren AND p2.paga='1' AND p.tipolim NOT IN(7,8)";
+	$result=mysqli_query($link2,$query);
+	$row=mysqli_fetch_row($result);
+	$prezzoextra=round($row['0'],2);
+			
+	
+		
+		
+	$query="SELECT SUM(durata) FROM prenextra  WHERE IDpren IN($IDprenc) AND IDtipo='0'";
+	$result=mysqli_query($link2,$query);
+	$row=mysqli_fetch_row($result);
+	$sconti=round($row['0'],2);
+	
+	$prezzotot=$prezzoextra+$prezzoini+$sconti;
+	
+	$txtpag='';
+	
+	$query="SELECT GROUP_CONCAT(extra SEPARATOR ',') FROM prenextra WHERE IDpren IN($IDprenc) AND IDstruttura='$IDstruttura' AND tipolim='7' AND modi>='0'";
+	$result=mysqli_query($link2,$query);
+	$row=mysqli_fetch_row($result);
+	$idee=$row['0'];
+	$arridee=explode(',',$idee);
+	
+	//pagamenti ad idee
+	
+	//pagamento a prenotazione
+	
+	//pagamenti a servizi
+	
+	$acconto=0;
+	$emettifattura=0;	
+		
+	$queryacc="SELECT IDscontr,SUM(valore),tipoobj,IDobj FROM scontriniobj WHERE IDobj IN($IDprenc) AND tipoobj IN(1,2,0,14) GROUP BY IDscontr";
+		
+	$resultacc=mysqli_query($link2,$queryacc);
+	if(mysqli_num_rows($resultacc)>0){		
+		while($rowacc=mysqli_fetch_row($resultacc)){
+			
+			$tipopag='';
+			$colorpag='';
+			$buttadd='';
+			$pagatok=0;
+			
+			$effettuato=0;
+			$sospeso=0;
+			
+			/*$txtstamp=getstampfattura($rowacc['0']);
+			if($txtstamp){
+				$pagatok=1;
+				$row=mysqli_fetch_row($result);
+				$buttadd.='<strong style="text-transform:uppercase; font-size:12px;">'.$txtstamp.'</strong>';
+			}else{
+				$emettifattura++;
+				$buttadd.='<button class="shortcut recta16 bnone scontrin selectno" onclick="selezionascontr('.$rowacc['0'].','.$rowacc['2'].',this,'.$rowacc['3'].',8)" id="'.$rowacc['0'].'" alt="'.$rowacc['2'].'">Seleziona</button>';
+			}*/
+			
+			
+			switch($rowacc['2']){
+				case 0:
+					$tipopag='Pagamento Singoli Servizi';$colorpag='info';
+					
+				break;
+				case 1:
+					$tipopag='Saldo Finale';$colorpag='success';
+					
+				break;
+				case 2:
+					$tipopag='Acconto';$colorpag='warning';
+					
+				break;
+				case 14:
+					$tipopag='Caparra';$colorpag='warning';
+					
+				break;
+			}
+			
+			
+			$metodopag=0;
+			$query3="SELECT timepag,IDcliente,metodopag FROM scontrini WHERE ID='".$rowacc['0']."' LIMIT 1";
+			//echo $query3;
+			$result3=mysqli_query($link2,$query3);
+			if(mysqli_num_rows($result3)>0){
+				$row3=mysqli_fetch_row($result3);
+				$timepag=$row3['0'];
+				$IDcli=$row3['1'];
+				$metodopag=$row3['2'];
+				if($IDcli!='0'){
+					$tipopag.='<br><span style="font-size:10px;color:#999;">'.estrainomecli($IDcli).'</span>';
+				}
+			}
+			
+			$arroggetti[$codobj][6]=0;
+			$txtoggetto='';
+			$pulsanti='';
+			
+			
+			
+			if($metodopag==0){
+				$arroggetti[$codobj][6]=1;
+				$effettuato='0';
+				$sospeso=round($rowacc['1'],2);
+				$pulsanti='';
+				$txtoggetto=$txtstamp.'<br><span>'.$tipopag.'</span>';;
+				
+			}else{
+				$effettuato=round($rowacc['1'],2);
+				$txtoggetto=$tipopag.'<br><span>'.metodopag($row3['2']).'</span>';
+			}
+			
+			
+			
+			$arroggetti[$codobj][0]=$txtoggetto;
+			$arroggetti[$codobj][1]=$sospeso;//sospeso
+			$arroggetti[$codobj][2]=$effettuato;//effettuato
+			$arroggetti[$codobj][3]='<span>'.dataita4($timepag).'<br><b>Metodo Pagamento:</b>'.metodopag($row3['2']);//info
+			$arroggetti[$codobj][4]=$pulsanti;//pulsanti
+			
+			if($pagatok==0){
+				$arroggetti[$codobj][4].='';
+			}
+			$arroggetti[$codobj][5]='';
+			
+			
+			
+			$codobj++;
+			
+			$acconto+=$rowacc['1'];
+		}		
+	}
+	
+	
+	
+	$quotaagenzia=0;
+	$txtdapag='';
+	$txteffet='';
+	$txtdaeffet='';
+	$txtagenzia='';
+	$IDagenziapren=0;
+	$queryacc="SELECT totale,data,IDagenzia,corrispettivo,contratto,ID FROM agenziepren WHERE IDobj IN($IDprenc) AND tipoobj='0'";
+	$resultacc=mysqli_query($link2,$queryacc);
+	if(mysqli_num_rows($resultacc)>0){
+		$rowag=mysqli_fetch_row($resultacc);
+		$agetot=$rowag['0'];
+		$IDagenziapren=$rowag['5'];
+		
+		$query6="SELECT nome FROM agenzie WHERE ID='".$rowag['2']."' LIMIT 1";
+		$result6=mysqli_query($link2,$query6);
+		$row6=mysqli_fetch_row($result6);
+		$nomeag=$row6['0'];
+		
+		switch($rowag['4']){
+			case 0: //paga all'agenzia
+				
+				
+				$quotaagenzia+=$agetot;
+				//controllo pagamento acconto
+			
+				$txtagenzia.='<tr><td class="tdtit">'.$nomeag.'<div class="shortcut mini17 infoicon info popover"><span>
+			 Contratto: '.$rowag['1'].' &euro;  sono stati pagati alla Agenzia</button><br>
+
+			</td><td><b>'.$agetot.' &euro;</b></td><td>'.date('d/m/Y',$rowag['1']).'</td><td><i>Agenzia</i><br><b>'.$rowag['3'].'€</b></td><td><i>Struttura</i><br><b>'.round($agetot-$rowag['3'],2).'€</b></td></tr>';
+			
+			
+			
+			
+			
+				if($agetot>0){
+	
+					//controllo pagamanto
+					
+					$quotaversata=0;
+					
+					$query3="SELECT valore,IDscontr FROM scontriniobj WHERE IDobj='$IDagenziapren' AND tipoobj='10'";
+					$result3=mysqli_query($link2,$query3);
+					if(mysqli_num_rows($result3)>0){
+						while($row3=mysqli_fetch_row($result3)){
+							$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+							$result4=mysqli_query($link2,$query4);
+							$row4=mysqli_fetch_row($result4);
+							$timepag=$row4['0'];
+							/*$txtpag.='<tr><td>Agenzia<br><span style="font-size:11px">'.metodopag($row4['1']).'</span></td><td><b>'.$row3['0'].' &euro;</b><br><span style="font-size:10px;">Saldo senza commissione<br> Potrai emettere fattura o ricevuto nella sezione "Agenzie"</span></td><td>'.dataita2($timepag).'</td><td><button class="shortcut mini10 danger del3icon popover" onclick="msgboxelimina('.$row3['1'].',21,0,4)"><span>Elimina</span></button></td></tr>';*/
+
+
+							$quotaversata+=$row3['0'];
+
+							$arroggetti[$codobj][0]='Quota Struttura [Ricevuta]<br><span>'.metodopag($row4['1']).'</span>';
+							$arroggetti[$codobj][1]=0;//sospeso
+							$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+							$arroggetti[$codobj][3]='<span>Metodo Pagamento: '.metodopag($row4['1']).'<br>Effettuato il '.dataita4($timepag).'</span>';//info
+							
+							
+							$arroggetti[$codobj][4]='';
+							$arroggetti[$codobj][5]='';
+							
+							
+							$codobj++;
+							
+						}
+
+					}
+					
+					if(($agetot-$rowag['3']-$quotaversata)>0){
+					
+						$qq=round($agetot-$quotaversata-$rowag['3'],2);
+						$arroggetti[$codobj][0]='Quota Struttura [Da Ricevere]';
+						$arroggetti[$codobj][1]=$qq.' € di '.($agetot-$rowag['3']);//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<span>Quota Struttura<br>Da ricevere</span>';//info
+						$arroggetti[$codobj][4]='';//pulsanti
+						
+						/*<button class="shortcut recta15 warning" style="width:97px;"   onclick="openscontr(0,10,'.$IDagenziapren.',0,1)">Acconto Quota</button>
+						<button class="shortcut recta15 success" style="width:98px;"  onclick="openscontr(0,10,'.$IDagenziapren.','.$qq.',0,0)">Totale Quota</button>*/
+						
+						$codobj++;
+					
+					
+						
+					}
+				}
+			
+			
+			break;
+			case 1: //paga alla struttura
+				
+				$txtagenzia.='<tr><td class="tdtit">'.$nomeag.'<div class="shortcut mini17 infoicon info popover"><span>
+			 Contratto: '.$agetot.' &euro; vanno pagati alla Struttura</button></td><td><b>'.$agetot.' &euro;</b></td><td>'.date('d/m/Y',$rowag['1']).'</td><td><i>Agenzia</i><br><b>'.round($rowag['3'],2).'€</b></td><td><i>Struttura</i><br><b>'.round($agetot-$rowag['3'],2).'€</b></td></tr>
+				';	
+				
+					$quotaversata=0;
+				
+				
+				if($agetot>0){
+	
+					//controllo pagamanto
+					
+					$query3="SELECT valore,IDscontr FROM scontriniobj WHERE IDobj='$IDagenziapren' AND tipoobj='10'";
+					$result3=mysqli_query($link2,$query3);
+					if(mysqli_num_rows($result3)>0){
+						while($row3=mysqli_fetch_row($result3)){
+							
+							$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+							$result4=mysqli_query($link2,$query4);
+							$row4=mysqli_fetch_row($result4);
+							$timepag=$row4['0'];
+							/*$txteffet.='<tr><td>Agenzia<br><span style="font-size:11px">'.metodopag($row4['1']).'</span></td><td><b>'.$row3['0'].' &euro;</b><br><span style="font-size:10px;">Commissione Agenzia</span></td><td>'.dataita2($timepag).'</td><td><button class="shortcut mini10 danger del3icon popover" onclick="msgboxelimina('.$row3['1'].',21,0,4)"><span>Elimina</span></button></td></tr>';
+							*/
+							$quotaversata+=$row3['0'];
+
+							$arroggetti[$codobj][0]='Quota agenzia [Versamento]<br><span>'.metodopag($row4['1']).'</span>';
+							$arroggetti[$codobj][1]=0;//sospeso
+							$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+							$arroggetti[$codobj][3]='<span>Metodo Pagamento: '.metodopag($row4['1']).'<br>Effettuato il '.dataita4($timepag).'</span>';//info
+							
+							$arroggetti[$codobj][4]='';
+							
+							
+							$arroggetti[$codobj][5]='>';
+							$codobj++;
+						}
+						
+					}
+					
+					
+					if(($rowag['3']+$quotaversata)>0){	
+					
+						$qq=round($rowag['3'],2)+$quotaversata;
+						
+						$arroggetti[$codobj][0]='Quota Agenzia [Da Versare]';
+						$arroggetti[$codobj][1]='-'.$qq;//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<span>Quota Agenzia<br>Da Versare</span>';//info
+						
+						$arroggetti[$codobj][4]='';
+						//pulsanti
+						$codobj++;
+						//<button class="shortcut recta15 warning" style="width:97px;"  onclick="openscontr(0,10,'.$IDagenziapren.',0,1)">Versa Acconto</button>
+						//<button class="shortcut recta15 success"   style="width:98px;" onclick="openscontr(0,10,'.$IDagenziapren.','.$qq.')">Versa Totale</button>
+					
+						
+					}
+				}
+				
+				
+			
+			break;
+			case 2: //pagamento automatico
+				
+				$txtagenzia.='<tr><td class="tdtit"><div class="shortcut mini17 infoicon info popover" ><span>
+			 Contratto: '.$agetot.' &euro; vanno pagati alla Struttura</div>
+				
+				'.$nomeag.'
+				
+				</td><td><b>'.$agetot.' &euro;</b></td><td>'.date('d/m/Y',$rowag['1']).'</td><td><b>'.round($rowag['3'],2).'€</b></td><td><b>'.round($agetot-$rowag['3'],2).'€</b></td></tr>
+				';	
+				
+				$quotaversata=0;
+				
+				
+				if($agetot>0){
+	
+					//controllo pagamanto
+					
+					$query3="SELECT valore,IDscontr FROM scontriniobj WHERE IDobj='$IDagenziapren' AND tipoobj='10' LIMIT 1";
+					$result3=mysqli_query($link2,$query3);
+					if(mysqli_num_rows($result3)>0){
+						$row3=mysqli_fetch_row($result3);
+						$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+						$result4=mysqli_query($link2,$query4);
+						$row4=mysqli_fetch_row($result4);
+						$timepag=$row4['0'];
+						/*$txteffet.='<tr><td>Agenzia<br><span style="font-size:11px">'.metodopag($row4['1']).'</span></td><td><b>'.round($row3['0'],2).' &euro;</b><br><span style="font-size:10px;">Commissione Agenzia<br>Prelievo automatico</span></td><td>'.dataita2($timepag).'</td><td><button class="shortcut mini10 danger del3icon popover" onclick="msgboxelimina('.$row3['1'].',21,0,4)"><span>Elimina</span></button></td></tr>';*/
+						
+						$quotaversata+=$row3['0'];
+						
+						$arroggetti[$codobj][0]='Quota agenzia [Prelievo Effettuato]<br><span>'.metodopag($row4['1']).'</span>';
+						$arroggetti[$codobj][1]=0;//sospeso
+						$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+						$arroggetti[$codobj][3]='<span>Commissione Agenzia<br>Prelievo automatico</span>';//info
+						
+						$arroggetti[$codobj][4]='';
+						
+						$arroggetti[$codobj][5]='';//pulsanti
+						$codobj++;
+						
+						
+						
+						
+					}
+						/*$txtdaeffet.='<tr><td><u><b>Agenzia</td><td><b>'.round($rowag['3'],2).' &euro;</b><br><span style="font-size:10px;">Commissione Agenzia<br>Prelievo automatico</span></td><td style="width:280px;">
+					<button class="shortcut recta3 success" style="width:140px; height:35px;" onclick="openscontr(0,10,'.$IDagenziapren.','.round($rowag['3'],2).')">Segnala Prelievo da Agenzia</button>
+					</td><td></td><td></td></tr>';*/
+					
+					if(($rowag['3']+$quotaversata)>0){	
+					
+						$qq=round($rowag['3'],2)+$quotaversata;
+						
+						$arroggetti[$codobj][0]='Quota Agenzia [Prelievo Auto]';
+						$arroggetti[$codobj][1]='-'.$qq;//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<span>Commissione Agenzia<br>Prelievo automatico</span>';//info
+						
+						$arroggetti[$codobj][4]='';
+						//pulsanti
+						$codobj++;
+						//<button class="shortcut recta15 warning" style="width:97px;"  onclick="openscontr(0,10,'.$IDagenziapren.',0,1)">Versa Acconto</button>
+						//<button class="shortcut recta15 success"   style="width:98px;" onclick="openscontr(0,10,'.$IDagenziapren.','.$qq.')">Versa Totale</button>
+					
+						
+					}
+					
+					
+					/*
+					if(($rowag['3']+$quotaversata)>0){	
+					
+						$qq=round($rowag['3'],2)+$quotaversata;
+						
+						$arroggetti[$codobj][0]='Quota agenzia [Prelievo]';
+						$arroggetti[$codobj][1]='-'.round($rowag['3'],2);//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<div class="shortcut mini17 infoicon info popover"><span>Commissione Agenzia<br>Prelievo automatico</span></div>';//info
+						$arroggetti[$codobj][4]='<button class="shortcut recta200"   onclick="modifichep('.$IDagenziapren.',this,2,16,0,'.$qq.')">Agenzia Pagamento</button>';
+						
+						//$arroggetti[$codobj][4]='<button class="shortcut recta15 success"  onclick="openscontr(0,10,'.$IDagenziapren.','.round($rowag['3'],2).')">Paga Quota</button>';//pulsanti
+						$codobj++;
+
+					}*/
+				}
+	
+			break;
+		}
+	}
+	
+	$queryacc="SELECT ID,extra,time FROM prenextra WHERE IDpren IN($IDprenc) AND tipolim='8'"; //controllo cofanetti
+	$resultacc=mysqli_query($link2,$queryacc);
+	if(mysqli_num_rows($resultacc)>0){
+		
+		while($rowag=mysqli_fetch_row($resultacc)){
+			$IDprenextra=$rowag['0'];
+			$IDcof=$rowag['1'];
+			
+			$query2="SELECT codice,IDagenzia,ID FROM cofanettivend WHERE IDprenextra='$IDprenextra'";
+			$result2=mysqli_query($link2,$query2);
+			$row2=mysqli_fetch_row($result2);
+			$codice=$row2['0'];
+			$IDagenzia=$row2['1'];
+			$IDcofanetto=$row2['2'];
+			
+			$query2="SELECT prezzo,persone,cofanetto FROM cofanetti WHERE ID='$IDcof' LIMIT 1";
+			$result2=mysqli_query($link2,$query2);
+			$row2=mysqli_fetch_row($result2);
+			$agetot=$row2['0'];
+			$persone=$row2['1'];
+			$cof=$row2['2'];
+			
+			$query2="SELECT nome FROM agenzie WHERE ID='$IDagenzia' LIMIT 1";
+			$result2=mysqli_query($link2,$query2);
+			$row2=mysqli_fetch_row($result2);
+			$agenzia=$row2['0'];
+			//suddividere da pagare cofanetto - non mischiare con acconto
+			 
+			$acconto+=$agetot;
+			
+			$txtagenzia.='<tr><td class="tdtit">'.$agenzia.'<br>
+			
+			<div style="font-weight:300; font-size:10px; text-transform:none;">Confanetto : '.$cof.'</div>
+			</td><td><b>'.round($agetot,2).' &euro;</b></td><td>'.date('d/m/Y',$rowag['2']).'</td><td></td><td><b>'.round($agetot,2).' &euro;</b></td></tr>';	
+			
+			//in caso di confatti paga la quota agenzia rispettiva al cofanetto
+			
+				
+			$quotacofanetto=0;
+				
+			$query3="SELECT valore,IDscontr FROM scontriniobj WHERE IDobj='$IDcofanetto' AND tipoobj='11' LIMIT 1";
+					$result3=mysqli_query($link2,$query3);
+					if(mysqli_num_rows($result3)>0){
+						$row3=mysqli_fetch_row($result3);
+						$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+						$result4=mysqli_query($link2,$query4);
+						$row4=mysqli_fetch_row($result4);
+						$timepag=$row4['0'];
+						
+						$arroggetti[$codobj][0]='Cofanetto [Versamento ricevuto]<br><span>'.metodopag($row4['1']).'</span>';
+						$arroggetti[$codobj][1]=0;//sospeso
+						$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+						$arroggetti[$codobj][3]='<span>Quota Cofanetto<br>Versamento ricevuto</span>';//info
+						
+						$arroggetti[$codobj][4]='';
+						
+						$arroggetti[$codobj][5]='';
+						
+						$quotacofanetto+=$row3['0'];
+						
+						$codobj++;
+						
+					}
+				
+				$qq=$agetot-$quotacofanetto;
+				if($qq>0){
+					$arroggetti[$codobj][0]='Valore Cofanetto [Da ricevere]';
+						$arroggetti[$codobj][1]=round($qq,2);//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<span>Quota Agenzia<br>Agenzia paga il pacchetto alla struttura </span>';//info
+						$arroggetti[$codobj][4]='';//pulsanti
+						$codobj++;		
+				}
+						
+						
+						
+					
+				
+
+				
+		}
+	}
+	
+	
+	$accontoreg=0;
+	$prezzoidee=0;
+	$prezzodasaldreg=0;
+	
+		
+		
+	//$queryacc="SELECT extra,ID FROM prenextra WHERE tipolim='7' AND IDpren IN($IDprenc)";
+		
+		
+	$queryacc="SELECT p.extra,p.ID,SUM(prezzo) FROM prenextra as p,prenextra2 as p2  WHERE p.IDpren IN($IDprenc) AND p.tipolim='7' AND p.ID=p2.IDprenextra GROUP BY p.ID";	
+		
+		
+	$resultacc=mysqli_query($link2,$queryacc);
+	if(mysqli_num_rows($resultacc)>0){
+		while($rowacc=mysqli_fetch_row($resultacc)){
+			$IDreg=$rowacc['0'];
+			$prezzoreg2=$rowacc['2'];
+			$pacchetto=$rowacc['0'].'/'.$rowacc['1'];
+			
+			$query3="SELECT SUM(prezzo) FROM prenextra2 WHERE pacchetto='$pacchetto'";
+			$result3=mysqli_query($link2,$query3);
+			$row3=mysqli_fetch_row($result3);
+			$prezzoreg2+=$row3['0'];
+			
+			
+			
+			
+			$query3="SELECT v.tipocliente,v.IDcliente,v.ID FROM vendite as v,venditeoggetti as vo WHERE vo.IDfinale='$IDreg' AND vo.tipoobj='7' AND vo.IDvendita=v.ID LIMIT 1";
+			$result3=mysqli_query($link2,$query3);
+			$row3=mysqli_fetch_row($result3);
+			$tipocli=$row3['0'];
+			$IDcli=$row3['1'];
+			$IDvendita=$row3['2'];
+			$insasacc=0;
+			
+			
+			//controllo pagamento voucher
+			
+			$pagvoucher=0;
+
+			if($prezzoreg2<0){
+				$acconto-=$prezzoreg2;
+				$prezzoreg2*=-1;
+			}
+			
+			
+			$prezzoidee+=$prezzoreg2;
+			
+			
+			//echo 'aa'.$prezzoidee.'<br>';
+			//echo $prezzoreg2;
+			
+			
+				
+			if($tipocli=='5'){
+				
+				$query4="SELECT corrispettivo,perc,totale,ID,contratto,IDagenzia FROM agenziepren WHERE IDobj='$IDvendita' AND tipoobj='1' LIMIT 1";
+				$result4=mysqli_query($link2,$query4);
+				$row4=mysqli_fetch_row($result4);
+				$corr=$row4['0'];
+				$parc=$row4['1'];
+				$tot=$row4['2'];
+				$IDagenziaprenvend=$row4['3'];
+				
+				if(!in_array($IDagenziaprenvend,$_SESSION['IDagenziaprenfatt'])){
+					$_SESSION['IDagenziaprenfatt'][]=$IDagenziaprenvend;
+					//echo $IDagenziapren.'<br>';
+					$contratto=$row4['4'];
+					$IDagenzia=$row4['5'];
+
+
+
+
+					$query4="SELECT SUM(prezzo) FROM indirizzisped WHERE IDvend='$IDvendita'";
+					$result4=mysqli_query($link2,$query4);
+					$row4=mysqli_fetch_row($result4);
+					$spedizione=$row4['0'];
+
+
+					$query4="SELECT SUM(totale) FROM venditeoggetti WHERE IDvendita='$IDvendita'";
+					$result4=mysqli_query($link2,$query4);
+					$row4=mysqli_fetch_row($result4);
+					$tot1=$row4['0'];
+
+
+					switch($contratto){
+						case 0:
+							$asaldo=$tot-$corr;
+							$quotastr=0;
+						break;
+						case 1:
+						case 2:
+							$asaldo=-$corr;
+							$quotastr=$tot;
+						break;
+					}
+
+
+					$pagatagenzia=0;
+
+					$query3="SELECT valore,IDscontr FROM scontriniobj WHERE IDobj='$IDagenziaprenvend' AND tipoobj='10'";
+
+					$result3=mysqli_query($link2,$query3);
+					if(mysqli_num_rows($result3)>0){
+							while($row3=mysqli_fetch_row($result3)){
+
+								$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+								$result4=mysqli_query($link2,$query4);
+								$row4=mysqli_fetch_row($result4);
+								$timepag=$row4['0'];
+
+								$pagatagenzia+=$row3['0'];
+
+								if($row3['0']>0){
+									$arroggetti[$codobj][0]='Quota agenzia [Pagamento]<br><span>'.metodopag($row4['1']).'</span>';
+								}else{
+									$arroggetti[$codobj][0]='Quota agenzia [Versamento]<br><span>'.metodopag($row4['1']).'</span>';
+								}
+
+								$arroggetti[$codobj][1]=0;//sospeso
+								$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+								$arroggetti[$codobj][3]='<span>Metodo Pagamento: '.metodopag($row4['1']).'<br>Effettuato il '.dataita4($timepag).'</span>';//info
+
+								$arroggetti[$codobj][4]='';
+
+								$arroggetti[$codobj][5]='';
+								$codobj++;
+							}
+						}
+
+
+					$prezzosaldagenzia=$asaldo-$pagatagenzia;
+
+
+
+					$query4="SELECT nome FROM agenzie WHERE ID='$IDcli' LIMIT 1";
+					$result4=mysqli_query($link2,$query4);
+					$row4=mysqli_fetch_row($result4);
+					$nagenzia=$row4['0'];
+
+
+
+
+					$rimborso='';
+
+					if($prezzosaldagenzia!=0){
+
+						if($prezzosaldagenzia<0){
+							$arroggetti[$codobj][0]='Quota da Versare [Agenzia]';
+
+						}else{
+							$arroggetti[$codobj][0]='Quota da Ricevere [Agenzia]';
+
+						}
+						$arroggetti[$codobj][1]=$prezzosaldagenzia;//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<span>Corrispettivo: '.$corr.'€<br>('.$parc.'% di '.$tot1.'€)<br>'.$rimborso.'</span>';//info
+
+
+						//<button class="shortcut recta15 warning" style="width:97px;" onclick="fatturaagenzia('.$IDvend.',5,1)">Acconto</button>
+							//<button class="shortcut recta15 success" style="width:98px;" onclick="openscontr(0,10,'.$IDagenziapren.','.$prezzosald.')">Segnala Saldo</button>
+
+
+						$arroggetti[$codobj][4]='';
+						$codobj++;
+
+
+					}
+
+				}
+				
+				
+				
+				
+				
+				
+				if($quotastr!=0){
+
+					$group='0';
+					$tot1=0;
+					$query2="SELECT SUM(totale),GROUP_CONCAT(CONCAT('///',IDfinale,'_',tipoobj,'///') SEPARATOR ',') FROM venditeoggetti WHERE IDvendita='$IDvendita' AND tipoobj='7'";
+					$result2=mysqli_query($link2,$query2);
+					$row2=mysqli_fetch_row($result2);
+					$tot1+=$row2['0'];
+					$groupIDobj=$row2['1'];
+					if(strlen($groupIDobj)>0){
+						$group.=','.str_replace('///',"'",$groupIDobj);
+					}
+
+
+					if(strlen($group)>2){
+						$group=substr( $group, 2);
+					}
+					$totalevoucher=round($tot1+$spedizione,2);
+
+					$pagvoucher=0;
+
+					$codicevoucher=getnomeserv($IDreg,7,0);
+					
+					$txtpag='';
+					$query3="SELECT valore,IDscontr,tipoobj FROM scontriniobj WHERE  IDobj='$IDreg' AND tipoobj='7' ";
+					$result3=mysqli_query($link2,$query3);
+					if(mysqli_num_rows($result3)>0){
+						while($row3=mysqli_fetch_row($result3)){
+							$pagvoucher+=$row3['0'];
+
+							$tipopag='Pagamento Voucher ['.$codicevoucher.']';
+							
+							$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+							$result4=mysqli_query($link2,$query4);
+							$row4=mysqli_fetch_row($result4);
+							$timepag=$row4['0'];
+							$metodopag=$row4['1'];
+
+
+							$arroggetti[$codobj][0]=$tipopag.'<br><span>'.metodopag($metodopag).'</span>';
+							$arroggetti[$codobj][1]=0;//sospeso
+							$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+							$arroggetti[$codobj][3]='<span>Metodo Pagamento: '.metodopag($metodopag).'<br>Effettuato il '.dataita4($timepag).'</span>';//info
+							$arroggetti[$codobj][4]='';
+							
+							$arroggetti[$codobj][5]='';
+							$codobj++;
+
+						}
+					}
+
+
+
+					$prezzosaldvoucher=$prezzoreg2-$pagvoucher;
+					if($prezzosaldvoucher!=0){
+						$arroggetti[$codobj][0]='A Saldo Voucher ['.$codicevoucher.']';
+						$arroggetti[$codobj][1]=$prezzosaldvoucher;//sospeso
+						$arroggetti[$codobj][2]=0;//effettuato
+						$arroggetti[$codobj][3]='<span>Registra il pagamento di  Acconto o del Saldo</span>';//info
+						$arroggetti[$codobj][4]='';
+						
+						//<button class="shortcut recta200" onclick="fatturaagenzia('.$IDvendita.',5,1)">Pagamento Voucher</button>
+						$codobj++;
+
+					}
+
+
+				}
+
+				
+				
+			}else{
+				
+				$codicevoucher=getnomeserv($IDreg,7,0);
+				$query3="SELECT valore,IDscontr FROM scontriniobj WHERE IDobj='$IDreg' AND tipoobj='7'";
+				$result3=mysqli_query($link2,$query3);
+				if(mysqli_num_rows($result3)>0){
+					while($row3=mysqli_fetch_row($result3)){
+							
+							$query4="SELECT timepag,metodopag FROM scontrini WHERE ID='".$row3['1']."' LIMIT 1";
+							$result4=mysqli_query($link2,$query4);
+							$row4=mysqli_fetch_row($result4);
+							$timepag=$row4['0'];
+							$metodopag=$row4['1'];
+							
+							$delpag='';
+							/*$txtfattvou=getstampfattura($row3['1'],0,0);
+							if(!$txtfattvou){
+								$delpag='<button class="shortcut mini16 popover del3icon danger" onclick="msgboxelimina('.$row3['1'].',21,0,4)"><span>Elimina Pagamento</span></button>';
+								$txtfattvou='Da emettere su "Voucher"';
+							}*/
+						
+							if($metodopag==0){
+								$pagvoucher+=$row3['0'];
+								$arroggetti[$codobj][0]='Documento Fiscale Emesso Voucher ['.$codicevoucher.']</span>';
+								$arroggetti[$codobj][1]=round($row3['0'],2);//sospeso
+								$arroggetti[$codobj][2]=0;//effettuato
+								$arroggetti[$codobj][3]='<span>Recarsi su Voucher per registrare il pagamento</span>';//info
+
+								//$arroggetti[$codobj][4]='';
+
+								$arroggetti[$codobj][4]='';
+
+								$codobj++;
+							}else{
+								
+								$pagvoucher+=$row3['0'];	
+								$arroggetti[$codobj][0]='A Saldo Voucher ['.$codicevoucher.']';
+								$arroggetti[$codobj][1]=0;//sospeso
+								$arroggetti[$codobj][2]=round($row3['0'],2);//effettuato
+								$arroggetti[$codobj][3]='<span>Metodo Pagamento: '.metodopag($metodopag).'<br>Effettuato il '.dataita4($timepag).'</span>';//info
+
+								$arroggetti[$codobj][4]=$delpag;
+
+								$arroggetti[$codobj][5]='<strong class="daemettere">'.$txtfattvou.'</strong>';
+
+								$codobj++;
+							}
+							
+						}
+						
+					}
+				
+				
+				
+				
+				$prezzodasaldreg=$prezzoreg2-$pagvoucher;
+				
+				if($prezzodasaldreg!=0){
+					$arroggetti[$codobj][0]='Voucher da Saldare';
+					$arroggetti[$codobj][1]=round($prezzodasaldreg,2);//sospeso
+					$arroggetti[$codobj][2]=0;//effettuato
+					$arroggetti[$codobj][3]='<b>Voucher Non Pagato</b><br>Recarsi nella sezione "VOUCHER"</span>';//info
+					$arroggetti[$codobj][4]='';//pulsanti
+					//<button class="shortcut recta15 success"  onclick="openscontr('.$IDreg.',7,'.$IDreg.','.$prezzodasaldreg.')">Saldo</button>
+					$codobj++;
+				
+				}
+			}
+			
+		}
+	}
+	
+	$prezzosald=round($prezzotot-$acconto-$quotaagenzia,2);
+	
+	$prezzosald2=round($prezzosald,2);
+	
+	
+	if($prezzosald2!=0){
+		
+		$arroggetti[$codobj][0]='Quota a Saldo';
+		$arroggetti[$codobj][1]=$prezzosald2;//sospeso
+		$arroggetti[$codobj][2]=0;//effettuato
+		$arroggetti[$codobj][3]='<span>Effettua il pagamento con Acconto , Saldo o selezionando i servizi singolarmente</span>';//info
+		$arroggetti[$codobj][4]='';//pulsanti
+		
+		
+		
+		
+		$codobj++;
+			
+	}else{
+		
+	}
+	
+	
+	
+	$queryf="SELECT SUM(totale) FROM fatture WHERE IDobj IN($IDprenc) AND tipo='0' AND tipoobj='0'";
+	$resultf=mysqli_query($link2,$queryf);
+	$rowf=mysqli_fetch_row($resultf);
+	$fatturaf=$rowf['0'];
+	$queryf="SELECT SUM(totale) FROM fatture WHERE IDobj IN($IDprenc) AND tipo='1' AND tipoobj='0'";
+	$resultf=mysqli_query($link2,$queryf);
+	$rowf=mysqli_fetch_row($resultf);
+	$ricevutaf=$rowf['0'];
+
+	
+		
+		$dapag='';
+		$sospeso='';
+		$pagat2='';
+		
+	
+	if(empty($arroggetti[0])){
+		$testo.='<div style="padding:15px;color:#b01f3e;"><strong>Questa prenotazione non ha servizi a pagamento</strong></div></br></br>';
+		
+	}else{
+		$testo.='<br>';
+		/*$testo.='<br>
+		<table class="tabcli"  width="96%" style="margin-left:10px;">
+		<tr><th>Oggetto</th><th  style="width:120px;">Da Eseguire</th><th  style="width:120px;">Eseguito</th><th style="width:160px;">Fiscalit&agrave;</th><th style="width:40px;"></th></tr>
+		';*/
+		
+		foreach ($arroggetti as $dato){
+			$tipostamp=0;
+			$sosp='';
+			if($dato['1']!=0){$sosp=$dato['1'].' €';$tipostamp=1;}
+			$pagat=$dato['2'];
+			if(is_numeric($dato['2'])){
+				if($dato['2']==0){
+					$pagat='';
+				}else{
+					$pagat=$dato['2'].' €';
+				}
+			}
+
+			
+			
+			switch($tipostamp){
+				case 1;
+					//<tr><td class="tdtit">'.$dato['3'].'<div>'.$dato['0'].'</div</td><td class="sosp">'.$sosp.'</td><td class="eseg">'.$pagat.'</td>'.$td5.'</tr>
+					
+					$pagat2.='
+					
+					<div class="row rowlist no-gutter h40">
+					<div class="col-70 coltitle"><strong>'.$dato['0'].'</strong><br/>'.$dato['3'].'</div>
+					<div class="col-25 rightcol">'.$sosp.'</div>
+					<div class="col-5"></div>
+					</div>
+					';
+				break;
+				case 0:
+					//<tr><td class="tdtit">'.$dato['3'].' <div>'.$dato['0'].'</div></td><td class="sosp">'.$sosp.'</td><td class="eseg">'.$pagat.'</td><td>'.$dato['5'].'</td><td style="text-align:right;">'.$dato['4'].'</td></tr>
+					
+					
+						$dapag.='
+						
+						<div class="row rowlist no-gutter h40">
+						<div class="col-70 coltitle"><strong>'.$dato['0'].'</strong><br/>'.$dato['3'].'</div>
+						<div class="col-25 rightcol">'.$sosp.'</div>
+						<div class="col-5"></div>
+						</div>';
+					
+				break;
+			}
+		}
+		
+		if(strlen($dapag)>0){
+			$testo.='<div class="titleb" style="color:#28a45f;">Pagamenti eseguiti</div><br/>'.$dapag;
+			
+		}
+		
+		
+		/*if(strlen($sospeso)>0){
+			$testo.='<tr><td colspan="5" valign="top" style="font-size:14px;color:#3546ea; padding-top:20px; padding-bottom:10px;  text-aling:center;  text-transform:uppercase;font-weight:600;">
+			<div style="width:97%; height:30px; padding-left:30px; line-height:30px; ">
+			Pagamenti in Sospeso</div></td></tr>'.$sospeso.'
+			';
+		}*/
+		
+		
+		if(strlen($pagat2)>0){
+			
+			$testo.='<div class="titleb" style="color:#a42836;">Pagamenti da Eseguire</div><br/>'.$pagat2;
+			/*
+			$testo.='
+			<tr><td colspan="5" valign="top" style="font-size:13px;color:#a42836; padding-top:40px; padding-bottom:10px;  text-aling:center;  text-transform:uppercase;font-weight:600;">
+			<div style="width:97%; height:30px; padding-left:30px; line-height:30px;  ">
+			Pagamenti da Eseguire</div></td></tr>'.$pagat2;*/
+			
+			/*<tr><td colspan="5" valign="top" style="font-size:14px; padding-top:20px; background:#f1f1f1;  color:#a42836; height:16px;padding-left:30px; font-weight:600; text-aling:center; text-transform:uppercase;">Pagamenti da eseguire<br></td></tr>*/
+			
+			
+		}
+		
+		/**/
+		
+		$testo.='<br/><br/>
+		<div class="titleb" style="color:#2550b0;">Totale</div>
+		<div class="row rowlist no-gutter h40">
+						<div class="col-70 coltitle"><strong>Totale Prenotazione</strong></div>
+						<div class="col-25 rightcol">'.$prezzotot.' €</div>
+						<div class="col-5"></div>
+						</div>
+		
+		
+	
+		
+		';
+		
+		/*	<tr><td colspan="5" valign="top" style="font-size:11px;color:#a42836; height:5px; font-weight:400; text-transform:uppercase; border-top:solid 1px #ccc;"></td></tr>
+		<tr><td class="tdtit"  style=" color:#777; padding-left:30px; font-size:11px;">Totale Prenotazione</td><td class="sosp" style="color:#777;">'.$prezzotot.' €</td>
+		<td></td>
+		<td></td><td style="text-align:right;"></td></tr>
+		
+		$testo.='</table><br><br><br>';*/
+	
+	}
+	
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	break;
 	case 4:
 		$testo.='

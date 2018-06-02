@@ -58,7 +58,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Nome</div>
           <div class="item-input">
-            <input type="text" style="font-size:13px;" value="'.$nome.'" onchange="modprenot('.$IDcliente.',this,40,11,0);" placeholder="Nome Cliente">
+            <input type="text"  value="'.$nome.'" onchange="modprenot('.$IDcliente.',this,40,11,0);" placeholder="Nome Cliente">
           </div>
         </div>
       </div>
@@ -69,7 +69,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Cognome</div>
           <div class="item-input">
-            <input type="text" style="font-size:13px;" value="'.$cognome.'" onchange="modprenot('.$IDcliente.',this,41,11,0);" placeholder="Cognome Cliente">
+            <input type="text"  value="'.$cognome.'" onchange="modprenot('.$IDcliente.',this,41,11,0);" placeholder="Cognome Cliente">
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">E-mail</div>
           <div class="item-input">
-            <input type="email" style="font-size:13px;"  value="'.$email.'" onchange="modprenot('.$IDcliente.',this,56,11,0);" placeholder="E-mail">
+            <input type="email"  value="'.$email.'" onchange="modprenot('.$IDcliente.',this,56,11,0);" placeholder="E-mail">
           </div>
         </div>
       </div>
@@ -93,7 +93,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Telefono</div>
           <div class="item-input">
-            <input type="tel" style="font-size:13px;"  value="'.$tel.'" onchange="modprenot('.$IDcliente.',this,57,11,0);" placeholder="Numero di Telefono">
+            <input type="tel"  value="'.$tel.'" onchange="modprenot('.$IDcliente.',this,57,11,0);" placeholder="Numero di Telefono">
           </div>
         </div>
       </div>
@@ -106,7 +106,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Sesso</div>
           <div class="item-input">
-            <select style="font-size:13px;" onchange="modprenot('.$IDcliente.',this,43,11,0);">';
+            <select  onchange="modprenot('.$IDcliente.',this,43,11,0);">';
 			
 			
 			$arr1=array('Maschio','Femmina');
@@ -130,7 +130,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Data di Nascita</div>
           <div class="item-input">
-            <input type="date" style="font-size:13px;" value="'.$datanas.'" onchange="modprenot('.$IDcliente.',this,42,11,0);" placeholder="Data di Nascita" >
+            <input type="date"  value="'.$datanas.'" onchange="modprenot('.$IDcliente.',this,42,11,0);" placeholder="Data di Nascita" >
           </div>
         </div>
       </div>
@@ -144,7 +144,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Note</div>
           <div class="item-input">
-            <textarea  class="resizable" style="font-size:13px;" onchange="modprenot('.$IDcliente.',this,70,11,0);" >'.$note.'</textarea>
+            <textarea  class="resizable"  onchange="modprenot('.$IDcliente.',this,70,11,0);" >'.$note.'</textarea>
           </div>
         </div>
       </div>
@@ -157,7 +157,7 @@ $testo='
         <div class="item-inner">
           <div class="item-title label">Note Ristorante</div>
           <div class="item-input">
-            <textarea  class="resizable" style="font-size:13px;" onchange="modprenot('.$IDcliente.',this,137,11,0);">'.$noteristo.'</textarea>
+            <textarea  class="resizable"  onchange="modprenot('.$IDcliente.',this,137,11,0);">'.$noteristo.'</textarea>
           </div>
         </div>
       </div>

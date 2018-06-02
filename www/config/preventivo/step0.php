@@ -7,58 +7,360 @@ include('../../../config/funzionilingua.php');
 $IDutente=$_SESSION['ID'];
 $IDstruttura=$_SESSION['IDstruttura'];
 
-unset($_SESSION['orarioprev']);
+$gg=1;
 
-$testo='
-
-<div style="width:100%;" align="center"><br>
-<div class="card cardmenu"  align="center"  onclick="statostep=0;avanti2('."'1,1'".')" style="float:none;width:97%; margin:4px; height:120px;">
-			  <div class="card-content" style=" float:none; display:table-cell; vertical-align:middle;">
-				
-				<table  align="center"><tr><td style="width:100px;" align="center">
-				
-					<div class="roundimg" style=" background-color:#3261ae;width:70px;line-height:60px; height:70px;">
-					<div><i class="icon f7-icons" style="color:#fff; ">home</i>
-						
-					</div>
-				</td><td>
-				<b style="font-size:18px; font-weight:400;">Prenotazione con Soggiorno</b><br>			
-				</td></tr></table>
-			  </div>
-			</div>
-			
-			<div class="card cardmenu"  align="center" onclick="statostep=0;avanti2('."'0,1'".')" style="float:none;  width:97%;margin:4px; height:120px;">
-			  <div class="card-content" style=" float:none; display:table-cell; vertical-align:middle;">
-				
-				<table align="center"><tr><td style="width:100px;" align="center">
-				
-					<div class="roundimg" style=" background-color:#32ae6c;width:70px;line-height:60px; height:70px;">
-				<div><i class="icon f7-icons" style="color:#fff; font-size:25px;">today</i>
-					
-				</div>
-				</td><td>
-						
-				<b style="font-size:18px; font-weight:400;">Prenotazione Senza Soggiorno</b><br>
-				
-				</td></tr></table>
-			  </div>
-			</div>
-			
-			
+	$nomeapp='';
+	$attivo=0;
+	
+	if($_SESSION['app']!=0){
+		$query2="SELECT nome,attivo FROM appartamenti WHERE ID='".$_SESSION['app']."' LIMIT 1";
+		$result2=mysqli_query($link2,$query2);
+		$row2=mysqli_fetch_row($result2);
+		$nomeapp=$row2['0'];
+		$attivo=$row2['1'];
+		
+	}else{
+		 $_SESSION['timenew']=time();
+	}
+	
+	$query="SELECT checkin,orai FROM strutture WHERE ID='$IDstruttura' LIMIT 1";
+	$result=mysqli_query($link2,$query);
+	$row=mysqli_fetch_row($result);
+	$check=$row['0'];
+	$orai=$row['1'];
+	if($attivo!=2){	
+		$cll=$check;
+	}else{
+		$cll=$orai;
+	}
+	$orario=secondinv($cll);
 
 
-			</div>
-			
-			
 
+$testo='';
+/*
+if($_SESSION['timenew']!=0){
+	$testo.='<input type="hidden" id="prenotveloce" value="0">
+		<input type="hidden" id="prenotvelocetime" value="'.date('Y-m-d',$_SESSION['timenew']).'">';
+}	
+*/
+
+
+$ora=$_SESSION['timenew'];
+$checkout=$ora+86400;
+
+$testo.='
+
+<div class="content-block">
+
+	
 
 ';
 
 
+	if($attivo!='2'){
+		//border-color:#0064d4; color:#0064d4;
+		
+		$txtapp=getdisponibilita($ora,$checkout,$IDstruttura);
+			 $testo.=' <div class="row" style="margin:5px;">
+			 <div class="col-100" style="text-align:left; padding-left:15px;">
+			 <div class="titlenewp">Arrivo e Partenza</div>
+			 </div>
+			 </div>
+			 <div class="row"  style="border-top:solid 1px #e1e1e1; margin-bottom:20px; border-bottom:solid 1px #e1e1e1; background:#fff; padding-top:7px;padding-bottom:7px;">
+			 <div class="col-50"  >
+			 <div style="font-size:11px;padding-left:10px;">Check-in</div>
+			 <div  id="dataform" class="selectnewp" style="font-size:13px;">'.dataita4($ora).'</div>
+			</div>
+			
+			<div class="col-50">
+			  <div style="font-size:11px;padding-left:10px;">Check-out</div>
+			 <div  id="dataform2" class="selectnewp" style="font-size:13px;">'.dataita4($checkout).'</div>
+			</div>
+			<div class="col-100" align="center" style="color:#000ca3; font-size:13px; font-weight:600;padding-top:4px;">
+			 <i class="f7-icons" style="font-size:11px;">time_fill</i> &nbsp;Soggiorno di <span id="notti">1</span> <span id="txtnotti">Notte</span>
+			</div>
+			
+			
+			<input type="hidden" id="dataarr" value="'.date('Y-m-d',$ora).'">
+			<input type="hidden" id="datapar" value="'.date('Y-m-d',$checkout).'">
+			
+			';
+		/*
+		$testo.='
+			<div class="col-100" align="center">
+			 <div class="titlenewp"style="margin:10px;">Notti</div>
+			 	<input type="hidden" id="notti" value="1">
+				<input type="hidden" id="dataarr" value="'.date('Y-m-d',$ora).'">
+				
+				
+				<div class="swiper-container swiper-4">
+					 <div class="swiper-wrapper">
+					 
+					 	<div class="swiper-slide slidenotti selected" onclick="selnotti(1,this)">1<br/>Notte</div>
+					 ';
+		
+						for($i=2;$i<22;$i++){
+							$testo.='<div class="swiper-slide slidenotti"  onclick="selnotti('.$i.',this)">'.$i.'<br/>'.ucfirst(txtnotti($i)).'</div>';
+						}
+					 	$testo.='
+
+					</div>
+				</div>
+			</div>';
+		*/
+		$testo.='	  
+			 </div>
+			
+						 
+		
+		
+		<div class="list-block">
+  			<ul>
+		
+		
+				<li>
+				  <a href="#" class="item-link  smart-select" data-open-in="picker"   data-back-on-select="true" data-searchbar="false">
+				   <select id="alloggio" onChange="creasessione(this.value,95)" >';
+			 
+			 $alloggiotxt='';
+			$query2="SELECT ID,nome FROM appartamenti WHERE  IDstruttura='$IDstruttura' AND attivo ='1' AND ID NOT IN($txtapp)";
+			$result2=mysqli_query($link2,$query2);
+			if(mysqli_num_rows($result2)>0){
+				while($row2=mysqli_fetch_row($result2)){
+					$testo.='<option value="'.$row2['0'].'"';
+					
+					if($row2['0']==$_SESSION['app']){$testo.=' selected="selected" ';  $alloggiotxt=$row2['1'];}
+					$testo.='>'.$row2['1'].'</option>';
+				}
+			}
+			 
+			 
+			 
+			 
+			 
+			 $testo.='</select>
+					
+					<div class="item-content">
+					  <div class="item-inner">
+						<div class="item-title titleform">Alloggio</div>
+						<div class="item-after" id="txtalloggio">'.$alloggiotxt.'</div>
+					  </div>
+					</div>
+				  </a>
+				</li>
+				
+				<li>
+				  <a href="#" class="item-link  smart-select" data-open-in="picker"   data-back-on-select="true" data-searchbar="false">
+					<select id="orario" > '.generaorario($orario,8,24,60).'</select>
+					<div class="item-content">
+					  <div class="item-inner">
+						<div class="item-title titleform">Orario</div>
+						<div class="item-after">'.$orario.'</div>
+					  </div>
+					</div>
+				  </a>
+				</li>
+		
+		
+		
+		</ul>
+			
+		
+	</div>
+	
+	
+	';
+	}else{
+		
+		// <input type="text" id="dataform" class="selectnewp"    alt="'.date('Y-m-d',$ora).'"value="'.dataita4($ora).'">
+		 $testo.=' 
+		 <div class="row" >
+			 <div class="col-100" align="center"><div class="titlenewp">Arrivo</div><br>
+			 
+			 <div  id="dataform" class="selectnewp">'.dataita4($ora).'</div>
+			 
+			
+			 </div>
+			 
+		</div>
+		<br>
+		<span id="notti" style="display:none;">0</span>
+		<input type="hidden" id="dataarr" value="'.date('Y-m-d',$ora).'">
+		
+			<div class="list-block">
+  			<ul>
+			<li>
+				  <a href="#" class="item-link  smart-select" data-open-in="picker"   data-back-on-select="true" data-searchbar="false">
+					<select id="orario" > '.generaorario($orario,8,24,60).'</select>
+					<div class="item-content" >
+					  <div class="item-inner">
+						<div class="item-title titleform">Orario</div>
+						<div class="item-after">'.$orario.'</div>
+					  </div>
+					</div>
+				  </a>
+				</li>
+			
+		</ul></div>
+		
+	
+	
+	
+	';
+		
+		
+	}
+/*<div class="col-20" style="text-align:center;"><div style="margin:1px;display:inline-block;font-weight:bold;color:#0064d4; font-size:12px; text-transform:uppercase;">Orario</div><br>
+			  
+			  <select class="selectnewp" style="width:100%;"> '.generaorario($ora,8,24,60).'</select>
+			  
+			 </div>*/
+
+  
+  
+  $testo.='
+
+  <div class="list-block">
+  <ul>
+  ';
+  
+  $query5="SELECT ID,restrizione,tiporest,personale FROM tiporestr WHERE IDstr='$IDstruttura' AND limite='0' AND personale='1' ORDER BY ordine";
+	$result5=mysqli_query($link2,$query5);
+	$num=mysqli_num_rows($result5);
+	
+	$lar=50;
+	$col=2;
+	/*if(($num%3)==0){
+		$lar=33;
+		$col=3;	
+	}*/
+	
+	$ini=0;
+	
+	while($row5=mysqli_fetch_row($result5)){
+			
+			/*if($ini==$col){
+				$testo.='</div>';
+				$ini=0;
+			}
+			if($ini==0){
+				$testo.='<div class="row">';
+			}
+			$ini++;
+		
+			$testo.='
+			<div class="col-'.$lar.'" style="text-align:center;" >
+			 	<div style="margin:5px; font-weight:bold; height:15px; font-size:11px;color:#333;overflow:hidden;text-transform:uppercase;">'.$row5['1'].'</div>
+			 
+			 <select  id="restriz'.$row5['0'].'" lang="1" alt="'.$row5['0'].'" class="selectdx inputrestr selectnewp" style="width:60%;" >'.generanum(0,20).'</select>
+			 
+			 </div>
+			
+			';*/
+			
+			
+			
+			$testo.='<li>
+				  <a href="#" class="item-link  smart-select" data-open-in="picker"   data-back-on-select="true" data-searchbar="false">
+					<select  id="restriz'.$row5['0'].'" lang="1" alt="'.$row5['0'].'" class="selectdx inputrestr" >
+			  '.generanum(0,20).'</select>
+					<div class="item-content">
+					  <div class="item-inner">
+						<div class="item-title titleform" >'.$row5['1'].'</div>
+						<div class="item-after">0</div>
+					  </div>
+					</div>
+				  </a>
+				</li>
+			
+				';
+				
+	
+	}
+	
+	
+  
+  
+  
+  $testo.='</ul></div><br>
+   <div class="list-block">
+  <ul>
+  
+  ';
+  
+  
+  
+
+  
+  if($attivo!='2'){
+	  
+		$query5="SELECT ID,restrizione,tiporest,personale FROM tiporestr WHERE IDstr='$IDstruttura' AND limite='0' AND personale='0'";
+		$result5=mysqli_query($link2,$query5);
+		while($row5=mysqli_fetch_row($result5)){
+				
+				
+				$testo.='<li>
+					  <a href="#" class="item-link  smart-select" data-open-in="picker" data-back-on-select="true" data-searchbar="false">
+						<select  id="restriz'.$row5['0'].'"  alt="'.$row5['0'].'" class="selectdx inputrestr" >
+				  '.generanum(0,5).'</select>
+						<div class="item-content">
+						  <div class="item-inner">
+							<div class="item-title titleform">'.$row5['1'].'</div>
+							<div class="item-after">0</div>
+						  </div>
+						</div>
+					  </a>
+					</li>
+				
+					
+					';
+					
+		
+		}
+		
+	
+	  
+	  $testo.='</ul></div><br>';
+	  }
+  
+  /*
+  $testo.='
+  
+  
+  
+  
+  
+<div class="list-block">
+  <ul>
+  
+  
+  ';
+  
+	$query5="SELECT ID,restrizione,tiporest,personale FROM tiporestr WHERE IDstr='$IDstruttura' AND limite='0' AND personale='0'";
+	$result5=mysqli_query($link2,$query5);
+	while($row5=mysqli_fetch_row($result5)){
+			$testo.='
+				<li>
+				  <a href="#" class="item-link  smart-select" data-open-in="page" data-back-on-select="true" data-searchbar="false">
+					<select id="restriz'.$row5['0'].'" alt="'.$row5['0'].'" class="selectdx inputrestr" >
+			  '.generanum(0,10).'</select>
+					<div class="item-content">
+					  <div class="item-inner">
+						<div class="item-title">'.$row5['1'].'</div>
+						<div class="item-after">N.0</div>
+					  </div>
+					</div>
+				  </a>
+				</li>
+				';
+	}
+	$testo.='</ul></div>
+	
+	
+ 
+';*/
 
 
-
-
-
-echo $testo;
+echo $testo.'<br><br><br><br><br>';
 			 

@@ -56,7 +56,7 @@ $testo.='
 					
 					</div>
 					<div class="center titolonav">Luoghi da Visitare</div>
-					
+					<div class="right"></div>
 				</div>
 			</div>
 		 <div class="page-content">

@@ -22,6 +22,11 @@ $_SESSION['timecal']=$time0;
 
 $_SESSION['tipoaddnav']=0;
 
+$timeoggi=time();
+			list($yy, $mm, $dd) = explode("-",date('Y-m-d',$timeoggi));
+			$time0oggi=mktime(0, 0, 0, $mm, $dd, $yy);
+$tt=$time0oggi+$i*86400;
+
 $testo='
 <div data-page="centrobenessere" class="page"> 
 
@@ -29,17 +34,19 @@ $testo='
 				<div class="navbar-inner">
 					<div class="left">
 					 <a href="#" class="link icon-only" onclick="creasessione(0,88);mainView.router.back();" >
-						<i class="material-icons" style="font-size:30px;">apps</i>
+						<i class="material-icons fs30">apps</i>
 					</a>
 					
 					</div>
 					<div class="center titolonav">Centro Benessere</div>
 					<div class="right" >
-						
+					<input type="hidden" id="tempotime" value="">
+				
 					</div>
 				</div>
 			</div>';
 			 
+			/*
 			
 			$timeoggi=time();
 			
@@ -92,7 +99,7 @@ $testo='
 				
 				
 			}
-			$_SESSION['lasttimedx']=$time0oggi+86400*$lastday;
+			$_SESSION['lasttimedx']=$time0oggi+86400*$lastday; 
 			
 			//$prox.='<tr >'.$line1.'</tr></table>';
 			 
@@ -106,6 +113,13 @@ $testo='
 				
 				<div  style="margin-left:0px;" id="centrobenesserediv" style="padding:0px; width:100%;"> 
 			 ';
+*/ 
+$testo.='<div class="page-content" style="z-index:-1;">
+					<div class="content-block"> 
+					<div id="centrobenesserediv" style="margin-left:0px;padding:0px; width:100%;">
+					
+					
+					';
 		
 			  echo $testo;
 		

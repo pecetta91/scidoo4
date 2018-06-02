@@ -48,19 +48,16 @@ $testo.='
 					<div class="left">
 					
 					  <a href="#" class="link icon-only back"   >
-						<i class="material-icons" style="font-size:40px;">chevron_left</i>
+						<i class="material-icons fs40" >chevron_left</i>
 					</a>
 					
 					</div>
 					<div class="center titolonav">I tuoi servizi</div>
-					
+					<div class="right"></div>
 				</div>
 			</div>
 		 <div class="page-content">
-			
-				
-				
-              <div class="content-block" id="contoospitediv">
+			<div class="content-block" id="contoospitediv">
 
 ';
 
@@ -98,9 +95,8 @@ $id=$IDpren;
 		
 			
 		
-		<div class="content-block-title"  style="margin-top:-10px;">Prenotazione Iniziale</div>
-			<div class="list-block media-list inset" id="infoprentab" style="padding:0px; ">
-			  <ul>';
+		<div class="content-block-title " >Prenotazione Iniziale</div>
+			<div id="infoprentab " class="p5" >';
 			  
 		
 		
@@ -118,9 +114,8 @@ $id=$IDpren;
 		
 				 
 						
-			<div class="content-block-title" style="margin-top:-15px;">Servizi Extra</div>
-			<div class="list-block media-list inset" id="infoprentab"  style="padding:0px;">
-			  <ul>';
+			<div class="content-block-title mt10"  >Servizi Extra</div>
+			<div id="infoprentab  " class="p5" >';
 	$totale1=0;
 		
 	}
@@ -128,8 +123,7 @@ $id=$IDpren;
 		$query="SELECT p.ID FROM prenextra as p,prenextra2 as p2 WHERE p.IDtipo='10' AND p.IDpren IN ($IDprenc)AND p.ID=p2.IDprenextra AND p2.datacar='1'";
 		$result=mysqli_query($link2,$query);
 		if(mysqli_num_rows($result)>0){
-			$testo.='
-			</ul></div>';
+			$testo.='</div>';
 			
 			/*
 			$testo.='</div></div>
@@ -137,9 +131,8 @@ $id=$IDpren;
           				<div class="content-block" style="padding:0px;">
 			';*/
 			$testo.='			
-			<div class="content-block-title" style="margin-top:-15px;">Prodotti Acquistati</div>
-			<div class="list-block media-list inset" id="infoprentab" style="padding:0px;">
-			  <ul>';
+			<div class="content-block-title mt10" >Prodotti Acquistati</div>
+			<div id="infoprentab " class="p5" >';
 		}
 	}
 
@@ -199,9 +192,9 @@ $id=$IDpren;
 				
 				if(($tipolim=='5')||($tipolim=='7')||($tipolim=='8')){
 					$groupinfoID=$row['9'];
-					$qta2=' <span style="font-size:12px;">per '.round($qta/$num).' persone</span>';
+					$qta2=' <span class="fs12">per '.round($qta/$num).' persone</span>';
 					$arrg=explode(',',$IDgroup);
-					$prezzo=0;
+					//$prezzo=0;
 					foreach ($arrg as $dato){
 						$pacchetto=$extra.'/'.$dato;
 						$query2="SELECT SUM(prezzo) FROM prenextra2 WHERE pacchetto ='$pacchetto' AND IDpren IN ($IDprenc) AND IDinfop IN ($groupinfoID) AND IDinfop!='0' AND paga='1'";
@@ -223,7 +216,7 @@ $id=$IDpren;
 				$prezzotxt=round($prezzo,2);
 				
 				if($tipolim=='6'){
-					$qta2=' <span style="font-size:12px;">N.'.$qta.'</span>';
+					$qta2=' <span class="fs12">N.'.$qta.'</span>';
 				}else{
 					if(($num==1)&&(($tipolim=='2')||($tipolim=='1')||($tipolim=='4'))){
 						//$num2=datafunc($time,$row['7'],$tipolim,'openmorph(2,'.$ID.','.$id.')',$ID);
@@ -320,7 +313,7 @@ $id=$IDpren;
 				
 				
 				
-				$testo.=
+	/*			$testo.=
 				'<li style="padding:0px;">
 				  <div class="item-content">
 					<div class="item-media" >
@@ -333,10 +326,15 @@ $id=$IDpren;
 						
 					  </div>
 					</div>
-				  </div>';
+				  </div>
+				 </li>';*/
 				 
 					 
-				$testo.='</li>';
+				$testo.='<div class="row rowlist no-gutter">
+							<div class="col-5">'.$vis.'</div>
+							<div class="col-50">'.wordwrap($servizio,25,'<br>').'<br><span class="conto1">'.$qtabutt.'<br>'.$sala.'</span></div>
+							<div class="col-30" >'.$butt1.'<br>'.$num2.'</div>
+						</div>';
 			
 				
 				$totale1+=$prezzo;
@@ -357,7 +355,7 @@ $id=$IDpren;
 				//$testo.='<tr ><td colspan="9"><div class="etich2" style=" color:#bc4504;">Abbuoni</div></td></tr>';
 				while($rowsc=mysqli_fetch_row($resultsc)){
 					
-					$testo.='
+	/*				$testo.='
 				<li>
 				  <div class="item-content">
 					<div class="item-media">
@@ -373,7 +371,12 @@ $id=$IDpren;
 				  
 				  
 				</li>
-				';
+				';*/
+					
+					$testo.='<div class="row rowlist no-gutter">
+							<div class="col-50"><span class="conto2">'.$rowsc['2'].'</span><br><span class="fs11">(Pren: '.estrainomeapp($rowsc['4']).')</span></div>
+							<div class="col-40"><b>'.round($rowsc['1'],2).' €</b></div>
+						</div>';
 					
 					$totale1+=round($rowsc['1'],2);
 				}
@@ -381,11 +384,8 @@ $id=$IDpren;
 			
 			
 			$totgen+=$totale1;
+			$testo.='</div>';
 
-			$testo.='</ul></div>';
-			
-			
-			
 		}
 	}
 	

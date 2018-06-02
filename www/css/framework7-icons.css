@@ -29,5 +29,5 @@
   -moz-font-feature-settings: "liga";
   font-feature-settings: "liga";
   text-align: center;
-  color:#fff;
+  color:inherit;
 }

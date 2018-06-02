@@ -32,9 +32,11 @@ $result=mysqli_query($link2,$query);
 $row=mysqli_fetch_row($result);
 $restr=$row['0'].',';
 
+
 if(isset($_GET['dato0'])){
 	$IDsottosel=$_GET['dato0'];
 }
+$IDsottosel=25;
 
 $query="SELECT sottotipologia FROM sottotipologie WHERE ID='$IDsottosel' LIMIT 1";
 $result=mysqli_query($link2,$query);
@@ -42,9 +44,9 @@ $row=mysqli_fetch_row($result);
 $sottotipologia=$row['0'];
 
 
-echo '
+$testo.='
 
-<div data-page="elencoserv" class="page" > 
+<div data-page="elencoserv" class="page with-subnavbar" > 
             <!-- Top Navbar--> 
              
 	
@@ -58,13 +60,13 @@ echo '
 					</a>
 					
 					</div>
-					<div class="center titolonav">'.$sottotipologia.'</div>
-					
-				</div>
-			</div>
+					<div class="center titolonav">Elenco Servizi</div>
+					<div class="right"></div>
+				</div>';
+	
+		$testo.='</div>
 		 <div class="page-content">
-			 <div class="content-block">
-			<input type="hidden" id="IDsottotipsel" value="'.$IDsottosel.'">	
+			 <div class="content-block">	
 			
 		<div class="list-block media-list">
 		  <ul>';
@@ -136,11 +138,7 @@ while($row=mysqli_fetch_row($result)){
 $testo.='</ul></div>';
 
 
-if(!isset($inc)){
 echo $testo;
-}
-
-
 
 
 ?>

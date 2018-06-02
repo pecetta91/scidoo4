@@ -12,7 +12,6 @@ $IDpren=$_SESSION['IDprenfunc'];
 $IDserv=$_GET['ID'];
 $tipolim=$_GET['tipolim'];
 
-
 $data=date('Y-m-d');
 
 list($yy, $mm, $dd) = explode("-", $data);
@@ -31,24 +30,35 @@ unset($_SESSION['IDsalaadd']);
 unset($_SESSION['timeadd']);
 unset($_SESSION['IDpersadd']);
 	
+
+$infopacchetto='';
+
 	switch($tipolim){
 		case 7:
 			$IDtipo=0;
 			$IDsotto=0;
 			$esclusivo=0;
 			$content='';
-			$query="SELECT persone,codiceidea FROM ideeregalosold WHERE ID='$IDserv' AND IDstruttura='$IDstruttura'";
+			$query="SELECT persone,codiceidea,prezzo FROM ideeregalosold WHERE ID='$IDserv' AND IDstruttura='$IDstruttura'";
 			$result=mysqli_query($link2,$query);
 			$row=mysqli_fetch_row($result);
 			$codiceid=$row['1'];
 			$persone=$row['0'];
+			$prezzovou=round($row['2']/$persone,2);
 		
 			$query="SELECT c.IDservcont,COUNT(*) FROM composizionireg as c,servizi as s WHERE c.IDreg='$IDserv' AND c.IDstr='$IDstruttura' AND c.IDservcont=s.ID AND s.IDtipo!='9' GROUP BY c.IDservcont";
-		$result=mysqli_query($link2,$query);
-		
-			$content='<hr><table class="wrapper3" style="table-layout:auto; width:70%;">
-			<tr><tr><th style="height:35px;">Voucher</th><th>Contenuto</th><th>Persone</th></th>
-			<tr><td style="width:170px;">'.$codiceid.'</td><td class="serv"> ';
+			$result=mysqli_query($link2,$query);
+
+			
+			$infopacchetto='<br/>
+			<div class="row">
+			<div class="col-50">
+			<div class="titleb">Nome Confanetto: <div style="color:#333;">'.$codiceid.'</div></div></div>
+			<div class="col-50"><div class="titleb">Voucher per <div style="color:#333;">'.$persone.' '.txtpersone($persone).'</div></div></div>
+			<div class="col-100"><hr><div class="titleb">Contenuto</div>
+			<div style="font-size:13px; padding-left:15px;">
+			';
+			
 			$c=0;
 			$c2=0;
 			while($row5=mysqli_fetch_row($result)){
@@ -61,22 +71,12 @@ unset($_SESSION['IDpersadd']);
 				
 				if($tipoliminto=='4'){
 					$pern=$row2['2'];
-					$content.='N.'.$row5['1'].' '.$pern;
+					$infopacchetto.='N.'.$row5['1'].' '.$pern.'<br>';
 				}else{
-					$content.='N.'.$row5['1'].' '.$servizio;
+					$infopacchetto.='N.'.$row5['1'].' '.$servizio.'<br>';
 				}
-				if($c2==2){$content.='<br>';
-				}else{
-					$content.=',  ';
-				}
-				
-				$c++;	$c2++;	
 			}
-			$content=substr($content, 0, strlen($content)-2);
-		
-			$content.='</td><td style="width:150px;">Per <span id="npers">'.$persone.'</span> persone</td></tr></table><hr>';
-			echo $content;
-		
+			$infopacchetto.='</div></div></br></div>';
 		
 		break;
 		case 8:
@@ -85,19 +85,30 @@ unset($_SESSION['IDpersadd']);
 			$IDsotto=0;
 			$esclusivo=0;
 			$content='';
-			$query="SELECT persone,cofanetto FROM cofanetti WHERE ID='$IDserv'";
+			$query="SELECT persone,cofanetto,prezzo FROM cofanetti WHERE ID='$IDserv'";
 			$result=mysqli_query($link2,$query);
 			$row=mysqli_fetch_row($result);
 			$persone=$row['0'];
 			$codiceid=$row['1'];
+			$prezzocof=round($row['2']/$persone,2);
 			
 		
 			$query="SELECT c.IDservcont,COUNT(*) FROM composizionicof as c,servizi as s WHERE c.IDcof='$IDserv' AND c.IDservcont=s.ID AND s.IDtipo!='9' GROUP BY c.IDservcont";
+			
+		
 			$result=mysqli_query($link2,$query);
 		
-			$content='<hr><table class="wrapper3" style="table-layout:auto; width:70%;">
-			<tr><tr><th style="height:35px;">Cofanetto</th><th>Contenuto</th><th>Persone</th></th>
-			<tr><td style="width:170px;">'.$codiceid.'</td><td class="serv"> ';
+			
+			$infopacchetto='<br/>
+			<div class="row">
+			<div class="col-50">
+			<div class="titleb">Nome Confanetto: <div style="color:#333;">'.$codiceid.'</div></div></div>
+			<div class="col-50"><div class="titleb">Voucher per <div style="color:#333;">'.$persone.' '.txtpersone($persone).'</div></div></div>
+			<div class="col-100"><hr><div class="titleb">Contenuto</div>
+			<div style="font-size:13px; padding-left:15px;">
+			';
+				//$infopacchetto.=$query;
+			
 			$c=0;
 			$c2=0;
 			while($row5=mysqli_fetch_row($result)){
@@ -112,24 +123,16 @@ unset($_SESSION['IDpersadd']);
 				
 				if($tipoliminto=='4'){
 					$pern=$row2['2'];
-					$content.='N.'.$row5['1'].' '.$pern;
+					$infopacchetto.='N.'.$row5['1'].' '.$pern.'<br>';
 				}else{
-					$content.='N.'.$row5['1'].' '.$servizio;
-				}
-				if($c2==2){$content.='<br>';
-				}else{
-					$content.=',  ';
+					$infopacchetto.='N.'.$row5['1'].' '.$servizio.'<br>';
 				}
 				
-				$c++;	$c2++;	
 			}
-			$content=substr($content, 0, strlen($content)-2);
 		
-			$content.='</td><td style="width:150px;">Per <span id="npers">'.$persone.'</span> persone</td></tr></table><hr>';
-			echo $content;
+			$infopacchetto.='</div></div></br>
+			 </div>';
 			
-
-		
 		break;
 		default:
 			echo '<span id="npers" style="display:none;">-1</span>';
@@ -162,13 +165,8 @@ unset($_SESSION['IDpersadd']);
 		}
 		$_SESSION['arrservadd']=$arr;
 		$time0=time();
-		$txt='
+		$txt='<div class="content-block-title titleb">Carrello</div>';
 		
-		 <div class="content-block-title" style="font-size:20px; text-align:left;">Carrello</div>
-		<div class="list-block">
-		  <ul>
-			
-			';
 		$totale=0;	
 			
 		foreach ($arr as $key=>$dato){
@@ -181,6 +179,18 @@ unset($_SESSION['IDpersadd']);
 				$totale+=$prezzo*$dato;
 				
 				$txt.='
+				<div class="row rowlist h40 no-gutter">
+					<div class="col-65" class="coltitleb">'.$serv.'  ('.$prezzo.'€)</div>
+					<div class="col-10" ><button onclick="creasessione('.$key.',47)" class="button button-raised button-fill">-</button></div>
+					<div class="col-10 cent centercol" style="line-height:33px; font-weight:600;" title="'.$prezzo.'" alt="'.$key.'"  dir="'.$time0.'">'.$dato.'</div>
+					<div class="col-10" ><button onclick="creasessione('.$key.',48)" class="button button-raised button-fill">+</button></div>
+					<div class="col-5" ></div>
+				</div>
+				
+				
+				
+				';
+				/*
 				<li class="item-content">
 				  <div class="item-inner">
 					<div class="item-title">'.$serv.' ('.$prezzo.'€)</div>
@@ -190,18 +200,13 @@ unset($_SESSION['IDpersadd']);
 									
 					</div>
 				  </div>
-				</li>
-				
-				
-				';
+				</li>*/
 				
 			}
 		
 		
 		}
 		
-		$txt.='</ul></div>
-		';
 		
 		
 		
@@ -266,6 +271,8 @@ unset($_SESSION['IDpersadd']);
 		$arresc=array();
 		$nottipacc=0;
 		$querypacc="SELECT c.IDservcont,COUNT(*),s.IDsottotip,s.IDtipo,s.esclusivo FROM composizionicof as c,servizi as s WHERE c.IDcof='$IDserv' AND c.IDservcont=s.ID AND (s.IDtipo IN (1,8) OR s.esclusivo='1') GROUP BY s.IDsottotip,s.esclusivo";
+		
+		
 		$resultpacc=mysqli_query($link2,$querypacc);
 		if(mysqli_num_rows($resultpacc)>0){
 			while($rowp=mysqli_fetch_row($resultpacc)){
@@ -313,29 +320,7 @@ unset($_SESSION['IDpersadd']);
 	
 	
 	$txtaccord=array();
-	/*
-	for($i=$time0;$i<$checkout;$i+=86400){
-		$classog='';
-		if(date('Y-m-d',$i)==$dataoggi){
-			$classog=' class="oggiaddserv" ';
-		}
-		$txtaccord[$i]='
-			<li class="accordion-item"><a href="#" class="item-content item-link">
-				<div class="item-inner">
-				  <div class="item-title">'.dataita($i).'</div>
-				  <div class="item-after">
-				  <span  class="eletxt" id="ele'.$i.'">0 Elementi selezionati</span>
-				  </div>
-				</div></a>
-			  <div class="accordion-item-content">
-				<div class="content-block">
-					<div class="list-block">
-  						<ul >
-				
-		
-		';
-		
-	}*/
+
 	
 	$i=0;
 	$arr=array();
@@ -347,7 +332,6 @@ unset($_SESSION['IDpersadd']);
 		while($row=mysqli_fetch_row($result)){
 			$arrp[$row['0']]=2;
 		}
-			
 			$data=date('Y-m-d',$i);
 		
 			$query="SELECT ID,extra,FROM_UNIXTIME(time,'%Y-%m-%d') FROM prenextra WHERE FROM_UNIXTIME(time,'%Y-%m-%d') BETWEEN FROM_UNIXTIME('$check','%Y-%m-%d') AND  FROM_UNIXTIME('$checkout','%Y-%m-%d') AND esclusivo='1' AND modi>='0'  ORDER BY time";
@@ -440,18 +424,25 @@ unset($_SESSION['IDpersadd']);
 				if(!isset($txtaccord[$i])){$txtaccord[$i]='';}
 				$kk++;
 				
-				if($tipolim==5){
-					$prezzo=prezzopacc($IDserv,$i,$dato2,$IDstruttura);
-				}else{
-					if($row['3']==10){
-						$calc=1;
-					}else{
-						$calc=$dato2.',';
-					}
-					$prezzo=calcolaprezzoserv($IDserv,$i,$calc,$IDstruttura,0,$IDpren);
+				switch($tipolim){
+					case 5:
+						$prezzo=prezzopacc($IDserv,$i,$dato2,$IDstruttura);
+					break;
+					case 7:
+						$prezzo=$prezzovou;
+					break;
+					case 8:
+						$prezzo=$prezzocof;
+					break;
+					default:
+						if($row['3']==10){
+							$calc=1;
+						}else{
+							$calc=$dato2.',';
+						}
+						$prezzo=calcolaprezzoserv($IDserv,$i,$calc,$IDstruttura,0,$IDpren);
+					break;
 				}
-				
-				
 				
 				$prezzotxt=''.$prezzo.'€';
 				
@@ -474,7 +465,14 @@ unset($_SESSION['IDpersadd']);
 						$IDins=$arr[$key2][$i];
 						$mess=$arrmess[$arrtipi[$key2][$i]];
 						$tt2=$arrtipi[$key2][$i];
-						//$disab='disab';
+						
+						switch($arrtipi[$key2][$i]){
+							case 1:
+								$disab='disabled="disabled" ';
+							break;
+						}
+						
+						
 					}
 					
 					
@@ -487,25 +485,23 @@ unset($_SESSION['IDpersadd']);
 					$func='onchange="selectbutt(this)"';
 					
 					$txtaccord[$i].='
-					<li id="'.$kk.'">
-					  <label class="label-checkbox item-content ">
+					<li id="'.$kk.'"  '.$disab.'>
+					  <label class="label-checkbox item-content " >
 						
-						<input type="'.$typeinput.'"  '.$func.' name="soggetti"  alt="'.$prezzo.'" align="'.$i.'" lang="'.$key2.'_'.$i.'_'.$IDserv.'_'.$dato2.'" dir="'.$tipo.'">
+						<input type="'.$typeinput.'"  '.$func.' name="soggetti" '.$disab.'  alt="'.$prezzo.'" align="'.$i.'" lang="'.$key2.'_'.$i.'_'.$IDserv.'_'.$dato2.'" dir="'.$tipo.'">
 						<div class="item-media">
 						  <i class="icon icon-form-checkbox"></i>
 						</div>
 						<div class="item-inner">
 						  <div class="item-title" >'.$arrname[$key2].'</div>
-						   <div class="item-after" >'.$mess.'</div>
+						   <div class="item-after" >'.$mess.' </div>
 						</div>
 					  </label>
 					</li>
 				
 				';
 					
-					/*
-					$txt.='<div class="sopra t'.$i.' in'.$key2.' infos icon'.$tipo.'g bb '.$disab.'" alt="'.$IDins.'" align="'.$i.'" lang="'.$key2.'_'.$i.'_'.$IDserv.'_'.$dato2.'" dir="'.$tipo.'" '.$func.' id="'.$kk.'" ></div><div class="mex">'.$mess.'</div>';	
-					*/
+					
 				}else{
 					//$txt.='<input type="checkbox" class="wcheck t'.$i.' in'.$key2.'" lang="'.$key2.'_'.$i.'_'.$IDserv.'" onChange="selezionati3()">';
 					
@@ -552,7 +548,7 @@ unset($_SESSION['IDpersadd']);
 	$txt.='<div class="list-block">
   <ul>
     <li>
-      <a href="#" class="item-link smart-select" data-open-in="popup">
+      <a href="#" class="item-link smart-select" data-open-in="picker">
         <select name="data" onchange="selectservice('.$IDserv.','.$tipolim.','.$IDtipo.',0,0,this.value)">
 
 	';
@@ -597,9 +593,8 @@ unset($_SESSION['IDpersadd']);
 		
 		$txt.='<option value="'.$i.'" '.$sel.' '.$dis.'>'.dataita4($i).'</option>';			
 	}
-	
+
 	$txt.='
-	
 	</select>
         <div class="item-content">
           <div class="item-inner">
@@ -611,37 +606,24 @@ unset($_SESSION['IDpersadd']);
     </li>
   </ul>
 </div>   
-<div class="titleb" style="margin-left:20px;">Seleziona persone '.date('H:i',$isel).'</div>
-<div class="list-block">
-  <ul>'.$txtaccord[$isel].'
-  </ul>
-  </div>
-
-
-	
-	';
-/*				
-	foreach($txtaccord as $tt=> $dato){
-		$stamp=1;
+<div class="titleb" style="margin-left:20px;">Seleziona persone</div>';
 		
-		if(isset($_SESSION['datecentro'])){
-			if(!in_array(date('Y-m-d',$tt),$_SESSION['datecentro'])){
-				$stamp=0;
-			}
+		if(!empty($txtaccord[$isel])){
+			$txt.='<div class="list-block">
+			  <ul>'.$txtaccord[$isel].'
+			  </ul>
+			  </div>';	
+		}else{
+			$txt.='<strong>Servizio non disponbile per questa data<br/></strong>';
 		}
-		if($stamp==1){			
-			$txt.=$dato.'
-			 </ul>
-		</div> 
 		
-			</div></div></li>
-			';
-		}
-	}
-	$txt.='
-	</ul>
-	</div> 
-	';*/
+	if(strlen($infopacchetto)>0){
+		$txt.='
+<br><br><div style="line-height:17px; background:#fff;padding:5px; border-top:solid 1px #e1e1e1; border-bottom:solid 1px #e1e1e1;">'.$infopacchetto.'</br></div>';
+	}	
+		
+		
+
 	}
 
 

@@ -12,7 +12,7 @@ $IDstruttura=$_SESSION['IDstruttura'];
 $IDsotto=$_SESSION['IDsottotip'];
 $time=strip_tags($_GET['time']);
 
-			
+/*	
 $testo='
 
 <div class="pages navbar-fixed">
@@ -34,12 +34,9 @@ $testo='
 			
         <div class="content-block" >
 		
-		
-		
-		
 		';
-		
-	
+		*/
+$testo='';
 
 $groupid=getprenot($time,$IDstruttura);
 					
@@ -61,6 +58,24 @@ $groupid=getprenot($time,$IDstruttura);
 						$IDprenlast=0;
 						while($row2=mysqli_fetch_row($result2)){
 							$IDpren=$row2['3'];
+							
+							if($IDpren!=$IDprenlast){
+								if($IDprenlast!=0){$testo.='<hr style="background:#f1f1f1;">';}
+								$testo.='<br/><div class="titleb">'.estrainome($IDpren).'<br><span>'.estrainomeapp($IDpren).'</span></div><br/>';
+								$IDprenlast=$IDpren;
+							}
+							
+							
+							$testo.='<div class="row rowlist h40" onclick="modificaserv('.$row2['0'].',1,0,1,0);myApp.closeModal();">
+							
+							<div class="col-70 f15" >'.$row2['2'].'</div>
+							<div class="col-25 rightcol">'.$row2['4'].' &nbsp;<i class="material-icons" style="font-size:13px;">person</i></div>
+							<div class="col-5"></div>
+							</div>';
+							
+							
+							/*
+							
 							if(is_numeric($IDpren)){
 								
 								if($IDpren!=$IDprenlast){
@@ -96,19 +111,37 @@ $groupid=getprenot($time,$IDstruttura);
 							</li>
 								
 							';
-							}
+							}*/
 						}
 					}
 					
 				
-	
+	/*
 	$testo.='
 	</ul>
 	</div>
 	</div>
 	</div>
 	</div></div>
-	';
-	
-	echo $testo;
+	';*/
+$testo.='<hr style="background:#f1f1f1;">';	
+
+	//echo $testo;
 ?>
+
+
+<div class="picker-modal " id="popoverord" >
+		  <div class="toolbar">
+			<div class="toolbar-inner">
+				<div class="left"></div>
+			  <div class="right"><a href="#" class="close-picker">Chiudi</a></div>
+			</div>
+		  </div>
+		  <div class="picker-modal-inner ">
+		 <div class="page-content" id="ordinazione" style="background-color: white"> 
+		 <?php echo $testo; ?>
+		  </div>
+	</div>
+	
+</div>
+

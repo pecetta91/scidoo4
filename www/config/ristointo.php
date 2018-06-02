@@ -125,7 +125,7 @@ if($_SESSION['visristo']==1){
 			}
 			$txtprod.='</table></div>';
 		}else{
-			$txtprod.='Nessu prodotto aggiunto';
+			$txtprod.='Nessun prodotto aggiunto';
 		}
 		
 		$txtprod.='<br><br>

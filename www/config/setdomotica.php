@@ -7,6 +7,7 @@ $IDutente=$_SESSION['ID'];
 $IDstruttura=$_SESSION['IDstruttura'];
 
 $IDdom=$_GET['IDdom'];
+$manuale=$_GET['manuale'];
 
 $nomedom='';
 
@@ -23,21 +24,21 @@ $nomedom='';
 		$nomedom=$row['0'];
 
 
+$sx=' <div class="left">
+       <span style="font-size:20px;">'.$nomedom.'</span></div>';
 
+$testo='';
+$statoarr=array('Spento','Acceso');
+		$query2="SELECT timei,timef,acceso FROM pianificazione WHERE IDdom='$IDdom' ";
+		$result2=mysqli_query($link2,$query2);
+		if(mysqli_num_rows($result2)<=0){$elimina=0;}else{$elimina=1;}
 
-$testo='
-            <div class="navbar">
-               <div class="navbar-inner">
-                  <div class="left" align="center">
-				  </div>
-                  <div class="center titolonav"  >Set Domotica<br><span style="font-size:12px;">'.$nomedom.'</span></div>
-                  <div class="right" onclick="myApp.closeModal()">
-						<i class="icon f7-icons">close</i>
-				  </div>
-               </div>
-            </div>
 			
+switch($manuale){
 		
+case 1:
+
+		$testo.='
 		<div class="content-block-title titleb">Manuale a Tempo</div>
 		<div class="list-block">
 		  <ul>
@@ -56,26 +57,28 @@ $testo='
 			  </div>
 			</li>
 			
-			
-			<li class="item-content">
-			  <div class="item-inner" style="width:100%;">
-				<div class="item-title" style="width:100%;">
-				
-					<div class="buttons-row" >
-					  <a href="#" class="button button-fill color-teal" " onclick="accendidom2('.$IDdom.',1)">Accendi</a>
-					  <a href="#" class="button  button-fill color-indigo"    onclick="accendidom2('.$IDdom.',0)">Spegni</a>
-					</div>  
-									
-				
-				
-				</div>
-			  </div>
-			</li>
-			
 			</ul>
-		</div>
+		</div>';
 		
+		$btn='<input type="hidden" value="'.base64_encode('accendidom2').'" id="acdom">
+           
+		<div class="bottombarpren" style="background:#f1f1f1;z-index:999;height:40px;" align="center">
+			  <table style="width:100%; height:100%;cellpadding:0;cellspacing:0;">
+			   <tbody><tr>
+			   <td style="width:15%">
+			   </td>
+			     <td>
+				  <button href="#" class="bottoneprezzo" style="height:30px;margin:0;width:100%"  onclick="pulsacc('.$IDdom.')">Accendi/Spegni</button>
+                 </td>
+				 <td style="width:15%">
+			   </td>
+			   </tr>
+			  </tbody></table>
+			</div>';
+break;
+case 2:
 		
+		$testo.='
 		<div class="content-block-title titleb">Manuale ad Intervallo</div>
 		<div class="list-block">
 		  <ul>
@@ -112,40 +115,48 @@ $testo='
 					
 					';
 					
-				}
-			
-			
-   
+				}	
 				
-				
-					
-				
-				$testo.='
-			
-			
+				$testo.='</ul></div>';
+		/*<td style="width:40%">
+				  <a href="#" class="button button-fill color-teal"  onclick="accendidom('.$IDdom.',1)">Accendi</a>
+                 </td>
+				 <td style="width:40%">
+				 <a href="#" class="button  button-fill color-indigo"    onclick="accendidom('.$IDdom.',0)">Spegni</a>
+                 </td>*/
+		        $btn='<input type="hidden" value="'.base64_encode('accendidom').'" id="acdom">
+				<div class="bottombarpren" style="background:#f1f1f1;z-index:999;height:40px;" align="center">
+			  <table style="width:100%; height:100%;cellpadding:0;cellspacing:0;">
+			   <tbody><tr>
+			   <td style="width:15%">
+			   	</td>
+			     <td>
+				  <button href="#" class="bottoneprezzo" style="height:30px;margin:0;width:100%"  onclick="pulsacc('.$IDdom.')">Accendi/Spegni</button>
+                 </td>
+				 <td style="width:15%">
+				 </td>
+			   </tr>
+			  </tbody></table>
+			</div>';
+	
+		
+	
+break;
+}/*
+			$testo.='
 			
 			<li class="item-content">
 			  <div class="item-inner" style="width:100%;">
 				<div class="item-title" style="width:100%;">
 				
 					<div class="buttons-row" >
-					  <a href="#" class="button button-fill color-teal"  onclick="accendidom('.$IDdom.',1)">Accendi</a>
-					  <a href="#" class="button d button-fill color-indigo"   onclick="accendidom('.$IDdom.',0)">Spegni</a>
+					  <a href="#" class="button button-fill color-red" onclick="modprenot('.$IDdom.','."'0_0'".',63,10,1)">Annulla programmi manuali</a>
 					</div>  
-									
-				
-				
 				</div>
 			  </div>
 			</li>
+		*/	
 			
-			</ul>
-		</div>
-		
-	
-		';
-	
-		
 		$statoarr=array('Spento','Acceso');
 		$query2="SELECT timei,timef,acceso FROM pianificazione WHERE IDdom='$IDdom' ";
 		$result2=mysqli_query($link2,$query2);
@@ -160,7 +171,8 @@ $testo='
 				';
 			
 			
-			while($row2=mysqli_fetch_row($result2)){
+			while($row2=mysqli_fetch_row($result2))
+			{
 				$testo.='
 				
 				<li class="item-content">
@@ -174,27 +186,23 @@ $testo='
 				
 				';
 			}
-			$testo.='
-			
-			<li class="item-content">
-			  <div class="item-inner" style="width:100%;">
-				<div class="item-title" style="width:100%;">
+				$testo.='<br/><br/><br/></ul></div>';
+		}
 				
-					<div class="buttons-row" >
-					  <a href="#" class="button button-fill color-red" onclick="modprenot('.$IDdom.','."'0_0'".',63,10,1)">Annulla programmi manuali</a>
-					</div>  
-				</div>
-			  </div>
-			</li>
-			
-			</ul></div>';
-		}	
-				
-			
-			
-			
-		
-
-
-echo $testo;
 ?>
+
+
+<div class="picker-modal " id="popoverord" >
+		  <div class="toolbar">
+			<div class="toolbar-inner">
+			  <?php echo $sx; ?>
+			  <div class="right"><a href="#" class="close-picker">Close</a></div>
+			</div>
+		  </div>
+		  <div class="picker-modal-inner ">
+		 <div class="page-content" id="ordinazione" style="background-color: white"> 
+		 <?php echo $testo; ?>
+		  </div>
+	</div>
+	<?php echo $btn; ?>
+</div>

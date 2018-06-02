@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-
 <html>
     <head>
    
         <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">-->
-        
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
 
         <link rel="stylesheet" type="text/css" href="css/index.css">
@@ -15,52 +13,79 @@
         <link rel="stylesheet" href="css/material-icons.css">
         <link rel="stylesheet" href="css/framework7-icons.css">
         <link rel="stylesheet" href="css/kitchen-sink.css">
+        <link rel="stylesheet" href="css/ionicons.css">
+        <link rel="stylesheet" href="css/michelecss.css">
         
         <title>Scidoo</title>
-        <script type="text/javascript" src="js/framework7.js"></script>
+
+		<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
+		<script type="text/javascript" src="js/framework7.js"></script>
+		<script type="text/javascript" src="js/fontawesome-all.js"></script>
+		
+		
     </head>
     <body>
-    
+		
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/it_IT/sdk.js#xfbml=1&version=v3.0';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+				
+			
     <div class="statusbar-overlay"></div>
-   
+     <div id="divsottoover" class="divsottoover" onclick="chiudimodal();"></div>
+
   <div class="panel-overlay" ></div>
-    
     
     	<div class="views">
     	  <div class="view view-main">
     
     		<div class="pages navbar-fixed">
-          <div data-page="indice" class="page" style="background:#fff;">
+          <div data-page="indice" class="page bcw" >
     
-        <div class="app" style="margin-top:-90px;">
-        
+       <!-- <div class="app mt-90" >
         </div>
-        <div id="logindiv" style="opacity:0; margin-top:260px;">
-            <div class="list-block inputs-list"  style="width:95%; margin:auto; ">
-            <ul style="background:#fff; border-radius:5px; ">
+        <div id="logged" style="opacity:1; margin-top:300px;"></div>-->
+			  
+			  
+			  <div class="divimg" ><img src="logoscidoo2.png" class="width340" ></div>
+        <div id="logindiv" class="indexopacity">
+			
+			<a href="#" onclick="navigation2(9,0,0,1)"  class="button button-big sendform registrati" >REGISTRATI</a>
+			
+						
+            <div class="list-block inputs-list indexdiv">
+				
+				
+            <ul class="br5">
     
             <li class="item-content">
                 <div class="item-inner"> 
-                  <div class="item-title label" style="color:#333; text-transform:none;">E-mail</div>
+                  <div class="item-title label c333 fs16 left" >E-mail</div>
                   <div class="item-input">
-                    <input type="text" name="email" id="email" style="font-size:15px;" placeholder="info@scidoo.com"/>
+                    <input type="text" name="email" id="email" class="fs15" placeholder="info@scidoo.com"/>
                   </div>
                 </div>
               </li>
              <li class="item-content">
                 <div class="item-inner"> 
-                  <div class="item-title label" style="color:#333; text-transform:none;">Password</div>
+                  <div class="item-title label c333 fs16 left " >Password</div>
                   <div class="item-input">
-                    <input type="password" name="pass" id="pass" style="font-size:15px;" placeholder="" />
+                    <input type="password" name="pass" id="pass" class="fs15"  placeholder="" />
                   </div>
                 </div>
               </li>
              
             </ul>
-          </div><br>
-            <a href="javascript:void(0)" onclick="sendform()" class="button button-big button-fill sendform" style=" width:60%; margin:auto; background:#ff9c00;;">Accedi</a>
-           <br>
-            <a href="#" onclick="location.href='https://www.scidoo.com/registrati.php';"  class="button button-big button-fill sendform" style=" width:60%; margin:auto; background:#266FAB;;">Registrati</a>
+          </div><br><br>
+            <a href="javascript:void(0)" onclick="sendform()" class="button button-big button-fill sendform accedi">ACCEDI</a><br/><hr/>
+           
+			<p class="fs12 c666">Scidoo e' la prima APP che ti permette di organizzare ed automatizzare la gestione della tua struttura ricettiva<br/><br/><strong>Let-s grow your hotel!</strong></p>
+            
          </div>
      
         
@@ -69,12 +94,13 @@
         
        </div></div> </div></div>
         
-   <script type="text/javascript" src="cordova.js"></script>
+		 <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
          <script type="text/javascript" src="js/kitchen-sink.js"></script>
     	<script type="text/javascript" src="js/funzioniprev.js"></script>
+       <script type="text/javascript" src="js/michelejs.js"></script>
         
-       
+    
         
         
     </body>

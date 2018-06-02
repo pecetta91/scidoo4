@@ -52,7 +52,7 @@ include('../../config/funzioni.php');
 				if($row['4']==1)$check='checked';
 				$arg='';
 				if(strlen($row['6'])>0){
-					$arg='<b style="font-size:10px; color:#d9601e;">'.$row['6'].'</b>';
+					$arg='<b style="font-size:9px; color:#00b254;">'.$row['6'].'</b>';
 				}
 				$nomecli='';
 				
@@ -63,7 +63,6 @@ include('../../config/funzioni.php');
 					$nomecli=$row2['0'];				
 				}
 				
-				
 				$txtnota=$row['1'].' '.$row['2'];
 				
 				$noteapp='';
@@ -71,32 +70,32 @@ include('../../config/funzioni.php');
 					$noteapp='<br><span style="font-size:9px; color:#999; width:70%;">'.str_replace('\n','<br>',$row['2']).'</span>';
 				}
 				
+				
+				
 				$testo4.='
 			
 					<li class="swipeout">
 					  <div class="swipeout-content">
-					  <label class="label-checkbox item-content">
-					  	<input type="checkbox" name="my-checkbox"  id="riso'.$row['0'].'" value="0" onClick="modprenot('.$row['0'].','."'riso".$row['0']."'".',142,7)" '.$check.'>
+					  <label class="label-checkbox item-content" style="height:100%">
+					  	<input type="checkbox" name="my-checkbox"  id="riso'.$row['0'].'" value="0" onchange="modprenot('.$row['0'].','."'riso".$row['0']."'".',142,7)" '.$check.'>
 						<div class="item-media mediaright">
 						  <i class="icon icon-form-checkbox"></i>
 						</div>
 						
 						
-						<div class="item-inner">
+						<div class="item-inner" style="height:100%">
 						  <div class="item-title-row">
-							<div class="item-title">'.$arg.'</div>
-							<div class="item-after">'.dataita3($row['3']).'</div>
+						   <div class="item-text" style="color:#333;font-weight:600; height:30px;line-height:15px;">'.$txtnota.'  </div>
+							
+							<div class="item-right" style="width:100px; font-size:12px; text-align:right;">'.dataita3($row['3']).' '.date('H:i',$row['3']).'<br/>
+							'.$arg.'
+							</div>
 						  </div>
-						  <div class="item-subtitle" style="font-size:11px;">'.$nomecli.'</div>
-						  <div class="item-text">'.$txtnota.'</div>
+						 <div class="item-title"></div>
 						</div>
-						
-						
 						</label>
 					  </div>
-					 	<div class="swipeout-actions-right">
-							<a href="#" style="background:#b3201f; color:#fff;" onclick="modprenot('.$row['0'].',0,143,10,2);">Elimina</a>
-						  </div>
+					 	
 					</li>
 				';
 		

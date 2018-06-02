@@ -9,8 +9,11 @@ if(!isset($inc)){
 	$IDstruttura=$_SESSION['IDstruttura'];
 }
 
-if(isset($_GET['dato0'])){
-		if($_GET['dato0']!='0'){
+//$inizio = round(microtime(), 3);
+
+
+	if(isset($_GET['dato0'])){
+		if((is_numeric($_GET['dato0']))&&($_GET['dato0']!='0')){
 			$time=$_GET['dato0'];
 		}else{
 			if(isset($_SESSION['calendar'])){
@@ -26,6 +29,7 @@ if(isset($_GET['dato0'])){
 			$time=time();
 		}
 	}
+	
 	$_SESSION['calendar']=$time;
 	$mm=date('m',$time);
 	$aa=date('Y',$time);
@@ -61,12 +65,12 @@ if(isset($_GET['dato0'])){
 //navigationtxt(3,'.$times.','."'calendariodiv'".',0) // onclick="navigationtxt(3,'.$timep.','."'calendariodiv'".',0)"
 			  echo '
 			  <input type="hidden" id="datacal" value="'.$timei.'">
-			  <table width="90%" align="center" style="margin-top:-15px;">
+			  <table width="90%" align="center" class="mt-20">
 			 <tr>
-			 <td><a href="#" class="button button-fill " onclick="navigation(2,'.$timep.',0,1)" ><i class="material-icons">arrow_back</i></a></td>
-			 <td align="center" width="75%">'.$mesiita[$numeromese].' '.$aa.'</td>
-			  <td><a href="#" class="button button-fill " onclick="navigation(2,'.$times.',0,1)"><i class="material-icons">arrow_forward</i></a></td>
-			  </tr></table><br>';
+			 <td><a href="#" class=" " onclick="navigation(2,'.$timep.',0,1)" ><i class="material-icons c777 fs30">arrow_back</i></a></td>
+			 <td align="center" width="70%" class="fw600 fs13 toupper" >'.$mesiita[$numeromese].' '.$aa.'</td>
+			  <td class="right"><a href="#" class="  " onclick="navigation(2,'.$times.',0,1)"><i class="material-icons c777 fs30">arrow_forward</i></a></td>
+			  </tr></table>';
 $txtmain='';
 $txtbody='';
 $txtbody2='';
@@ -80,7 +84,7 @@ if(isset($_SESSION['appfilter'])){
 	$IDcat=$_SESSION['appfilter'];
 }
 
-$cella=44;
+$cella=41;
 
 
 $colspan=5;
@@ -88,9 +92,7 @@ if($_SESSION['contratto']>='3'){
 	$colspan=6;
 }
 $txtmain.='
-<tr><td>';
-
-$txtmain.='</td></tr>';
+<tr><td style="height:52px; border:none;"></td></tr>';
 
 
 
@@ -122,6 +124,9 @@ if(mysqli_num_rows($result2)>0){
 //esclusivi
 $esc=array();
 $query2="SELECT  FROM_UNIXTIME(p.time,'%e'),COUNT(*),p.IDpren,p.time FROM prenextra as p,servizi as s WHERE p.time>='$timei' AND p.time<='$timef' AND p.IDstruttura='$IDstruttura' AND p.extra=s.ID AND s.esclusivo='1' AND modi>='0' GROUP BY FROM_UNIXTIME(p.time,'%j') ORDER BY p.time";
+
+
+
 $result2=mysqli_query($link2,$query2);
 if(mysqli_num_rows($result2)>0){
 	while($row=mysqli_fetch_row($result2)){
@@ -138,7 +143,7 @@ $txtbody2='<tr>';
 for($i=1;$i<=$nn;++$i){
 	$mes=$minim;
 	if($i>$ngiornimese){$j=$i-$ngiornimese;$mes=$minims;}else{$j=$i;}
-	$datecalendario=$giorniita3[$ngiornosettimana].'<br><b>'.$j.'</b><br><span>'.$mes.'</span>';
+	$datecalendario=$giorniita3[$ngiornosettimana].'<br>'.$j.'';
 	//$datecalendario='<b>'.$j.'</b><br><span>'.$giorniita3[$ngiornosettimana].'</span>';
 	++$ngiornosettimana;	
 	if($ngiornosettimana==7)$ngiornosettimana=0;
@@ -149,7 +154,7 @@ for($i=1;$i<=$nn;++$i){
 }
 $txtbody2.='</tr>';
 
-$txtmain.='<tr><td style=" background:#BC3B3D; color:#fff;">Note ed<br>Esclusivi</td></tr> ';
+$txtmain.='<tr><td class="tdesclusivi">Note ed<br>Esclusivi</td></tr> ';
 $txtbody.='<tr>';
 $tempo2=$timei-86400;
 for($i=1;$i<=$nn;++$i){
@@ -167,23 +172,125 @@ for($i=1;$i<=$nn;++$i){
 }
 $txtbody.='</tr>';
 	
+
+
+
+$datai2=date('Y-m-d',$timei);
+$dataf2=date('Y-m-d',$timef);
+$query="SELECT  DATE_FORMAT(data,'%e'),IDalloggio,DATE_FORMAT(data,'%m') FROM chiusuraalloggi WHERE IDstr='$IDstruttura' AND data BETWEEN '$datai2' AND '$dataf2' ";
+$result=mysqli_query($link2,$query);
+$arrclose=array(array());
+if(mysqli_num_rows($result)>0){
+	while($row=mysqli_fetch_row($result)){
+	
+		$ggclose=$row['0'];
+		if($row['2']!=$mm){
+			$ggclose+=$ngiornimese;
+		}
+		$arrclose[$row['1']][$ggclose]=1;
+	}
+}
+
+
+
+
+
+
+
+$arrpren=array(array());
+/*
+$query2="SELECT  FROM_UNIXTIME(p.time,'%e'),p.IDv,p.gg,p.time,s.classecal,p.checkout,p.app FROM prenotazioni as p,statopren as s WHERE ((p.time>='$timei' AND p.time<='$timef') OR (p.time<'$timei' AND p.checkout>'$timei')) AND p.IDstruttura='$IDstruttura' AND p.stato=s.IDstato AND p.gg>'0' ";
+$result2=mysqli_query($link2,$query2);
+if(mysqli_num_rows($result2)>0){
+	while($row2=mysqli_fetch_row($result2)){
+		$ggpren=$row2['0'];
+		if($row2['3']>$timefm){
+			$ggpren=$ggpren+$ngiornimese;
+		}
+		$notti=$row2['2'];
+		
+		if($row2['5']>$timef){
+			$notti=ceil(($timef-$row2['3'])/86400);
+		}
+		$na=0;
+		
+		if(isset($arrpren[$row2['6']][$ggpren][$na])){
+			$na++;
+		}
+		
+		$arrpren[$row2['6']][$ggpren][$na][0]=$row2['1'];//IDv
+		$arrpren[$row2['6']][$ggpren][$na][1]=$notti;//gg
+		$arrpren[$row2['6']][$ggpren][$na][2]=$row2['3'];//time
+		//$arrpren[$row2['7']][$ggpren][$na][3]=$row2['4'];//ID
+		$arrpren[$row2['6']][$ggpren][$na][4]=$row2['4'];//classecal
+		$arrpren[$row2['6']][$ggpren][$na][5]=$row2['5'];//checkout
+	}
+}
+*/
+
+
+$query2="SELECT  FROM_UNIXTIME(p.time,'%e'),p.IDv,p.gg,p.time,s.classecal,p.checkout,p.app FROM prenotazioni as p,statopren as s WHERE ((p.time>='$timei' AND p.time<='$timef') OR (p.time<'$timei' AND p.checkout>'$timei')) AND FROM_UNIXTIME(p.checkout,'%Y-%m-%d')!='$datai2'  AND p.IDstruttura='$IDstruttura' AND p.stato=s.IDstato  AND p.gg>'0'";
+$result2=mysqli_query($link2,$query2);
+if(mysqli_num_rows($result2)>0){
+	while($row2=mysqli_fetch_row($result2)){
+		$ggpren=$row2['0'];
+		$notti=$row2['2'];
+		
+		if($row2['3']>$timefm){
+			$ggpren=$ggpren+$ngiornimese;
+		}else{
+			if($row2['3']<$timei){
+				$ggpren=1;
+				$notti=floor(($row2['5']-$timei)/86400);
+			}
+		}
+		
+		if($row2['5']>$timef){
+			$notti=ceil(($timef-$row2['3'])/86400);
+		}
+		$na=0;
+		
+		if(isset($arrpren[$row2['6']][$ggpren][$na])){
+			$na++;
+		}
+		
+		$arrpren[$row2['6']][$ggpren][$na][0]=$row2['1'];//IDv
+		$arrpren[$row2['6']][$ggpren][$na][1]=$notti;//gg
+		$arrpren[$row2['6']][$ggpren][$na][2]=$row2['3'];//time
+		//$arrpren[$row2['7']][$ggpren][$na][3]=$row2['4'];//ID
+		$arrpren[$row2['6']][$ggpren][$na][4]=$row2['4'];//classecal
+		$arrpren[$row2['6']][$ggpren][$na][5]=$row2['5'];//checkout
+		
+		
+	}
+}
+
+
+
+
+
+
+
+
+
   //seleziona gli appartamenti
   $strfilt="";
   if($IDcat!=0){
 	  $strfilt="AND A.categoria='$IDcat'";
   }
-$query="SELECT A.ID,A.nome,A.attivo,A.temp,A.categoria,C.colore,A.stato,A.statod FROM appartamenti as A,categorie AS C WHERE A.IDstruttura='$IDstruttura' $strfilt AND A.categoria=C.ID  ORDER BY  A.attivo DESC,A.categoria";
+$query="SELECT A.ID,A.nome,A.attivo,A.temp,A.categoria,C.colore,A.stato,A.statod,C.nome FROM appartamenti as A,categorie AS C WHERE A.IDstruttura='$IDstruttura' $strfilt AND A.categoria=C.ID  ORDER BY  A.attivo DESC,A.categoria";
 $result=mysqli_query($link2,$query);
 
 
 
 $arrcolor=array('11760c','ff204a','000');
+$ngiornimese2=$ngiornimese+$np; 
 
 while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamenti  
   if($row['2']!='2'){
 	  
 	  // style="border-left:solid 5px #'.$row['5'].';"
-	  $txtmain.='<tr><td>'.wordwrap($row['1'],20,'<br>').'</td></tr> ';
+	  $txtmain.='<tr><td>'.$row['1'].'<br><span>'.$row['8'].'</span></td></tr> ';
 	  /*
 	if($colspan==6){
 		$testo.='<td ';
@@ -204,8 +311,12 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 	 $min=0;
 	//$query2="SELECT  FROM_UNIXTIME(time,'%e'),IDv,gg,time,ID,stato,checkout FROM prenotazioni WHERE time>='$timei' AND time<='$timef' AND app = '$IDapp' AND IDstruttura='$IDstruttura'  UNION SELECT  FROM_UNIXTIME(time,'%e'),IDv,gg,time,ID,stato,checkout FROM prenotazioni WHERE time<'$timei' AND checkout>'$timei' AND app = '$IDapp' AND IDstruttura='$IDstruttura' ORDER BY time";
 	
+	  
+	  /*
 	$query2="SELECT  FROM_UNIXTIME(p.time,'%e'),p.IDv,p.gg,p.time,p.ID,s.classecal,p.checkout FROM prenotazioni as p,statopren as s WHERE ((p.time>='$timei' AND p.time<='$timef') OR (p.time<'$timei' AND p.checkout>'$timei')) AND p.app = '$IDapp' AND p.IDstruttura='$IDstruttura' AND p.stato=s.IDstato  ORDER BY p.time";
 	
+
+
 	
 	$result2=mysqli_query($link2,$query2);
 	if(mysqli_num_rows($result2)>0){
@@ -242,31 +353,42 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 		$ggpren=0;
 		$timep=0;
 	}
+	*/
+	  
+	 $ggpren=0;
+		$timep=0; 
+	  
 	
-	$ngiornimese2=$ngiornimese+$np; 
     
 	for($i=1;$i<=$ngiornimese2;++$i){  //ripete il ciclo per il numero di volte quali il numero dei giorni di quel mese	
 		
 		
 		
 		
-		if($i!=$ggpren){
-			
-			//onclick="aggiungip('.$timegiorno.','.$IDapp.',1);"
-			$classover='';
-			//if($row['2']=='-1')$classover='redback';
-			
-			
+		 if(!isset($arrpren[$IDapp][$i])){
+		
+			 $classover='';
 			$txtbody.='<td id="'.$i.'_'.$IDapp.'_1"   class="new '.$classover.'"></td>'; 
-		}else{
+		
+		 }else{
 			
+			 
+			 
+			$ggpren=$i;
+			$timep=$arrpren[$IDapp][$i][0]['2'];
+			$notti=$arrpren[$IDapp][$i][0]['1'];
+			$out=$arrpren[$IDapp][$i][0]['5'];
+			$classpren=$arrpren[$IDapp][$i][0]['4'];
+			$IDprenv=$arrpren[$IDapp][$i][0]['0'];
+			$nottibef=$notti;
+			 
 			if(($visorari==0)&&($notti>=1)){
-				$class=$prenotazioni['5'];
+				$class=$classpren;
 			}else{
 				$class='redback2';
 			}
 			//'.$class.'
-			$txtbody.='<td   id="'.$i.'_'.$IDapp.'_1" class="new '.$class.'">';
+			$txtbody.='<td  id="'.$i.'_'.$IDapp.'_1" class="new '.$class.'">';
 			
 			$max=0;		
 			if($notti>($ngiornimese2-$ggpren)){
@@ -310,8 +432,8 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 				}
 	
 	
-				$txtbody.='<div class="divcal ppp '.$prenotazioni['5'].'" label="'.$prenotazioni['1'].'" id="cont'.$prenotazioni['1'].'" style="width:'.$out2.'px; '.$style.'">
-							<div>'.estrainome($prenotazioni['1']).'</div>
+				$txtbody.='<div class="divcal ppp '.$classpren.'" label="'.$IDprenv.'" id="cont'.$IDprenv.'" style="width:'.$out2.'px;  '.$style.'">
+							<div>'.estrainome($IDprenv).'</div>
 							</div>';
 							
 			}else{
@@ -331,80 +453,72 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 				}
 				
 				//$wid=($cella*$notti);
-				$txtbody.='<div class="divcal ppp '.$prenotazioni['5'].'  " label="'.$prenotazioni['1'].'" id="cont'.$prenotazioni['1'].'" style="width:'.$out2.'px; '.$style.'">
-							<div>'.estrainome($prenotazioni['1']).'</div>
+				$txtbody.='<div class="divcal ppp '.$classpren.'  " label="'.$IDprenv.'" id="cont'.$IDprenv.'" style="width:'.$out2.'px; '.$style.'">
+							<div>'.estrainome($IDprenv).'</div>
 							</div>';
 				$notti=1;
 			}
 			
-			$nottibef=$notti;
+			
 						
 			$i=$i+$notti-1;
-			$prenotazioni=mysqli_fetch_row($result2);
-			$ggpren=$prenotazioni['0'];
-			$timep=$prenotazioni['3'];
-			$notti=$prenotazioni['2'];
-			$out=$prenotazioni['6'];
-			
-			if($ggpren==$i){
+			 
+			 
+			 
+			 if(isset($arrpren[$IDapp][$ggpren][1])){
 				
-				$out2bef=$out2;
-				if($notti>($ngiornimese2-$ggpren)){
-					$notti=$ngiornimese2-$ggpren+1;
-				}
-					
-				if($notti>=1){	
-					
-					if($visorari==1){
-						$oarr=date('G',$timep);
-						$oout=date('G',$out);
-						
-						$left=round(($cella/24)*$oarr)-6;
-						$out2=round($cella*($notti)-(($oarr-$oout)*($cella/24)))-5;
-						$style=' margin-left:'.$left.'px"';
-					}else{
-						$style=' margin-left:'.($out2bef+3).'px;';
-						$out2=$cella*$notti-$out2bef-4;
-						if($notti>1){$out2+=(($notti-1)*5);}
-						
-					}
 				
-					$txtbody.='<div class="divcal ppp '.$prenotazioni['5'].'  " label="'.$prenotazioni['1'].'" id="cont'.$prenotazioni['1'].'" style="width:'.$out2.'px; border-left:solid 1px #fff; '.$style.'">	
-								<div >'.estrainome($prenotazioni['1']).'</div>
-															
-								</div>
-								
-				';
-				}else{
-					/*
-					if($visorari==1){	
-						$oarr=date('G',$timep);
-						$oout=date('G',$out);
-					
-						$left=round((($cella*$notti)/24)*$oarr);
-						$out2=round(($oout-$oarr)*($cella/24));
-						$style='margin-left:'.$left.'px;';
-					}else{
-						$style='';
-						$out2=$cella*$notti-7;
+				
+				$timep=$arrpren[$IDapp][$ggpren][1]['2'];
+				$notti=$arrpren[$IDapp][$ggpren][1]['1'];
+				$out=$arrpren[$IDapp][$ggpren][1]['5'];
+				$classpren=$arrpren[$IDapp][$ggpren][1]['4'];
+				$IDprenv=$arrpren[$IDapp][$ggpren][1]['0'];
+			 
+				if($ggpren==$i){
+
+					$out2bef=$out2;
+					if($notti>($ngiornimese2-$ggpren)){
+						$notti=$ngiornimese2-$ggpren+1;
 					}
-					
-					$txtbody.='
-								<div class="divcal ppp '.$prenotazioni['5'].'  " label="'.$prenotazioni['1'].'" id="cont'.$prenotazioni['1'].'" style="width:'.$out2.'px; '.$style.'">
-								<div style="overflow:hidden;">'.estrainome($prenotazioni['1']).'</div>
-								</div>
-							
-				';
-					$notti=1;*/
+
+					if($notti>=1){	
+
+						if($visorari==1){
+							$oarr=date('G',$timep);
+							$oout=date('G',$out);
+
+							$left=round(($cella/24)*$oarr)-6;
+							$out2=round($cella*($notti)-(($oarr-$oout)*($cella/24)))-5;
+							$style=' margin-left:'.$left.'px"';
+						}else{
+							$style=' margin-left:'.($out2bef+3).'px;';
+							$out2=$cella*$notti-$out2bef-4;
+							if($notti>1){$out2+=(($notti-1)*5);}
+
+						}
+
+						$txtbody.='<div class="divcal ppp '.$classpren.'  " label="'.$IDprenv.'" id="cont'.$IDprenv.'" style="width:'.$out2.'px; border-left:solid 1px #fff; '.$style.'">	
+									<div >'.estrainome($IDprenv).'</div>
+
+									</div>
+
+					';
+					}
+						/*
+					$prenotazioni=mysqli_fetch_row($result2);
+					$ggpren=$prenotazioni['0'];
+					$timep=$prenotazioni['3'];
+					$notti=$prenotazioni['2'];
+					$out=$prenotazioni['6'];*/
 				}
-					
-				$prenotazioni=mysqli_fetch_row($result2);
-				$ggpren=$prenotazioni['0'];
-				$timep=$prenotazioni['3'];
-				$notti=$prenotazioni['2'];
-				$out=$prenotazioni['6'];
+			}	 
+				 
+			//echo 'aaa'.$nottibef.'bbb';	 
+			$txtbody.='</td>';
+			for($k=1;$k<$nottibef;$k++){
+				$txtbody.='<td id="'.($i+$k).'_'.$IDapp.'_1" class="new '.$class.'"></td>';
 			}
-			
 			
 			if($timep>=$timefm){
 				$ggpren=$ggpren+$ngiornimese;
@@ -412,13 +526,10 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 			if($out>$timef){
 				$notti=ceil(($timef-$timep)/86400);
 			}
+			$nottibef=$notti;
+		
 			
-			$txtbody.='</td>';
-			for($k=1;$k<$nottibef;$k++){
-				//
-				$txtbody.='<td id="'.($i+$k).'_'.$IDapp.'_1" class="new '.$class.'"></td>';
-			}
-		}
+		
 		
 		
 		
@@ -463,8 +574,8 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 		
 		
 			
-	  }//chiusura for
-	  
+	  	}
+	}//chiusura for
 	  $txtbody.='</tr>';
   }else{//chiusura fi attivo
   
@@ -515,7 +626,7 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 		$ggpren=$ggpren+$ngiornimese;
 	  }
 	}else{
-		$txtbody.='<td class="new" id="'.$i.'_'.$IDapp.'_1" ></td>';
+		$txtbody.='<td class="new" id="'.$i.'_'.$IDapp.'_0" ></td>';
 	}
   }
   	$txtbody.="</tr>";
@@ -523,7 +634,7 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
   
   }//chiusura while
   
-  $txtmain.='<tr><td colspan="5" style="background:#ce3f18; color:#fff;">Annullate</td>';
+  $txtmain.='<tr><td colspan="5" class="tdannullate">Annullate</td>';
   
   
   $query="SELECT FROM_UNIXTIME(time,'%e'),COUNT(*),time,IDv FROM prenotazioni WHERE time>'$timei' AND checkout<'$timef' AND app = '0' AND IDstruttura='$IDstruttura' GROUP BY FROM_UNIXTIME(time,'%e') ORDER BY time";
@@ -567,18 +678,26 @@ while($row=mysqli_fetch_row($result)){  //$row contine la query degli appartamen
 
 //echo $testo."</table>';<i>M.</i>
 
+
+//$fine = round(microtime(), 3);
+
+//$t=$fine-$inizio;
+
+
+//0,11 -> 0.18
+
 echo '
 <div class="table-fixed-left" id="tabappart" style="z-index:101;">
   <table>
     '.$txtmain.'
   </table>
 </div>
-<div class="table-fixed-right"  id="tabcalmain" onscroll="scrollrig()" >
- <div id="tabdate" style="z-index:100;">
-  <table>
+<div class="table-fixed-right"  id="tabcalmain" onscroll="scrollrig()"  style="border:none;" >
+ <div id="tabdate" style="z-index:100; border:none;">
+  <table class="tabledate" style="border-top:solid 1px #f1f1f1;border-bottom:solid 1px #f1f1f1;">
      '.$txtbody2.'
   </table></div>
-  <table id="tabbody">
+  <table id="tabbody" style="margin-top:1px;">
      '.$txtbody.'
   </table>
 </div>
@@ -586,6 +705,8 @@ echo '
 </div>
 </div>
 ';
+
+
 
 
 ?>

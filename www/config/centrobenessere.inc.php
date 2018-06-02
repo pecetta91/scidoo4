@@ -12,7 +12,7 @@ if(!isset($inc)){
 
 
 if(isset($_GET['dato0'])){
-	if($_GET['dato0']!='0'){
+	if((is_numeric($_GET['dato0']))&&($_GET['dato0']!='0')){
 		$time=$_GET['dato0'];
 	}else{
 		if(isset($_SESSION['timecal'])){
@@ -29,7 +29,6 @@ if(isset($_GET['dato0'])){
 	}
 }
 
-
 $gg=1;
 
 $_SESSION['timecal']=$time;
@@ -37,6 +36,7 @@ $mm=date('m',$time);
 $aa=date('Y',$time);
 $mmsucc=$mm+1;
 
+$giorni= date('N',$time);
 
 $data=date('Y-m-d',$time);
 
@@ -46,7 +46,21 @@ $datafin=date('Y-m-d',($time+86400*$gg));
 unset($_SESSION['IDsottotip']);
 $IDtipo=0;
 //<input type="hidden" id="funccentro2" value="">//navigationtxt(13,'.$time.','."'centrobenesserediv'".',6)<input type="hidden" id="funccentro2" value="navigation(4,'.$time.',0,1)">
+
+
+
+//onclick="myCalendar2.open();"
+
+/*<div class="dataoggi">
+				<div class="buttdateog calenddiv">'.$giorniita2[$giorni].
+			    ' '.date('d',$time).'  '.$mesiita[date('n',$time)].'</div></div>*/
+
 $testo='
+
+
+<a href="#"  class="button button-round button-fill pulscentroben" id="prova"><i class="f7-icons fs13" >today</i> &nbsp;&nbsp;'.dataita($time).'</a>	
+
+
 <input type="hidden" id="timecentro" value="'.$time.'">
 <input type="hidden" id="ggcentro" value="'.$gg.'">
 ';
@@ -191,10 +205,8 @@ $testo='
 					
 							foreach($arrsotto as $IDsotto =>$sotton){
 								$testo.='
-								<div class="content-block-title titleb" style="margin-top:-10px;">'.strtoupper($sotton).'</div>
+								<div class="content-block-title titleb">'.strtoupper($sotton).'</div>
 
-								<div class="list-block inset">
- 									 <ul>
    ';
 								$sospesi=0;
 								$conf=0;
@@ -208,18 +220,46 @@ $testo='
 								}
 								
 								if($sospesi>0){
-									$sospesitxt=$sospesi.' Sospesi ('.$arrp[$IDsotto][0].'<i class="material-icons" style="font-size:14px;">person</i>)';
+									
+									$sosptxt='Sospesi';
+									if($sospesi==1){$sosptxt='Sospeso';}
+									
+									$sospesitxt='<strong><u>'.$sospesi.' '.$sosptxt.'</u></strong> <br/><span class="fs12" >'.$arrp[$IDsotto][0].' '.txtpersone($arrp[$IDsotto][0]).'</span>';
 								}
 								
-								
 								if($conf>0){
-									$conftxt=$conf.' Confermati ('.$arrp[$IDsotto][1].'<i class="material-icons" style="font-size:14px;">person</i>)<br>';
+									$sosptxt='Confermati';
+									if($conf==1){$sosptxt='Confermato';}
+									$conftxt='<strong><u>'.$conf.' '.$sosptxt.'</u> </strong><br/><span class="fs12">'.$arrp[$IDsotto][1].' '.txtpersone($arrp[$IDsotto][1]).'</span>';
 								}
 								
 								
 								if(($sospesi+$conf)>0){
 								
 									$testo.='
+									
+									<div class="row rowlist no-gubber sospesoconf"  onclick="navigation(14,'."'".$timeextra.",".$IDsotto."'".',6)">
+							
+									<div class="col-50 centercol h40">
+										'.$conftxt.'
+									</div>
+									
+									<div class="col-50 centercol h40" >
+										'.$sospesitxt.'
+									</div>
+									</div>
+									
+									
+									';
+									/*
+									
+									$testo.='
+									
+									
+									
+									
+									
+									
 									<li >
 									  <div  style="background:#f5a149; border-radius:3px; color:#fff;" href="#" class="item-content" onclick="navigation(14,'."'".$timeextra.",".$IDsotto."'".',6)">
 										<div class="item-inner">
@@ -228,11 +268,30 @@ $testo='
 									  </div>
 									</li>
 									
-									';
+									';*/
 																
 								}else{
 									
 										
+									
+									$testo.='
+									
+									<div class="row rowlist no-gubber prenotazionenorm"   onclick="navigation(14,'."'".$timeextra.",".$IDsotto.",2'".',0)">
+							
+									<div class="col-50 centercol c777">
+										Nessuna Prenotazione
+									</div>
+									
+									<div class="col-50 centercol">
+										0 <i class="material-icons fs14" >person</i>
+									</div>
+									</div>
+									
+									
+									
+									';
+									
+									/*
 								$testo.='
 									
 									
@@ -245,14 +304,11 @@ $testo='
 									  </div>
 									</li>
 									
-									';
+									';*/
 									
 									
 								}
-								
-								$testo.='</ul>
-</div>';
-								
+							
 							}
 							
 					

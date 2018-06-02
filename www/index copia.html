@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content="#394baa">
+    <title>Scidoo.com</title>
+    
+    <link rel="stylesheet" href="css/framework7.material.min.css">
+    <link rel="stylesheet" href="css/framework7.material.colors.min.css">
+     <link rel="stylesheet" href="css/material-icons.css">
+     <link rel="stylesheet" href="css/framework7-icons.css">
+    
+  <link href="http://fonts.googleapis.com/css?family=Roboto:400,300,500,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="css/kitchen-sink.css">
+    
+    <link rel="icon" href="img/icon.png">
+  </head>
+  <body >
+    <div class="statusbar-overlay"></div>
+   
+  <div class="panel-overlay" ></div>
+ 	<div class="panel panel-right panel-cover" id="pannellodx" style="z-index:99999; background:#fff; border-left:solid 1px #ccc; ">
+    <div class="content-block" >
+    </div>
+  </div>
+
+  
+    <div class="popover popover-menu" style="z-index:99999; ">
+      <div class="popover-inner"  >
+        <div class="list-block">
+          <ul id="menupop">
+            
+          </ul>
+        </div>
+      </div>
+    </div>
+  
+ 
+  
+ 
+ 
+ 
+    <div class="views">
+      <div class="view view-main">
+        <div class="pages navbar-fixed ">
+          <div data-page="indice" class="page" style="background:#fff; background:url(backhom.jpg) no-repeat center center ; background-size:cover;">
+           
+            <div class="page-content">
+              <div class="content-block-title" align="center" style=" margin:0px;   vertical-align:middle; padding:0px; padding-top:60px;padding-bottom:50px; position:relative; margin-top:-100px;" >
+              
+               <div style="z-index:2; margin-top:15px;"><img src="scidoob.png" width="90%">
+               <br>
+               <div style="font-size:17px; width:100%; color:#fff; line-height:20px;">The First App<br>for managing your booking! </div>
+               </div>
+             
+              </div>
+             <div class="content-block-title" align="center" style="font-size:16px;  line-height:20px; margin-top:10px; color:fff;">
+             </div>
+             
+             
+             
+             
+             	<div class="content-block" >
+    <!-- Buttons row as tabs controller -->
+            <div class="buttons-row tabind" style="margin-top:-45px; ">
+              <!-- Link to 1st tab, active -->
+              <a href="#tab1" class="tab-link active button">Ospite</a>
+              <!-- Link to 2nd tab -->
+              <a href="#tab2" class="tab-link button">Struttura</a>
+            </div>
+          </div>
+  <!-- Tabs, tabs wrapper -->
+  
+  <div class="tabs-animated-wrap" style="margin-bottom:-150px; padding:0px; margin-top:-45px;">
+  
+  <div class="tabs" style="border:none;" >
+    <!-- Tab 1, active by default -->
+    <div id="tab1" class="tab active"  style="border:none;">
+      <div class="content-block" style="border:none;">
+      <form>
+      <div class="list-block inputs-list" style="background:#fff; opacity:0.9; border-radius:5px;">
+        <ul style="border-radius:6px; ">
+
+<li class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label"  style="color:#333; font-size:15px;">E-mail</div>
+              <div class="item-input">
+                <input type="text" name="mailcli"  style="font-size:13px;" placeholder="Email di Prenotazione" />
+              </div>
+               </div>
+          </li>     
+           <li class="item-content">
+            <div class="item-inner">      
+                <div class="item-title label" style="color:#333;font-size:15px;" >Check-in</div>
+			<div class="item-input">
+            	<input type="text" id="kscal" style="font-size:13px;" placeholder="Data di Arrivo" />
+              </div>
+ </div>
+          </li>  
+        
+          
+        </ul>
+      </div>
+               
+      <a href="javascript:void(0)"  onclick="sendform2();" class="button button-big button-fill sendform2" style=" width:60%; margin:auto; background:#1ddb45;;">Accedi</a>
+          
+      
+     
+    </form>
+            
+          
+        
+      </div>
+    </div>
+    <!-- Tab 2 -->
+    <div id="tab2" class="tab">
+      <div class="content-block">
+       
+       
+       	<form>
+      <div class="list-block inputs-list">
+        <ul style="background:#fff; border-radius:5px; ">
+
+		<li class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label" style="color:#333;font-size:15px;">E-mail</div>
+              <div class="item-input">
+                <input type="text" name="email" id="email" style="font-size:13px;" placeholder="info@scidoo.com"/>
+              </div>
+            </div>
+          </li>
+         <li class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label" style="color:#333;font-size:15px;">Password</div>
+              <div class="item-input">
+                <input type="password" name="pass" id="pass" style="font-size:13px;" placeholder="" />
+              </div>
+            </div>
+          </li>
+          
+        </ul>
+      </div>
+      
+      	<a href="javascript:void(0)" onclick="sendform()" class="button button-big button-fill sendform" style=" width:60%; margin:auto; background:#ff9c00;;">Accedi</a>
+      
+    </form>
+       
+  
+      </div>
+    </div>
+   </div>
+  </div>
+             
+             <style>
+             .tabind .tab-link{border:solid 2px #fff; color:#fff;}
+			 .tabind .active{background: #fff; color:#333;}
+             
+             </style>
+             
+             <!--
+               <div class="content-block row" style="padding:4px;">
+      <div class="col-100" align="center"><a href="login-screen-embedded.html" class="button button-raised" style="height:70px; background:url(img/family.svg) no-repeat top center; background-size:40px 40px; width:100%;; background-color:#F29A0B; color:#fff;"><br>Un Ospite</a></div>
+      <div class="col-100" align="center" style="margin-top:10px;"> <a href="login-screen-embedded2.html" class="button button-raised open-login-screen" style="height:70px; width:100%;background:url(img/home.svg) no-repeat top center; background-size:40px 40px; background-color:#2AA569; color:#fff;"><br>Una Struttura</a></div>
+    </div>   <br>
+    -->
+    
+              <div class="content-block" align="center" style="font-size:80%; background:#1d9adb; color:#fff; margin-bottom:-30px;">
+              <br>
+              <img src="scidoob.png" width="50%"><br><br>
+              
+              
+              Il portale Scidoo.com nasce dall'idea di un giovane titolare di un albergo che, in seguito alle difficoltà riscontrate nel gestire le numerose attività di una struttura, inizia a progettare un software in grado di aiutarlo.<br>Ci troviamo nel 2005 anno in cui l'attività ricettiva inizia a compiere i primi passi.<br>Agli inizi le operazioni  svolte da Scidoo furono quelle di gestire una prenotazione, e di visualizzare graficamente il Tableu di un albergo.<br><br>Oggi Scidoo, è cresciuto e permette anche a te cliente, di gestire la tua prenotazione, iniziando dalla temperatura del tuo alloggio.<br><br>
+              <span style="font-size:20px;">Scidoo le augura un buon soggiorno</span> 
+<br><br>
+              </div>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <input type="hidden" id="scro" value="1">
+ 
+    <script type="text/javascript" src="js/framework7.js"></script>
+    <script type="text/javascript" src="js/kitchen-sink.js"></script>
+    <script type="text/javascript" src="js/funzioniprev.js"></script>
+    
+ <script type="text/javascript" src="cordova/cordova.js"></script>
+     <script>
+	 
+	 	
+var monthNames = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto' , 'Settembre' , 'Ottobre', 'Novembre', 'Dicembre'];
+	 
+			var appc = {
+			 storage: window.localStorage,
+			initialize: function() {
+				this.bind();
+			},
+		 
+			bind: function() {
+				document.addEventListener('deviceready', this.deviceready, false);
+			},
+		 
+			deviceready: function() {
+				app.report('deviceready');
+			},
+		 
+			report: function(id) {
+				 
+				
+			}
+		};
+	
+     	appc.initialize();
+		
+		//alert(window.localStorage.getItem("prova"));
+		 
+        
+        
+        </script>
+	
+		
+	
+			
+		
+    
+  
+  </body>
+</html>

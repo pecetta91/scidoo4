@@ -63,21 +63,13 @@ $testo='
 					<div class="left">
 					
 					 <a href="#" class="link icon-only" onclick="backexplode(4,'.$_SESSION['timecal'].')"   >
-						<i class="material-icons" style="font-size:40px;">chevron_left</i>
+						<i class="material-icons">chevron_left</i>
 					</a>
 					
 					</div>
 					<div class="center titolonav">'.$nomesotto.'<br><span style="font-size:11px;">'.dataita($time).'</span></div>
-					<div class="right"  >
-						<a href="#" onclick="opensosp()" >
-							<i class="icon" >
-								<i class="material-icons" style="font-size:25px; ">watch_later</i>
-								<br>
-								
-								<span class="badge bg-red" id="badgecentro" style="margin-left:-15px; "></span>
-							</i>
-						</a>
-						<a href="#" onclick="selprenot()" >
+					<div class="right" style="padding-top:8px;">
+						<a href="#" onclick="selprenot()">
 							<i class="icon">
 								<i class="material-icons" style="font-size:30px;">add</i><br>
 								
@@ -85,6 +77,11 @@ $testo='
 						</a>
 					</div>
 				</div>
+			</div>
+			
+			
+			<div class="page-content hide-navbars-on-scroll" style="z-index:-1;">
+					<div class="content-block"  style="padding:0px; margin-top:50px; width:100%;"> 
 			 ';
 			 
 			echo $testo;

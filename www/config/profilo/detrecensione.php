@@ -44,11 +44,11 @@ $testo='<div data-page="suggerimenti" class="page" >
 				<div class="navbar-inner">
 					<div class="left">
 					<a href="#" class="link icon-only back"    >
-						<i class="material-icons" style="font-size:40px;">chevron_left</i>
+						<i class="material-icons fs40"  >chevron_left</i>
 					</a>
 					</div>
 					<div class="center titolonav">Dettaglio Recensione</div>
-					
+					<div class="right"></div>
 				</div>
 			</div>
 			
@@ -56,9 +56,9 @@ $testo='<div data-page="suggerimenti" class="page" >
 		 	<div class="content-block" id="recensdet" >
 			
 			
-			<p style="font-size:16px; color:#333; padding:10px; padding-top:0px;">
-			<span style="font-size:11px; color:#999;">Pubblicata  '.dataita($time).' '.date('Y',$time).'</span><br>
-			<b style="font-size:18px;">'.$titolo.'</b><br>
+			<p class="fs16 c333 p10 pt0" >
+			<span class="fs11 c999">Pubblicata  '.dataita($time).' '.date('Y',$time).'</span><br>
+			<b class="fs18">'.$titolo.'</b><br>
 			'.$rec.'
 			</p>
 			
