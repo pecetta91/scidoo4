@@ -55,12 +55,12 @@
 	
 	
 	
-	<icon src="res/icon/ios/icon-1024.png" width="1024" height="1024" />
+	<icon src="res/icon/ios/icon-1024-ios.png" gap:platform="ios"  width="1024" height="1024" />
 	
 	
 	
 	
-	
+	<!--
 	
 	<platform name="ios">
         <icon height="57" platform="ios" src="res/icon/ios/Icon.png" width="57" />
@@ -92,7 +92,7 @@
     </platform>
 	
 	
-	
+	-->
 	
 	
 	
