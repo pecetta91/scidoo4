@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.scidoo" version="1.5.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.scidoo" version="1.5.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scidoo</name>
     <description>
         Gestionale in Cloud per Strutture Ricettive
@@ -52,15 +52,11 @@
 	<icon src="res/icon/ios/icon-120.png"         gap:platform="ios"        width="120" height="120" />
 	<icon src="res/icon/ios/Icon-76.png"         gap:platform="ios"        width="76" height="76" />
 	<icon src="res/icon/ios/icon-152.png"         gap:platform="ios"        width="152" height="152" />
-	
-	
-	
+		
 	<icon src="res/icon/ios/icon-1024-ios.png" gap:platform="ios"  width="1024" height="1024" />
 	
+		
 	
-	
-	
-	<!--
 	
 	<platform name="ios">
         <icon height="57" platform="ios" src="res/icon/ios/Icon.png" width="57" />
@@ -92,7 +88,7 @@
     </platform>
 	
 	
-	-->
+
 	
 	
 	
