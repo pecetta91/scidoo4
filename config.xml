@@ -59,12 +59,20 @@
 	
 	
 	<platform name="ios">
+		<preference name="Orientation" value="all" />
+        <preference name="AutoHideSplashScreen" value="false" />
+        <icon height="167" src="res/icon/ios/Icon-83.5@2x.png" width="167" />
+		
+		
         <icon height="57" platform="ios" src="res/icon/ios/Icon.png" width="57" />
         <icon height="114" platform="ios" src="res/icon/ios/Icon@2x.png" width="114" />
-        <icon height="40" platform="ios" src="res/icon/ios/Icon-40.png" width="40" />
-        <icon height="80" platform="ios" src="res/icon/ios/Icon-40@2x.png" width="80" />
-        <icon height="50" platform="ios" src="res/icon/ios/Icon-50.png" width="50" />
-        <icon height="100" platform="ios" src="res/icon/ios/Icon-50@2x.png" width="100" />
+        <icon height="40" platform="ios" src="res/icon/ios/Icon-Small-40.png" width="40" />
+        <icon height="80" platform="ios" src="res/icon/ios/Icon-Small-40@2x.png" width="80" />
+		
+		
+		
+        <icon height="50" platform="ios" src="res/icon/ios/Icon-Small-50.png" width="50" />
+        <icon height="100" platform="ios" src="res/icon/ios/Icon-Small-50@2x.png" width="100" />
         <icon height="60" platform="ios" src="res/icon/ios/Icon-60.png" width="60" />
         <icon height="120" platform="ios" src="res/icon/ios/Icon-60@2x.png" width="120" />
         <icon height="180" platform="ios" src="res/icon/ios/Icon-60@3x.png" width="180" />
@@ -75,6 +83,14 @@
         <icon height="29" platform="ios" src="res/icon/ios/Icon-small.png" width="29" />
         <icon height="58" platform="ios" src="res/icon/ios/Icon-small@2x.png" width="58" />
         <icon height="87" platform="ios" src="res/icon/ios/Icon-small@3x.png" width="87" />
+		<icon height="1024" platform="ios" src="res/icon/ios/Icon-1024.png" width="1024" />
+		
+		
+		
+		
+		
+		
+		
         <splash height="1136" platform="ios" src="res/screen/ios/Default-667h.png" width="640" />
         <splash height="1334" platform="ios" src="res/screen/ios/Default-667h.png" width="750" />
         <splash height="2208" platform="ios" src="res/screen/ios/Default-736h.png" width="1242" />
@@ -85,6 +101,15 @@
         <splash height="1024" platform="ios" src="res/screen/ios/Default-Portrait~ipad.png" width="768" />
         <splash height="960" platform="ios" src="res/screen/ios/Default@2x~iphone.png" width="640" />
         <splash height="480" platform="ios" src="res/screen/ios/Default~iphone.png" width="320" />
+		
+		
+		
+		
+		
+		
+		
+		
+		
     </platform>
 	
 	
