@@ -14000,7 +14000,7 @@ return t7;
                     '<div class="item-content">' +
                         '{{#if material}}' +
                             '<div class="item-inner">' +
-                                '<div class="item-title"><p>{{js "this.message || this.title || this.subtitle"}}</p></div>' +
+                                '<div class="item-title">{{js "this.message || this.title || this.subtitle"}}</div>' +
                                 '{{#if ../button}}{{#button}}' +
                                 '<div class="item-after">' +
                                     '<a href="#" class="button {{#if color}}color-{{color}}{{/if}} {{#js_compare "this.close !== false"}}close-notification{{/js_compare}}"></a>' +
@@ -14583,7 +14583,7 @@ return t7;
             slidesPerColumn: 1,
             slidesPerColumnFill: 'column',
             slidesPerGroup: 1,
-            centeredSlides: false,
+            centeredSlides: true,
             slidesOffsetBefore: 0, // in px
             slidesOffsetAfter: 0, // in px
             // Round length

@@ -6,7 +6,7 @@ function navigationtxt2(id,str,campo,agg,loader){
 	//alert(id);
 	var url=baseurl+versione+"/config/";
 	
-	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php');//36
+	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php');//36
 	var url=url+apriurl[id];
 	//alert(id);
 	//alert(url);
@@ -51,7 +51,8 @@ function navigationtxt2(id,str,campo,agg,loader){
 				
 					switch(agg){
 						case 1:
-							
+							setdatepcal('datanascita');
+							setdatepcal('dataril');
 						break;
 							
 							
@@ -64,7 +65,7 @@ function navigationtxt2(id,str,campo,agg,loader){
      });	
 }
 
-function navigation2(id,str,afgg,rel){
+function navigation2(id,str,agg,rel){
 	
 	var url=baseurl+versione+"/";
 	
@@ -72,7 +73,7 @@ function navigation2(id,str,afgg,rel){
 	
 	id=parseInt(id);	
 	
-	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php');
+	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php');
 	//last 34 
 	
 	var url=url+apriurl[id];
@@ -119,7 +120,6 @@ function navigation2(id,str,afgg,rel){
 					
 					//alert(data);
 					
-					
 					myApp.hideIndicator();
 					clearTimeout();
 					switch(rel){
@@ -151,7 +151,7 @@ function navigation2(id,str,afgg,rel){
 						break;
 					}
 					
-					//alert(agg);
+					
 					//mainView.router.loadContent({content:data,force:true});
 					switch(agg){
 						case 1: 
@@ -164,7 +164,84 @@ function navigation2(id,str,afgg,rel){
 								statostep=0;
 								scorristep(0,str);
 						break;
-					
+						case 3:
+								var mySwiper=myApp.swiper(' .sw1', {
+									 spaceBetween: 10,
+  									 slidesPerView: 1});
+							
+								var sslide=$$('.giornosel').attr('padre');
+								mySwiper.slideTo(sslide,400);
+						
+						break;
+						case 4:
+							timeout=0;
+							if(rel==2){
+								timeout=500;
+							}
+							setTimeout(function(){
+								var mySwiper=myApp.swiper(' .sw1', {
+									 spaceBetween: 10,
+  									 slidesPerView: 1});
+							
+								var sslide=$$('.giornoselserv').attr('padre');
+								mySwiper.slideTo(sslide,400);
+							},timeout);
+						break;	
+						case 5: //load checkin
+							setdatepcal('datanascita');
+							setdatepcal('dataril');
+
+						break;
+						case 6:
+							//setTimeout(function(){
+								
+								var myCalendar5 = myApp.calendar({
+									input: '#cambiadatapren',
+									weekHeader: true,
+									header: false,
+									footer: false,
+									closeOnSelect:true,
+									dateFormat: 'yyyy-mm-dd',
+									rangePicker: false,
+									onChange:function (p, values, displayValues){
+										
+										var val=new Date(values);
+											
+										var gg=val.getDate();
+										if(gg<10)gg='0'+gg;
+										var mm=val.getMonth();
+										mm++;
+										if(mm<10)mm='0'+mm;
+										var yy=val.getFullYear();
+										var data=yy+'-'+mm+'-'+gg;
+										var data2=val.getTime()/1000;
+										
+										var datai=$$('#calsposta').html();
+										if(data!=datai){
+											$$('#calsposta').html(data);
+											$$('#calsposta2').html(data2);
+											trasftesto3(data,'cambiadatapren');
+
+											navigationtxt(38,data,'cambiadatatxt',0);
+										}
+										
+										
+										
+									}
+								});
+								setTimeout(function(){
+									
+									var data=$$('#calsposta').html();
+									var dataf3=new Date(data);
+									myCalendar5.value=[dataf3];
+									
+								},500);
+								
+							
+								
+							//},500);
+								
+						break;
 					}
 					
          },
@@ -174,15 +251,186 @@ function navigation2(id,str,afgg,rel){
      });
 }
 
+
+
+function spostapren(app){
+	var datain=$$('#calsposta2').html();
+	var IDpren=$$('#IDprensposta').html();
+	//var app=$$('input[name="alloggio"]:checked').val(); 
+	
+	if((datain!='')&&(IDpren!='')&&(app!='')){
+	   var url=baseurl+'config/spostamento/crea.php';
+		//alert(url);
+		$$.ajax({
+				url: url,
+				method: 'POST',
+				dataType: 'text',
+				timeout:5000,
+				cache:false,
+				data: {IDpren:IDpren,app:app,data:datain},
+				success: function (html) {
+					var num=html.indexOf("error");
+					if(num!=-1){
+						myApp.addNotification({
+							message: "Non e' stato possibile spostare la prenotazione. Prego Riprovare",
+							hold:1000
+						});
+					}else{
+						myApp.confirm('Vuoi davvero spostare la prenotazione?', function () {
+							spostapren2();
+						});
+					}
+
+				}
+		});
+	}else{
+		myApp.addNotification({
+			message: 'Compila tutti e campi e Riprova!',
+			hold:1000
+		});
+	}
+	
+	
+
+}
+
+
+
+function spostapren2(){
+
+	var url=baseurl+'config/spostamento/sposta.php';
+	myApp.showIndicator();
+	$$.ajax({
+			url: url,
+			method: 'POST',
+			dataType: 'text',
+			timeout:8000,
+			cache:false,
+			data: {},
+			success: function (data) {
+				myApp.hideIndicator();
+				var num=data.indexOf("ok");
+				
+				if(num!=-1){
+					myApp.addNotification({
+						message: 'Prenotazione Spostata con successo',
+						hold:1000
+					});
+					mainView.router.back();
+					backexplode(12,0);
+				}
+
+			},
+			error:function(data){
+				myApp.hideIndicator();
+			}
+	});
+
+}
+
+var timeoutdate=null;
+
+function setdatepcal(id){
+
+	setTimeout(function(){
+			var data1=$('#'+id).val();
+			//alert(data1);
+			var today=adddata(data1,0,2,3);
+			//alert(today);
+		
+		
+							//var today = new Date();
+
+							var pickerInline = myApp.picker({
+								
+								container: '#'+id+'-picker',
+								toolbar: false,
+								rotateEffect: true,
+
+								value: [today.getMonth(), today.getDate(), today.getFullYear(), today.getHours(), (today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes())],
+
+								onChange: function (picker, values, displayValues) {
+									//alert(picker.value[2]);
+									//alert(picker.value[0]);
+									//alert(picker.value[1]);
+									var dd=picker.value[2].split(',');
+									var datain=picker.value[2]+'-'+convert((parseInt(picker.value[0])+parseInt(1)))+'-'+convert(picker.value[1]);
+									//alert(datain);
+									var daysInMonth = new Date(datain);
+									//alert(daysInMonth);
+									var data2=adddata(daysInMonth,0,0,2);
+									//alert(data2);
+									$('#'+id).val(data2);
+									
+									clearTimeout(timeoutdate);
+
+									// Make a new timeout set to go off in 800ms
+									timeoutdate = setTimeout(function () {
+										$('#'+id).trigger('change');
+										clearTimeout(timeoutdate);
+									}, 3500);
+									
+									
+									
+									var data2=adddata(daysInMonth,0,0,1);
+									
+									$('#'+id+'txt').html(data2);
+									/*if (values[1] > daysInMonth) {
+										picker.cols[1].setValue(daysInMonth);
+									}*/
+								},
+								formatValue: function (p, values, displayValues) {
+									return displayValues[0] + ' ' + values[1] + ', ' + values[2] + ' ' + values[3] + ':' + values[4];
+								},
+								cols: [
+									// Months
+									{
+										values: ('0 1 2 3 4 5 6 7 8 9 10 11').split(' '),
+										displayValues: ('January February March April May June July August September October November December').split(' '),
+										textAlign: 'left'
+									},
+									// Days
+									{
+										values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+									},
+									// Years
+									{
+										values: (function () {
+											var arr = [];
+											for (var i = 1900; i <= 2030; i++) { arr.push(i); }
+											return arr;
+										})(),
+									}
+								]
+							});                
+
+							},500);
+	
+	
+	
+	
+	
+	
+}
+
+
+function convert(num){
+	if(num<10){
+		num='0'+num;
+	}
+	return num;
+}
+
+
 function metodopag(){
 	
-	var buttons=new Array();
-
 	
+	
+	var buttons=new Array();	
 
 			buttons.push(
 					{
-					text: 'Carta di Credito',
+					text: '<div >Carta di Credito</div>',
 					onClick: function () {
 						
 						navigation2(0,1,0);
@@ -198,8 +446,7 @@ function metodopag(){
 	
 	 var buttons3 = [
 			{
-				text: 'Chiudi',
-				color:'black'
+				text: '<div class="lastbutton-modal">Chiudi</div>'
 			}
 		];
 		
@@ -245,9 +492,9 @@ function controllocarta2(){
 }
 
           
-var myApp2 = new Framework7(); 
+//var myApp2 = new Framework7(); 
  
-var $$ = Dom7;
+//var $$ = Dom7;
 
 
 
@@ -260,7 +507,7 @@ function foto(album,num){
 			photoarr[id]=src;
 	});
 	
-var myPhotoBrowser= myApp2.photoBrowser({
+var myPhotoBrowser= myApp.photoBrowser({
     photos : photoarr,
 	navbarTemplate:'<div class="navbar navfoto">'+
     '<div class="navbar-inner">'+
@@ -303,11 +550,11 @@ function salvarecensione2(){
 	}
 	
 	var val=titolo+'/////'+recens+'/////'+voti;
-	alert(val);
+	//alert(val);
 	if((titolo.length>5)&&(recens.length>10)){
 		modprofilo(0,val,9,10,6);
 	}else{
-		myApp2.alert("E' obbligatorio inserire un titolo ed un testo alla recensione. Prego riprovare.");
+		myApp.alert("E' obbligatorio inserire un titolo ed un testo alla recensione. Prego riprovare.");
 	}
 	
 }
@@ -503,7 +750,7 @@ function stepdopo(IDserv){
 			if(datapren.length>0){
 					scorristep(1,IDserv);
 				}else{
-					myApp2.alert("Scegliere un giorno.");
+					myApp.alert("Scegliere un giorno.");
 				}	
 		break;	
 		case 2://funzione step 2
@@ -512,7 +759,7 @@ function stepdopo(IDserv){
 					scorristep(1,IDserv);
 				 	
 				}else{
-					myApp2.alert("Scegliere una sala.");
+					myApp.alert("Scegliere una sala.");
 				}	
 		break;
 		case 3://funzione step 3
@@ -521,7 +768,7 @@ function stepdopo(IDserv){
 					scorristep(1,IDserv);
 				 	
 				}else{
-					myApp2.alert("Scegliere un orario.");
+					myApp.alert("Scegliere un orario.");
 				}	
 		break;
 		case 4://calcolo il prezzo su una nuova pagina e ritorno il valore
@@ -767,7 +1014,7 @@ function calcolaprezzo(){
 					myApp.hideIndicator();
 				},
                 success: function (data) {
-					alert(data);
+					//alert(data);
 				
 		}
 		
@@ -786,8 +1033,7 @@ function tipologiaserv(num){
 	
 	 var buttons3 = [
 			{
-				text: 'Chiudi',
-				color:'black'
+				text: '<div class="lastbutton-modal">Chiudi</div>'
 			}
 		];
 		
@@ -834,6 +1080,8 @@ function prenotaoramik(){
 	if(ok==1){
 		var val=val1+'///'+val2+'///'+val3+'///'+val4;
 		modprofilo(idpren,val,4,10,3);	
+		//aggiungere sala al modprofilo
+		
 	}	
 }
 
@@ -841,7 +1089,7 @@ function prenconferma(idpren){
 	modprofilo(idpren,0,40,0,7);
 }
 
-function backexplode2(tipo,dato0){
+function backexplode2(tipo){
 	mainView.router.back();
 	setTimeout(function (){
 			
@@ -850,6 +1098,15 @@ function backexplode2(tipo,dato0){
 				var tipol=parseInt($$('#tipo').val());
 				navigationtxt2(7,tipol,'servizidiv',0,1);
 			break;
+			case 2://ristorante				
+				
+				var viscontenuto=$$('#contenutodiv').val();//ristorante schermata
+				navigation(5,'0,'+viscontenuto,3,2);
+			break;
+			case 3://centro ben
+				navigation(4,0,2,2);
+			break;	
+	
 
 		}
 		
@@ -924,7 +1181,7 @@ function datiregistrati(){
 					dataType: 'text',
 					cache:false,
 					timeout:20000,
-					data: {email:email,pass:pass,nome:nome,nomestr:nomestr,prefisso:prefisso,tel:tel,tipo:tipo,numc:numc,prezzom:prezzom
+					data: {email:email,pass:pass,nome:nome,nomestr:nomestr,prefisso:prefisso,tel:tel,tipo:tipo,numc:numc,prezzom:prezzom,dove:1
 					},
 					error: function (data) {
 						 myApp.hidePreloader();
@@ -951,8 +1208,8 @@ function datiregistrati(){
 
 function indietroindex(){
 	var url2=baseurl;
-					var url2=url2+versione+'/indexexit.html';
-					// alert(url2);
+				
+					var url2=url2+versione+'/indexmobile.html';
 				
 					mainView.router.load({
 					 	url: url2,
@@ -991,7 +1248,8 @@ function autoricerca(tipo,idcliente){
 				},
                 success: function (data) {
 					myApp.hideIndicator();
-					myApp.pickerModal(data);
+					myApp.popup(data);
+					//myApp.pickerModal(data);
 					popoverord();
 					
 		}
@@ -1030,8 +1288,8 @@ function autoscrivi(id,tipo){
 			tipoprenot=32;
 		break;	
 	}
-	nome=$$('#'+id).attr('alt').toLowerCase();	
 	
+	nome=$$('#'+id).attr('alt').toLowerCase();	
 	$$(campo).html(nome);
 	
 	
@@ -1042,5 +1300,343 @@ function autoscrivi(id,tipo){
 
 function apriacc(num)
 {
+
+	//myApp.accordionOpen($$('#accordion'+num));
 	myApp.accordionToggle($$('#accordion'+num));
+}
+
+var lastscroll=0;
+
+function effettoscroll(animatingScroll){
+	if(animatingScroll == 1){
+		return false;
+	}
+		var scrollleft=$$('#provascroll').scrollLeft();
+	
+		var dimensionebox=$$('.paginaslider').width();//dimensione base post
+		var dimensione=$$('.paginaslider').outerWidth(true);//dimensione del post
+			
+		//7var passosucc=Math.abs((dimensione/2)+50);
+		//var numero=passosucc+lastscroll;
+	
+		var diff=scrollleft-lastscroll;	
+	//alert(diff);
+	//$$('#provascroll').animate( { scrollLeft: lastscroll-dimensione }, 1000);
+		if(diff<-100){
+		//alert(scrollleft);
+	    $$('#provascroll').scrollLeft(lastscroll-dimensione);
+			var numero=
+		lastscroll=$$('#provascroll').scrollLeft();
+		  $('#provascroll').stop().animate({scrollLeft:numero}, 1000);
+			animatingScroll=1;
+			diff=0;
+			return false;
+	}
+	
+	if(diff>100){
+	   // $$('#provascroll').scrollLeft(parseInt(lastscroll)+parseInt(dimensione)));
+		//alert(diff);
+		var numero=parseInt(lastscroll)+parseInt(dimensione);
+	   $('#provascroll').stop().animate({scrollLeft:numero}, 1000);
+		lastscroll=$$('#provascroll').scrollLeft();
+			animatingScroll = 1;
+			diff=0;
+			return false;
+   	}
+	
+
+
+	
+	/*else{
+	   //scorro a sinistra
+		$$('#provascroll').scrollLeft(-scrollleft-dimensione);
+		lastscroll=$$('#provascroll').scrollLeft();
+	}*/
+	
+	// se l'elemento in vista va sotto i -220 allora passo all'elemento successivo
+}
+
+function scorridata(idd){
+	
+	$$('.sceglig').removeClass('giornosel');
+	$$('#td'+idd).addClass('giornosel');
+	var tipo=parseInt(($$('#swiper3').val()));
+	if(tipo==1){
+	$$('.sceglig2').removeClass('giornosel2');
+	$$('#ttd'+idd).addClass('giornosel2');
+	}
+	
+	/*
+	
+	
+	$$('.sceglig').each(function() {
+
+					var id=$$(this).attr('id');
+					
+					if (id==iddata) 
+					{
+						if($$(this).hasClass(classe)){
+							$$(this).addClass(classe+'sel');
+							alert(id);
+						}
+						
+					}else{
+						$$(this).removeClass(classe+'sel');
+					}
+	 		});*/
+}
+
+function scorridataserv(idd){
+	$$('.scegligserv').removeClass('giornoselserv');
+	$$('#td'+idd).addClass('giornoselserv');
+}
+
+function scorrioraserv(idd){
+	$$('.oraservizio').removeClass('oraserviziosel');
+	$$('#tempo'+idd).addClass('oraserviziosel');
+}
+
+function sceglitiporist(funz){
+	
+	var tipo=parseInt($$('#contenutodiv').val());
+	var tempo=parseInt($$('#timeristo').val());
+	if(funz==0){
+				switch(tipo){
+						
+
+					case 0://tavoli
+						$$('#pulscontenuto').html('Tavoli');
+						navigationtxt(14,tempo+',1','ristorantediv',0);
+
+					break;
+
+					case 1://menù
+						$$('#pulscontenuto').html('Menú');
+						navigationtxt(14,tempo+',0','ristorantediv',0);
+
+					break;	
+				}
+		
+	}else{
+			navigationtxt(14,funz+','+tipo,'ristorantediv',0);
+	}
+
+}
+
+function sceglitiporistgiorno(funz){
+	
+	var tipo2=parseInt($$('#contenutodivgiorno').val());
+	var tempo2=parseInt($$('#timeristogiorno').val());
+	var IDtipo=parseInt($$('#IDsottoristogiorno').val());
+	if(funz==0){
+				switch(tipo2){
+					case 0://elenco tavoli
+						$$('#pulscontenuto2').html('Elenco Tavoli');					
+						navigationtxt(20,tempo2+','+IDtipo+',1','ristorantegiornodiv',0)
+					break;
+
+					case 1://sale
+						$$('#pulscontenuto2').html('Sale');
+						navigationtxt(20,tempo2+','+IDtipo+',0','ristorantegiornodiv',0)
+
+					break;	
+				}
+		
+	}else{
+			navigationtxt(20,funz+','+IDtipo+','+tipo2,'ristorantegiornodiv',0);
+	}
+
+}
+
+
+
+function sceglitipobenessgiorno(funz){
+
+	var IDtipo=parseInt($$('#IDsottocentrogiorno').val());	
+	navigationtxt(21,funz+','+IDtipo,'centrobenesseregiornodiv',16);	
+}
+
+
+
+function cambiadatapren(prenotazione){
+	myApp.showIndicator();
+
+	var url=baseurl+versione+"/";
+	var url=url+'config/cambiadatapren.php'; 
+	$$.ajax({
+                url: url,
+                method: 'GET',
+				dataType: 'text',
+				cache:false,
+				timeout:5000,
+				data: {
+					IDpren:prenotazione
+					
+                },
+				 error: function (data) {
+					//rimuovioverlay();
+					 myApp.hideIndicator();
+				},
+                success: function (data) {
+					myApp.hideIndicator();
+					myApp.popup(data);
+					//myApp.pickerModal(data);
+					popoverord();
+					
+		}
+		
+	});
+}
+
+
+function funzionidetpren(idpren){
+	
+		var buttons=new Array();	
+
+			buttons.push(
+					{
+					text: '<div>Sposta Prenotazione</div>',
+					onClick: function () {
+						navigation2(16,idpren,6,0);
+					}
+				}); 
+	
+			buttons.push(
+					{
+					text: '<div class="colorered">Annulla Prenotazione</div>',
+					onClick: function () {
+					 msgboxelimina(idpren,1,0,2);
+					}
+				}); 
+		/*	
+			buttons.push(
+					{
+					text: '<div class="colorered">modal</div>',
+					onClick: function () {
+					modalfirstentry();
+					}
+				});*/
+
+
+	        
+	
+	
+	 var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+		
+		 var groups = [buttons,buttons3];
+  	     myApp.actions(groups);
+	
+	
+}
+
+function sceglidisposizione(idpren){
+	
+	myApp.showIndicator();
+
+	var url=baseurl+versione+"/";
+	var url=url+'config/sceglidisposizione.php'; 
+	$$.ajax({
+                url: url,
+                method: 'GET',
+				dataType: 'text',
+				cache:false,
+				timeout:5000,
+				data: {
+					IDpren:idpren
+				},
+				 error: function (data) {
+					//rimuovioverlay();
+					 myApp.hideIndicator();
+				},
+                success: function (data) {
+					myApp.hideIndicator();
+					myApp.popup(data);
+					//myApp.pickerModal(data);
+					popoverord();
+					
+		}
+		
+	});
+	
+	
+}
+
+
+function modalfirstentry(){
+	
+	myApp.showIndicator();
+	var url=baseurl+versione+"/";
+	var url=url+'config/firstentry.php'; 
+	$$.ajax({
+                url: url,
+                method: 'GET',
+				dataType: 'text',
+				cache:false,
+				timeout:5000,
+				data: {},
+				 error: function (data) {
+					//rimuovioverlay();
+					 myApp.hideIndicator();
+				},
+                success: function (data) {
+					myApp.hideIndicator();
+					if(data!=1){
+							myApp.popup(data);
+							var mySwiper6 = myApp.swiper('.swiper-6', {
+								pagination:'.swiper-6 .swiper-pagination',
+								spaceBetween: 0,
+								slidesPerView: 1,
+								allowSlidePrev:false,
+								nextButton: '.swiper-avanti'});	
+						
+							mySwiper6.on('reachEnd', function () {
+								$$('#avanti').removeClass('swiper-button-disabled');
+								$$('#avanti').attr('onclick','myApp.closeModal();');
+								$$('#avanti').children().html('Chiudi');
+							});
+					}
+		}
+	});
+}
+
+
+function modalfirstentryospiti(){
+	
+	myApp.showIndicator();
+	var url=baseurl+versione+"/";
+	var url=url+'config/firstentryospiti.php'; 
+	$$.ajax({
+                url: url,
+                method: 'GET',
+				dataType: 'text',
+				cache:false,
+				timeout:5000,
+				data: {},
+				 error: function (data) {
+					//rimuovioverlay();
+					 myApp.hideIndicator();
+				},
+                success: function (data) {
+					myApp.hideIndicator();
+					if(data!=1){
+							myApp.popup(data);
+							var mySwiper6 = myApp.swiper('.swiper-6', {
+								pagination:'.swiper-6 .swiper-pagination',
+								spaceBetween: 0,
+								slidesPerView: 1,
+								allowSlidePrev:false,
+								nextButton: '.swiper-avanti'});	
+						
+							mySwiper6.on('reachEnd', function () {
+								$$('#avanti').removeClass('swiper-button-disabled');
+								$$('#avanti').attr('onclick','myApp.closeModal();');
+								$$('#avanti').children().html('Chiudi');
+							});
+					}
+		}
+	});
 }

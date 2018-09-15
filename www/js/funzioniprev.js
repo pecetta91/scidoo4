@@ -108,11 +108,13 @@ function adddata(data1,notti,trasf,formato){
 		break;
 		case 0:
 			dataok1=data1;
-			dataok2=data2;
+			//dataok2=data2;
 		break;
 	}
 	
-	val=new Date(dataok1.getFullYear(),dataok1.getMonth(),dataok1.getDate()+1);
+	
+	
+	val=new Date(dataok1.getFullYear(),dataok1.getMonth(),parseInt(dataok1.getDate())+parseInt(notti));
 	
 	
 	/*dataok2 = parseInt(dataok1)+parseInt(86400000*notti);
@@ -127,17 +129,36 @@ function adddata(data1,notti,trasf,formato){
 	mm++;
 	if(mm<10)mm='0'+mm;
 	var yy=val.getFullYear();
-										
-	if(formato==1){
+					
+	
+	switch(formato){
+		case 1:
+			var data=gg+'/'+mm+'/'+yy;
+		break;
+		case 3:
+			var data=yy+'-'+mm+'-'+gg;
+			data=new Date(data);
+		break;
+		default:
+			var data=yy+'-'+mm+'-'+gg;
+		break;
+	 }
+	
+	/*if(formato==1){
 		var data=gg+'/'+mm+'/'+yy;
 	}else{
 		var data=yy+'-'+mm+'-'+gg;
-	}
+	}*/
 
 
 
 	return data;
 }
+
+
+
+
+
 
 
 function selnotti(notti,obj){
@@ -210,7 +231,7 @@ function selpacchettoprev(id,nump,tipopacc){
 }
 
 
-function eliminapaccprev(ID,tipo){
+function eliminapaccprev(ID,tipo,agg){
 	
 	myApp.showIndicator();
 			//setTimeout(function(){ hidelo(); }, 5500);
@@ -228,7 +249,15 @@ function eliminapaccprev(ID,tipo){
 							myApp.hideIndicator();
 						},
 						success: function (data) {
-							if (typeof $$('#IDpaccselect').foo !== 'undefined') {
+							
+							//alert('bbb');
+							//var ogg=$('#IDpaccselect');
+							//if ($('#IDpaccselect') !== 'undefined') {
+								
+							if (agg==1) {	
+								
+								
+								//alert('ccc');
 								var id=$$('#IDpaccselect').val();
 								var nump=$$('#nump').val();
 								var tipopacc=$$('#tipopacchetto').val();
@@ -391,11 +420,31 @@ var piunotti=0;
 				 myApp.hideIndicator();
 			}
 		}else{
-			 myApp.hideIndicator();
+			
+			myApp.addNotification({
+						message: 'Ci sono dei dati obbligatori mancanti.<br/>Prego riprovare',
+						hold:500000
+					});
+			
+			myApp.hideIndicator();
 		}
 	}
 	
 	
+function selelim(pacc,tipopacc,obj){
+	//alert('');
+	if (!($(obj).is(':checked'))) {
+		//alert(pacc+'---'+tipopacc);
+		if(pacc!=0){
+			eliminapaccprev(pacc,tipopacc,1);
+		}		
+	}
+	
+	
+}
+
+
+
 	function selectpers(id,nump,tipopacc,relo){
 		
 		var url = baseurl+versione+'/config/preventivo/selectpers.php';

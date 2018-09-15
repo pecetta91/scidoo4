@@ -1440,7 +1440,7 @@ html.ios-gt-8 .navbar .center {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
-}
+}/* modificato
 .subnavbar:after {
   content: '';
   position: absolute;
@@ -1455,7 +1455,7 @@ html.ios-gt-8 .navbar .center {
   z-index: 15;
   -webkit-transform-origin: 50% 100%;
   transform-origin: 50% 100%;
-}
+}*/
 html.pixel-ratio-2 .subnavbar:after {
   -webkit-transform: scaleY(0.5);
   transform: scaleY(0.5);
