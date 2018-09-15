@@ -311,7 +311,7 @@
 	</edit-config>
 	<preference name="phonegap-version" value="cli-7.1.0" />
 	<preference name="StatusBarBackgroundColor" value="#f9f8f9" />
-	
+	<preference name="StatusBarStyle" value="blackopaque" />
 	
     <access origin="*" />
     <allow-intent href="http://*/*" />
