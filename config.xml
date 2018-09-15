@@ -310,7 +310,7 @@
 		<string>We are using the Camera for something...</string>
 	</edit-config>
 	<preference name="phonegap-version" value="cli-7.1.0" />
-	<preference name="StatusBarBackgroundColor" value="#203a93" />
+	<preference name="StatusBarBackgroundColor" value="#f9f8f9" />
 	
 	
     <access origin="*" />
