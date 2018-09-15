@@ -33,10 +33,16 @@
 	
 	
 	<icon src="icon.png" />
-    <icon src="res/icon/android/36.png"   gap:platform="android"    gap:qualifier="ldpi" />
+    <!--<icon src="res/icon/android/36.png"   gap:platform="android"    gap:qualifier="ldpi" />
     <icon src="res/icon/android/48.png"   gap:platform="android"    gap:qualifier="mdpi" />
     <icon src="res/icon/android/72.png"   gap:platform="android"    gap:qualifier="hdpi" />
-    <icon src="res/icon/android/96.png"  gap:platform="android"    gap:qualifier="xhdpi" />
+    <icon src="res/icon/android/96.png"  gap:platform="android"    gap:qualifier="xhdpi" />-->
+	
+	 <icon src="res/icon/android/36.png"   gap:platform="android"    gap:qualifier="ldpi" />
+    <icon src="res/icon/android/mipmap-mdpi/ic_launcher.png"   gap:platform="android"    gap:qualifier="mdpi" />
+    <icon src="res/icon/android/mipmap-hdpi/ic_launcher.png"   gap:platform="android"    gap:qualifier="hdpi" />
+    <icon src="res/icon/android/mipmap-xhdpi/ic_launcher.png"  gap:platform="android"    gap:qualifier="xhdpi" />
+	
    
 	
 	<!--
@@ -311,7 +317,8 @@
 	</edit-config>
 	<preference name="phonegap-version" value="cli-7.1.0" />
 	<preference name="StatusBarBackgroundColor" value="#f9f8f9" />
-	<preference name="StatusBarStyle" value="blackopaque" />
+	<preference name="StatusBarStyle" value="lightcontent" />
+
 	
     <access origin="*" />
     <allow-intent href="http://*/*" />
