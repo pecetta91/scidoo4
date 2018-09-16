@@ -6,7 +6,7 @@ var myApp = new Framework7({
     modalTitle: 'Scidoo',
 	 animatePages:true,
 	 cache:true,
-	 material:true,//
+	 material:false,//
 	 fastClicks:false,
 	 uniqueHistory:false,
 	 pushState:false,
@@ -20,7 +20,6 @@ var myApp = new Framework7({
      notificationCloseIcon: true,
      //notificationCloseButtonText: 'Close',
 	 smartSelectBackOnSelect: true,
-	 cache: true,
 	 preroute: function (view, options) {
 		 if(blockPopstate==true){
 			if ($$('.modal-in').length > 0) { 
@@ -134,14 +133,15 @@ $$(document).on('page:back', function (e) {
 				}
 			break;
 			case 'calendario':
-				if(reloadcal==1){
+				//alert('bbb');
+				//if(reloadcal==1){
 					var time=$$('#datacal').val();
 					//navigation(2,time,0,1);
 					//alert(time);
-					navigationtxt(3,time,'calendariodiv',0);
+					navigationtxt(3,time,'calendariodiv',19);
 					reloadcal=0;
 					
-				}
+				//}
 			break;
 			case 'nuovapren':
 				
@@ -454,7 +454,7 @@ function scrollrig(){
 	
 	
 	
-	var nomemeseattuale=$$('#dataattuale').html();
+	/*var nomemeseattuale=$$('#dataattuale').html();
 	var nomemeseprox=$$('#dataprox').html();
 	var offsetfin= $$(".giornofin").offset().left;
 	
@@ -468,7 +468,7 @@ function scrollrig(){
 			$('#datameseattuale').hide().html(nomemeseattuale).fadeIn(400);
 			mesescrollato=0;
 		}
-	}
+	}*/
 	
 	
 	if(scrollriginib==1){
@@ -487,8 +487,9 @@ function scrollrig(){
 	
 			scrollcal=lef;
 			
+			$('#tabdate').css({'left':lef+'px'});
 			
-			document.getElementById("tabdate").style.left=lef+'px';
+			//document.getElementById("tabdate").style.left=lef+'px';
 		
 		
 	}
@@ -626,8 +627,8 @@ myApp.onPageInit('calendario',function (page) {
 	var dataattuale=$$('#dataattuale').html();
 	var meseattuale=$$('#meseattuale').val();
 	
-	$$('#mesescorso').attr('onclick','navigation(2,'+timeprecedente+',0,1);offsetleftcalendario=0');
-	$$('#meseprox').attr('onclick','navigation(2,'+timeprossimo+',0,1);offsetleftcalendario=0');
+	$$('#mesescorso').attr('onclick','navigation(2,'+timeprecedente+',1,1);offsetleftcalendario=0');
+	$$('#meseprox').attr('onclick','navigation(2,'+timeprossimo+',1,1);offsetleftcalendario=0');
 	$$('#datameseattuale').attr('onclick','cambiomesi('+meseattuale+');');
 	$$('#datameseattuale').html(dataattuale);
 	//$$('#tabdate').stop();
@@ -688,13 +689,13 @@ myApp.onPageInit('calendario',function (page) {
 											var left=offset2-offset;
 												
 											
-											document.getElementById('tabcalmain').scrollLeft=parseInt(left)+parseInt(86);
+											document.getElementById('tabcalmain').scrollLeft=parseInt(left)+parseInt(111);
 											
 											//alert(left);
 											//offsetleftcalendario=left;
 											//alert(left);
 											
-											var max=parseInt($$("#tabbody").css('width'))-parseInt($$("#tabcalmain").css('width'))-86;
+											var max=parseInt($$("#tabbody").css('width'))-parseInt($$("#tabcalmain").css('width'))-111;
 											
 											//alert(max);
 											if(left>max){
@@ -714,7 +715,7 @@ myApp.onPageInit('calendario',function (page) {
 											
 											
 										}else{
-											document.getElementById("tabdate").style.left='86px';
+											document.getElementById("tabdate").style.left='111px';
 										}
 									}else{
 										if(offsettopcalendario<0){
@@ -760,6 +761,7 @@ myApp.onPageInit('calendario',function (page) {
 	$$(container2).scroll(function() {
 		offsettopcalendario=parseInt($$(('#tabcalmain')).offset().top);
 	});
+	
 	
 });
 	
@@ -863,6 +865,14 @@ function navigation(id,str,agg,rel){
 					//mainView.router.loadContent({content:data,force:true});
 					switch(agg){
 						case 1:
+							var nomemeseattuale=$$('#dataattuale').html();
+							$('#datameseattuale').html(nomemeseattuale);
+							
+							$('#tabcalmain').scroll(function(){
+								scrollrig();
+							});
+							
+							
 							
 						break;
 						case 2:
@@ -1343,7 +1353,7 @@ function navigationtxt(id,str,campo,agg,loader){
 							//alert(scrollcal);
 							
 							if(scrollcal!=0){
-								document.getElementById('tabcalmain').scrollLeft=parseInt(scrollcal*-1)+parseInt(85);
+								document.getElementById('tabcalmain').scrollLeft=parseInt(scrollcal*-1)+parseInt(110);
 							}else{
 								if ($$(".ogg").html() != undefined) {
 									var offset = $$(".ogg").offset();
@@ -1863,6 +1873,16 @@ zoom: 10,mapTypeId: 'roadmap'
 								});
 							},200);
 							
+							
+						break;
+						case 19:
+							//calendario
+							var nomemeseattuale=$$('#dataattuale').html();
+							$('#datameseattuale').html(nomemeseattuale);
+							
+							$('#tabcalmain').scroll(function(){
+								scrollrig();
+							});
 							
 						break;
 					}
@@ -2800,7 +2820,7 @@ function backexplode(tipo,dato0){
 							navigationtxt(17,0,'arrividiv',17);
 						break;
 						case 'calendario':
-							navigation(2,0,0,1);
+							navigation(2,0,1,1);
 						break;
 					}
 				},500);
@@ -4829,7 +4849,6 @@ function modcambio(ID,tipo){
 
 var loadinf=true;
 function infscroll(obj){
-	
 	if (obj.scrollTop + obj.clientHeight >= obj.scrollHeight) {
    		//esegue funzione
   	}

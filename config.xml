@@ -313,11 +313,10 @@
 	
 	
 	<edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="overwrite">
-		<string>We are using the Camera for something...</string>
+		<string>We Could use the Camera for capture photo for Hotels</string>
 	</edit-config>
 	<preference name="phonegap-version" value="cli-7.1.0" />
-	<preference name="StatusBarBackgroundColor" value="#f9f8f9" />
-	<preference name="StatusBarStyle" value="lightcontent" />
+	<preference name="StatusBarBackgroundColor" value="#cdcdcd" />
 
 	
     <access origin="*" />
