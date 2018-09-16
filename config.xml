@@ -97,7 +97,23 @@
 	<splash height="1024" platform="ios" src="res/screen/ios/LaunchImage-Landscape~ipad_1024x768.png" width="768" />
 	<splash height="960" platform="ios" src="res/screen/ios/LaunchImage~iphone_640x960.png" width="640" />
 	<splash height="480" platform="ios" src="res/screen/ios/LaunchImage~iphone-320x480.png" width="320" />
+	
+	
+	
+	<config-file target="*-Info.plist" parent="CFBundleURLTypes" mode="add">
+      <array>
+          <dict>
+              <key>ITSAppUsesNonExemptEncryption</key>
+              <false/>
+          </dict>
+      </array>
+    </config-file>
+	
+	
+	
 </platform>
+
+	
 	
 	
 	
