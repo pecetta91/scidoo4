@@ -1981,10 +1981,11 @@ function onloadf(time){
 	
 	//var h = window.innerHeight;
 	//creasessione(h,86);
-	//alert(IDcode2);
+	alert(IDcode2);
 	if(IDcode2.length>10){
 	
 		var url=baseurl+versione+'/config/controlloini.php';
+		alert(url);
 		//var IDnotpush=$$('#IDnotpush').val();
 		$$.ajax({
             url: url,
@@ -1994,7 +1995,7 @@ function onloadf(time){
 				cache:false,
                 data: {IDcode:IDcode},
                 success: function (data){
-					//alert(data);
+					alert(data);
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
@@ -2025,7 +2026,7 @@ function onloadf(time){
 				}
     	 });
 	}else{
-		//alert('cc');
+		alert('cc');
 		var IDnotpush=$$('#IDnotpush').val();
 		vislogin();
 		myApp.hideIndicator();	
@@ -2057,7 +2058,7 @@ function notifpush(tipo){
 
 
 function vislogin(){
-	
+	alert('ttt');
 	$$( ".app" ).animate({
 		top: "-30"
 	});
