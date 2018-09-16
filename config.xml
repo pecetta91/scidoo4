@@ -333,6 +333,7 @@
 	</edit-config>
 	<preference name="phonegap-version" value="cli-7.1.0" />
 	<preference name="StatusBarBackgroundColor" value="#cdcdcd" />
+	<preference name="StatusBarStyle" value="blackopaque" />
 
 	
     <access origin="*" />

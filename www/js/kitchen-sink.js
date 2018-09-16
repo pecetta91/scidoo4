@@ -6,8 +6,8 @@ var myApp = new Framework7({
     modalTitle: 'Scidoo',
 	 animatePages:true,
 	 cache:true,
-	 material:false,//
-	 fastClicks:false,
+	 material:false,
+	 fastClicks:true,
 	 uniqueHistory:false,
 	 pushState:false,
 	 swipePanel: false,
@@ -2020,6 +2020,7 @@ function onloadf(time){
 					//mainView.router.loadContent(data);
        			},
 				 error: function (data) {
+					 vislogin();
 					 myApp.hideIndicator();
 				}
     	 });
