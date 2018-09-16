@@ -26,6 +26,9 @@
 }
 */
 
+html {
+  touch-action: manipulation;
+}
 
 @font-face {
     font-family: 'gilroy';
