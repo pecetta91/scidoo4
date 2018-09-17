@@ -31,7 +31,7 @@
 	
 	
 	<gap:splash src="cordova-plugin-statusbar" source="npm" />
-	<gap:plugin name="com.phonegap.plugin.statusbar" />
+	
 	
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
