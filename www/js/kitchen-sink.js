@@ -6,7 +6,7 @@ var myApp = new Framework7({
 	 animatePages:true,
 	 cache:true,
 	 material:true,
-	 fastClicks:false,
+	 fastClicks:true,
 	 uniqueHistory:false,
 	 pushState:false,
 	 swipePanel: false,

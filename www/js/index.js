@@ -32,10 +32,8 @@ var app = {
     // 'pause', 'resume', etc.
     onDeviceReady: function() {
         
-		
-		
-		
 		this.receivedEvent('deviceready');
+		StatusBar.overlaysWebView(false);
 		
 		
 		
@@ -84,13 +82,13 @@ document.addEventListener('deviceready', function () {
 		//alert(ids.userId);
 		
 		
-		var guest=getUrlVars()["guest"];
+		/*var guest=getUrlVars()["guest"];
 		if(typeof guest != 'undefined'){
 			window.localStorage.setItem("IDcode", guest);
 			onloadf(0);
 		}else{
 			onloadf(0);
-		}
+		}*/
 	});
 	
   
