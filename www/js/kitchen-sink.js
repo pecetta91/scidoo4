@@ -1,17 +1,16 @@
 // Init App
 
-
 blockPopstate=false;
 var myApp = new Framework7({
     modalTitle: 'Scidoo',
 	 animatePages:true,
 	 cache:true,
-	 material:false,
+	 material:true,
 	 fastClicks:false,
 	 uniqueHistory:false,
 	 pushState:false,
 	 swipePanel: false,
-	 preloadPreviousPage: false, //true
+	 preloadPreviousPage: true, //true
 	 hideNavbarOnPageScroll: true,
 	 animateNavBackIcon: true,
 	 modalTitle: 'Scidoo',
@@ -414,13 +413,12 @@ myApp.onPageInit('profilo', function (page) {
 	
 	});
 	
-	
 });
 myApp.onPageInit('indice', function (page) {	
 	
-	if(IDcode=='undefined'){
+	/*if(IDcode=='undefined'){
 		onloadf(1);
-	}
+	}*/
 	
 });
 
@@ -732,12 +730,12 @@ myApp.onPageInit('calendario',function (page) {
 										
 										
 										if(offsetleftcalendario>=0){
-											var res=(parseInt(offsetleftcalendario)-86);
+											var res=(parseInt(offsetleftcalendario)-111);
 											if(res<0){res=res*-1;}
 											//alert('PLU:'+res);
 											document.getElementById('tabcalmain').scrollLeft=res;
 										}else{
-											var res=parseInt(offsetleftcalendario)*-1+parseInt(86);
+											var res=parseInt(offsetleftcalendario)*-1+parseInt(111);
 											//alert(res);
 											document.getElementById('tabcalmain').scrollLeft=res;
 										}
@@ -865,6 +863,7 @@ function navigation(id,str,agg,rel){
 					//mainView.router.loadContent({content:data,force:true});
 					switch(agg){
 						case 1:
+							
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
 							
@@ -1290,6 +1289,15 @@ function controllodispo(){
 	
 	
 }
+
+
+function scrollappart(){
+	var top=$('#scrolldiv').offset().top-74;
+	$('#appart').css('transform','translate3d(0px, '+top+'px, 0px)');
+	//document.getElementById('appart').style.top=top+'px';
+	
+}
+
 
 var okstep1=0;
 var openp=0;
@@ -2664,7 +2672,7 @@ function modprenot(id,campo,tipo,val2,agg){
 			timeout:5000,
 			success: function (data) {
 				//alert(data);
-				/*if(agg==2){
+				if(agg==2){
 					myApp.addNotification({
 							message: 'Funzione eseguita con successo',
 							hold:1200
@@ -2674,7 +2682,7 @@ function modprenot(id,campo,tipo,val2,agg){
 							message: 'Modifica effettuata con successo',
 							hold:1200
 						});
-				}*/
+				}
 				
 				myApp.hideIndicator();
 				switch(agg) {
@@ -6150,10 +6158,12 @@ function tastiricerca(time,IDsottotip){
 
 
 function rimuovioverlay(){
-	 $$('.modal-overlay').fadeOut();
-	 $$('.preloader-indicator-overlay').remove();
-	 $$('.preloader-indicator-modal').remove();
+	 
+	 //$$('.modal-overlay').fadeOut();
+	 //$$('.preloader-indicator-overlay').remove();
+	 //$$('.preloader-indicator-modal').remove();
 	 myApp.hideIndicator();
+	
 }
 
 function orariotavolonuovo(idsottotip,time){
@@ -6874,11 +6884,6 @@ function modimpo(id,campo,tipo,val2,agg){
 
 
 
-
-
-
-
-
 function modificaalloggio(IDapp,IDcat){
 	myApp.prompt('Inserisci Nome Alloggio:', function (value) {
 		if(value.length>0){
@@ -6891,6 +6896,4 @@ function modificaalloggio(IDapp,IDcat){
 		}
 
 	});
-
-
-}hcs
+}

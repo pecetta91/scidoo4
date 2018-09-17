@@ -26,8 +26,9 @@
 }
 */
 
-html {
-  touch-action: manipulation;
+
+html,a,button,div,input,textarea,select{
+	touch-action: manipulation;
 }
 
 @font-face {
@@ -1907,7 +1908,6 @@ box-shadow: 0px -1px 5px 0px rgba(222,222,222,1);}
 	height:  31px !important;
 	margin-top: -1px;
 	font-size:16px !important;
- 	
 	
 }
 .searchbar input[type="search"]:focus{background-color:#e0e0e0 !important; -webkit-transition: 200ms;
@@ -1920,4 +1920,69 @@ box-shadow: 0px -1px 5px 0px rgba(222,222,222,1);}
 #datameseattuale{width:100px;line-height:6px;margin:0px 5px;margin-top:0px;padding-top:5px;text-align:center;}
 #dataattuale{display: none;}
 .meseatt{display:block !important;font-weight:600 !important;font-size:13px !important;width:65px !important;max-width:65px !important; }
+
+
+
+.scrolltable {
+            overflow-x: scroll;
+            height: 100%;
+            display: flex;
+            display: -webkit-flex;
+            flex-direction: column;
+            -webkit-flex-direction: column;
+        }
+        .scrolltable > .header {
+        }
+        .scrolltable > .body {
+            /*noinspection CssInvalidPropertyValue*/
+            width: -webkit-fit-content;
+            overflow-y: scroll;
+            flex: 1;
+            -webkit-flex: 1;
+        }
+
+        .scrolltable th, .scrolltable td {
+            min-width: 150px;
+        }
+
+        /* an outside constraint to react against */
+        #constrainer {
+            position: fixed;
+			
+			width: 99%;
+    		height: 92.3vh;
+        }
+
+
+        /* only styling below here */
+        #constrainer {
+            border: 1px solid lightgrey;
+        }
+        .scrolltable table {
+            border-collapse: collapse;
+        }
+        .scrolltable th, .scrolltable td {
+            border: 1px solid gray;
+        }
+        .scrolltable th {
+            background-color: lightgrey;
+            border-width: 1px;
+        }
+        .scrolltable td {
+            border-width: 1px;
+        }
+        .scrolltable tr:first-child td {
+            border-top-width: 0;
+        }
+        .scrolltable tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+
+
+
+
+
+
+
 
