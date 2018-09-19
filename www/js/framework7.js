@@ -6292,8 +6292,8 @@ return t7;
 				//	var hh=document.getElementsByClassName(hh).offsetTop;
 					//alert(hh);
 					
-					$$(".smart-select-picker" ).find(".page-content").attr('id','vaffa');
-					document.getElementById('vaffa').scrollTop=hh;
+					//$$(".smart-select-picker" ).find(".page-content").attr('id','vaffa');
+					//document.getElementById('vaffa').scrollTop=hh; //alert - tolto per errore che dava
 
 					
 					
@@ -10115,9 +10115,15 @@ return t7;
                         }
                     });
                 }
-                if ((e.timeStamp - lastClickTime) < app.params.fastClicksDelayBetweenClicks) {
+                
+				/*if ((e.timeStamp - lastClickTime) < app.params.fastClicksDelayBetweenClicks) {
                     e.preventDefault();
-                }
+                }*/
+				
+				if ((touchStartTime - lastClickTime) < app.params.fastClicksDelayBetweenClicks) {
+				  e.preventDefault();
+				}
+				
         
                 if (app.params.activeState) {
                     activableElement = findActivableElement(targetElement);
@@ -10167,6 +10173,10 @@ return t7;
             function handleTouchEnd(e) {
                 clearTimeout(activeTimeout);
                 clearTimeout(tapHoldTimeout);
+				
+				const touchEndTime = (new Date()).getTime(); //aggiunta
+				
+				
         
                 if (!trackClick) {
                     if (!activeSelection && needsFastClick) {
@@ -10188,13 +10198,19 @@ return t7;
                 if (!activeSelection) {
                     e.preventDefault();
                 }
-        
+        /*
                 if ((e.timeStamp - lastClickTime) < app.params.fastClicksDelayBetweenClicks) {
                     setTimeout(removeActive, 0);
                     return true;
                 }
+				*/
+				if ((touchEndTime - lastClickTime) < app.params.fastClicksDelayBetweenClicks) {
+					setTimeout(removeActive, 0);
+                    return true;
+				}
         
-                lastClickTime = e.timeStamp;
+                //lastClickTime = e.timeStamp;
+				lastClickTime = touchEndTime;
         
                 trackClick = false;
         
@@ -10219,10 +10235,10 @@ return t7;
                 // Trigger focus when required
                 if (targetNeedsFocus(targetElement)) {
                     if (app.device.ios && app.device.webView) {
-                        if ((event.timeStamp - touchStartTime) > 159) {
+                        /*if ((event.timeStamp - touchStartTime) > 159) {
                             targetElement = null;
                             return false;
-                        }
+                        }*/
                         targetElement.focus();
                         return false;
                     }

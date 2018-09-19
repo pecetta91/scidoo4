@@ -1,0 +1,74 @@
+<?php
+header('Access-Control-Allow-Origin: *');
+include('../../config/connecti.php');
+include('../../config/funzioni.php');
+include('../../config/funzionilingua.php');
+$IDutente=intval($_SESSION['ID']);
+$IDstruttura=intval($_SESSION['IDstruttura']);
+unset($_SESSION['IDsottotip']);
+unset($_SESSION['vis']);
+unset($_SESSION['datecentro']);
+$time=time();
+//  onclick="notifiche()"
+$testo='
+<div data-page="clienti" class="page"> 
+
+			 <div class="navbar" >
+				<div class="navbar-inner">
+					<div class="left navbarleftsize170">
+					 <a href="#" class="link icon-only back">
+						<i class="material-icons">chevron_left</i>
+						<strong class="stiletitolopagine">Appunti</strong>
+					</a>
+					
+					</div>
+					<div class="center titolonav"></div>
+					<div class="right" onclick="detappunto(0)">
+						<i class="icon f7-icons fs25">add</i>
+					</div>
+				</div>
+			</div>
+			    <div class="page-content">
+			
+				
+				
+              <div class="content-block" id="appuntidiv"> 
+			 ';
+			 
+		
+			  echo $testo;
+		
+					
+				$inc=1;
+				include('appunti.inc.php');
+				
+				
+				
+echo '
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+</div>
+
+
+
+
+		
+		  
+		  
+
+
+';
+
+
+?>

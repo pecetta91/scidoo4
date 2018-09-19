@@ -614,7 +614,7 @@ img.width100{width: 100px}
 
 
 
-.actions-modal .actions-modal-group .actions-modal-button {background-color:rgb(255,255,255,0.92) !important}
+.actions-modal .actions-modal-group .actions-modal-button {background-color:rgb(255,255,255,0.92) !important; font-weight: 400 !important;}
 /*.actions-modal-group div :last-of-type {background-color: #fff !important;font-weight: 600 !important;#007aff}*/
 
 .lastbutton-modal{background-color: #f8f9f8 !important;font-weight: 600 !important;margin: 0px !important;text-align: center !important;color:#2078e8 !important;font-size: 20px !important}

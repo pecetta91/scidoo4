@@ -6,7 +6,7 @@ var myApp = new Framework7({
 	 animatePages:true,
 	 cache:true,
 	 material:true,
-	 fastClicks:true,
+	 fastClicks:false,
 	 uniqueHistory:false,
 	 pushState:false,
 	 swipePanel: false,
@@ -63,7 +63,7 @@ $$(document).on('page:init', function (e) {
 
 var requestajax=0;
 var stopexec=0;
-//var timeoutback=0;
+var timeoutback=0;
 $$(document).on('page:back', function (e) {
 	paginaora--;
 	location.href='#'+paginaora;
@@ -72,9 +72,9 @@ $$(document).on('page:back', function (e) {
 	var page=mainView.activePage.name;
 	paginbef=page;
 	
-	requestajax.abort();
+	clearTimeout(timeoutback);
 	
-    setTimeout(function(){ 
+    timeoutback=setTimeout(function(){ 
    		var page=mainView.activePage.name;
 		paginbef=page;
 		
@@ -155,16 +155,16 @@ $$(document).on('page:back', function (e) {
 			case 'promemoriaserv':
 				navigationtxt2(10,0,'promemoriaservdiv',0);
 			break;
-			default:
+			/*default:
 				stopexec=1;
 				setTimeout(function(){
 					stopexec=0;
-				},10000);
-			break;
+				},1000);
+			break;*/
    		}
 		
 			   
-  	}, 500);
+  	}, 1000);
 });
 
 function disableBack(){ window.history.forward() }
@@ -473,7 +473,7 @@ function scrollrig(){
 		offsettopcalendario=$$('.table-fixed-right').offset().top;
 		//offsetleftcalendario=parseInt($$(('.table-fixed-right')).offset().left);
 		
-		var offset=$$("#tabbody").offset().left;
+		var offset=parseInt($$("#tabbody").offset().left);
 		//alert(offset);
 		offsetleftcalendario=offset;
 		
@@ -485,8 +485,11 @@ function scrollrig(){
 	
 			scrollcal=lef;
 			
-			$('#tabdate').css({'left':lef+'px'});
-			
+			//$('#tabdate').css({'left':lef+'px'});
+			//$('#tabdate').css('transform','translate3d('+lef+'px, 0px, 0px)');	
+			$('#tabdate').css('transform','translateX(' + lef + 'px)');
+		
+		
 			//document.getElementById("tabdate").style.left=lef+'px';
 		
 		
@@ -687,33 +690,37 @@ myApp.onPageInit('calendario',function (page) {
 											var left=offset2-offset;
 												
 											
-											document.getElementById('tabcalmain').scrollLeft=parseInt(left)+parseInt(111);
+											document.getElementById('tabcalmain').scrollLeft=parseInt(left)+parseInt(85);
 											
 											//alert(left);
 											//offsetleftcalendario=left;
 											//alert(left);
 											
-											var max=parseInt($$("#tabbody").css('width'))-parseInt($$("#tabcalmain").css('width'))-111;
-											
+											//var max=parseInt($$("#tabbody").css('width'))-parseInt($$("#tabcalmain").css('width'))-111;
+											/*
 											//alert(max);
 											if(left>max){
 												left=max;
-											}
-											left=left*-1;
-											document.getElementById("tabdate").style.left=left+'px';
+											}*/
+											//left=left*-1;
+											//document.getElementById("tabdate").style.left=left+'px';
+											//var offset=parseInt($$("#tabbody").offset().left)-100;
 											
+											//$('#tabdate').css('transform','translate3d('+offset+'px, 0px, 0px)');	
 											
 											setTimeout(function(){
 												offsettopcalendario=parseInt($$(('#tabcalmain')).offset().top);
 												
 												var offset=$$("#tabbody").offset().left;
+												$('#tabdate').css('transform','translate3d('+offset+'px, 0px, 0px)');
 												offsetleftcalendario=offset;
 												
-											},1000);
+											},500);
 											
 											
 										}else{
-											document.getElementById("tabdate").style.left='111px';
+											$('#tabdate').css('transform','translate3d(111px, 0px, 0px)');
+											//document.getElementById("tabdate").style.left='111px';
 										}
 									}else{
 										if(offsettopcalendario<0){
@@ -745,7 +752,8 @@ myApp.onPageInit('calendario',function (page) {
 										
 										//var left2=parseInt(offsetleftcalendario)-86;
 										//alert(offsetleftcalendario+'//'+left2);
-										document.getElementById("tabdate").style.left=offsetleftcalendario+'px';
+										//document.getElementById("tabdate").style.left=offsetleftcalendario+'px';
+										$('#tabdate').css('transform','translate3d('+offsetleftcalendario+'px, 0px, 0px)');
 										//document.getElementById("tabdate").style.left='86px';
 											
 									}
@@ -866,10 +874,11 @@ function navigation(id,str,agg,rel){
 							
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
-							
-							$('#tabcalmain').scroll(function(){
-								scrollrig();
-							});
+							/*setTimeout(function(){
+								$('#tabcalmain').scroll(function(){
+									
+								});
+							},500);	*/
 							
 							
 							
@@ -1315,10 +1324,7 @@ function navigationtxt(id,str,campo,agg,loader){
 	//alert(id);
 	//alert(url);
 	//alert('TXT'+id);
-	if(loader!=0){
-		myApp.showIndicator();
-		//setTimeout(function(){ hidelo(); }, 5500);	
-	}
+	
 	query=new Array();
 	query['IDcode']=IDcode;
 	var str=new String(str);
@@ -1334,6 +1340,8 @@ function navigationtxt(id,str,campo,agg,loader){
 			query['dato0']=str;
 		}
 	}	
+	myApp.showIndicator();
+	
 	requestajax=$$.ajax({
             url: url,
                 method: 'GET',
@@ -1343,15 +1351,11 @@ function navigationtxt(id,str,campo,agg,loader){
                 data: query,
                 success: function (data) {
 					//alert(data);
-					
+					myApp.hideIndicator();
 					if(stopexec==1){
 						return false;
 					}
-					
-					if(loader!=0){
-						//clearTimeout();
-						myApp.hideIndicator();
-					}
+				
 					
 					
 					$$('#'+campo).html(data);
@@ -1506,7 +1510,8 @@ function navigationtxt(id,str,campo,agg,loader){
 						case 4:
 							var offset = $$(".ogg").offset();
 							var left=parseInt(offset.left)+parseInt(70);
-							$$('#tabdate').css('left',lef+'px');
+							//$$('#tabdate').css('left',lef+'px');
+							$('#tabdate').css('transform','translate3d('+lef+'px, 0px, 0px)');	
 							//$$('#tabdate').animate({'left': left});
 						break;
 						case 5:
@@ -1896,9 +1901,9 @@ zoom: 10,mapTypeId: 'roadmap'
 					}
 					
          },
-				 error: function (data) {
-					 myApp.hideIndicator();
-				}
+		 error: function (data) {
+			myApp.hideIndicator();
+		}
      });	
 }
 
@@ -2045,7 +2050,7 @@ function notifpush(tipo){
 	
 		var url=baseurl+versione+'/config/notifichepush.php';
 		var IDnotpush=$$('#IDnotpush').val();
-	
+		alert('IDnot'+IDnotpush);
 		$$.ajax({
             url: url,
                 method: 'POST',
@@ -2054,7 +2059,7 @@ function notifpush(tipo){
 				cache:false,
                 data: {IDnotpush:IDnotpush,tipo:tipo},
                 success: function (data){
-					
+					alert(data);
        			}
     	 });
 	
@@ -2773,7 +2778,6 @@ function  opennot(ID,color,nome){
 		 codice=codice+testo;
 	}
 	
-
     var data='<div class="picker-modal" style="height:400px"><div class="toolbar"><div class="toolbar-inner"><div class="left" style="text-transform:uppercase;">'+nome+'</div><div class="right" style="margin-right:15px;"><a href="#" class="close-picker" onclick="myApp.closeModal();"><i class="f7-icons">check</i> </a></div></div></div><div class="picker-modal-inner" style="height:100%;background-color:white; overflow-y:scroll;"><div class="page-content"><div class="list-block"><ul>'+codice+'</ul></div></div><br></div>';	
 	myApp.pickerModal(data);
 }
@@ -2806,11 +2810,17 @@ function backexplode(tipo,dato0){
 				if(reloadnav==1){
 					reloadnav=0;
 					navigation(5,dato0,3,1);
-					}
+				}
 			break;
 			case 6: //ospiti
-				var txt=$$('#IDprenfunc').val()+',0';
-				navigationtxt(2,txt,'contenutop',1);
+				var page=mainView.activePage.name;
+					switch(page){
+						case 'detpren':
+							var txt=$$('#IDprenfunc').val()+',0';
+							navigationtxt(2,txt,'contenutop',1);
+						break;
+					}
+				
 			break;
 			case 7:
 				navigation(16,0,0,1);
@@ -2857,7 +2867,7 @@ function backexplode(tipo,dato0){
 		
 		
 		
-	},300);
+	},800);
 }
 
 
@@ -4809,28 +4819,9 @@ function cambiastruttura(txt){
 		var evalstr=$$('#evalcambia').val();
 		
 		evalstr=atob(evalstr);
-		//evalstr='buttons.push({text: "1",onClick: function () {modcambio(2,3);}});';
+		//evalstr='buttons.push({text: "1",onClick: function () {alert();}});';
 		eval(evalstr);
-	/*
-		var arr1= txt.split(',');
-		var i=0;
-		for (prop in arr1) {
-			if(arr1[prop]!=''){
-			var arr2= arr1[prop].split('-');
-		  	i++;
-		 	
-			var IDstr=arr2['0'];
-			var str=arr2['1'];
-			
-		  	buttons.push({
-					text: str,
-					onClick: function () {
-						modcambio(IDstr,3);
-					}
-				}); 	
-			}
-		} */
-	
+
 		 var buttons3 = [
 			{
 				text: '<div class="lastbutton-modal">Chiudi</div>'
@@ -4845,9 +4836,11 @@ function cambiastruttura(txt){
 
 var strarr=new Array();
 function modcambio(ID,tipo){
-	var url=baseurl;
-	var url=url+'config/gestionecambio.php';
+	
+	var url=baseurl+'config/gestionecambio.php';
+	//alert(url);
 	$$.post(url,{ID:ID,tipo:tipo},function(html){
+		//alert(html);
 		if(html!='error'){
 			window.localStorage.setItem("IDcode", html);
 			navigation(0,'',0,1);//
@@ -6755,13 +6748,11 @@ function cambiomesi(mese){
 					mese:mese
                 },
 				 error: function (data) {
-					//rimuovioverlay();
 					 myApp.hideIndicator();
 				},
                 success: function (data) {
 					myApp.hideIndicator();
 					myApp.pickerModal(data);
-					
 					
 		}
 		

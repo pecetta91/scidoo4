@@ -1640,3 +1640,25 @@ function modalfirstentryospiti(){
 		}
 	});
 }
+
+
+function pulsantimenu(){
+	
+		
+	var buttons=new Array();	
+
+	 			var infomenu=$('#infomenu').val();
+			    infomenu=atob(infomenu);
+			    eval(infomenu);
+
+	
+	 var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+		
+		 var groups = [buttons,buttons3];
+  	     myApp.actions(groups);
+	
+}
