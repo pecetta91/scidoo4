@@ -100,7 +100,7 @@ $time24=time()-86400;
 
 
 //<i class="icon f7-icons fs25">gear</i>
-$testo=  '<div data-page="profilo" class="page"> ';
+$testo=  '<div data-page="profilo" class="page profilopage"> ';
 
 //<img src="scidoopng.png" class="width100" style="width:90px; margin-top:5px;">
 		/*$testo.='	<div class="navbar" style="background:#fff; border:none;">
@@ -772,7 +772,7 @@ $testo.='<div class="toolbar" style="border-top:solid 1px #e1e1e1; height:45px; 
 	*/
 
 
-$testo.='<div class="toolbar tabbar tabbar-labels toolbottom" style="height:60px;">
+$testo.='<div class="toolbar tabbar tabbar-labels toolbottom bottsumain" style="height:60px;">
 			<div class="toolbar-inner">
 				<a href="#" class="tab-link" onclick="navigation(12,0,0)">
 					<i class="icon f7-icons c666" >book

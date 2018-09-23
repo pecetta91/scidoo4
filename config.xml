@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.scidoo" version="1.9.9" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.scidoo" version="2.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scidoo</name>
     <description>
         Gestionale in Cloud per Strutture Ricettive
@@ -117,13 +117,19 @@
 	<edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="overwrite">
 		<string>We Could use the Camera for capture photo for Hotels</string>
 	</edit-config>
+	
+	<edit-config file="*-Info.plist" mode="merge" target="UIViewControllerBasedStatusBarAppearance">
+		<false />
+	</edit-config>
+	
+	
 	<preference name="phonegap-version" value="cli-8.0.0" />
 	<preference name="StatusBarBackgroundColor" value="#cdcdcd" />
 	
 	<preference name="DisallowOverscroll" value="false" />
 	<preference name="webviewbounce" value="false" />
 	<preference name="StatusBarOverlaysWebView" value="false" />
-	<preference name="StatusBarStyle" value="default" />
+	<preference name="StatusBarStyle" value="blackopaque" />
 
 	
     <access origin="*" />

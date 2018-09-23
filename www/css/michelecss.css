@@ -446,7 +446,7 @@ img.width340{width: 300px}
 .textleft{text-align: left!important}
 .br5{border-radius: 5px}
 .mt-90{margin-top: -90px}
-.indexopacity{opacity:0; margin-top:10px; text-align: center;}
+.indexopacity{margin-top:10px; text-align: center;}/*opacity:0*/
 .indexdiv{width:99%!important; margin:auto!important;}
 
 img.width90{width: 90px}

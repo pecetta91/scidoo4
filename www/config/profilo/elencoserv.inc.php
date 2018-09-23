@@ -138,10 +138,12 @@ switch($info)
 							{
 								$testoprezzo='<div class="sbarraprezzo prezzoverticaleserv" >'.$prezzoini.' €
 														<div>'.$prezzo.' €</div>
+														<div style="position:absolute;right:15px;top:10px"><span class="fs11">'.$tipoprezzo.'</span></div>
 											 </div>';
 							}else{
 
-								$testoprezzo='<div class="prezzoverticaleserv">'.$prezzo.' €</div>';
+								$testoprezzo='<div class="prezzoverticaleserv">'.$prezzo.' €</div>
+									<div style="position:absolute;right:15px;top:10px"><span class="fs11">'.$tipoprezzo.'</span></div>';
 								
 							}
 							
@@ -216,12 +218,21 @@ switch($info)
 							switch($tipolimite){
 								case 1:
 									$prezzo=calcolaprezzoserv($row['0'],$time,$IDrestrmain.',',$IDstruttura,0,$IDpren);
+									$tipoprezzo='a persona';
 								break;
 								case 6:
 									$prezzo=calcolaprezzoserv($row['0'],$time,1,$IDstruttura,0,$IDpren);
+									$tipoprezzo='a persona';
 								break;
 								case 2:
 									$prezzo=calcolaprezzoserv($row['0'],$time,$IDrestrtxt,$IDstruttura,0,$IDpren);
+									if($numeropers==1){
+										$tipoprezzo='per '.$numeropers.' persona';
+									}else{
+										$tipoprezzo='per '.$numeropers.' persone';
+									}
+									
+									
 								break;
 
 							}
@@ -230,10 +241,12 @@ switch($info)
 							if($prezzo<$prezzoini){
 								$testoprezzo='<div class="sbarraprezzo prezzoverticaleserv" >'.$prezzoini.' €
 													<div>'.$prezzo.' €</div>
+													<div style="position:absolute;right:15px;top:10px"><span class="fs11">'.$tipoprezzo.'</span></div>
 											 </div>';
 							}else{
 								
-								$testoprezzo='<div class="prezzoverticaleserv">'.$prezzo.' €</div>';
+								$testoprezzo='<div class="prezzoverticaleserv">'.$prezzo.' €</div>
+									<div style="position:absolute;right:15px;top:10px"><span class="fs11">'.$tipoprezzo.'</span></div>';
 								
 							}
 					

@@ -64,6 +64,11 @@ $$(document).on('page:init', function (e) {
 var requestajax=0;
 var stopexec=0;
 var timeoutback=0;
+
+
+
+
+
 $$(document).on('page:back', function (e) {
 	paginaora--;
 	location.href='#'+paginaora;
@@ -299,10 +304,12 @@ var IDutente=0;
 					//clearTimeout();
 					 myApp.hideIndicator();  	 //alert(data);
 					var num=data.indexOf("error");  	 //alert(data);
-					if(num==-1){		
+					if(num==-1){	
+						notifpush(1);
 						window.localStorage.setItem("IDcode", data);
 						//alert(data);
 						IDcode=data;
+						
 						//var query = {IDcode:data};
 						//$$('#logged').html('<a href="javascript:void(0)" onclick="navigation('+"0,'',0"+')" class=" -big button-fill" style=" width:40%; margin:auto; background:#ff9c00;">Entra su Scidoo</a>');
 						
@@ -763,10 +770,13 @@ myApp.onPageInit('calendario',function (page) {
 							
 	var befscroll=0;
 	var ps=0;	
-	var container2 = $$('.page-content');
-	$$(container2).scroll(function() {
-		offsettopcalendario=parseInt($$(('#tabcalmain')).offset().top);
-	});
+	setTimeout(function(){
+		var container2 = $$('.page-content');
+		$$(container2).scroll(function() {
+			offsettopcalendario=parseInt($$(('#tabcalmain')).offset().top);
+		});
+	
+	},500);
 	
 	
 });
@@ -791,7 +801,7 @@ function navigation(id,str,agg,rel){
 	//var apriurl=new Array('profilo/temp.php','calendario.inc.php','detpren2.php','calendario2.inc.php','preventivo/step1.php','preventivo/step0.php','preventivo/step2.php','preventivo/step3.php','preventivo/step4.php','preventivo/step5.php','notifiche.inc.php','promemoria.php','appunti.inc.php','centrobenessere.inc.php','ristorante.inc.php','pulizie.inc.php','domotica.inc.php','arrivi.inc.php','clienti.inc.php','prenotazioni.inc.php','ristorantegiorno.inc.php','centrobenesseregiorno.inc.php','preventivo/step4cerca.php','profilo/servizi.php','profilo/prenotazione.php','profilo/temperatura.php','profilo/menuristorante.php','/profilo/ilconto.php','profilo/elencoservizi.php','profilo/elencoluoghi.php','ricercaclidet.php','ricercaserv.php','centrobenesseregiorno.inc.php');
 	
 	
-	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/detluogo.php','config/nuovotavolo.php','config/menugiorno.php','config/impostazionialloggi.php');
+	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/detluogo.php','config/nuovotavolo.php','config/menugiorno.php','config/impostazionialloggi.php','indexmobile.html');
 	//last 36
 	
 	var url=url+apriurl[id];
@@ -839,6 +849,12 @@ function navigation(id,str,agg,rel){
 					
 					
 					myApp.hideIndicator();
+					
+					
+					
+					
+					
+					
 					//clearTimeout();
 					switch(rel){
 						case 1:
@@ -1011,6 +1027,17 @@ function navigation(id,str,agg,rel){
 						break;	
 					
 					}
+					
+					//soluzione problema scroll ios
+					setTimeout(function(){
+						var pagein=mainView.activePage.name+'page';
+						if ($('.'+pagein+' div.bottsumain').html() != undefined) {
+							//alert($('.'+pagein+' div.bottsumain').html());
+							$('.'+pagein+' div.bottsumain').appendTo( "."+pagein );
+						}
+					},500);
+					
+					
 					
          },
 				 error: function (data) {
@@ -1893,9 +1920,9 @@ zoom: 10,mapTypeId: 'roadmap'
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
 							
-							$('#tabcalmain').scroll(function(){
+							/*$('#tabcalmain').scroll(function(){
 								scrollrig();
-							});
+							});*/
 							
 						break;
 					}
@@ -1986,10 +2013,11 @@ document.addEventListener('backbutton', function (e) { e.preventDefault();});
 
 function onloadf(time){
 	
-	myApp.showIndicator();
-	//setTimeout(function(){ hidelo(); }, 5000);	
+	//myApp.showIndicator();
+	//setTimeout(function(){ hidelo(); }, 5000);
+	alert('onload')
 	IDcode=window.localStorage.getItem("IDcode");
-	//alert(IDcode);
+	alert(IDcode);
 	IDcode2=new String(IDcode);
 	
 	//var h = window.innerHeight;
@@ -2023,9 +2051,11 @@ function onloadf(time){
 							notifpush(1);
 						}else{
 							vislogin();
+							//navigation(32,0,0,0);//indexmobile
 						}
 					}else{
 						vislogin();
+						//navigation(32,0,0,0);//indexmobile
 					}
 				
 				
@@ -2034,34 +2064,39 @@ function onloadf(time){
        			},
 				 error: function (data) {
 					 vislogin();
+					// navigation(32,0,0,0);//indexmobile
 					 myApp.hideIndicator();
 				}
     	 });
 	}else{
 		//alert('cc');
-		var IDnotpush=$$('#IDnotpush').val();
+		//var IDnotpush=$$('#IDnotpush').val();
 		vislogin();
+	
 		myApp.hideIndicator();	
 	}
 	
 }
 
 function notifpush(tipo){
-	
-		var url=baseurl+versione+'/config/notifichepush.php';
 		var IDnotpush=$$('#IDnotpush').val();
-		alert('IDnot'+IDnotpush);
-		$$.ajax({
-            url: url,
-                method: 'POST',
-				dataType: 'text',
-				timeout:10000,
-				cache:false,
-                data: {IDnotpush:IDnotpush,tipo:tipo},
-                success: function (data){
-					alert(data);
-       			}
-    	 });
+		if(IDnotpush.length>5){
+
+			var url=baseurl+versione+'/config/notifichepush.php';
+
+			alert('IDnot'+IDnotpush);
+			$$.ajax({
+				url: url,
+					method: 'POST',
+					dataType: 'text',
+					timeout:10000,
+					cache:false,
+					data: {IDnotpush:IDnotpush,tipo:tipo},
+					success: function (data){
+						alert(data);
+					}
+			 });
+		}
 	
 	
 	
@@ -2071,6 +2106,8 @@ function notifpush(tipo){
 
 function vislogin(){
 	
+	/*
+	
 	$$( ".app" ).animate({
 		top: "-30"
 	});
@@ -2079,6 +2116,14 @@ function vislogin(){
 	});
 	//$$('#logged').html('');
 
+	setTimeout({
+		$$('#loaderscidoo').animate({height:"0"},1000);
+	},500);
+*/
+	
+	setTimeout(function(){
+		navigation(37,0,0,1);//indexmobile
+	},1000);
 }
 
 
@@ -4233,7 +4278,7 @@ function esci(){
 				timeout:8000,
 				data: query,
 				success: function (data) {
-					 myApp.hideIndicator();
+					myApp.hideIndicator();
 					var url2=baseurl;
 					//var url2=url2+versione+'/indexexit.html';
 					// alert(url2);

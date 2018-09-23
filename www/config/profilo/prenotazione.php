@@ -593,10 +593,9 @@ if(mysqli_num_rows($result)>0){
 
 		$testo.='</div>';
 	}
+
+/*
 $testo.='<div class="content-block-title titleb" style="padding-top:10px">Menu Ristorante</div>';
-
-
-
 $query2="SELECT ID,sottotipologia FROM sottotipologie WHERE IDmain='1' AND ID NOT IN(17,20) AND IDstr='$IDstruttura' ORDER BY ord";			
 
 $result2=mysqli_query($link2,$query2);
@@ -629,7 +628,7 @@ $nummenu=0;
 							$testo.='</div>';
 						}
 
-
+*/
 
 
 
@@ -825,27 +824,36 @@ $testo.='<input type="hidden" value="'.base64_encode($infomenu).'" id="infomenu"
 
 					
 
+
+
+$query="SELECT GROUP_CONCAT(ID SEPARATOR ',') FROM sottotipologie WHERE IDmain='1'  AND IDstr='$IDstruttura' ORDER BY ord";
+$result=mysqli_query($link2,$query);
+$row=mysqli_fetch_row($result);
+$IDsotto=$row['0'];
+$query2="SELECT ID,IDsottotip FROM dispgiorno WHERE IDsottotip IN ($IDsotto) AND  FROM_UNIXTIME(data,'%Y-%m-%d')='$datagg' ";
+$result2=mysqli_query($link2,$query2);
+if(mysqli_num_rows($result2)>0){
+	
+list($yy, $mm, $dd) = explode("-",$datagg);
+$timeagg=mktime(0, 0, 0, $mm, $dd, $yy);
+
 $testo.='<br/><br/><div class="modificaelenco" onclick="pulsantimenu();"><u>Scopri tutti i Menu</u></div>
+		<div class="personalizza" >Menù del '.dataita4($timeagg).' </div>
 
-			<div class="personalizza" >Menù Giornalieri<br></div>';
-
-$testo.='
 <div class="swiper-container swiperserv swiper-init"  data-pagination=".swiper-pagination" data-space-between="10" data-slides-per-view="auto" data-centered-slides="true" data-loop="true" style="height:380px;background-color:#fff; padding-top:10px;">
 <div class="swiper-pagination"></div>
 <div class="swiper-wrapper">';
-
-	$query2="SELECT ID,sottotipologia FROM sottotipologie WHERE IDmain='1'  AND IDstr='$IDstruttura' ORDER BY ord";			
-	$result2=mysqli_query($link2,$query2);
-	if(mysqli_num_rows($result2)>0){
-		while($row2=mysqli_fetch_row($result2)){
-			//controllo
-			$sottotip=$row2['0'];
-			$nomesottotip=$row2['1'];
-			$query3="SELECT ID FROM dispgiorno WHERE IDsottotip='$sottotip' AND  FROM_UNIXTIME(data,'%Y-%m-%d')='$datagg' LIMIT 1";
-			$result3=mysqli_query($link2,$query3);
-			if(mysqli_num_rows($result3)>0){
-
-				$query4="SELECT GROUP_CONCAT(s.servizio SEPARATOR ' , '),dp.portata,GROUP_CONCAT(DISTINCT(st.sottotipologia) SEPARATOR ' , ') FROM dispgiorno as dp,servizi as s,sottotipologie as st WHERE dp.IDsottotip='$sottotip' AND  FROM_UNIXTIME(dp.data,'%Y-%m-%d')='$datagg' AND dp.IDpiatto=s.ID AND s.IDsottotip=st.ID  GROUP BY dp.portata ORDER BY dp.portata";
+	
+	
+	while($row2=mysqli_fetch_row($result2)){
+		
+		$sottotip=$row2['1'];
+		$query3="SELECT ID,sottotipologia FROM sottotipologie WHERE IDstr='$IDstruttura' AND ID='$sottotip' ";
+		$result3=mysqli_query($link2,$query3);
+		$row3=mysqli_fetch_row($result3);
+		$nomesotto=$row3['1'];
+		
+		$query4="SELECT GROUP_CONCAT(s.servizio SEPARATOR ' , '),dp.portata,GROUP_CONCAT(DISTINCT(st.sottotipologia) SEPARATOR ' , ') FROM dispgiorno as dp,servizi as s,sottotipologie as st WHERE dp.IDsottotip='$sottotip' AND  FROM_UNIXTIME(dp.data,'%Y-%m-%d')='$datagg' AND dp.IDpiatto=s.ID AND s.IDsottotip=st.ID  GROUP BY dp.portata ORDER BY dp.portata";
 				$result4=mysqli_query($link2,$query4);
 				if(mysqli_num_rows($result4)>0){
 					$txtmenu='';
@@ -865,33 +873,31 @@ $testo.='
 								$txtmenu.='<div style="position:absolute;bottom:6px;right:3px;color:#000"><span>...</span></div>';
 							}
 					}
-
-				}else{
-					$txtmenu='<div style="font-size:15px;color:#333;" >Il Menù Non &egrave; stato ancora pubblicato</div>';
+					if(strlen($txtmenu)>0){
+						$testo.=' 
+						<div class="swiper-slide  pags" >
+									<div class="textcenter pb5" >
+										<div class="servnome">Menù  '.$nomesotto.'</div>
+									</div>	
+						 <div class="paginaslider">
+							<div class="prenotaservscroller">
+								<div class="corpoorizzontalescrol" >											
+									<button class="button button-fill button-raised prenotaoraoriz" onclick="navigation2(14,'.$sottotip.',3,0)" >Scopri Ora</button>
+								</div>
+							</div>
+								<div class="orizontalscroll" style="border:1px solid #e1e1e1;text-align:center;">
+									<div style="padding-left: 10px;padding-top: 10px;padding-right:10px">'.$txtmenu.'</div>
+								</div>
+						 </div>
+						</div>';
+					}
 				}
-
-				$testo.=' 
-				<div class="swiper-slide  pags" >
-				 <div class="paginaslider">
-					<div class="prenotaservscroller">
-						<div class="corpoorizzontalescrol" >
-								<div class="mr15 ml15" >
-									<div class="servnome mr30" >Menù  '.$nomesottotip.' giornaliero</div>
-								</div>													
-							<button class="button button-fill button-raised prenotaoraoriz" onclick="navigation2(14,'.$sottotip.',3,0)" >Scopri Ora</button>
-						</div>
-					</div>
-						<div class="orizontalscroll" style="border:1px solid #e1e1e1;text-align:center;">
-							<div style="padding-left: 10px;padding-top: 10px;padding-right:10px">'.$txtmenu.'</div>
-						</div>
-				 </div>
-				</div>';
-			}
-		}
-	} 
-$testo.='</div></div>';
-
-
+	}
+	$testo.='</div></div>';
+	
+}else{
+	$testo.='<div  class="personalizza" >Il Menù Non &egrave; stato ancora pubblicato</div>';
+}
 
 /*
 $testo.='<div class="personalizza">Scopri i luoghi<br></div>
