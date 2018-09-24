@@ -660,7 +660,14 @@ img.width100{width: 100px}
 .col-h50{height: 50px}
 .divcol{padding: 0 !important;position: relative}
 .primotestodivcol{padding:0px !important;position:absolute;top:0px;left:20px;color:#000 !important;font-size: 11px;padding-left: 7px !important;}
-.secondotestodivcol{position:absolute;top:20px;left:20px;padding:0px !important;color:#000}
+.secondotestodivcol{position:absolute;top:20px;left:20px;padding:0px !important;color:#000;
+
+top:0px !important;margin-top:25px !important;
+margin-left: 7px !important;
+font-size: 18px !important;  color:#006cbf !important; font-weight:600 !important;
+
+}
+.afterprev{color:#006cbf !important; font-size:18px !important; font-weight:600 !important; line-height:20px !important;}
 .marginauto{margin: auto;}
 
 .divdataformcontainer{width: 100%;height: 100%;position: absolute;left: 0px;top: 0px;}

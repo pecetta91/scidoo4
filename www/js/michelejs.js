@@ -57,7 +57,11 @@ function navigationtxt2(id,str,campo,agg,loader){
 							
 							
 					}
+					loadstaticios();
 					$$('.page-content').scrollTop=0;
+					
+					
+					
          },
 		 error: function (data) {
 					myApp.hideIndicator();
@@ -243,7 +247,7 @@ function navigation2(id,str,agg,rel){
 								
 						break;
 					}
-					
+					loadstaticios();
          },
 		error:function(data){
 			myApp.hideIndicator();

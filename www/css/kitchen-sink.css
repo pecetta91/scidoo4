@@ -1940,8 +1940,9 @@ box-shadow: 0px -1px 5px 0px rgba(222,222,222,1);}
 .searchbar input[type="search"] {
 	background-color: #EDEDED !important;
 	height:  31px !important;
-	margin-top: -1px;
+	margin-top: 1px !important;
 	font-size:16px !important;
+	
 	
 }
 .searchbar input[type="search"]:focus{background-color:#e0e0e0 !important; -webkit-transition: 200ms;

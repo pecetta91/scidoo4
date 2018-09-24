@@ -140,10 +140,11 @@ $$(document).on('page:back', function (e) {
 				//alert('bbb');
 				//if(reloadcal==1){
 					var time=$$('#datacal').val();
+					navigation(2,time,1,1);
 					//navigation(2,time,0,1);
 					//alert(time);
-					navigationtxt(3,time,'calendariodiv',19);
-					reloadcal=0;
+					//navigationtxt(3,time,'calendariodiv',19);
+					//reloadcal=0;
 					
 				//}
 			break;
@@ -1029,13 +1030,10 @@ function navigation(id,str,agg,rel){
 					}
 					
 					//soluzione problema scroll ios
-					setTimeout(function(){
-						var pagein=mainView.activePage.name+'page';
-						if ($('.'+pagein+' div.bottsumain').html() != undefined) {
-							//alert($('.'+pagein+' div.bottsumain').html());
-							$('.'+pagein+' div.bottsumain').appendTo( "."+pagein );
-						}
-					},500);
+					loadstaticios();
+					
+					
+					
 					
 					
 					
@@ -1045,7 +1043,17 @@ function navigation(id,str,agg,rel){
 				}
      });
 }
-
+function loadstaticios(){
+	
+	setTimeout(function(){
+						var pagein=mainView.activePage.name+'page';
+						if ($('.'+pagein+' div.bottsumain').html() != undefined) {
+							//alert($('.'+pagein+' div.bottsumain').html());
+							$('.'+pagein+' div.bottsumain').appendTo( "."+pagein );
+						}
+					},500);
+	
+}
 
 
 function aventistep1(){
@@ -1917,6 +1925,7 @@ zoom: 10,mapTypeId: 'roadmap'
 						break;
 						case 19:
 							//calendario
+							
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
 							
@@ -1926,6 +1935,9 @@ zoom: 10,mapTypeId: 'roadmap'
 							
 						break;
 					}
+					
+					loadstaticios();
+					
 					
          },
 		 error: function (data) {
@@ -2015,9 +2027,9 @@ function onloadf(time){
 	
 	//myApp.showIndicator();
 	//setTimeout(function(){ hidelo(); }, 5000);
-	alert('onload')
+//	alert('onload')
 	IDcode=window.localStorage.getItem("IDcode");
-	alert(IDcode);
+//	alert(IDcode);
 	IDcode2=new String(IDcode);
 	
 	//var h = window.innerHeight;
@@ -2080,11 +2092,12 @@ function onloadf(time){
 
 function notifpush(tipo){
 		var IDnotpush=$$('#IDnotpush').val();
+		//var IDnotpush='aaaaaaa';
 		if(IDnotpush.length>5){
 
 			var url=baseurl+versione+'/config/notifichepush.php';
 
-			alert('IDnot'+IDnotpush);
+			//alert('IDnot'+IDnotpush);
 			$$.ajax({
 				url: url,
 					method: 'POST',
@@ -2093,7 +2106,7 @@ function notifpush(tipo){
 					cache:false,
 					data: {IDnotpush:IDnotpush,tipo:tipo},
 					success: function (data){
-						alert(data);
+						//alert(data);
 					}
 			 });
 		}
@@ -4279,9 +4292,11 @@ function esci(){
 				data: query,
 				success: function (data) {
 					myApp.hideIndicator();
-					var url2=baseurl;
+					
 					//var url2=url2+versione+'/indexexit.html';
 					// alert(url2);
+					
+					var url2=baseurl;
 					var url2=url2+versione+'/indexmobile.html';
 				
 					mainView.router.load({
@@ -4300,7 +4315,7 @@ function esci(){
 					
 					window.localStorage.setItem("IDcode", '0');
 					setTimeout(function (){
-						vislogin();
+						//vislogin();
 						//mainView.history = [];
 						//disableBack();
 						azzerastoria();
