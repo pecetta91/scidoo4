@@ -15,7 +15,7 @@ var app = {
         
 		this.receivedEvent('deviceready');
 		StatusBar.overlaysWebView(false);
-		StatusBar.styleBlackOpaque();
+		StatusBar.styleDefault();
 		
 		
     },

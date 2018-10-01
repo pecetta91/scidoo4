@@ -223,8 +223,8 @@ $$(window).on('popstate', function(e){
 //var baseurl='http://192.168.1.47/milliont/';
 //
 
-//var baseurl='http://188.11.58.195:108/milliont/';
-var baseurl='https://www.scidoo.com/';
+var baseurl='http://188.11.58.195:108/milliont/';
+//var baseurl='https://www.scidoo.com/';
 
 
 //var baseurl='http://188.11.58.195:108/milliont/';
@@ -494,8 +494,8 @@ function scrollrig(){
 			scrollcal=lef;
 			
 			//$('#tabdate').css({'left':lef+'px'});
-			//$('#tabdate').css('transform','translate3d('+lef+'px, 0px, 0px)');	
-			$('#tabdate').css('transform','translateX(' + lef + 'px)');
+			$('#tabdate').css('transform','translate3d('+lef+'px, 0px, 0px)');	
+			//$('#tabdate').css('transform','translateX(' + lef + 'px)');
 		
 		
 			//document.getElementById("tabdate").style.left=lef+'px';
@@ -1046,12 +1046,14 @@ function navigation(id,str,agg,rel){
 function loadstaticios(){
 	
 	setTimeout(function(){
-						var pagein=mainView.activePage.name+'page';
-						if ($('.'+pagein+' div.bottsumain').html() != undefined) {
-							//alert($('.'+pagein+' div.bottsumain').html());
-							$('.'+pagein+' div.bottsumain').appendTo( "."+pagein );
-						}
-					},500);
+		var pagein=mainView.activePage.name+'page';
+		if ($('.'+pagein+' div.bottsumain').html() != undefined) {
+			//alert($('.'+pagein+' div.bottsumain').html());
+			$('.'+pagein+' div.bottsumain').appendTo( "."+pagein );
+		}
+		$('input').on('click',function(){ $(this).focus(); });
+		$('textarea').on('click',function(){ $(this).focus(); });
+	},500);
 	
 }
 
