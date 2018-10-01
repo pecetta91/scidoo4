@@ -223,8 +223,8 @@ $$(window).on('popstate', function(e){
 //var baseurl='http://192.168.1.47/milliont/';
 //
 
-var baseurl='http://188.11.58.195:108/milliont/';
-//var baseurl='https://www.scidoo.com/';
+//var baseurl='http://188.11.58.195:108/milliont/';
+var baseurl='https://www.scidoo.com/';
 
 
 //var baseurl='http://188.11.58.195:108/milliont/';
