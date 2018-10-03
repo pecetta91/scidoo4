@@ -423,7 +423,7 @@ var piunotti=0;
 			
 			myApp.addNotification({
 						message: 'Ci sono dei dati obbligatori mancanti.<br/>Prego riprovare',
-						hold:500000
+						hold:1200
 					});
 			
 			myApp.hideIndicator();
@@ -990,10 +990,10 @@ function eliminaextraprev(ID,back){
 					}
 					
 					
-					myApp.addNotification({
+					/*myApp.addNotification({
 						message: 'Servizio rimosso con successo',
 						hold:1500,
-					});
+					});*/
 					
 				}
 			});

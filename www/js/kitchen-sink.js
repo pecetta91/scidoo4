@@ -2675,7 +2675,7 @@ function aggintoristo(IDprenextra,tipo){
 	
 }
 
-function modprenot(id,campo,tipo,val2,agg){
+function modprenot(id,campo,tipo,val2,agg,notifica){
 		myApp.showIndicator();
 		switch(val2) {
 			case 0:
@@ -2737,17 +2737,20 @@ function modprenot(id,campo,tipo,val2,agg){
 			timeout:5000,
 			success: function (data) {
 				//alert(data);
-				if(agg==2){
-					myApp.addNotification({
-							message: 'Funzione eseguita con successo',
-							hold:1200
-						});
-				}else{
-					myApp.addNotification({
+				if(notifica!=0){
+					if(agg==2){
+						myApp.addNotification({
+								message: 'Funzione eseguita con successo',
+								hold:1200
+							});
+					}else{
+						myApp.addNotification({
 							message: 'Modifica effettuata con successo',
 							hold:1200
 						});
+					}
 				}
+				
 				
 				myApp.hideIndicator();
 				switch(agg) {
