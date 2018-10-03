@@ -9,7 +9,16 @@
     </author>
     <content src="index.html" />
 
-	<preference name="android-minSdkVersion" value="15" />
+	
+	
+	
+	 <preference name="android-build-tool" value="ant|gradle" />
+	  <preference name="android-minSdkVersion" value="10" />
+	  <preference name="android-maxSdkVersion" value="15" />
+	  <preference name="android-targetSdkVersion" value="12" />
+	  <preference name="android-installLocation" value="auto" />
+	  <preference name="android-windowSoftInputMode" value="stateVisible|adjustResize" />
+	
     <plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
     <plugin name="cordova-plugin-device" source="npm" spec="~1.1.1" />
