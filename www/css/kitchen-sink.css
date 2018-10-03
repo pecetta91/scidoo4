@@ -50,13 +50,14 @@
     }
 }
 
-/*
+
+div.swiper-slide{zoom:1.002 !important;}
 div { 
-    zoom: 0.99; 
-    -moz-transform: scale(0.99); 
+    zoom:0.985; 
+    -moz-transform: scale(0.985); 
     -moz-transform-origin: 0 0;
 } 
-*/
+
 
 
 html,a,button,div,input,textarea,select{
