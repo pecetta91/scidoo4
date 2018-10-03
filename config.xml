@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.scidoo" version="2.0.4" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.scidoo" version="2.0.5" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scidoo</name>
     <description>
         Gestionale in Cloud per Strutture Ricettive
@@ -15,7 +15,7 @@
 	
 	 <preference name="android-build-tool" value="gradle" />
 	  <preference name="android-minSdkVersion" value="16" />
-	  <preference name="android-maxSdkVersion" value="30" />
+	  <preference name="android-maxSdkVersion" value="28" />
 	  <preference name="android-targetSdkVersion" value="23" />
 	  <preference name="android-installLocation" value="auto" />
 	  <preference name="android-windowSoftInputMode" value="adjustResize" />
