@@ -223,8 +223,8 @@ $$(window).on('popstate', function(e){
 //var baseurl='http://192.168.1.47/milliont/';
 //
 
-//var baseurl='http://188.11.58.195:108/milliont/';
-var baseurl='https://www.scidoo.com/';
+var baseurl='http://188.11.58.195:108/milliont/';
+//var baseurl='https://www.scidoo.com/';
 
 
 //var baseurl='http://188.11.58.195:108/milliont/';
@@ -456,21 +456,24 @@ function scrollrig(int){
 		offsettopcalendario=$$('.table-fixed-right').offset().top;
 		var offset=parseInt($$("#tabbody").offset().left);
 		
+
+		
+		
 		if(int==1){
-			if((offset!=scrollcal)){
-				intervallorig=setInterval(function(){
-					scrollrig();				
-				},100);
+			intervallorig=setInterval(function(){
+					scrollrig(2);				
+					$('.stiletitolopagine').html(scrollcal);
+				},50);
 				
 				intervallorigtime=setTimeout(function(){
 					clearInterval(intervallorig);
 				},2000);
 				
-			}
-		}else{
+			
+		}/*else{
 			clearInterval(intervallorig);
 			clearTimeout(intervallorigtime);
-		}
+		}*/
 		
 	
 		//$('.stiletitolopagine').html(scrollcal);
