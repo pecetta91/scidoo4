@@ -900,6 +900,7 @@ border-bottom: 1px solid #E9E9E9;
   float: left;
   position: absolute;
   overflow-x: scroll;
+  -webkit-overflow-scrolling: touch !important;
   white-space: nowrap;
   text-align: left;
   z-index: 2;
@@ -918,6 +919,7 @@ border-bottom: 1px solid #E9E9E9;
   right: 5px;
   position: absolute;
   overflow-x: scroll;
+	-webkit-overflow-scrolling: touch !important;
   white-space: nowrap;
 }
 
