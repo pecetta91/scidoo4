@@ -456,17 +456,38 @@ function scrollrig(int){
 		offsettopcalendario=$$('.table-fixed-right').offset().top;
 		var offset=parseInt($$("#tabbody").offset().left);
 		
-
+		/*switch(int){
+			case 1:
+				//alert('bb');
+				intervallorig=setInterval(function(){
+					scrollrig(2);				
+					$('.stiletitolopagine').html(scrollcal);
+				},100);
+				
+				intervallorigtime=setTimeout(function(){
+					clearInterval(intervallorig);
+				},2000);
+			break;
+			case 2:
+			break;
+			default:
+				clearInterval(intervallorig);
+				clearTimeout(intervallorigtime);
+			break;
+				
+				
+		}*/
 		
 		
 		if(int==1){
+			$('.stiletitolopagine').html('cc');
 			intervallorig=setInterval(function(){
 					scrollrig(2);				
 					$('.stiletitolopagine').html(scrollcal);
 				},50);
 				
 				intervallorigtime=setTimeout(function(){
-					clearInterval(intervallorig);
+				//	clearInterval(intervallorig);
 				},2000);
 				
 			
@@ -875,6 +896,7 @@ function navigation(id,str,agg,rel){
 									scrollrig(0);
 								});
 								$('#tabcalmain').bind("touchend", function(){
+									$('.stiletitolopagine').html('dddd');
 									scrollrig(1);
 								});
 								
