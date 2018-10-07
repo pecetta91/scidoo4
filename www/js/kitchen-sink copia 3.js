@@ -443,47 +443,72 @@ function offsetfunc(elt) {
 var p=0;
 var scrollcal=0;
 var mesescrollato=0;
-
-var intervallorig=0;
-var intervallorigtime=0;
-
-function scrollrig(int){
-
+function scrollrig(){
+		//var lef=document.getElementById('tabcalmain');
+		//lef=lef.offsetLeft*-1+parseInt(172);
+		//alert(lef);
+		//var offsetElt = offsetfunc(document.getElementById('tabcalmain'));
+		//lef=offsetElt.left*-1+parseInt(172);
+		/*alert(lef);
+		
+		alert(offsetElt.left);
+	*/
+	//alert(scrollriginib);
+	
+	//alert('bb');
+	
+	
+	
+	
+	/*var nomemeseattuale=$$('#dataattuale').html();
+	var nomemeseprox=$$('#dataprox').html();
+	var offsetfin= $$(".giornofin").offset().left;
+	
+	if(offsetfin<110){
+		if(mesescrollato==0){
+			$('#datameseattuale').hide().html(nomemeseprox).fadeIn(400);
+			mesescrollato=1;
+		}
+	}else{
+		if(mesescrollato==1){
+			$('#datameseattuale').hide().html(nomemeseattuale).fadeIn(400);
+			mesescrollato=0;
+		}
+	}*/
 	
 	
 	if(scrollriginib==1){
-		
 		offsettopcalendario=$$('.table-fixed-right').offset().top;
+		//offsetleftcalendario=parseInt($$(('.table-fixed-right')).offset().left);
+		
 		var offset=parseInt($$("#tabbody").offset().left);
-		
-		if(int==1){
-			if((offset!=scrollcal)){
-				intervallorig=setInterval(function(){
-					scrollrig();				
-				},100);
-				
-				intervallorigtime=setTimeout(function(){
-					clearInterval(intervallorig);
-				},2000);
-				
-			}
-		}else{
-			clearInterval(intervallorig);
-			clearTimeout(intervallorigtime);
-		}
-		
-	
-		//$('.stiletitolopagine').html(scrollcal);
-		
+		//alert(offset);
 		offsetleftcalendario=offset;
-		var lef=offset;
-		scrollcal=lef;
-		$('#tabdate').css('transform','translate3d('+lef+'px, 0px, 0px)');	
+		
+		//$('#datameseattuale').html(offset);
+	
+			//alert(offset);
+			//document.getElementById("tabdate").style.left=
+			var lef=offset;
+	
+			scrollcal=lef;
+			
+			//$('#tabdate').css({'left':lef+'px'});
+			$('#tabdate').css('transform','translate3d('+lef+'px, 0px, 0px)');	
+			//$('#tabdate').css('transform','translateX(' + lef + 'px)');
+		
+		
+			//document.getElementById("tabdate").style.left=lef+'px';
+		
 		
 	}
 	scrollriginib=1;
-}	
 		
+
+ 			
+			//$$('#tabdate').css('left',lef+'px');
+		
+	}	
 	
 var indipren=0;
 function addprenot(time,app,notti){
@@ -869,12 +894,12 @@ function navigation(id,str,agg,rel){
 							
 							setTimeout(function(){
 								$('#tabcalmain').bind("scroll", function(){
-									scrollrig(0);
-								});
-								$('#tabcalmain').bind("touchend", function(){
-									scrollrig(1);
+									scrollrig();
 								});
 								
+								$('#tabcalmain').bind("touchmove", function(){
+									scrollrig();
+								});
 								
 							},500);	
 							
@@ -1912,16 +1937,13 @@ zoom: 10,mapTypeId: 'roadmap'
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
 							
-							setTimeout(function(){
-								$('#tabcalmain').bind("scroll", function(){
-									scrollrig(0);
-								});
-								$('#tabcalmain').bind("touchend", function(){
-									scrollrig(1);
+							$('#tabcalmain').bind("scroll", function(){
+									scrollrig();
 								});
 								
-							},500);	
-							
+								$('#tabcalmain').bind("touchmove", function(){
+									scrollrig();
+								});
 							/*
 							$('#tabcalmain').addEventListener("scroll", function(){
 								scrollrig();
