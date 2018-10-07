@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.scidoo" version="2.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.scidoo" version="2.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scidoo</name>
     <description>
         Gestionale in Cloud per Strutture Ricettive
@@ -117,17 +117,18 @@
       </array>
     </config-file>
 	
-	<feature name="CDVWKWebViewEngine">
-	  <param name="ios-package" value="CDVWKWebViewEngine" />
-	</feature>
-
-	<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+	
 	
 
 	
 	
 </platform>
+	
+	<feature name="CDVWKWebViewEngine">
+	  <param name="ios-package" value="CDVWKWebViewEngine" />
+	</feature>
 
+	<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
 	
 	
 	

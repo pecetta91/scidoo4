@@ -891,11 +891,17 @@ function navigation(id,str,agg,rel){
 							
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
-							/*setTimeout(function(){
-								$('#tabcalmain').scroll(function(){
-									
+							
+							setTimeout(function(){
+								$('#tabcalmain').bind("scroll", function(){
+									scrollrig();
 								});
-							},500);	*/
+								
+								$('#tabcalmain').bind("touchmove", function(){
+									scrollrig();
+								});
+								
+							},500);	
 							
 							
 							
@@ -1930,6 +1936,20 @@ zoom: 10,mapTypeId: 'roadmap'
 							
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
+							
+							$('#tabcalmain').bind("scroll", function(){
+									scrollrig();
+								});
+								
+								$('#tabcalmain').bind("touchmove", function(){
+									scrollrig();
+								});
+							/*
+							$('#tabcalmain').addEventListener("scroll", function(){
+								scrollrig();
+							});*/
+							
+							
 							
 							/*$('#tabcalmain').scroll(function(){
 								scrollrig();
