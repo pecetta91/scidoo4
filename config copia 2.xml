@@ -131,7 +131,11 @@
 	<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
 	
 	
-	
+	<!--
+<gap:splash src="res/screen/android/screen-ldpi-portrait.png"       gap:platform="android" gap:qualifier="port-ldpi" />
+    <gap:splash src="res/screen/android/screen-mdpi-portrait.png"       gap:platform="android" gap:qualifier="port-mdpi" />
+    <gap:splash src="res/screen/android/screen-hdpi-portrait.png"       gap:platform="android" gap:qualifier="port-hdpi" />
+    <gap:splash src="res/screen/android/screen-xhdpi-portrait.png"      gap:platform="android" gap:qualifier="port-xhdpi" />-->
   
 	<gap:splash src="res/screen/android/drawable-ldpi/screen.png"       gap:platform="android" gap:qualifier="port-ldpi" />
     <gap:splash src="res/screen/android/drawable-mdpi/screen.png"       gap:platform="android" gap:qualifier="port-mdpi" />
