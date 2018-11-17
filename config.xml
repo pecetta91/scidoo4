@@ -132,7 +132,7 @@
     <splash src="res/screen/android/drawable-land-mdpi/screen.png" density="land-mdpi"/>
     <splash src="res/screen/android/drawable-land-xhdpi/screen.png" density="land-xhdpi"/>
 
-    <splash src="res/screen/android/splash-port-hdpi.png" density="port-hdpi"/>
+    <splash src="res/screen/android/drawable-hdpi/screen.png" density="port-hdpi"/>
     <splash src="res/screen/android/drawable-ldpi/screen.png" density="port-ldpi"/>
 	<splash src="res/screen/android/drawable-mdpi/screen.png" density="port-mdpi"/>
     <splash src="res/screen/android/drawable-xhdpi/screen.png" density="port-xhdpi"/>	
