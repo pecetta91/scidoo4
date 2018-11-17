@@ -366,7 +366,8 @@ var piunotti=0;
 		var somma=0;
 		for(i=0;i<lung;i++){
 			var ID=IDcont[i].id;
-			var val=$$('#'+ID).val();
+			var val=$$('#'+ID).html();
+			//alert(val);
 			//if(val=="undefined")val=0;
 			var ss=$$('#'+ID).attr('lang');
 			var ID=$$('#'+ID).attr('alt');
@@ -1057,7 +1058,7 @@ function calcolatot(){
 		cache:false,
 		data: query,
 		success: function (data) {
-			$$('#totaleprev').html(data+' &euro;');
+			$$('#totaleprev').html(data+' €');
 			
 		}
 	});	

@@ -228,13 +228,13 @@ $$(window).on('popstate', function(e){
 //var baseurl='http://192.168.1.47/milliont/';
 //
 
-//var baseurl='http://188.11.58.195:108/milliont/';
-var baseurl='https://www.scidoo.com/';
+var baseurl='http://188.11.58.195:108/milliont/';
+//var baseurl='https://www.scidoo.com/';
 
 
 //var baseurl='http://188.11.58.195:108/milliont/';
 
-var versione='v20';
+var versione='v19';
 
 //alert(baseurl);
 function getUrlVars() {
@@ -246,16 +246,15 @@ function getUrlVars() {
 }
 
 //alert('1');
-/*var guest=getUrlVars()["guest"];
+var guest=getUrlVars()["guest"];
 if(typeof guest != 'undefined'){
+	alert('2');
 	window.localStorage.setItem("IDcode", guest);
 	onloadf(0);
 }else{
 	//alert('3');
 	onloadf(0);
 }
-*/
-
 
 
 
@@ -315,9 +314,9 @@ var IDutente=0;
 					var num=data.indexOf("error");  	 //alert(data);
 					if(num==-1){	
 						notifpush(1);
-						//window.localStorage.setItem("IDcode", data);
+						window.localStorage.setItem("IDcode", data);
 						//alert(data);
-						//IDcode=data;
+						IDcode=data;
 						
 						//var query = {IDcode:data};
 						//$$('#logged').html('<a href="javascript:void(0)" onclick="navigation('+"0,'',0"+')" class=" -big button-fill" style=" width:40%; margin:auto; background:#ff9c00;">Entra su Scidoo</a>');
@@ -366,17 +365,27 @@ var IDutente=0;
                 method: 'POST',
 				dataType: 'text',
 				cache:false,
-				timeout:8000,
+				timeout:5000,
 				data: {
                     email:email,
 					data:data,
 					json:1
                 },
+                beforeSend: function (data) {
+					//alert(email);
+				},
 				 error: function (data) {
 					 myApp.hideIndicator();
 					//alert(data);
 					//console.log(data);
 				},
+				statusCode: {
+					404: function() {
+					  alert( "Problema applicativo. Contattare la struttura" );
+					  myApp.hideIndicator();
+					}
+				  },
+				  
                 success: function (data) {
                     // Find matched items
                  	 //alert(data);
@@ -618,9 +627,9 @@ function addprenot2(time,app,notti){
 }
 
 
-var primoavvio=0;
+
 var offsetleftcalendario=0;
-var offsettopcalendario=0;
+var offsettopcalendario=92;
 var scrollriginib=1;
 
 
@@ -632,11 +641,10 @@ myApp.onPageInit('calendario',function (page) {
 	var dataattuale=$$('#dataattuale').html();
 	var meseattuale=$$('#meseattuale').val();
 	
-	$$('#mesescorso').attr('onclick','navigation(2,'+timeprecedente+',1,1);offsetleftcalendario=0;offsettopcalendario=0;primoavvio=0;');
-	$$('#meseprox').attr('onclick','navigation(2,'+timeprossimo+',1,1);offsetleftcalendario=0;offsettopcalendario=0;primoavvio=0;');
-	//$$('#datameseattuale').attr('onclick','cambiomesi('+meseattuale+');');
-	//$$('#datameseattuale').html(dataattuale);
-	
+	$$('#mesescorso').attr('onclick','navigation(2,'+timeprecedente+',1,1);offsetleftcalendario=0');
+	$$('#meseprox').attr('onclick','navigation(2,'+timeprossimo+',1,1);offsetleftcalendario=0');
+	$$('#datameseattuale').attr('onclick','cambiomesi('+meseattuale+');');
+	$$('#datameseattuale').html(dataattuale);
 	//$$('#tabdate').stop();
 	//$$('#tabdate').css('position','fixed');
 	//$$('#tabdate').css('top','50px');
@@ -694,12 +702,6 @@ myApp.onPageInit('calendario',function (page) {
 										});
 									}
 								*/
-	
-	
-	
-	
-	
-	
 	
 	
 	
@@ -821,17 +823,17 @@ function navigation(id,str,agg,rel){
 	//var apriurl=new Array('profilo/temp.php','calendario.inc.php','detpren2.php','calendario2.inc.php','preventivo/step1.php','preventivo/step0.php','preventivo/step2.php','preventivo/step3.php','preventivo/step4.php','preventivo/step5.php','notifiche.inc.php','promemoria.php','appunti.inc.php','centrobenessere.inc.php','ristorante.inc.php','pulizie.inc.php','domotica.inc.php','arrivi.inc.php','clienti.inc.php','prenotazioni.inc.php','ristorantegiorno.inc.php','centrobenesseregiorno.inc.php','preventivo/step4cerca.php','profilo/servizi.php','profilo/prenotazione.php','profilo/temperatura.php','profilo/menuristorante.php','/profilo/ilconto.php','profilo/elencoservizi.php','profilo/elencoluoghi.php','ricercaclidet.php','ricercaserv.php','centrobenesseregiorno.inc.php');
 	
 	
-	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/detluogo.php','config/nuovotavolo.php','config/menugiorno.php','config/impostazionialloggi.php','indexmobile.html','config/listinoprezzi.php','config/modprezzotariffe.php');
-	//last 39
+	var apriurl=new Array('config/profilo.php','config/profilocli.php','config/calendario.inc.php','config/detpren.php','config/centrobenessere.php','config/ristorante.php','config/pulizie.php','config/arrivi.php','config/prenotazioni.php','config/clienti.php','config/domotica.php','config/notifiche.php','config/appunti.php','config/ristorantegiorno.php','config/centrobenesseregiorno.php','config/dettavolo.php','config/profilo/servizi.php','config/profilo/temperatura.php','config/profilo/menuristorante.php','config/profilo/elencoservizi.php','config/profilo/ilconto.php','config/profilo/elencoluoghi.php','config/explodeservice.php','config/puliziedet.php','config/clientidet.php','config/profilo/detserv.php','config/profilo/detservizio.php','config/profilo/addserv.php','config/profilo/suggerimenti.php','config/profilo/galleria.php','config/profilo/recensioni.php','config/profilo/detrecensione.php','config/profilo/nuovarecensione.php','config/detluogo.php','config/nuovotavolo.php','config/menugiorno.php','config/impostazionialloggi.php','indexmobile.html');
+	//last 36
 	
 	var url=url+apriurl[id];
 	//alert(url);
 	
 	
-	/*
+	
 	if(IDcode=='undefined'){
 		onloadf(1);
-	}*/
+	}
 	//alert(str);
 	//alert('NAV'+id);
 	var query=new Array();
@@ -861,7 +863,7 @@ function navigation(id,str,agg,rel){
                 method: 'GET',
 				dataType: 'text',
 				cache:false,
-				timeout:10000,
+				timeout:5000,
                 data: query,
                 success: function (data) {
 					
@@ -909,7 +911,7 @@ function navigation(id,str,agg,rel){
 						case 1:
 							var widthpep=0;
 							
-							//setTimeout(function(){
+							setTimeout(function(){
 								
 								widthpep=$('#parentpep').width();//parentpep		
 								
@@ -919,46 +921,20 @@ function navigation(id,str,agg,rel){
 
 								var widthcont=$('#tabellagiorni').width();//pep
 								var heightcont=$('#tabellagiorni').height();//pep
-							
-								var offsetleft=0;
-								var offsettop=0;
 								
 								if(heightcont>altezzaparent){
 									altezzaparent=altezzaparent-tabdate-4;
 								}else{
 									altezzaparent=heightcont;
 								}
-								setTimeout(function(){
-									
+								
 								if ($$(".ogg").html() != undefined) {
-									var offset=$$(".ogg").offset().left;
-									offsetleft=Math.round(offset);
-									if((offsetleft-220)<0){
-										offsetleft=0;
-									}else{
-										offsetleft=(offsetleft-220) * -1; //109 e' preciso
-									}
+											var offset=$$(".ogg").offset().left;
+											offset=offset-110;
+								
 									
-									//offsetleft=(offsetleft) * -1;
-								}else{
-									offsetleft=0;
-								}
-									
-									if ($$(".giornofin").html() != undefined) {
-										var offset2=$$(".giornofin").offset().left;
-										var offsetleft2=Math.round(offset2);
-										if(Math.abs(offsetleft)>offsetleft2){
-											offsetleft=0;
-										}	
 									}
 							
-									//alert(offsetleft+'--'+offsetleftcalendario+'__'+primoavvio);
-								if(primoavvio==1){
-									offsetleft=offsetleftcalendario;
-									offsettop=offsettopcalendario;
-								}
-									primoavvio=1;
-									
 								$('#parentpep').css('height', altezzaparent+'px');//parentpep	
 								
 								var scrollorz=(widthcont - widthpep) * -1;
@@ -968,12 +944,10 @@ function navigation(id,str,agg,rel){
 								
 								
 								$('#tabbody').pep({
-									constrainTo: [scrollvert-3, 0, 0, scrollorz-18],
+									constrainTo: [scrollvert, 0, 0, scrollorz],
 									//**OPTION** constrainTo: 'parent',
 									useCSSTranslation: false,
-									axis:'auto',
-									
-									startPos:{ left:offsetleft, top:offsettop},
+									startPos:{ left: -100, top: -200},
 									easing: function(ev, obj){
 										var pos = $('#tabbody').position();
 										var x =pos.left;
@@ -986,30 +960,8 @@ function navigation(id,str,agg,rel){
 										
 										//$('.stiletitolopagine').html(x+'//'+y);
 								  	  },
-									/*
-									rest: function(ev, obj){
-										
-										$('#tabbody #tabellagiorni').find('td').on('touchstart mousedown MSPointerDown', function(e){
-											var pos = $('#tabbody').position();
-											var x =pos.left;
-											$('.stiletitolopagine').html(x);
-											
-											e.stopPropagation(); 
-										})
-								  	  },
-									stop:  function(ev, obj){
-										
-										$('#tabbody #tabellagiorni').find('td').on('touchstart mousedown MSPointerDown', function(e){
-											var pos = $('#tabbody').position();
-											var x =pos.left;
-											$('.stiletitolopagine').html(x);
-											
-											e.stopPropagation(); 
-										})
-								  	  },*/
-									shouldPreventDefault:false,
-									allowDragEventPropagation:true,
-									drag:function(ev, obj){
+									
+									/*drag:function(ev, obj){
 										var pos = $('#tabbody').position();
 										var x =pos.left;
 										var y =pos.top;
@@ -1021,40 +973,11 @@ function navigation(id,str,agg,rel){
 										
 										
 										//$('.stiletitolopagine').html(x+'//'+y);
-								  	},
-									rest:function(ev, obj){
-										var pos = $('#tabbody').position();
-										var x =pos.left;
-										var y =pos.top;
-										
-								
-										
-										offsettopcalendario=y;
-										offsetleftcalendario=x;
-										
-								  	}
-								}).queue(function(){
-									var pos = $('#tabbody').position();
-										var x =pos.left;
-										var y =pos.top;
-									
-								
-										
-										var tabdatex=x + 110;
-										
-										 $('#tabappart').css('transform','translate3d(0px, '+y+'px, 0px)');
-										 $('#tabdate').css('transform','translate3d('+tabdatex+'px, 0px, 0px)');
-									
-									
-								});
-								
-									},200);
-								/*$('#tabbody #tabellagiorni').find('td').on('touchstart mousedown MSPointerDown', function(e){
-									e.stopPropagation(); 
-								})*/
+								  	}*/	
+								}); 
 								
 								
-							//},200);
+							},200);
 						
 							/* { 
 								 
@@ -1066,10 +989,10 @@ function navigation(id,str,agg,rel){
 								rest: pdrag
   							  }*/
 							
-						/*
+						
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
-						*/
+						
 							/*
 							
 							setTimeout(function(){
@@ -1212,31 +1135,6 @@ function navigation(id,str,agg,rel){
 						case 12:
 							modalfirstentry();
 							
-						break;
-						
-						case 13://dettaglio check-in persona
-							setdatepcal('datanascita');
-							setdatepcal('dataril');
-						break;	
-						case 14:
-							
-							timeout=0;
-							if(rel==2){
-								timeout=500;
-							}
-							
-							
-							
-							setTimeout(function(){
-								
-								var mySwiper=myApp.swiper(' .sw2', {
-									 spaceBetween: 10,
-  									 slidesPerView: 1});
-								var sslide=$$('.giornosel').attr('padre');
-								mySwiper.slideTo(sslide,400);	
-								calen2(38,14,2);
-							},timeout);
-
 						break;	
 					
 					}
@@ -1417,8 +1315,8 @@ function stepnew(step,str){
 		break;
 	}
 	
-	$$('#addnuovoserv').css('visibility','hidden');
-	//$$('#buttonadd').css('visibility','hidden');
+	
+	$$('#buttonadd').css('visibility','hidden');
 	var step=parseInt($$('#step'+statostep).attr('alt'));
 	$$('.tabpren').attr('disabled','disabled');
 	for(i=0;i<=statostep;i++){
@@ -1456,21 +1354,17 @@ function stepnew(step,str){
 				navigationtxt(4,"0,2",'step'+statostep,11);
 			}
 			$$('#titolodivmain').html('Richiesta');
-			$('#titolodivmain').addClass('ml15');
 			
 			
 		break;
 		case 1:
 		
 			//dispo2();
-			$$('#titolodivmain').html('Trattamento');
-		
 			
 			if(agg==1){
 				//alert(statostep);
 				navigationtxt(5,1,'step'+statostep,0);
-				//$$('#titolodivmain').html('Trattamento');
-				$$('#titolodivmain').removeClass('ml15');
+				$$('#titolodivmain').html('Trattamento');
 				calcolatot();
 				//calcolatot();
 			}
@@ -1481,7 +1375,7 @@ function stepnew(step,str){
 		break;
 		case 2:
 		
-			//$$('#buttonadd').css('visibility','visible');
+			$$('#buttonadd').css('visibility','visible');
 			if((agg==1)&&(calextra==0)){
 				navigationtxt(6,str,'step'+statostep,0);
 				calcolatot();
@@ -1489,7 +1383,6 @@ function stepnew(step,str){
 				calextra=0;
 			}
 			$$('#titolodivmain').html('Elenco Servizi');
-			$$('#addnuovoserv').css('visibility','visible');
 			//if(show!=0){myApp.showTab('#step'+statostep);}
 		break;
 		case 3:
@@ -1499,7 +1392,7 @@ function stepnew(step,str){
 		break;
 		case 4:
 			//$$('.avanti').html('<i class="f7-icons " style="color:#fff; font-size:30px; margin-top:2px; ">check</i>');
-			$$('#titolodivmain').html('Conferma');
+			$$('#titolodivmain').html('Conferma Prenotazione');
 			$('#avantitxt').html('Conferma');
 			if(agg==1){navigationtxt(8,str,'step'+statostep,0);}
 			//if(show!=0){myApp.showTab('#step'+statostep);}
@@ -1566,14 +1459,14 @@ var okstep1=0;
 var openp=0;
 
 function navigationtxt(id,str,campo,agg,loader){
-	/*if(IDcode=='undefined'){
+	if(IDcode=='undefined'){
 		onloadf(1);
-	}*/
+	}
 	//reloadnav=0;
 	//alert(id);
 	var url=baseurl+versione+"/config/";
 	
-	var apriurl=new Array('profilo/temp.php','calendario.inc.php','detpren2.php','calendario2.inc.php','preventivo/step0.php','preventivo/step1.php','preventivo/step2.php','preventivo/step3.php','preventivo/step4.php','preventivo/step5.php','notifiche.inc.php','promemoria.php','appunti.inc.php','centrobenessere.inc.php','ristorante.inc.php','pulizie.inc.php','domotica.inc.php','arrivi.inc.php','clienti.inc.php','prenotazioni.inc.php','ristorantegiorno.inc.php','centrobenesseregiorno.inc.php','preventivo/step4cerca.php','profilo/servizi.php','profilo/prenotazione.php','profilo/temperatura.php','profilo/menuristorante.php','/profilo/ilconto.php','profilo/elencoservizi.php','profilo/elencoluoghi.php','ricercaclidet.php','ricercaserv.php','centrobenesseregiorno.inc.php','aggiungipiatti2.php','tavoloordinazione.php','nuovotavolo.php','ricercapersscript.php','menugiorno.inc.php','cambiadatapren.inc.php','impostazionialloggi.inc.php','listinoprezzi.inc.php','nuovotavolo.inc.php');//41
+	var apriurl=new Array('profilo/temp.php','calendario.inc.php','detpren2.php','calendario2.inc.php','preventivo/step0.php','preventivo/step1.php','preventivo/step2.php','preventivo/step3.php','preventivo/step4.php','preventivo/step5.php','notifiche.inc.php','promemoria.php','appunti.inc.php','centrobenessere.inc.php','ristorante.inc.php','pulizie.inc.php','domotica.inc.php','arrivi.inc.php','clienti.inc.php','prenotazioni.inc.php','ristorantegiorno.inc.php','centrobenesseregiorno.inc.php','preventivo/step4cerca.php','profilo/servizi.php','profilo/prenotazione.php','profilo/temperatura.php','profilo/menuristorante.php','/profilo/ilconto.php','profilo/elencoservizi.php','profilo/elencoluoghi.php','ricercaclidet.php','ricercaserv.php','centrobenesseregiorno.inc.php','aggiungipiatti2.php','tavoloordinazione.php','nuovotavolo.php','ricercapersscript.php','menugiorno.inc.php','cambiadatapren.inc.php','impostazionialloggi.inc.php');//39
 	var url=url+apriurl[id];
 	//alert(id);
 	//alert(url);
@@ -2144,10 +2037,10 @@ zoom: 10,mapTypeId: 'roadmap'
 						break;
 						case 19:
 							//calendario
-						/*	
+							
 							var nomemeseattuale=$$('#dataattuale').html();
 							$('#datameseattuale').html(nomemeseattuale);
-						*/	
+							
 							setTimeout(function(){
 								$('#tabcalmain').bind("scroll", function(){
 									scrollrig(0);
@@ -2259,8 +2152,6 @@ document.addEventListener('backbutton', function (e) { e.preventDefault();});
 	if (view.history.length > 1) { view.router.back(); return; } 
 */
 
-onloadf(0);
-
 function onloadf(time){
 	
 	//myApp.showIndicator();
@@ -2269,34 +2160,35 @@ function onloadf(time){
 	
 	//alert('3');
 	
-	//IDcode=window.localStorage.getItem("IDcode");
+	IDcode=window.localStorage.getItem("IDcode");
 //	alert(IDcode);
-	//IDcode2=new String(IDcode);
+	IDcode2=new String(IDcode);
 	
 	//var h = window.innerHeight;
 	//creasessione(h,86);
 	//alert(IDcode2);
-	//if(IDcode2.length>10){
+	if(IDcode2.length>10){
 		//alert('4');
-	
 		var url=baseurl+versione+'/config/controlloini.php';
 		//var IDnotpush=$$('#IDnotpush').val();
 		$$.ajax({
             url: url,
                 method: 'POST',
 				dataType: 'text',
-				timeout:15000,
+				timeout:10000,
 				cache:false,
-                data: {},
+                data: {IDcode:IDcode},
                 success: function (data){
-					//alert(data);
+					//alert('5');
 					
+					//alert(data);
 					myApp.hideIndicator();
 					var num=data.indexOf("error");
 					if((num==-1)&&(!isNaN(data))){
 						data=parseInt(data);
 						if(time==0){
 							agg=0;
+
 							if(data==1)agg=7;
 							
 							azzerastoria();
@@ -2304,12 +2196,10 @@ function onloadf(time){
 							navigation(data,'',agg,1);
 							notifpush(1);
 						}else{
-							//alert('5');
 							vislogin();
 							//navigation(32,0,0,0);//indexmobile
 						}
 					}else{
-						//alert('6');
 						vislogin();
 						//navigation(32,0,0,0);//indexmobile
 					}
@@ -2324,15 +2214,15 @@ function onloadf(time){
 					 myApp.hideIndicator();
 				}
     	 });
-/*	}else{
-		
+	}else{
+		alert('6');
 		
 		//alert('cc');
 		//var IDnotpush=$$('#IDnotpush').val();
 		vislogin();
 	
 		myApp.hideIndicator();	
-	}*/
+	}
 	
 }
 
@@ -2379,11 +2269,10 @@ function vislogin(){
 		$$('#loaderscidoo').animate({height:"0"},1000);
 	},500);
 */
-	myApp.showIndicator();
+	
 	setTimeout(function(){
-		myApp.hideIndicator();
 		navigation(37,0,0,1);//indexmobile
-	},500);
+	},1000);
 }
 
 
@@ -2775,12 +2664,12 @@ function modprenextra(id,campo,tipo,val2,agg){
 				url: url,
 					  method: 'POST',
 					dataType: 'text',
-					timeout:7000,
+					timeout:5000,
 					cache:false,
 					data: query,
 					success: function (data) {
 						
-						alert(data);
+						//alert(data);
 						//clearTimeout();
 						myApp.addNotification({
 							message: 'Modifica effettuata con successo',
@@ -2887,14 +2776,7 @@ function modprenextra(id,campo,tipo,val2,agg){
 							case 27:
 								navigationtxt(20,0,'ristorantegiornodiv',0);
 							break;
-							case 28:
-								var IDtav=$$('#IDtavolo').val();
-								navigationtxt2(14,IDtav+',3','contdettav',0);
-							break;
-							case 29:
-								var IDtav=$$('#IDtavolo').val();
-								navigationtxt2(14,IDtav+',4','contdettav',2);
-							break;	
+							
 						}
 						
 						myApp.hideIndicator();
@@ -2970,9 +2852,6 @@ function modprenot(id,campo,tipo,val2,agg,notifica){
 				val=$$(campo).val();
 				id=id+'_'+$$(campo).attr('alt');
 			break;
-			case 13:
-				val=$$(campo).html();
-			break;
 			default:
 				var val=$$('#'+campo).val();
 			break;
@@ -3030,7 +2909,7 @@ function modprenot(id,campo,tipo,val2,agg,notifica){
 						navigationtxt(2,txt,'contenutop',1);
 						
 						var txt2=$$('#IDinfopdet').val();
-						navigation(24,txt2,13,1);
+						navigation(24,txt2,0,1);
 						
 					break;
 					case 6:
@@ -3038,7 +2917,7 @@ function modprenot(id,campo,tipo,val2,agg,notifica){
 						navigationtxt(2,txt,'contenutop',12);
 						
 						var txt2=$$('#IDinfopdet').val();
-						navigation(24,txt2,13,1);
+						navigation(24,txt2,0,1);
 						
 					break;
 					case 7:
@@ -3071,11 +2950,6 @@ function modprenot(id,campo,tipo,val2,agg,notifica){
 					case 12:
 						tabconto(0);
 						calcolatot();
-					break;
-					case 13:
-						
-						chiudimodal();
-						
 					break;
 					
 				}
@@ -3185,10 +3059,6 @@ function backexplode(tipo,dato0){
 				var IDpren=$$('#IDprenfunc').val();
 				navigationtxt(2,IDpren+',0','contenutop',1);
 			break;
-			case 13:
-				var IDpren=$$('#IDprenfunc').val();
-				navigationtxt(2,IDpren+',3','contenutop',1);
-			break;	
 			
 		}
 		
@@ -3325,8 +3195,10 @@ function openesclu(time){
 			cache:false,
 			data: query,
 			success: function (data) {
-				//alert(data);
-				myApp.pickerModal(data);
+				var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
+				myApp.popup(popupHTML);
+				
+				//myApp.pickerModal(data);
 			},
 				 error: function (data) {
 					 myApp.hideIndicator();
@@ -3346,9 +3218,9 @@ function opennosogg(time){
 			cache:false,
 			data: query,
 			success: function (data) {
-				//var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
-				//myApp.popup(popupHTML);
-				myApp.pickerModal(data);
+				var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
+				myApp.popup(popupHTML);
+				//myApp.pickerModal(data);
 			},
 				 error: function (data) {
 					 myApp.hideIndicator();
@@ -3358,8 +3230,8 @@ function opennosogg(time){
 
 
 function opensosp(){
-	var IDsotto=$$('#IDsottocentrogiorno').val();
-	var time=$$('#timecentrogiorno').val();
+	var IDsotto=$$('#IDsottocentrogiorno').val();;
+	var time=$$('#timecentrogiorno').val();;
 	//alert('aa');
 	
 	var url=baseurl;
@@ -3374,13 +3246,20 @@ function opensosp(){
 			data: query,
 			success: function (data) {
 				//alert(data);
+				
 				myApp.pickerModal(data);
 				popoverord();
 				
+				/*
+				mainView.router.load({
+					content: data,
+					  animatePages: true
+				});*/
+				
 			},
-			error: function (data) {
-				 myApp.hideIndicator();
-			}
+				 error: function (data) {
+					 myApp.hideIndicator();
+				}
 	});
 }
 
@@ -3397,9 +3276,12 @@ function openann(time){
 			cache:false,
 			data: query,
 			success: function (data) {
-				//var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
-				//myApp.popup(popupHTML);
-				myApp.pickerModal(data);
+				
+				
+				
+				var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
+				myApp.popup(popupHTML);
+				//myApp.pickerModal(data);
 			},
 				 error: function (data) {
 					 myApp.hideIndicator();
@@ -3549,7 +3431,6 @@ function addservnote(tipoadd){
 				});
 				$('#notaserv').val('');
 				$('#notaprezzo').val('');
-			
 			},
 				 error: function (data) {
 					 myApp.hideIndicator();
@@ -3731,7 +3612,7 @@ function selectservice(ID,tipolim,IDtipo,durata,agg,time){
 						var totale=parseFloat(totale)+parseFloat(prezzo*qta);
 					}
 					
-					$$('#totaleadd').html(totale+' €');
+					$$('#totaleadd').html(totale);
 				}
 				
 				
@@ -3943,7 +3824,7 @@ function selectbutt(obj){
 		}
 	}
 
-	$$('#totaleadd').html(totale+' €');
+	$$('#totaleadd').html(totale);
 	
 	if(type=='radio'){
 		 serviziriep=key;
@@ -4419,10 +4300,6 @@ function elimina(id,tipo,altro,agg,url){
 						navigationtxt(3,time,'calendariodiv',0);
 						var sea=$$('#searchp').val();
 						navigationtxt(19,sea,'prenotazionidiv',0);
-					break;
-					case 4:
-						var IDpren=$$('#IDprenfunc').val();
-						navigationtxt(2,IDpren+',3','contenutop',1);
 					break;
 				}
 						
@@ -5086,7 +4963,7 @@ function detinfop(ID,tel,cell,email){
 					{
 					text: '<div>Apri Dettaglio</div>',
 					onClick: function () {
-						navigation(24,ID,13,0);
+						navigation(24,ID,0,0);
 					}
 				}); 	
 		
@@ -5388,7 +5265,7 @@ function vistasalelib(time,IDsottotip,tavolo){
 function tavoloprenotato(IDprenextra){
 	
 	var buttons=new Array();
-	//var buttons2=new Array();
+	var buttons2=new Array();
 	
 			buttons.push(
 					{
@@ -5399,7 +5276,6 @@ function tavoloprenotato(IDprenextra){
 					}
 				}); 	
 	
-	/*
 			buttons2.push(
 					{
 					text: '<div>Aggiungi Piatti</div>',
@@ -5419,13 +5295,12 @@ function tavoloprenotato(IDprenextra){
 					}
 				}); 
 	
-	*/
+	
 			 buttons.push(
 					{
 					text: '<div >Dettaglio Tavolo</div>',
 					onClick: function () {
-					      //dettagliotavolo(IDprenextra);
-						  navigation2(18,IDprenextra,0,0);
+					dettagliotavolo(IDprenextra);
 					}
 				}); 
 	 
@@ -5445,13 +5320,13 @@ function tavoloprenotato(IDprenextra){
 			}
 		];
 		
-		 var groups = [buttons, buttons3];
+		 var groups = [buttons2,buttons, buttons3];
   	     myApp.actions(groups);
 
 }
 
 function elencotavoli(IDprenextra,elimina,IDprenextra2){
-	//var buttons=new Array();
+	var buttons=new Array();
 	var buttons2=new Array();
 	var buttons4=new Array();
 //alert(IDprenextra);
@@ -5472,7 +5347,7 @@ function elencotavoli(IDprenextra,elimina,IDprenextra2){
 						orariotavolo(IDprenextra);
 					}
 				}); 
-	/*
+	
 			 buttons.push(
 					{
 					text: '<div>Aggiungi Piatti</div>',
@@ -5490,13 +5365,11 @@ function elencotavoli(IDprenextra,elimina,IDprenextra2){
 					}
 				}); 
 	
-	*/
 			 buttons4.push(
 					{
 					text: '<div>Dettaglio Tavolo</div>',
 					onClick: function () {
-						//dettagliotavolo(IDprenextra);
-						navigation2(18,IDprenextra,0,0);
+						dettagliotavolo(IDprenextra);
 					}
 				}); 
 	
@@ -5515,7 +5388,7 @@ function elencotavoli(IDprenextra,elimina,IDprenextra2){
 		text: '<div class="lastbutton-modal">Chiudi</div>'
 	}];
 		
-	var groups = [buttons4,buttons2,buttons3];
+	var groups = [buttons,buttons4,buttons2,buttons3];
   	myApp.actions(groups);
 	
 }
@@ -5530,7 +5403,7 @@ function presenzaospiti(ID,modprezzo){
 					text: '<div>Presente e Paga</div>',
 					/*color:'green',*/
 					onClick: function () {
-						modprenextra(1,ID,15,9,29);
+						modprenextra(1,ID,15,9,26);
 					}
 						
 				}); 
@@ -5540,7 +5413,7 @@ function presenzaospiti(ID,modprezzo){
 					text: '<div>Assente e Paga</div>',
 					/*color:'orange',*/
 					onClick: function () {
-						modprenextra(0,ID,15,9,29);
+						modprenextra(0,ID,15,9,26);
 					}
 				}); 
 	
@@ -5549,11 +5422,10 @@ function presenzaospiti(ID,modprezzo){
 					text: '<div>Assente e Non Paga</div>',
 					/*color:'red',*/
 					onClick: function () {
-						modprenextra(-1,ID,15,9,29);
+						modprenextra(-1,ID,15,9,26);
 					}
 				}); 
 	        
-	/*
 	if(modprezzo==1){
 		buttons2.push({
 			text: '<div>Modifica Prezzo</div>',
@@ -5572,7 +5444,6 @@ function presenzaospiti(ID,modprezzo){
 			}
 		}); 
 	}
-	*/
 	
 	 var buttons3 = [{
 		text: '<div class="lastbutton-modal">Chiudi</div>'
@@ -5616,20 +5487,22 @@ function popovertavoli(IDprenextra,agg){
 }
 
 
-function orariotavolo(IDtavolo){
+function orariotavolo(IDprenextra,agg){
 		myApp.showIndicator();
 
 	var url=baseurl+versione+"/";
 	var url=url+'config/orariotavolo.php'; 
 	$$.ajax({
                 url: url,
-                method: 'GET',
+                method: 'POST',
 				dataType: 'text',
 				cache:false,
 				timeout:5000,
 				data: {
-					IDtavolo:IDtavolo
-				 },
+					IDprenextra:IDprenextra,
+					agg:agg
+			
+                },
 
 				 error: function (data) {
 					//rimuovioverlay();
@@ -5637,33 +5510,29 @@ function orariotavolo(IDtavolo){
 				},
 
                 success: function (data) {
-					//alert(data);
-					myApp.hideIndicator();
+	myApp.hideIndicator();
 					myApp.pickerModal(data);
-					
 		}
 		
 	});
 	
 }
 
-function aggiungipiatti(numport){
-	myApp.showIndicator();
-	var IDtavolo=$$('#IDtavolo').val();
+function aggiungipiatti(IDprenextra,popup){
+		myApp.showIndicator();
 
-numprod=0;
 	var url=baseurl+versione+"/";
 	var url=url+'config/aggiungipiatti.php'; 
 	$$.ajax({
                 url: url,
-                method: 'GET',
+                method: 'POST',
 				dataType: 'text',
 				cache:false,
 				timeout:5000,
 				data: {
-					IDtavolo:IDtavolo,
-					portata:numport
-					
+					IDprenextra:IDprenextra,
+					json:1,
+					callback:'?'
                 },
 
 				 error: function (data) {
@@ -5675,8 +5544,15 @@ numprod=0;
 				//alert(data);
 				//clearTimeout();
 				
-				 myApp.pickerModal(data);
-				 myApp.hideIndicator();								
+					if(popup==1){
+					$$('#contpopup').html(data);
+				}else{
+					var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
+					myApp.popup(popupHTML);
+				}		
+				 myApp.hideIndicator();						
+			
+					
 		}
 		
 	});
@@ -5814,7 +5690,6 @@ function tavolisala(IDprenextra){
 					}
 				}); 
 	
-	/*
 			 buttons.push(
 					{
 					text: '<div>Aggiungi piatti</div>',
@@ -5831,13 +5706,12 @@ function tavolisala(IDprenextra){
 						tavoloordinazione(IDprenextra);
 					}
 				}); 
-	*/
+	
 			 buttons.push(
 					{
 					text: '<div>Dettaglio tavolo</div>',
 					onClick: function () {
-						//dettagliotavolo(IDprenextra);
-						navigation2(18,IDprenextra,0,0);
+						dettagliotavolo(IDprenextra);
 					}
 				}); 
 	
@@ -5910,7 +5784,7 @@ function stampapren(time,IDsottotip,tavolo,agg){
 }
 
 
-function nuovotavolo(time,IDsottotip){
+function nuovotavolo(time,IDsottotip,popup){
 	//tempo e idsottotip
 		myApp.showIndicator();
 
@@ -5918,7 +5792,7 @@ function nuovotavolo(time,IDsottotip){
 	var url=url+'config/nuovotavolo.php'; 
 	$$.ajax({
                 url: url,
-                method: 'GET',
+                method: 'POST',
 				dataType: 'text',
 				cache:false,
 				timeout:5000,
@@ -5931,10 +5805,15 @@ function nuovotavolo(time,IDsottotip){
 					 myApp.hideIndicator();
 				},
                 success: function (data) {
-					//alert(data);
 					//clearTimeout();
-					myApp.pickerModal(data)
-			 		myApp.hideIndicator();		
+				
+					if(popup==1){
+					$$('#contpopup').html(data);
+				}else{
+					var popupHTML = '<div class="popup" id="contpopup" style="padding:0px;">'+data+'</div>';
+					myApp.popup(popupHTML);
+				}		
+				 myApp.hideIndicator();		
 		}
 		
 	});
@@ -6500,11 +6379,9 @@ function orariotavolonuovo(idsottotip,time){
 				},
                 success: function (data) {
 					//alert(data);
-					
 					myApp.pickerModal(data);
 					myApp.hideIndicator();
 					popoverord();
-					
 					
 		}
 		
@@ -6981,7 +6858,7 @@ function selezionasaleserv(IDserv){
 	});	
 }
 
-function cambiasala(IDsala,nomesala){
+function cambiasala(IDsala,nomesala,){
 	$$('#salaid').val(IDsala);
 	$$('#salaserv').html(nomesala);
 }
@@ -7210,101 +7087,5 @@ function modificaalloggio(IDapp,IDcat){
 
 	});
 }
-
-
-function modproserv(tipo,id,campo,val2,agg,notifica){ 
-myApp.showIndicator();
-		switch(val2) {
-			case 0:
-				var val=$$('#'+campo).val();
-				//val=encodeURIComponent(val);
-				break;
-			case 1:
-				var val=$$('#'+campo).val();
-				val=val.replace(',','.');
-				if(isNaN(val)){
-					//alertify.alert("E' necessario inserire un numero. Prego Riprovare");
-					return false;
-				}
-				break;
-			case 6:
-				var val=$$('#'+campo).val();
-				val=val.replace(/\n/g, "<br/>"); //descrizione
-				//val=encodeURIComponent(val);
-				break;
-			case 7:
-				if(document.getElementById(campo).checked==true){ //si o no
-					val='1';
-				}else{
-					val='0';
-				}
-				break;
-			case 8:
-				var val=$$('#'+campo).html();
-				break;
-			case 9:
-				var val=$$('#'+campo).html();
-				break;
-			case 10:
-				val=campo;
-			break;
-			case 11:
-				val=$$(campo).val();
-			break;
-			case 12:
-				val=$$(campo).val();
-				id=id+'_'+$$(campo).attr('alt');
-			break;
-			case 13:
-				val=$$(campo).html();
-			break;
-			default:
-				var val=$$('#'+campo).val();
-			break;
-	}
-	
-		var url=baseurl;
-		var url=url+'config/gestioneproserv.php';
-		//alert(val);
-		var query = {val:val,tipo:tipo,ID:id,val2:val2};
-		//alert(url);
-		$$.ajax({
-			url: url,
-			method: 'POST',
-			dataType: 'text',
-			cache:false,
-			data: query,
-			timeout:5000,
-			success: function (data) {
-				//alert(data);
-				if(notifica!=0){
-		
-					myApp.addNotification({
-						message: 'Modifica effettuata con successo',
-						hold:1200
-					});
-					
-				}
-				
-				
-				myApp.hideIndicator();
-
-				switch(agg) {
-						
-					case 1:
-						var time=$$('#timesel').val()
-						navigationtxt(40,time,'listinodiv',0);
-					
-					break;	
-						
-				}
-			},
-			error: function (){
-				myApp.hideIndicator();
-			}
-
-	});
-}
-
 
 

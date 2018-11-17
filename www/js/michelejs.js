@@ -1,23 +1,20 @@
 function navigationtxt2(id,str,campo,agg,loader){
-	if(IDcode=='undefined'){
+	/*if(IDcode=='undefined'){
 		onloadf(1);
-	}
+	}*/
 	//reloadnav=0;
 	//alert(id);
 	var url=baseurl+versione+"/config/";
 	
-	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php');//36
+	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php');//16
 	var url=url+apriurl[id];
 	//alert(id);
 	//alert(url);
 	//alert('TXT'+id);
 	//alert(campo);
-	if(loader!=0){
-		myApp.showIndicator();
-		//setTimeout(function(){ hidelo(); }, 5500);	
-	}
+	
 	query=new Array();
-	query['IDcode']=IDcode;
+	//query['IDcode']=IDcode;
 	var str=new String(str);
 	//alert(str);
 	if(str.length>0){
@@ -31,6 +28,7 @@ function navigationtxt2(id,str,campo,agg,loader){
 			query['dato0']=str;
 		}
 	}	
+	myApp.showIndicator();
 	$$.ajax({
             url: url,
                 method: 'GET',
@@ -40,12 +38,10 @@ function navigationtxt2(id,str,campo,agg,loader){
                 data: query,
                 success: function (data) {
 					//alert(data);
-					if(loader!=0){
-						clearTimeout();
-						myApp.hideIndicator();
-					}
 					
 					
+					
+					myApp.hideIndicator();
 					$$('#'+campo).html(data);
 					//alert(id);
 				
@@ -54,6 +50,24 @@ function navigationtxt2(id,str,campo,agg,loader){
 							setdatepcal('datanascita');
 							setdatepcal('dataril');
 						break;
+						case 2:
+							$$('.tl').removeClass('active');
+							$$('#m'+query['dato1']).addClass('active');
+							
+			 
+						break;
+						case 3:
+							$$('.rigasub').removeClass('activerigasub');
+							$$('#btn'+query['dato0']).addClass('activerigasub');
+							
+						break;	
+						
+						case 4:
+							$$('.pulsleft').removeClass('backgroundc8c8c8');
+							$$('#div'+query['dato0']).addClass('backgroundc8c8c8');
+						
+						break;	
+							
 							
 							
 					}
@@ -77,17 +91,17 @@ function navigation2(id,str,agg,rel){
 	
 	id=parseInt(id);	
 	
-	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php');
-	//last 34 
+	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php','config/metodipag.php','config/detristotav.php','config/profilo/infoprenotazione.php','config/profilo/servizisosp.php');
+	//last 19
 	
 	var url=url+apriurl[id];
 	//alert(url);
 	
 	
 	
-	if(IDcode=='undefined'){
+	/*if(IDcode=='undefined'){
 		onloadf(1);
-	}
+	}*/
 	//alert(str);
 	//alert('NAV'+id);
 	var query=new Array();
@@ -241,11 +255,54 @@ function navigation2(id,str,agg,rel){
 									
 								},500);
 								
-							
-								
-							//},500);
-								
+							//},500);	
 						break;
+						case 7:
+							var calendararrivo = myApp.calendar({
+									input: '#startcal',
+									weekHeader: true,
+									header: false,
+									footer: false,
+									closeOnSelect:true,
+									dateFormat: 'yyyy-mm-dd',
+									monthNames: monthNames,
+									monthNamesShort: monthNamesShort,
+									dayNames: dayNames,
+									dayNamesShort: dayNamesShort,
+									onChange:function (p, values, displayValues){
+											var val=new Date(values);
+											var gg=val.getDate();
+											if(gg<10)gg='0'+gg;
+											var mm=val.getMonth();
+											mm++;
+											if(mm<10)mm='0'+mm;
+											var yy=val.getFullYear();
+											var data=yy+'-'+mm+'-'+gg;
+											var data2=val.getTime()/1000;
+
+											var datai=$$('#datains').html();
+											if(data!=datai){
+												$$('#datains').html(data);
+												$$('#timeins').html(data2);
+												trasftesto3(data,'startcal');
+
+											}
+										
+										calendararrivo.close();
+									}
+							});
+										
+							
+						break;
+						
+						case 8://paypal script
+							
+								var paypal=$('#pulsantepaypal').val();
+								paypal=atob(paypal);
+								eval(paypal);	
+						break;	
+						
+							
 					}
 					loadstaticios();
          },
@@ -257,11 +314,85 @@ function navigation2(id,str,agg,rel){
 
 
 
+
+function paypalload(ID,acconto,dato1,dato2){
+	
+	
+		 	paypal.Button.render({
+
+	
+            env: 'sandbox', // sandbox | production
+		
+			style: {
+				label: 'buynow',
+				//fundingicons: true, // optional
+				branding: true, // optional
+				size:  'large', // small | medium | large | responsive
+				shape: 'pill',   // pill | rect
+				color: 'blue'   // gold | blue | silve | black
+			},
+
+
+
+            client: {
+            sandbox:    'AUU5djpGmLVeRO6nT-njYN95WsURRkoq7v4FbypEZRVraWheDgL00tw4_C_1U1s_-13DR_RCXDm7F3ZD',
+            production: dato1
+            },
+    
+            payment: function(data, actions) {
+                return actions.payment.create({
+                    payment: {
+                        transactions: [
+                            {
+                                amount: { total: acconto, currency: 'EUR' }
+                            }
+                        ]
+                    }
+                });
+            },
+
+            // onAuthorize() is called when the buyer approves the payment
+            onAuthorize: function(data, actions) {
+
+                // Set up a url on your server to execute the payment
+               // var EXECUTE_URL = 'https://www.scidoo.com/config/negozioonline/generavoucheronline.php';
+				
+				var EXECUTE_URL =baseurl+'config/registrapagamenti/controllopag.php';
+				//alert(EXECUTE_URL);
+                var data = {
+                    paymentID: data.paymentID,
+                    payerID: data.payerID,
+					IDpren: ID,
+					tipopag:'2'
+                };
+ 
+					
+				return actions.payment.execute().then(function() {
+					$.post(EXECUTE_URL,data,function(html){
+						//window.alert(html);
+						 alert(html);
+					});	
+				});
+				
+			
+				/*
+                	return paypal.request.post(EXECUTE_URL, data).then(function (res) {
+						//alert('aa');
+						//window.alert(res);
+						 alert(res);
+                    });*/
+            }
+
+        }, '#paypal-button-container');
+	}
+
+
 function spostapren(app){
+	//alert('bbb');
 	var datain=$$('#calsposta2').html();
 	var IDpren=$$('#IDprensposta').html();
 	//var app=$$('input[name="alloggio"]:checked').val(); 
-	
+	//alert('aaa');
 	if((datain!='')&&(IDpren!='')&&(app!='')){
 	   var url=baseurl+'config/spostamento/crea.php';
 		//alert(url);
@@ -273,6 +404,7 @@ function spostapren(app){
 				cache:false,
 				data: {IDpren:IDpren,app:app,data:datain},
 				success: function (html) {
+					//alert(html);
 					var num=html.indexOf("error");
 					if(num!=-1){
 						myApp.addNotification({
@@ -428,25 +560,11 @@ function convert(num){
 
 function metodopag(){
 	
+	var buttons=new Array();		
 	
-	
-	var buttons=new Array();	
-
-			buttons.push(
-					{
-					text: '<div >Carta di Credito</div>',
-					onClick: function () {
-						
-						navigation2(0,1,0);
-					}
-				}); 
-	
-	 			var infop=$('#infop').val();
-			    infop=atob(infop);
-			    eval(infop);
-	 
-	        
-	
+	var infop=$('#infop').val();
+	infop=atob(infop);
+	eval(infop);
 	
 	 var buttons3 = [
 			{
@@ -565,29 +683,51 @@ function salvarecensione2(){
 
 
 function modorarioospite(){
-		myApp.showIndicator();
+		var buttons=new Array();	
 
-	var url=baseurl+versione+"/";
-	var url=url+'config/profilo/orarioarrivo.php'; 
-	$$.ajax({
-                url: url,
-                method: 'GET',
-				dataType: 'text',
-				cache:false,
-				timeout:5000,
-				data: {
-					
-                },
-				 error: function (data) {
-					myApp.hideIndicator();
-				},
-                success: function (data) {
-					myApp.hideIndicator();
-					myApp.pickerModal(data);
-					popoverord();
-		}
+		buttons.push(
+				{
+				text: '<div >Conferma Orario</div>',
+				onClick: function () {
+					myApp.alert("inserire conferma");
+				}
+			}); 
+	
+		buttons.push(
+					{
+					text: '<div >Cambia orario</div>',
+					onClick: function () {
+						myApp.showIndicator();
+						var url=baseurl+versione+"/";
+						var url=url+'config/profilo/orarioarrivo.php'; 
+						$$.ajax({
+									url: url,
+									method: 'GET',
+									dataType: 'text',
+									cache:false,
+									timeout:5000,
+									data: {},
+									error: function (data) {
+										myApp.hideIndicator();
+									},
+									success: function (data) {
+										myApp.hideIndicator();
+										myApp.pickerModal(data);
+										popoverord();
+									}
+						});
+							
+					}
+				}); 
+	
+		var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
 		
-	});
+		 var groups = [buttons,buttons3];
+  	     myApp.actions(groups);	
 }
 
 function modificatemp(metodo,pren,tipo){
@@ -1231,7 +1371,7 @@ function indietroindex(){
 }
 
 
-function autoricerca(tipo,idcliente){
+function autoricerca(tipo,idcliente,agg){
 	myApp.showIndicator();
 
 	var url=baseurl+versione+"/";
@@ -1244,7 +1384,8 @@ function autoricerca(tipo,idcliente){
 				timeout:5000,
 				data: {
 					tipologia:tipo,
-					idcliente:idcliente
+					idcliente:idcliente,
+					aggfunz:agg
                 },
 				 error: function (data) {
 					//rimuovioverlay();
@@ -1261,44 +1402,64 @@ function autoricerca(tipo,idcliente){
 	});
 }
 
-function autoscrivi(id,tipo){
+function autoscrivi(id,tipo,funzagg){
 	var nome='';
-	var tipoprenot=0;
+	var tipoprenot=0;//modprenot
+	var tipomodprofilo=0;//modprofilo
 	var idcliente=$$('#idcliente').val();
 	var campo='';
+	
 	switch(tipo){	
 		case 1:
 			campo='.cittadinanzaver';
-			tipoprenot=30;
+			tipomodprofilo=30;
+			tipoprenot=48;
 		break;
 		
 		case 2:
 			campo='.luogonasver';
-			tipoprenot=31;
+			tipomodprofilo=31;
+			tipoprenot=49;
 		break;
 			
 		case 3:
 			campo='.residenzaver';
-			tipoprenot=29;
+			tipomodprofilo=29;
+			tipoprenot=47;
 		break;
 		
 		case 4:
 			campo='.luogorilver';
-			tipoprenot=28;
+			tipomodprofilo=28;
+			tipoprenot=46;
 		break;
 		
 		case 5:
 			campo='.documentover';
-			tipoprenot=32;
+			tipomodprofilo=32;
+			tipoprenot=50;
 		break;	
 	}
 	
 	nome=$$('#'+id).attr('alt').toLowerCase();	
 	$$(campo).html(nome);
 	
+	modprenot(idcliente,id,tipoprenot,10,funzagg);
+	
+	/*
+	switch(funzagg){
+		case 0:
+			 modprofilo(idcliente,id,tipomodprofilo,10);
+		break;
+		
+		case 1:
+			 alert(tipoprenot);
+			 modprenot(idcliente,id,tipoprenot,10);
+		break;	
+	}*/
 	
 	
-	modprofilo(idcliente,id,tipoprenot,10);
+	
 }
 
 
@@ -1664,5 +1825,448 @@ function pulsantimenu(){
 		
 		 var groups = [buttons,buttons3];
   	     myApp.actions(groups);
+	
+}
+
+function contomodprezzo(id,campo,tipo){
+	myApp.prompt('Inserisci prezzo:', function (value) {
+	if(!isNaN(value)){
+		value=convertnumb(value,0);
+		//alert(IDunique);
+		modprenot(id,value,tipo,10,7);
+	}else{
+		myApp.alert('Devi inserire un numero. Prego riprovare');
+	}
+							
+	});
+}
+
+function modpagamenti(ID){
+		var altbutton=parseInt($$('#'+ID).attr('alt'));
+		var buttons=new Array();
+		
+		switch(altbutton){
+			case 1:
+				
+				buttons.push(
+					{
+					text: '<div>Apri Dettaglio</div>',
+					onClick: function () {
+						navigation2(17,ID+',0',0,0);
+					}
+				}); 
+			buttons.push(
+					{
+					text: '<div>Elimina</div>',
+					color:'red',
+					onClick: function () {
+						msgboxelimina(ID,21,0,4);
+					}
+				});					
+			break;
+				
+			case 2:
+				var prezzo=$$('#'+ID).attr('pr');
+				prezzo=prezzo.slice(0,-2);
+				
+				
+				buttons.push(
+					{
+					text: '<div>Aggiungi Acconto</div>',
+					onClick: function () {
+						
+						myApp.prompt('Inserisci prezzo:', function (value) {
+							if(!isNaN(value)){
+								value=convertnumb(value,0);
+								//alert(IDunique);
+								navigation2(17,ID+',1,2,'+value,7,0);
+								//listapag(ID,value);
+							}else{
+								myApp.alert('Devi inserire un numero. Prego riprovare');
+							}
+							
+						});
+						
+					}
+				}); 
+				buttons.push(
+					{
+					text: '<div>Aggiungi Caparra</div>',
+					 onClick: function () {
+						 myApp.prompt('Inserisci prezzo:', function (value) {
+							if(!isNaN(value)){
+								value=convertnumb(value,0);
+								//alert(IDunique);'."'ID,1,".$IDpag.",value'".'
+								navigation2(17,ID+',1,14,'+value,7,0);
+								//listapag(ID,value);
+							}else{
+								myApp.alert('Devi inserire un numero. Prego riprovare');
+							}
+							
+						});
+						 	
+					}
+				}); 
+				
+				buttons.push(
+					{
+					text: '<div>Saldo ('+prezzo+' €)</div>',
+					onClick: function () {
+						//listapag(ID,value);
+						navigation2(17,ID+',1,1,'+prezzo,7,0);
+					}
+				}); 
+				
+			break;		
+		}
+	
+		 var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+		
+		 var groups = [buttons, buttons3];
+  	     myApp.actions(groups);
+}
+
+
+function listapag(ID,value){
+	var buttons=new Array();
+	var metodipag=$('#metodipag').val();
+	metodipag=atob(metodipag);
+	eval(metodipag);
+	
+	 var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+		
+		 var groups = [buttons, buttons3];
+  	     myApp.actions(groups);
+}
+
+function salvascontrino(IDpren,tipo,IDinfop,IDextra,metodo,agg,totale,sconto){
+	myApp.showIndicator();
+		var url=baseurl;
+		var url=url+'config/salvascontrino.php';
+		//alert(val);
+		var query = {IDpren:IDpren,tipo:tipo,IDinfop:IDinfop,IDextra:IDextra,metodo:metodo,totale:totale,sconto:sconto};
+		//alert(url);
+		$$.ajax({
+			url: url,
+			method: 'POST',
+			dataType: 'text',
+			cache:false,
+			data: query,
+			timeout:5000,
+			success: function (data) {
+				myApp.hideIndicator();
+				switch(agg) {
+					case 1:
+						myApp.addNotification({
+						message: 'Pagamento registrato',
+							hold:2000
+						});
+						backexplode(13);
+						
+					break;
+					
+				}
+			},
+			error: function (){
+				myApp.hideIndicator();
+			}
+	});
+}
+
+function datimodpagamento(ID,tipo,totale){
+	var giornoins=parseInt($$('#timeins').val());
+	
+	var metodopag=$('#metodpag option:selected').val();	
+	var personale=$('#personale option:selected').val();
+	
+	salvascontrino(ID,tipo,0,totale,metodopag,1,totale,0);
+}
+
+//var stringapiatti='';
+var numprod=0;
+
+function selezionainfo(ID,metodo,agg){
+	var consta=1;
+	var temp=$$('#'+ID).html();
+	var max=$$('#'+ID).attr('max');
+	var min=$$('#'+ID).attr('min');
+	temp=parseFloat(temp);
+
+	switch(metodo){
+			case 1:
+				max=parseFloat(max);
+				if(temp<max){temp=temp+consta;numprod=numprod+consta;}			 	
+			break;
+			case 2:
+				min=parseFloat(min);
+				if(temp>min){temp=temp-consta;numprod=numprod-consta;}
+			break;	
+		}
+
+	$$('#'+ID).html(temp);
+		
+	switch(agg){
+		case 1://temperatura
+			var IDpuls=$$('#'+ID).attr('alt');
+			modprenot(IDpuls,temp,4,10);
+		break;	
+		
+		case 2://portate
+			var IDcont=document.getElementsByClassName('inputpiatti');
+			var lung=IDcont.length;
+			var stringapiatti='';
+			for(i=0;i<lung;i++){
+				var idp=IDcont[i].id;
+				var val=$$('#'+idp).html();
+				var idp=$$('#'+idp).attr('alt');
+				stringapiatti=stringapiatti +idp+'_'+val+'/////';		
+			}
+			var cat=$$('#'+ID).attr('cat');
+			$$('#IDsotto'+cat).val(stringapiatti);
+			
+			$$('#numeroprod').html(numprod);
+			
+		break;	
+		
+		case 3://add-remove portate
+			var IDprod=$$('#'+ID).attr('alt');
+			//var portata=$$('#'+ID).attr('portata');
+			var IDtavolo=$$('#IDtavolo').val();
+			var agg=5;
+			
+			if(metodo==2){
+				agg=6;
+			}
+			
+			modportatetav(IDtavolo,IDprod,agg,10,1);
+			
+		break;	
+	}
+		
+	//modprofilo(pren,temp,tipo,10,0);
+}
+
+
+function passadati(campo,totale){
+	//alert(campo);
+	
+	navigationtxt2(13,campo+','+totale,'aggiornagenzie',0,1);
+		
+}
+
+function modprezzotavolo(){
+	myApp.prompt('Inserisci prezzo:', function (value) {
+							if(!isNaN(value)){
+								value=convertnumb(value,0);
+							
+							}else{
+								myApp.alert('Devi inserire un numero. Prego riprovare');
+							}
+						});
+}
+
+
+function nuovotavoloord(app){
+	var buttons=new Array();
+	var time=0;
+	var IDsottotip=0;
+	if ($$("#timeristogiorno").html() != undefined) {
+		time=$$('#timeristogiorno').val();
+	}else{
+		time=$$('#timeristo').val();
+	}
+				
+			buttons.push(
+				{
+				text: '<div>Prenotazione Presente</div>',
+				onClick: function () {
+					
+					if ($$("#IDsottotip").html() != undefined) {
+						IDsottotip=$$('#IDsottotip').val();
+					}
+					
+					nuovotavolo(time,IDsottotip);
+				
+
+				}
+			}); 
+			buttons.push(
+					{
+					text: '<div>Nuova Prenotazione</div>',
+					onClick: function () {
+
+						addprenot(time,app,0);
+					}
+				});
+	
+	var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+	
+	 var groups = [buttons, buttons3];
+	 myApp.actions(groups);
+
+}
+
+var prodserv='';
+function salvatavportata(portata){
+	var IDtavolo=$$('#IDtavolo').val();
+
+	prodserv='';
+	var mioArray=document.getElementsByClassName('valpiatti');
+	var lun=mioArray.length; //individuo la lunghezza dell’array 
+	for (n=0;n<lun;n++) { //scorro tutti i div del documento
+		//var ID=mioArray.item(n).getAttribute('alt');
+		//var qta=mioArray.item(n).innerHTML;
+		//alert(ID);
+		prodserv=prodserv+mioArray.item(n).value;		
+	}
+	if(prodserv.length>0){
+			//alert(prodserv);
+		modportatetav(IDtavolo+'_'+portata,prodserv,2,10,1);
+		
+	}else{
+		myApp.addNotification({
+			message: 'Non è stato selezionato nessun prodotto',
+			hold:1700
+		});
+	}
+	
+
+}
+
+
+function modportatetav(id,campo,tipo,val2,agg){
+		myApp.showIndicator();//setTimeout(function(){ hidelo(); }, 4500);	
+		switch(val2) {
+			case 0:
+				var val=$$('#'+campo).val();
+				//val=encodeURIComponent(val);
+				break;
+			case 1:
+				var val=$$('#'+campo).val();
+				val=val.replace(',','.');
+				if(isNaN(val)){
+					alertify.alert("E' necessario inserire un numero. Prego Riprovare");
+					return false;
+				}
+				break;
+			case 6:
+				var val=$$('#'+campo).val();
+				val=val.replace(/\n/g, "<br/>"); //descrizione
+				//val=encodeURIComponent(val);
+				break;
+			case 7:
+				if(document.getElementById(campo).checked==true){ //si o no
+					val='1';
+				}else{
+					val='0';
+				}
+				break;
+			case 8:
+				var val=$$('#'+campo).html();
+				break;
+			case 9:
+				var val=$$('#'+campo).html();
+				break;
+			case 10:
+				val=campo;
+			break;
+			case 11:
+				val=$$(campo).val();
+			break;
+			case 12:
+				val=$$(campo).val();
+				id=id+'_'+$$(campo).attr('alt');
+			break;
+			default:
+				var val=$$('#'+campo).val();
+			break;
+	}
+	
+	var url=baseurl;
+		var url=url+'config/ristorante/gestioneordinazioni.php';
+		var query = {val:val,tipo:tipo,ID:id,val2:val2};
+		//alert(url);
+		$$.ajax({
+			url: url,
+			method: 'POST',
+			dataType: 'text',
+			cache:false,
+			data: query,
+			timeout:7000,
+			error: function (data) {
+				//rimuovioverlay();
+				myApp.hideIndicator();
+			},
+			success: function (data) {
+				//alert(data);
+				myApp.hideIndicator();
+				reloadnav=1;
+				//alert(agg);
+				switch(agg){
+					case 1:
+						myApp.closeModal();
+						var IDtav=$$('#IDtavolo').val();
+						navigationtxt2(14,IDtav+',0','contdettav',2);
+					break;
+					case 2:
+						myApp.closeModal();
+						var IDtav=$$('#IDtavolo').val();
+						navigationtxt2(14,IDtav+',1','contdettav',2);
+					break;	
+					
+				}
+			}
+		});
+}
+
+function sceglicategoria(IDcat){
+	var prodsel=$$('#IDsotto'+IDcat).val();
+	navigationtxt2(15,IDcat+','+prodsel,'aggiungipiatti',3);
+}
+function gestioneport(portata,tipo){
+	var IDtavolo=$$('#IDtavolo').val();
+	
+	switch(tipo){
+		
+		case 1://aggiungi portata tav
+			modportatetav(IDtavolo,portata,1,10,1);
+		break;
+		
+		case 2://rmuovi portata tav
+			modportatetav(IDtavolo,portata,3,10,1);
+		break;	
+			
+	}
+}
+
+
+function servtavprezzo(ID){
+	
+	myApp.prompt('Inserisci prezzo:', function (value) {
+					if(!isNaN(value)){
+						value=convertnumb(value,0);
+						//alert(value+'-'+ID);
+						modprenextra(value,ID,18,9,29);
+					}else{
+						myApp.alert('Devi inserire un numero. Prego riprovare');
+					}
+		});
+}
+
+function aprinoteristo(IDsotto){
+	
+	$$('#accordion'+IDsotto).toggleClass('accordionhauto');
 	
 }

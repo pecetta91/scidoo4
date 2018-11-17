@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.scidoo" version="2.1.3" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+<widget id="com.scidoo" version="2.1.4" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Scidoo</name>
     <description>
         Gestionale in Cloud per Strutture Ricettive
@@ -131,12 +131,17 @@
 	<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
 	
 	
-	
-    <gap:splash src="res/screen/android/screen-ldpi-portrait.png"       gap:platform="android" gap:qualifier="port-ldpi" />
+	<!--
+<gap:splash src="res/screen/android/screen-ldpi-portrait.png"       gap:platform="android" gap:qualifier="port-ldpi" />
     <gap:splash src="res/screen/android/screen-mdpi-portrait.png"       gap:platform="android" gap:qualifier="port-mdpi" />
     <gap:splash src="res/screen/android/screen-hdpi-portrait.png"       gap:platform="android" gap:qualifier="port-hdpi" />
-    <gap:splash src="res/screen/android/screen-xhdpi-portrait.png"      gap:platform="android" gap:qualifier="port-xhdpi" />
+    <gap:splash src="res/screen/android/screen-xhdpi-portrait.png"      gap:platform="android" gap:qualifier="port-xhdpi" />-->
   
+	<gap:splash src="res/screen/android/drawable-ldpi/screen.png"       gap:platform="android" gap:qualifier="port-ldpi" />
+    <gap:splash src="res/screen/android/drawable-mdpi/screen.png"       gap:platform="android" gap:qualifier="port-mdpi" />
+    <gap:splash src="res/screen/android/drawable/screen.png"       gap:platform="android" gap:qualifier="port-hdpi" />
+    <gap:splash src="res/screen/android/drawable-xhdpi/screen.png"      gap:platform="android" gap:qualifier="port-xhdpi" />
+	
 	
 	<edit-config target="NSPhotoLibraryUsageDescription" file="*-Info.plist" mode="overwrite">
 		<string>We Could use the Camera for capture photo for Hotels</string>
