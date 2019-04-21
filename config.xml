@@ -187,7 +187,7 @@
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
     </platform>
-    <plugin name="onesignal-cordova-plugin" spec="2.4.6" source="npm" />
+    <plugin name="onesignal-cordova-plugin" spec="2.4.0" source="npm" />
     
 <!--	<gap:plugin name="onesignal-cordova-plugin" spec="^2.4.6" source="npm" />-->
 
