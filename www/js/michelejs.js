@@ -6,7 +6,7 @@ function navigationtxt2(id,str,campo,agg,loader){
 	//alert(id);
 	var url=baseurl+versione+"/config/";
 	
-	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php');//16
+	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php','profilo/pren/nuovoserv.inc.php','detaddpren.inc.php');//18
 	var url=url+apriurl[id];
 	//alert(id);
 	//alert(url);
@@ -47,8 +47,10 @@ function navigationtxt2(id,str,campo,agg,loader){
 				
 					switch(agg){
 						case 1:
+							/*
 							setdatepcal('datanascita');
 							setdatepcal('dataril');
+							*/
 						break;
 						case 2:
 							$$('.tl').removeClass('active');
@@ -59,14 +61,13 @@ function navigationtxt2(id,str,campo,agg,loader){
 						case 3:
 							$$('.rigasub').removeClass('activerigasub');
 							$$('#btn'+query['dato0']).addClass('activerigasub');
-							
 						break;	
-						
 						case 4:
-							$$('.pulsleft').removeClass('backgroundc8c8c8');
-							$$('#div'+query['dato0']).addClass('backgroundc8c8c8');
+							$('.item-innernew').removeClass('selserv');
+							$('#div'+query['dato1']).addClass('selserv');
+			 			break;	
 						
-						break;	
+						
 							
 							
 							
@@ -91,8 +92,8 @@ function navigation2(id,str,agg,rel){
 	
 	id=parseInt(id);	
 	
-	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php','config/metodipag.php','config/detristotav.php','config/profilo/infoprenotazione.php','config/profilo/servizisosp.php');
-	//last 19
+	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php','config/metodipag.php','config/detristotav.php','config/profilo/infoprenotazione.php','config/profilo/servizisosp.php','config/profilo/modificaservospite.php','config/detaddpren.php');
+	//last 22
 	
 	var url=url+apriurl[id];
 	//alert(url);
@@ -206,9 +207,10 @@ function navigation2(id,str,agg,rel){
 							},timeout);
 						break;	
 						case 5: //load checkin
+							/*
 							setdatepcal('datanascita');
 							setdatepcal('dataril');
-
+							*/
 						break;
 						case 6:
 							//setTimeout(function(){
@@ -301,7 +303,6 @@ function navigation2(id,str,agg,rel){
 								paypal=atob(paypal);
 								eval(paypal);	
 						break;	
-						
 							
 					}
 					loadstaticios();
@@ -357,13 +358,13 @@ function paypalload(ID,acconto,dato1,dato2){
                 // Set up a url on your server to execute the payment
                // var EXECUTE_URL = 'https://www.scidoo.com/config/negozioonline/generavoucheronline.php';
 				
-				var EXECUTE_URL =baseurl+'config/registrapagamenti/controllopag.php';
+				var EXECUTE_URL =baseurl+'config/salvapagamentopaypal.php';
 				//alert(EXECUTE_URL);
                 var data = {
                     paymentID: data.paymentID,
                     payerID: data.payerID,
 					IDpren: ID,
-					tipopag:'2'
+					valore:acconto
                 };
  
 					
@@ -387,13 +388,16 @@ function paypalload(ID,acconto,dato1,dato2){
 	}
 
 
-function spostapren(app){
+function spostapren(vettore,vettoremain){
 	//alert('bbb');
-	var datain=$$('#calsposta2').html();
-	var IDpren=$$('#IDprensposta').html();
+	//var datain=$$('#calsposta2').html();
+	//var IDpren=$$('#IDprensposta').html();
 	//var app=$$('input[name="alloggio"]:checked').val(); 
 	//alert('aaa');
-	if((datain!='')&&(IDpren!='')&&(app!='')){
+	//if((datain!='')&&(IDpren!='')&&(app!='')){
+		
+	var dataString = "vettore=" + vettore + "&vettoremain=" + vettoremain;	
+	//alert(dataString);	
 	   var url=baseurl+'config/spostamento/crea.php';
 		//alert(url);
 		$$.ajax({
@@ -402,7 +406,7 @@ function spostapren(app){
 				dataType: 'text',
 				timeout:5000,
 				cache:false,
-				data: {IDpren:IDpren,app:app,data:datain},
+				data: {vettore:vettore,vettoremain:vettoremain},
 				success: function (html) {
 					//alert(html);
 					var num=html.indexOf("error");
@@ -419,12 +423,12 @@ function spostapren(app){
 
 				}
 		});
-	}else{
+	/*}else{
 		myApp.addNotification({
 			message: 'Compila tutti e campi e Riprova!',
 			hold:1000
 		});
-	}
+	}*/
 	
 	
 
@@ -444,6 +448,7 @@ function spostapren2(){
 			cache:false,
 			data: {},
 			success: function (data) {
+				//alert(data);
 				myApp.hideIndicator();
 				var num=data.indexOf("ok");
 				
@@ -464,7 +469,9 @@ function spostapren2(){
 
 }
 
+/*
 var timeoutdate=null;
+
 
 function setdatepcal(id){
 
@@ -513,7 +520,7 @@ function setdatepcal(id){
 									$('#'+id+'txt').html(data2);
 									/*if (values[1] > daysInMonth) {
 										picker.cols[1].setValue(daysInMonth);
-									}*/
+									} 
 								},
 								formatValue: function (p, values, displayValues) {
 									return displayValues[0] + ' ' + values[1] + ', ' + values[2] + ' ' + values[3] + ':' + values[4];
@@ -548,7 +555,7 @@ function setdatepcal(id){
 	
 	
 }
-
+*/
 
 function convert(num){
 	if(num<10){
@@ -609,6 +616,12 @@ function controllocarta2(){
 					 myApp.hideIndicator();
 				}
 		});
+	}else{
+		myApp.addNotification({
+			message: "E' necessario compilare tutti i campi obbligatori.",
+			hold:1200
+		});
+		
 	}
 	
 }
@@ -639,7 +652,7 @@ var myPhotoBrowser= myApp.photoBrowser({
                 '{{#if backLinkText}}<span>{{backLinkText}}</span>{{/if}}'+
             '</a>'+
         '</div>'+
-        '<div class="center sliding">'+
+        '<div class="center sliding fs12" style="color: #fff;">'+
           '  <span class="photo-browser-current"></span> '+
            ' <span class="photo-browser-of">{{ofText}}</span> '+
             '<span class="photo-browser-total"></span>'+
@@ -682,52 +695,28 @@ function salvarecensione2(){
 }
 
 
-function modorarioospite(){
-		var buttons=new Array();	
-
-		buttons.push(
-				{
-				text: '<div >Conferma Orario</div>',
-				onClick: function () {
-					myApp.alert("inserire conferma");
-				}
-			}); 
-	
-		buttons.push(
-					{
-					text: '<div >Cambia orario</div>',
-					onClick: function () {
-						myApp.showIndicator();
-						var url=baseurl+versione+"/";
-						var url=url+'config/profilo/orarioarrivo.php'; 
-						$$.ajax({
-									url: url,
-									method: 'GET',
-									dataType: 'text',
-									cache:false,
-									timeout:5000,
-									data: {},
-									error: function (data) {
-										myApp.hideIndicator();
-									},
-									success: function (data) {
-										myApp.hideIndicator();
-										myApp.pickerModal(data);
-										popoverord();
-									}
-						});
-							
-					}
-				}); 
-	
-		var buttons3 = [
-			{
-				text: '<div class="lastbutton-modal">Chiudi</div>'
+function modorarioospite(IDpren){
+ 
+myApp.showIndicator();
+var url=baseurl+versione+"/";
+var url=url+'config/profilo/orarioarrivo.php'; 
+$$.ajax({
+			url: url,
+			method: 'GET',
+			dataType: 'text',
+			cache:false,
+			timeout:5000,
+			data: {},
+			error: function (data) {
+				myApp.hideIndicator();
+			},
+			success: function (data) {
+				myApp.hideIndicator();
+				myApp.pickerModal(data);
+				popoverord();
 			}
-		];
-		
-		 var groups = [buttons,buttons3];
-  	     myApp.actions(groups);	
+});
+
 }
 
 function modificatemp(metodo,pren,tipo){
@@ -1551,10 +1540,12 @@ function scorridata(idd){
 	 		});*/
 }
 
+/*
 function scorridataserv(idd){
 	$$('.scegligserv').removeClass('giornoselserv');
 	$$('#td'+idd).addClass('giornoselserv');
 }
+*/
 
 function scorrioraserv(idd){
 	$$('.oraservizio').removeClass('oraserviziosel');
@@ -1808,8 +1799,7 @@ function modalfirstentryospiti(){
 
 
 function pulsantimenu(){
-	
-		
+ 
 	var buttons=new Array();	
 
 	 			var infomenu=$('#infomenu').val();
@@ -1828,12 +1818,19 @@ function pulsantimenu(){
 	
 }
 
-function contomodprezzo(id,campo,tipo){
+function contomodprezzo(id,datacar,tipo){
 	myApp.prompt('Inserisci prezzo:', function (value) {
 	if(!isNaN(value)){
 		value=convertnumb(value,0);
 		//alert(IDunique);
-		modprenot(id,value,tipo,10,7);
+		//modprenot(id,value,tipo,10,7);
+		if(tipo==0){
+			
+			var ID=id+'_'+datacar;
+			alert(ID);
+			modprenot(ID,value,3,10,7);
+		}
+		
 	}else{
 		myApp.alert('Devi inserire un numero. Prego riprovare');
 	}
@@ -1872,7 +1869,7 @@ function modpagamenti(ID){
 				
 				buttons.push(
 					{
-					text: '<div>Aggiungi Acconto</div>',
+					text: '<div>Acconto</div>',
 					onClick: function () {
 						
 						myApp.prompt('Inserisci prezzo:', function (value) {
@@ -1891,7 +1888,7 @@ function modpagamenti(ID){
 				}); 
 				buttons.push(
 					{
-					text: '<div>Aggiungi Caparra</div>',
+					text: '<div>Caparra</div>',
 					 onClick: function () {
 						 myApp.prompt('Inserisci prezzo:', function (value) {
 							if(!isNaN(value)){
@@ -1910,7 +1907,7 @@ function modpagamenti(ID){
 				
 				buttons.push(
 					{
-					text: '<div>Saldo ('+prezzo+' €)</div>',
+					text: '<div><strong>Saldo</strong></div>',
 					onClick: function () {
 						//listapag(ID,value);
 						navigation2(17,ID+',1,1,'+prezzo,7,0);
@@ -2269,4 +2266,359 @@ function aprinoteristo(IDsotto){
 	
 	$$('#accordion'+IDsotto).toggleClass('accordionhauto');
 	
+}
+
+function filtrososp(ID){
+	ID=ID.toString();
+	var filtroval='tipolim'+ID;
+
+	if(ID!=0){
+ 		$('.servsosp').fadeIn().filter(':not(.'+filtroval+')').fadeOut(200);	 
+	}else{
+		$('.servsosp').fadeIn(200);
+ 
+	}	
+	
+	if($('.fabdiv').hasClass('fabdiv-opened')){
+		$('.fabdiv').removeClass('fabdiv-opened');	
+		$('.overlay-speed-dial').removeClass('overlay-speed-visible');
+	}
+	
+}
+
+function seldata(stringadata){
+	
+	if(stringadata=='sosp'){
+		$$('.page-content').scrollTop(0, 300);
+		$$('.pulsleft').removeClass('activeg');
+		
+	}else{
+		
+		if ($$('#'+stringadata).html() != undefined) {
+			$$('.pulsleft').removeClass('activeg');
+			$$('#div'+stringadata).addClass('activeg');
+			var offsetdata=$('#'+stringadata).offset().top;
+			$$('.page-content').scrollTop(offsetdata, 300);
+		}
+	}
+}
+
+myApp.onPageInit('listaservsosp',function (page) {
+	$$(".page-content").on('scroll', function(){
+		var arraydatescroll=new Array();
+		$$('.selezionadate').each(function() {
+			var altezzadiv=0;
+			var IDdata=$$(this).attr('id');	
+			if($$('#'+IDdata)!="undefined"){
+				altezzadiv=$$('#'+IDdata).offset().top;
+				altezzadiv=parseInt(altezzadiv);
+				if(altezzadiv<0){
+					arraydatescroll[altezzadiv]=IDdata;
+				}
+			}	
+		});
+		
+		var keyordinate=(Object.keys(arraydatescroll)).reverse();
+		//console.log(keyordinate);
+		var primoindice=keyordinate[0];
+		var datasel=arraydatescroll[primoindice];
+		$$('.pulsleft').removeClass('activeg');
+		$$('#div'+datasel).addClass('activeg');
+	});
+
+});
+
+function overlayfab(){
+	
+	if($('.fabdiv').hasClass('fabdiv-opened')){
+		$('.fabdiv').removeClass('fabdiv-opened');	
+		$('.overlay-speed-dial').removeClass('overlay-speed-visible');
+	}else{
+		$('.fabdiv').addClass('fabdiv-opened');	
+		$('.overlay-speed-dial').addClass('overlay-speed-visible');
+	}
+	
+}
+
+function mostraserv(tipo){
+	switch(tipo){
+			
+		case 1:
+			$('#date').fadeIn(500);
+		break;
+		
+		case 2:
+			$('#orario').fadeIn(500);
+		break;
+	
+		case 3:
+			$('#persone').fadeIn(500);
+		break;	
+	}
+}
+
+
+function seldatamodal(idpick){
+	
+	myApp.showIndicator();
+
+	var url=baseurl+versione+"/";
+	var url=url+'config/seldatamodal.php'; 
+	$$.ajax({
+                url: url,
+                method: 'GET',
+				dataType: 'text',
+				cache:false,
+				timeout:5000,
+				data:{
+					idpick:idpick
+				},
+				error: function (data) {
+					//rimuovioverlay();
+					 myApp.hideIndicator();
+				},
+                success: function (data) {
+					myApp.hideIndicator();
+					
+			 		setTimeout(function(){
+						setdatamodalpicker(idpick);	
+					},100);
+					
+					//myApp.popup(data);
+					myApp.pickerModal(data);
+		}
+		
+	});
+	
+}
+
+ 
+
+function setdatamodalpicker(idpicker){
+	
+			var data1=$('#'+idpicker).val();
+			 
+			//alert(data1);
+			var today=adddata(data1,0,2,3);
+			//alert(today);
+		
+		
+							//var today = new Date();
+
+							var pickerInline = myApp.picker({
+								
+								container: '#carica-datepicker',
+								toolbar: false,
+								rotateEffect: true,
+
+								value: [today.getMonth(), today.getDate(), today.getFullYear(), today.getHours(), (today.getMinutes() < 10 ? '0' + today.getMinutes() : today.getMinutes())],
+
+								onChange: function (picker, values, displayValues) {
+									//alert(picker.value[2]);
+									//alert(picker.value[0]);
+									//alert(picker.value[1]);
+									var dd=picker.value[2].split(',');
+									var datain=picker.value[2]+'-'+convert((parseInt(picker.value[0])+parseInt(1)))+'-'+convert(picker.value[1]);
+									//alert(datain);
+									var daysInMonth = new Date(datain);
+									//alert(daysInMonth);
+									var data2=adddata(daysInMonth,0,0,2);
+									//alert(data2);
+						 
+									$('#datamodalpicker').val(data2);
+							 
+									var data2=adddata(daysInMonth,0,0,1);
+									
+									$('#datamodalpickerformat').val(data2);
+								 
+								},
+								formatValue: function (p, values, displayValues) {
+									return displayValues[0] + ' ' + values[1] + ', ' + values[2] + ' ' + values[3] + ':' + values[4];
+								},
+								cols: [
+									// Months
+									{
+										values: ('0 1 2 3 4 5 6 7 8 9 10 11').split(' '),
+										displayValues: ('January February March April May June July August September October November December').split(' '),
+										textAlign: 'left'
+									},
+									// Days
+									{
+										values: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31],
+									},
+									// Years
+									{
+										values: (function () {
+											var arr = [];
+											for (var i = 1900; i <= 2030; i++) { arr.push(i); }
+											return arr;
+										})(),
+									}
+								]
+							});                						
+}
+
+function formattdatamodalpicker(idpicker){
+	var data=$('#datamodalpicker').val();
+	var dataform=$('#datamodalpickerformat').val();
+	
+	myApp.closeModal();
+	$('#'+idpicker).val(data);
+	$('#'+idpicker+'txt').html(dataform);
+	$('#'+idpicker).trigger('change');
+	
+}
+
+var filtrocondiviso='';
+function filtrogenerale(ID,tipo,reset){
+	ID=ID.toString();
+	var filtroval='';
+	var classe='';
+	
+	switch(tipo){
+		case 1:
+			filtroval='tipolim'+ID;
+			classe='.servsosp';
+			/*if(filtrocondiviso==''){
+					
+					filtrocondiviso=filtroval;
+			}*/
+		break;
+		
+		case 2:
+			filtroval='statocam'+ID;
+			classe='.statocamere';
+		break;
+		case 3:
+			filtroval='piano'+ID;
+			classe='.statocamere';
+		break;
+		case 4:
+				filtroval='time'+ID;
+				classe='.time';
+				//chiudimodal();
+				/*if(filtrocondiviso==''){
+					filtrocondiviso=filtroval;
+				}*/
+		break;	
+	}	
+console.log(filtroval);
+	/*if(filtrocondiviso!=''){
+		if(reset!=0){
+			$(classe).fadeIn().filter(':not(.'+filtroval+')').fadeOut(200);	 
+		}else{
+			$(classe).fadeIn(200);
+		}	
+		
+	}else{*/
+
+		if(reset!=0){
+			$(classe).fadeIn().filter(':not(.'+filtroval+')').fadeOut(200) ;	 
+		}else{
+			$(classe).fadeIn(200);
+		}	
+	//}
+	
+	if($('.fabdiv').hasClass('fabdiv-opened')){
+		$('.fabdiv').removeClass('fabdiv-opened');	
+		$('.overlay-speed-dial').removeClass('overlay-speed-visible');
+	}
+	
+}
+
+function scrolliniziale(tipo){
+	switch(tipo){
+		case 1://scroll giu
+			$('.page-content').animate({scrollTop: '500px'}, 500);
+			$('#scrollgiu').fadeOut();
+		
+		break;
+		
+		case 2://scroll su
+			$('.page-content').animate({scrollTop: '0px'}, 500);
+			$('#scrollsu').fadeOut();
+		break;	
+	}
+	
+}
+
+
+function vistapulize( ){
+	var buttons=new Array();
+	var tipo=parseInt($$('#vista').val());
+	var time=$$('#time').val();
+ 
+ 		switch(tipo){
+			
+			case 0:
+				
+				buttons.push(
+					{
+					text: '<div>Vista Settimanale</div>',
+					onClick: function () {
+ 						navigationtxt(15,time+',1','puliziediv',0);
+					}
+				});
+				
+			break;	
+			case 1:
+				
+					buttons.push(
+						{
+						text: '<div>Vista Giornaliera</div>',
+						onClick: function () {
+							navigationtxt(15,time+',0','puliziediv',0);
+						}
+					}); 
+			break;			
+		}
+		
+	
+			
+	
+	var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+	
+	 var groups = [buttons, buttons3];
+	 myApp.actions(groups);
+}
+ 
+function datapul(time){
+	var tipo=parseInt($$('#vista').val());
+	navigationtxt(15,time+','+tipo,'puliziediv',0);
+	
+}
+
+function scriviorario(val){
+	$('#orariotxt').html(val);
+}
+
+function listaservdate(){
+ var pickerdata = $$('#pickerdata').val(); 
+	pickerdata = atob(pickerdata);
+
+	var picker=`<div class="picker-modal smart-select-picker" id="popoverord" > 
+      <div class="toolbar">
+        <div class="toolbar-inner">
+			<div class="left"><strong style="color:#0073cc;">Seleziona giorno</strong></div>
+          <div class="right"><a href="#" class="close-picker">Chiudi</a></div>
+        </div>
+      </div>
+      <div class="picker-modal-inner">
+		  <div class="page-content bcw" >
+			<div class="list-block mt0" >
+				<ul>
+					 `+ eval(pickerdata);+`
+			   </ul>
+		   </div>
+		  </div>
+      </div>
+</div>`;
+	
+	myApp.pickerModal(picker);
+	popoverord();
+
 }

@@ -5792,7 +5792,7 @@ return t7;
             return app.modal({
                 text: text || '',
                 title: typeof title === 'undefined' ? app.params.modalTitle : title,
-                afterText: '<div class="input-field"><input type="text" class="modal-text-input"></div>',
+                afterText: '<div class="input-field"><input type="text" autocomplete="off" class="modal-text-input"></div>',
                 buttons: [
                     {
                         text: app.params.modalButtonCancel
@@ -5807,6 +5807,9 @@ return t7;
                     if (index === 1 && callbackOk) callbackOk($(modal).find('.modal-text-input').val());
                 }
             });
+			setTimeout(function (){
+				$('input').on('click',function(){ $(this).focus();});
+			},300);
         };
         app.modalLogin = function (text, title, callbackOk, callbackCancel) {
             if (typeof title === 'function') {
@@ -5817,7 +5820,7 @@ return t7;
             return app.modal({
                 text: text || '',
                 title: typeof title === 'undefined' ? app.params.modalTitle : title,
-                afterText: '<div class="input-field modal-input-double"><input type="text" name="modal-username" placeholder="' + app.params.modalUsernamePlaceholder + '" class="modal-text-input"></div><div class="input-field modal-input-double"><input type="password" name="modal-password" placeholder="' + app.params.modalPasswordPlaceholder + '" class="modal-text-input"></div>',
+                afterText: '<div class="input-field modal-input-double"><input type="text" autocomplete="off" name="modal-username" placeholder="' + app.params.modalUsernamePlaceholder + '" class="modal-text-input"></div><div class="input-field modal-input-double"><input type="password" name="modal-password" placeholder="' + app.params.modalPasswordPlaceholder + '" class="modal-text-input"></div>',
                 buttons: [
                     {
                         text: app.params.modalButtonCancel
