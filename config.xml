@@ -167,9 +167,10 @@
 	<preference name="phonegap-version" value="cli-8.0.0" />
 	<preference name="StatusBarBackgroundColor" value="#f8f9f8" />
 	
-	<preference name="DisallowOverscroll" value="false" />
+	<preference name="DisallowOverscroll" value="true" />
 	<preference name="webviewbounce" value="false" />
 	<preference name="StatusBarOverlaysWebView" value="false" />
+	<preference name="UIWebViewBounce" value="false" />
 	<!--<preference name="StatusBarStyle" value="blackopaque" />-->
 
 	
