@@ -134,7 +134,8 @@ $$(window).on('popstate', function(e) {
 //var baseurl='http://127.0.0.1/milliont/';
 //var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.47/milliont/';
-//
+//var baseurl = 'http://188.11.58.203:108/milliont/';
+
 //var baseurl = 'http://188.11.58.195:108/milliont/';
 var baseurl='https://www.scidoo.com/';
 var versione = 'v22';
@@ -574,6 +575,7 @@ function navigation(id, str, agg, rel) {
 							offsetleft = Math.round(offset);
 							if ((offsetleft - 220) < 0) {
 								offsetleft = 0;
+								//console.log(offsetleft);
 							} else {
 								offsetleft = (offsetleft - 220) * -1; //109 e' preciso
 							}
@@ -588,7 +590,7 @@ function navigation(id, str, agg, rel) {
 								offsetleft = 0;
 							}
 						}
-						//alert(offsetleft+'--'+offsetleftcalendario+'__'+primoavvio);
+						//console.log(offsetleft+'__'+offsetleftcalendario+'__'+primoavvio);
 						if (primoavvio == 1) {
 							offsetleft = offsetleftcalendario;
 							offsettop = offsettopcalendario;
@@ -1534,19 +1536,6 @@ function navigationtxt(id, str, campo, agg, loader) {
 					break;
 				case 18:
 					//ricarca slider
-					$('.page-content').scroll(function() {
-						var height = $('#contenutodiv').height();
-						var scroll = $(this).scrollTop();
-						if (scroll > 400) {
-							$('#scrollgiu').fadeOut();
-						}
-						var scrollsu = height - 1000;
-						if (scroll > scrollsu) {
-							$('#scrollsu').fadeIn();
-						} else {
-							$('#scrollsu').css('display', 'none');
-						}
-					});
 					setTimeout(function() {
 						var swiper = myApp.swiper('.swp', {
 							pagination: '.swiper-pagination',
@@ -1576,9 +1565,9 @@ function navigationtxt(id, str, campo, agg, loader) {
 								slidesPerView: 'auto'
 							});
 						}
-						
-						
 					}, 200);
+					
+					
 					break;
 				case 19:
 					//calendario
@@ -1927,6 +1916,17 @@ function modprofilo(id, campo, tipo, val2, agg) {
 				case 11:
 						$('.tipocapo').removeClass('select');
 						$('#tipocapo'+val).addClass('select');
+				break;
+				case 12:
+					myApp.addNotification({
+						message: 'Prenotazione confermata con successo!',
+						hold: 2000
+					});
+					
+					//servizio_premuto=data;
+					//filtro_servizio=0;exist=0;sosp=0;
+					//azzerastoria();
+					//navigation2(20,0,9,0);
 				break;	
 			}
 		},
@@ -2253,7 +2253,16 @@ function modprenextra(id, campo, tipo, val2, agg) {
 				case 29:
 					var IDtav = $$('#IDtavolo').val();
 					navigationtxt2(14, IDtav + ',4', 'contdettav', 2);
-					break;
+				break;
+				case 30:
+					if(exist!=0){
+						var giorno_navigation=$('#giorno_cambiato').val();
+						if(giorno_navigation!=exist){
+							exist=0;
+						}
+					}
+				break;	
+ 
 			}
 			myApp.hideIndicator();
 		},
@@ -2524,8 +2533,10 @@ function backexplode(tipo, dato0) {
 				navigationtxt(2, IDpren + ',3', 'contenutop', 1);
 				break;
 			case 14:
-				navigation2(20, 0, 0, 1);
-				break;
+				navigation2(20, 0, 9, 1);
+			break;
+			 
+			 
 		}
 	}, 800);
 }
@@ -5685,29 +5696,6 @@ function cambiasala(IDsala, nomesala) {
 	$$('#salaserv').html(nomesala);
 }
 
-function completapren(IDtipo, IDserv, regola) {
-	var giorno = parseInt($$('#time').val());
-	var note = $$('#note').val();
-	var orariogiorno = '';
-	var IDpersone = $$('#idpersonepres').val()
-	/*
-	if(IDtipo==1){
-	var sala=parseInt($$('#salaid').val());
-	if(sala==''){
-	myApp.alert("Scegliere una sala.");
-	return false;
-	}
-	}
-
-	*/
-	if (regola == 1) {
-		$$('.oraservizio').each(function() {
-			if ($$(this).hasClass('oraserviziosel')) {
-				orariogiorno = $$(this).attr('alt');
-			}
-		});
-	}
-}
 
 function apriprenotaora(IDsotto, tempo) {
 	myApp.showIndicator();

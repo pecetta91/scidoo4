@@ -1058,7 +1058,7 @@ function calcolatot(){
 		cache:false,
 		data: query,
 		success: function (data) {
-			$$('#totaleprev').html(data+' €');
+			$$('#totaleprev').html(data);
 			
 		}
 	});	

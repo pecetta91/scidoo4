@@ -6,10 +6,10 @@ function navigationtxt2(id,str,campo,agg,loader){
 	//alert(id);
 	var url=baseurl+versione+"/config/";
 	
-	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php','profilo/pren/nuovoserv.inc.php','detaddpren.inc.php');//18
+	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php','profilo/pren/nuovoserv.inc.php','detaddpren.inc.php','profilo/modificaservospite.inc.php');//19
 	var url=url+apriurl[id];
 	//alert(id);
-	//alert(url);
+	 //alert(url);
 	//alert('TXT'+id);
 	//alert(campo);
 	
@@ -37,10 +37,8 @@ function navigationtxt2(id,str,campo,agg,loader){
 				timeout:5000,
                 data: query,
                 success: function (data) {
-					//alert(data);
-					
-					
-					
+					 //alert(data);
+
 					myApp.hideIndicator();
 					$$('#'+campo).html(data);
 					//alert(id);
@@ -63,26 +61,30 @@ function navigationtxt2(id,str,campo,agg,loader){
 							$$('#btn'+query['dato0']).addClass('activerigasub');
 						break;	
 						case 4:
-							$('.item-innernew').removeClass('selserv');
-							$('#div'+query['dato1']).addClass('selserv');
-			 			break;	
+							$('.scroll_prenota_data').removeClass('data_scelta');
+							$('#prenota_data'+query['dato1']).addClass('data_scelta');
+							var alt=$('#prenota_data'+query['dato1']).attr('alt');
+							
+							if(alt=='no_prenota'){
+								$('#prenotaora').attr('disabled',true);
+							}else{
+								$('#prenotaora').attr('disabled',false);
+							}
+							
+			 			break;			
 						
-						
-							
-							
-							
 					}
 					loadstaticios();
-					$$('.page-content').scrollTop=0;
-					
-					
-					
+					$$('.page-content').scrollTop=0;			
          },
 		 error: function (data) {
+		 
 					myApp.hideIndicator();
 				}
      });	
 }
+
+var servizio_premuto=0;
 
 function navigation2(id,str,agg,rel){
 	
@@ -137,7 +139,7 @@ function navigation2(id,str,agg,rel){
                 data: query,
                 success: function (data) {
 					
-					//alert(data);
+					 //alert(data);
 					
 					myApp.hideIndicator();
 					clearTimeout();
@@ -302,6 +304,50 @@ function navigation2(id,str,agg,rel){
 								var paypal=$('#pulsantepaypal').val();
 								paypal=atob(paypal);
 								eval(paypal);	
+						break;	
+						case 9:
+								if(filtro_servizio!=0){//filtro tipologie
+									filtrogenerale(filtro_servizio,1);
+								}
+							
+								if(exist!=0){//filtro giorni 
+									var giorno=exist;
+									exist=0;
+									scrollbox(1,giorno);
+									$('#scroller').animate({scrollLeft: $('#scrollbox'+giorno).offset().left - 120}, 800);
+								}else{
+									if(sosp==1){//filtro servizi sospesi
+										if($('#sosp').length==0){
+											scrollbox(0);
+										}else{
+											sosp=0;
+											scrollbox(0);
+										}	
+									}
+								}
+							
+								if(servizio_premuto!=0){//scorro al servizio premuto
+									$('#paginascroll').animate({scrollTop: $('#riga'+servizio_premuto).offset().top - 120 }, 800);
+									servizio_premuto=0;
+								}
+						break;
+						case 10:
+								servizio_premuto=query['dato0'];
+						break;
+						case 11:
+							exist=0;
+							servizio_premuto=0;
+							filtro_servizio=0;
+						break;	
+						case 12:
+							
+							var alt=$('#serv'+query['dato0']).attr('alt');
+							
+								if(alt=='no_prenota'){
+									$('#prenotaora').attr('disabled',true);
+								}else{
+									$('#prenotaora').attr('disabled',false);
+								}
 						break;	
 							
 					}
@@ -636,7 +682,7 @@ function controllocarta2(){
 function foto(album,num){
 	
 	var photoarr=new Array();//	$$('#album'+album+' div')
-	$$('#album'+album+' div.prendifoto ').each(function() {
+	$$('#album'+album+' div.foto').each(function() {
 			var id=parseInt($$(this).attr('idphoto'));		
 			var src=$$(this).attr('alt');
 			photoarr[id]=src;
@@ -644,6 +690,8 @@ function foto(album,num){
 	
 var myPhotoBrowser= myApp.photoBrowser({
     photos : photoarr,
+	 theme: 'dark',
+	ofText: '/',
 	navbarTemplate:'<div class="navbar navfoto">'+
     '<div class="navbar-inner">'+
         '<div class="left sliding">'+
@@ -652,10 +700,10 @@ var myPhotoBrowser= myApp.photoBrowser({
                 '{{#if backLinkText}}<span>{{backLinkText}}</span>{{/if}}'+
             '</a>'+
         '</div>'+
-        '<div class="center sliding fs12" style="color: #fff;">'+
-          '  <span class="photo-browser-current"></span> '+
-           ' <span class="photo-browser-of">{{ofText}}</span> '+
-            '<span class="photo-browser-total"></span>'+
+        '<div class="center sliding " style="color: #fff;">'+
+          '  <span class="photo-browser-current fs14"></span> '+
+           ' <span class="photo-browser-of fs14">{{ofText}}</span> '+
+            '<span class="photo-browser-total fs14"></span>'+
         '</div>'+
        '<div class="right"></div>'+
     '</div>'+
@@ -2286,48 +2334,8 @@ function filtrososp(ID){
 	
 }
 
-function seldata(stringadata){
-	
-	if(stringadata=='sosp'){
-		$$('.page-content').scrollTop(0, 300);
-		$$('.pulsleft').removeClass('activeg');
-		
-	}else{
-		
-		if ($$('#'+stringadata).html() != undefined) {
-			$$('.pulsleft').removeClass('activeg');
-			$$('#div'+stringadata).addClass('activeg');
-			var offsetdata=$('#'+stringadata).offset().top;
-			$$('.page-content').scrollTop(offsetdata, 300);
-		}
-	}
-}
-
-myApp.onPageInit('listaservsosp',function (page) {
-	$$(".page-content").on('scroll', function(){
-		var arraydatescroll=new Array();
-		$$('.selezionadate').each(function() {
-			var altezzadiv=0;
-			var IDdata=$$(this).attr('id');	
-			if($$('#'+IDdata)!="undefined"){
-				altezzadiv=$$('#'+IDdata).offset().top;
-				altezzadiv=parseInt(altezzadiv);
-				if(altezzadiv<0){
-					arraydatescroll[altezzadiv]=IDdata;
-				}
-			}	
-		});
-		
-		var keyordinate=(Object.keys(arraydatescroll)).reverse();
-		//console.log(keyordinate);
-		var primoindice=keyordinate[0];
-		var datasel=arraydatescroll[primoindice];
-		$$('.pulsleft').removeClass('activeg');
-		$$('#div'+datasel).addClass('activeg');
-	});
-
-});
-
+ 
+ 
 function overlayfab(){
 	
 	if($('.fabdiv').hasClass('fabdiv-opened')){
@@ -2469,7 +2477,7 @@ function formattdatamodalpicker(idpicker){
 	
 }
 
-var filtrocondiviso='';
+
 function filtrogenerale(ID,tipo,reset){
 	ID=ID.toString();
 	var filtroval='';
@@ -2479,10 +2487,7 @@ function filtrogenerale(ID,tipo,reset){
 		case 1:
 			filtroval='tipolim'+ID;
 			classe='.servsosp';
-			/*if(filtrocondiviso==''){
-					
-					filtrocondiviso=filtroval;
-			}*/
+ 
 		break;
 		
 		case 2:
@@ -2496,29 +2501,18 @@ function filtrogenerale(ID,tipo,reset){
 		case 4:
 				filtroval='time'+ID;
 				classe='.time';
-				//chiudimodal();
-				/*if(filtrocondiviso==''){
-					filtrocondiviso=filtroval;
-				}*/
+		 
 		break;	
 	}	
-console.log(filtroval);
-	/*if(filtrocondiviso!=''){
-		if(reset!=0){
-			$(classe).fadeIn().filter(':not(.'+filtroval+')').fadeOut(200);	 
-		}else{
-			$(classe).fadeIn(200);
-		}	
-		
-	}else{*/
+ 
+ 
 
 		if(reset!=0){
-			$(classe).fadeIn().filter(':not(.'+filtroval+')').fadeOut(200) ;	 
+			 $(classe).fadeOut(200).filter('.'+filtroval).fadeIn(200);
 		}else{
 			$(classe).fadeIn(200);
 		}	
-	//}
-	
+	 
 	if($('.fabdiv').hasClass('fabdiv-opened')){
 		$('.fabdiv').removeClass('fabdiv-opened');	
 		$('.overlay-speed-dial').removeClass('overlay-speed-visible');
@@ -2526,22 +2520,7 @@ console.log(filtroval);
 	
 }
 
-function scrolliniziale(tipo){
-	switch(tipo){
-		case 1://scroll giu
-			$('.page-content').animate({scrollTop: '500px'}, 500);
-			$('#scrollgiu').fadeOut();
-		
-		break;
-		
-		case 2://scroll su
-			$('.page-content').animate({scrollTop: '0px'}, 500);
-			$('#scrollsu').fadeOut();
-		break;	
-	}
-	
-}
-
+ 
 
 function vistapulize( ){
 	var buttons=new Array();
@@ -2596,29 +2575,165 @@ function scriviorario(val){
 	$('#orariotxt').html(val);
 }
 
-function listaservdate(){
- var pickerdata = $$('#pickerdata').val(); 
-	pickerdata = atob(pickerdata);
-
-	var picker=`<div class="picker-modal smart-select-picker" id="popoverord" > 
-      <div class="toolbar">
-        <div class="toolbar-inner">
-			<div class="left"><strong style="color:#0073cc;">Seleziona giorno</strong></div>
-          <div class="right"><a href="#" class="close-picker">Chiudi</a></div>
-        </div>
-      </div>
-      <div class="picker-modal-inner">
-		  <div class="page-content bcw" >
-			<div class="list-block mt0" >
-				<ul>
-					 `+ eval(pickerdata);+`
-			   </ul>
-		   </div>
-		  </div>
-      </div>
-</div>`;
+ 
+function contattaci(mail,tel){
+	var buttons=new Array();		
 	
-	myApp.pickerModal(picker);
-	popoverord();
+	
+ 		buttons.push(
+					{
+					text: '<div>Scrivici</div>',
+					onClick: function () {
+					 location.href='mailto:'+mail;
+					}
+				});
+	
+		buttons.push(
+					{
+					text: '<div>Chiamaci</div>',
+					onClick: function () {
+ 						location.href='tel:'+tel;
+					}
+				});
+	
+	
+	 var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+		
+		 var groups = [buttons,buttons3];
+  	     myApp.actions(groups);
+}
 
+
+var exist=0;
+var sosp=0;
+function scrollbox(tipo,giorno){
+	switch(tipo){
+			
+		case 1:
+			if(sosp!=0){
+				$('#scrollboxsosp').removeClass('activescrollbox');
+				$('#sosp').fadeOut(200);
+				$('#servizi').fadeIn(200);
+				sosp=0;
+			}
+			if(giorno!=0){
+				$('.scrollboxserv').removeClass('activescrollbox');
+				$('#scrollbox'+giorno).addClass('activescrollbox');
+				
+				if(exist==0){
+					exist=giorno;
+					$('.scrollboxserv').removeClass('activescrollbox');
+					$('#scrollbox'+giorno).addClass('activescrollbox');
+					filtrogenerale(giorno,4);	
+					$('#scrollboxfiltro').fadeIn(200);
+				}else{
+					
+					if(exist==giorno){
+						$('.scrollboxserv').removeClass('activescrollbox');
+						exist=0;
+						filtrogenerale(0,4,0);	
+						$('#scrollboxfiltro').fadeOut(200);
+					}else{
+						exist=giorno;
+						$('.scrollboxserv').removeClass('activescrollbox');
+						$('#scrollbox'+giorno).addClass('activescrollbox');
+						filtrogenerale(giorno,4);	
+						$('#scrollboxfiltro').fadeIn(200);
+					}	
+				}
+				
+ 
+			}else{	
+				filtrogenerale(0,4,0);	
+				$('#scrollboxfiltro').fadeOut(200);
+				$('.scrollboxserv').removeClass('activescrollbox');
+				 exist=0;
+			}
+		break;
+
+		case 0:
+			if(sosp==0){
+				$('.scrollboxserv').not('#scrollboxsosp').removeClass('activescrollbox');
+				$('#scrollboxsosp').addClass('activescrollbox');
+				$('#servizi').fadeOut(200);
+				$('#sosp').fadeIn(200);
+				sosp=1;
+			}else{
+				$('#scrollboxsosp').removeClass('activescrollbox');
+				$('#servizi').fadeIn(200);
+				$('#sosp').fadeOut(200);
+				$('#scrollbox'+exist).addClass('activescrollbox');
+				sosp=0;
+			}
+			
+			
+
+		break;	
+	}
+}
+
+function reloaddata(pren,gg){
+	navigationtxt2(19,pren+','+gg,'modificaserv',0);
+}
+
+function scegli_pers_nuovo_serv(IDpers){
+	var str='';
+	
+	if($('#'+IDpers).hasClass('pers_scelta')){
+		$('#'+IDpers).removeClass('pers_scelta');
+	}else{
+		$('#'+IDpers).addClass('pers_scelta');
+	}
+	
+	$('.scegli_pers.pers_scelta').each(function() {
+	 	var id=$(this).attr('id');
+		str=str+id+',';
+	});
+ 
+	$('#persone_presenti').val(str);
+	
+}
+ 
+function scegli_orario_nuovo_serv(time){
+	$('.scegli_orario').removeClass('ora_scelta');
+	$('#ora'+time).addClass('ora_scelta');
+	
+	var val=$('#ora'+time).attr('value');
+	
+	$('#time_scelto').val(val);	
+}
+
+function completapren(IDserv,IDpren){
+	var id_persone='';
+	var orario='';
+	var note='';
+	
+	var giorno=$('#giorno_nav').val();
+	
+	if($('#persone_presenti').length!=0){
+		id_persone=$('#persone_presenti').val();
+	}
+	
+	if($('#time_scelto').length!=0){
+		orario=$('#time_scelto').val();
+	}
+	
+	if(orario==''){
+		orario='0_'+giorno+'_0';
+	}
+
+	note=$('#note').val();
+ 
+ 
+	
+	var stringa=IDserv+'///'+id_persone+'///'+note+'///'+orario;
+	
+	
+	modprofilo(IDpren,stringa,44,10,12);
+
+ 
 }

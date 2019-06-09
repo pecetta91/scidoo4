@@ -1,29 +1,13 @@
 @charset "utf-8";
 /* CSS Document */
 
-.impriga{
-    padding: 15px;
-    margin-top: 0px;
-    background: #fff;
-    font-weight: 600;
-    font-size: 13px;
-    color: #333;
-}
+.impriga{ padding: 15px; margin-top: 0px; background: #fff; font-weight: 600;  font-size: 13px; color: #333;}
 
-.infobon{
-    font-weight: 100;
-}
+.infobon{font-weight: 100; }
 .carteriga
-{
-	    -webkit-justify-content: unset;
-    justify-content: unset;
-}
-.navfoto{
-	    background: #203a93 !important;
-}
-.biancotool{
-	color:#fff !important;
-}
+{-webkit-justify-content: unset; justify-content: unset;}
+.navfoto{background: #000 !important;}
+.biancotool{color:#fff !important;}
 
 /* === Stepper === */
 .stepper {
@@ -331,7 +315,7 @@
 .rigaservizi{background:#fff; border-top:solid 1px #e1e1e1; border-bottom:solid 1px #e1e1e1; height:45px; background:#fcfcfc; margin-top:-30px; padding:5px; padding-top:10px; margin-bottom:10px; }
 .colrigaservizi{text-align:center; color:#222; border-left:solid 1px #ccc; line-height:17px; font-size:13px; font-weight:600;}
 .colrigaservizi:first-child{border-left:none;}
-.modificaelenco{float:right; font-size:12px; color:#666; margin-right:10px; margin-top:10px;}
+.modificaelenco{float:right; font-size:12px; color:#666; margin-right:10px; margin-top:5px;}
 .promemoriaserv{font-size:14px; color:#e4492b;  padding:5px; font-weight:600; }
 .h80{height: 80px}
 .h85{height: 85px}
@@ -1031,7 +1015,7 @@ label.label-checkbox input[type="radio"]:checked + .item-innernew .item-media i.
 .elencoservdiv .nome{word-break: break-all}
 .ilservizio::after{content: '';border-bottom: 2px solid #4327da;display: block; width: 35px;}
 
-.servsosp{margin-left:70px;padding:0px 5px;margin-bottom:45px;text-align:left;vertical-align:middle;position:relative;width:70%}
+.servsosp{margin-left:20px;padding:0px 5px;margin-bottom:45px;text-align:left;vertical-align:middle;position:relative;}
 .servsosp .foto{top:0;margin-left:-65px;height:50px;width:50px;border-radius: 50%;position: absolute;background-position: center center;background-repeat: no-repeat;background-size: cover;}
 .servsosp .nome::after{content: '';border-bottom: 2px solid #4327da;display: block; width: 35px;}
 
@@ -1075,4 +1059,30 @@ transition-duration: 300ms; display: flex; align-items: center;justify-content: 
 .button-hover-row{position:Absolute;left:50%;top:0px;transform:translate(-50%,-50%);z-index:11;width:95%}
 .button-hover-btn{width:calc(50% - 15px);height:80px;border-radius:5px;background:#007aff;margin-right:20px;box-shadow:0px 5px 15px rgba(0,0,0,0.3);text-align:center	;display:inline-block;}
 .button-hover-btn.c2{background:#F0B62F;margin-right: 0px}
-.button-hover-btn.c3{width:calc(95% - 15px);background:#6200ee;margin-right:0px;box-shadow:0px 5px 15px rgba(0,0,0,0.3);text-align:center}
+.button-hover-btn.c3{width:calc(100% - 5px);background:#6200ee;margin-right:0px;box-shadow:0px 5px 15px rgba(0,0,0,0.3);text-align:center}
+
+.scrollboxserv{width:110px;height:100px;border-radius:5px;margin:0px 5px;display: inline-block;box-shadow: 0px 3px 4px 1px rgba(0,0,0,0.25);color:#6200ee;background: #fff;position: relative;}
+.activescrollbox{background: #6200ee;color: #fff;}
+
+.scrollboxsosp{color:#b0294c !important;}
+.activescrollbox.scrollboxsosp{background: #b0294c !important;color: #fff !important;}
+.scrollboxtxt{position: absolute;width: calc(100% - 5px);border-bottom:1px solid;line-height:25px;padding-left:5px;font-size: 14px;}
+.scrollboxnum{position: absolute;font-size:40px;bottom:0px;left: 10px}
+
+
+.scroll_prenota_data{width:60px;height:80px;border:1px solid #e1e1e1;border-radius:0;color:#000;margin: 0px 5px;display: inline-block;text-align: center;position: relative}
+.scroll_prenota_data.data_scelta{background:#6200ee;color: #fff;border-color: #6200ee }
+.scroll_prenota_data .d1{position: absolute;font-size: 14px; width:100%;line-height: 25px;}
+.scroll_prenota_data .d2{position: absolute;font-size:30px;bottom:20px;width:100%;left:0;}
+.scroll_prenota_data .d3{position:absolute;width:100%;line-height: 25px;font-size: 14px;bottom:0}
+
+.scegli_pers{text-align:center;line-height:40px;border:1px solid #e1e1e1;display:inline-block;min-width:60px;padding:0px 5px;margin:0px 5px;font-size:16px;}
+.scegli_pers.pers_scelta{background:#6200ee;color: #fff;border-color: #6200ee}
+
+.scegli_orario{text-align:center;line-height:40px;border:1px solid #e1e1e1;font-size:16px;width:calc(100% - 5px)}
+.scegli_orario.ora_scelta{background:#6200ee;color: #fff;border-color: #6200ee}
+.no-before.list-block ul:before,.no-after.list-block ul:after{height: 0px;}
+.accordion_info a{    border-radius: 5px;  border: 1px solid #e1e1e1 !important;}
+.accordion_info .accordion-item-content{margin-top: 10px; }
+.accordion_info .content-block{border: none;}
+.accordion_info .testo_info{margin: 10px;}
