@@ -42,7 +42,16 @@ var paginaora = 0;
 $$(document).on('page:init', function(e) {
 	paginaora++;
 	location.href = '#' + paginaora;
+	eval($('.esegui').html());
+	$('.esegui').remove();
 });
+
+function esegui_funzione(funzione){
+	funzione=atob(funzione);
+	eval(funzione);
+}
+
+
 var requestajax = 0;
 var stopexec = 0;
 var timeoutback = 0;
@@ -105,9 +114,6 @@ $$(document).on('page:back', function(e) {
 			case 'promemoriaserv':
 				navigationtxt2(10, 0, 'promemoriaservdiv', 0);
 				break;
-			case 'promemoriaserv':
-				navigationtxt2(10, 0, 'promemoriaservdiv', 0);
-				break;
 			case 'arrivi':
 				var timearrivi = $('#timearrivi').val();
 				navigationtxt(17, timearrivi, 'arrividiv', 0);
@@ -135,9 +141,12 @@ $$(window).on('popstate', function(e) {
 //var baseurl='http://192.168.1.106/milliont/';
 //var baseurl='http://192.168.1.47/milliont/';
 //var baseurl = 'http://188.11.58.203:108/milliont/';
-
 //var baseurl = 'http://188.11.58.195:108/milliont/';
+//var baseurl='http://5.249.144.194/scidoo/';
 var baseurl='https://www.scidoo.com/';
+
+//var baseurl='https://test.scidoo.com/scidoo/';
+
 var versione = 'v22';
 
 function getUrlVars() {
@@ -240,6 +249,8 @@ function sendform2() {
 			if (num == -1) {
 				window.localStorage.setItem("IDcode", data);
 				IDcode = data;
+				
+				 
 				navigation(1, '', 7);
 			} else {
 				myApp.addNotification({
@@ -447,6 +458,9 @@ var reloadnav = 0;
 var reloadnavadd = 0;
 var myPhoto = new Array();
 
+var notifiche_reload=0;
+
+
 function navigation(id, str, agg, rel) {
 	var url = baseurl + versione + "/";
 	id = parseInt(id);
@@ -457,7 +471,7 @@ function navigation(id, str, agg, rel) {
 	apriurl[3] = 'config/detpren.php';
 	apriurl[4] = 'config/centrobenessere.php';
 	apriurl[5] = 'config/ristorante.php';
-	apriurl[6] = 'config/pulizie.php';
+	apriurl[6] = 'config/pulizie_cont.php';//pulizie.php
 	apriurl[7] = 'config/arrivi.php';
 	apriurl[8] = 'config/prenotazioni.php';
 	apriurl[9] = 'config/clienti.php';
@@ -532,7 +546,6 @@ function navigation(id, str, agg, rel) {
 						content: data,
 						reload: true
 					});
-					//alert('ok');
 					break;
 				case 2:
 					//alert(data);
@@ -544,13 +557,14 @@ function navigation(id, str, agg, rel) {
 					}, 250);
 					break;
 				default:
-					//pageprev=mainView.activePage.name;
-					//  alert(pageprev);
 					mainView.router.load({
 						content: data
 					});
 					break;
 			}
+
+
+
 			//alert(agg);
 			//mainView.router.loadContent({content:data,force:true});
 			switch (agg) {
@@ -677,19 +691,36 @@ function navigation(id, str, agg, rel) {
 					}, timeout);
 					break;
 				case 4: //pulizia
-					timeout = 0;
-					if (rel == 2) {
-						timeout = 500;
+
+				calen2(6,7,2);
+
+				$('.notifiche_tab').each(function(){
+					var alt=$(this).attr('alt');
+					var val=$(this).val();
+
+					if(val>0){
+						$('#t'+alt).append('<div class="numero_not_giorn"> '+val+' </div>');
+					}else{
+						$('#t'+alt+' .numero_not_giorn').remove();
 					}
-					setTimeout(function() {
-						var mySwiper = myApp.swiper(' .sw2', {
-							spaceBetween: 10,
-							slidesPerView: 1
-						});
-						var sslide = $$('.giornosel').attr('padre');
-						mySwiper.slideTo(sslide, 400);
-						calen2(6, 4, 2);
-					}, timeout);
+
+				});
+
+				/*
+					$('#puliziediv .body').scroll(function() {
+						$('#puliziediv .header').scrollLeft($(this).scrollLeft());
+					});
+					$('#puliziediv .body').scroll(function() {
+						$('#puliziediv .side').scrollTop($(this).scrollTop());
+					});
+
+
+					
+					var h=parseInt($('.page-content ').innerHeight() - 51);
+					$('#puliziediv').css('height',h+'px');
+
+					console.log(h);*/
+					
 					break;
 				case 5:
 					timeout = 0;
@@ -717,20 +748,10 @@ function navigation(id, str, agg, rel) {
 					mySwiper2.slideTo(sslide, 400);
 					break;
 				case 7:
-					$('.page-content').scroll(function() {
-						var height = $('#contenutodiv').height();
-						var scroll = $(this).scrollTop();
-						if (scroll > 400) {
-							$('#scrollgiu').fadeOut();
-						}
-						var scrollsu = height - 1000;
-						if (scroll > scrollsu) {
-							$('#scrollsu').fadeIn();
-						} else {
-							$('#scrollsu').fadeOut();
-						}
-					});
+					 
 					modalfirstentryospiti();
+					 notifiche_reload=setInterval('reload_notifiche_mess()',60000); //notifiche chat
+
 					//menuprofilo();
 					break;
 				case 8:
@@ -1101,21 +1122,23 @@ function navigationtxt(id, str, campo, agg, loader) {
 	//alert(id);
 	//alert(url);
 	//alert('TXT'+id);
+	//console.log(url,campo);
 	query = new Array();
 	query['IDcode'] = IDcode;
 	var str = new String(str);
 	//alert(str);
+	//console.log(str);
 	if (str.length > 0) {
 		var vettore = str.split(',');
 		if (vettore.length > 0) {
 			for (prop in vettore) {
 				query['dato' + prop] = vettore[prop];
-				//alert(query['dato'+prop]);
 			}
 		} else {
 			query['dato0'] = str;
 		}
 	}
+	//console.log(query);
 	myApp.showIndicator();
 	requestajax = $$.ajax({
 		url: url,
@@ -1126,11 +1149,13 @@ function navigationtxt(id, str, campo, agg, loader) {
 		data: query,
 		success: function(data) {
 			//alert(data);
+			//console.log(data);
 			myApp.hideIndicator();
 			if (stopexec == 1) {
 				return false;
 			}
-			$$('#' + campo).html(data);
+		 
+			$('#' + campo).html(data);
 			//alert(id);
 			if (id == 3) {
 				//alert(scrollcal);
@@ -1294,6 +1319,7 @@ function navigationtxt(id, str, campo, agg, loader) {
 					$$('#' + query['dato0']).addClass('selected');
 					break;
 				case 7:
+
 					break;
 				case 8:
 					var myCalendar = myApp.calendar({
@@ -1535,38 +1561,8 @@ function navigationtxt(id, str, campo, agg, loader) {
 					//calen2(17,'arrividiv',17);
 					break;
 				case 18:
-					//ricarca slider
-					setTimeout(function() {
-						var swiper = myApp.swiper('.swp', {
-							pagination: '.swiper-pagination',
-							spaceBetween: 0,
-							centeredSlides: true,
-							slidesPerView: 'auto'
-						});
-						var swiper2 = myApp.swiper('.swp-img', {
-							pagination: '.swiper-pagination',
-							spaceBetween: 50,
-							autplay: true,
-							slidesPerView: 'auto'
-						});
-						if ($('.swp-menu').length > 0) {
-							var swiper3 = myApp.swiper('.swp-menu', {
-								pagination: '.swiper-pagination',
-								spaceBetween: 10,
-								centeredslides: 'true',
-								slidesPerView: 'auto'
-							});
-						}
-						
-						if ($('.swp-serv').length > 0) {
-							var swiper4= myApp.swiper('.swp-serv', {
-								pagination: '.swiper-pagination',
-								centeredslides: 'true',
-								slidesPerView: 'auto'
-							});
-						}
-					}, 200);
-					
+				 
+				 
 					
 					break;
 				case 19:
@@ -1663,31 +1659,13 @@ function generanotti(data, campo, nottisel) {
 		$$('#nottiafter').html(arr['1']);
 	});
 }
-/*
-mainView.history = [];
-document.addEventListener('backbutton', function (e) { e.preventDefault();});
-// Check for go back in history /
-var view = myApp.getCurrentView();
-if (!view) return;
-if (view.history.length > 1) { view.router.back(); return; }
-*/
+
+
 onloadf(0);
 
 function onloadf(time) {
-	//myApp.showIndicator();
-	//setTimeout(function(){ hidelo(); }, 5000);
-	//  alert('onload')
-	//alert('3');
-	//IDcode=window.localStorage.getItem("IDcode");
-	//  alert(IDcode);
-	//IDcode2=new String(IDcode);
-	//var h = window.innerHeight;
-	//creasessione(h,86);
-	//alert(IDcode2);
-	//if(IDcode2.length>10){
-	//alert('4');
+
 	var url = baseurl + versione + '/config/controlloini.php';
-	//var IDnotpush=$$('#IDnotpush').val();
 	$$.ajax({
 		url: url,
 		method: 'POST',
@@ -1705,36 +1683,24 @@ function onloadf(time) {
 					agg = 0;
 					if (data == 1) agg = 7;
 					azzerastoria();
-					navigation(data, '', agg, 1);
+
+					var device_width=$(window).width();
+
+					navigation(data, device_width, agg, 1);
 					notifpush(1);
 				} else {
-					//alert('5');
 					vislogin();
-					//navigation(32,0,0,0);//indexmobile
 				}
 			} else {
-				//alert('6');
 				vislogin();
-				//navigation(32,0,0,0);//indexmobile
 			}
-			//myApp.hideIndicator();
-			//mainView.router.loadContent(data);
 		},
 		error: function(data) {
 			vislogin();
-			// navigation(32,0,0,0);//indexmobile
 			myApp.hideIndicator();
 		}
 	});
-	/*  }else{
 
-
-	//alert('cc');
-	//var IDnotpush=$$('#IDnotpush').val();
-	vislogin();
-
-	myApp.hideIndicator();
-	}*/
 }
 
 function notifpush(tipo) {
@@ -1838,17 +1804,20 @@ function modprofilo(id, campo, tipo, val2, agg) {
 		data: query,
 		success: function(data) {
 			//alert(data);
+			console.log(data);
 			//clearTimeout();
-			if (agg == 3) {
-				myApp.addNotification({
-					message: 'Servizio prenotato con successo',
-					hold: 1200
-				});
-			} else {
-				myApp.addNotification({
-					message: 'Modifica Salvata',
-					hold: 1200
-				});
+			if(agg!=14){
+				if (agg == 3) {
+					myApp.addNotification({
+						message: 'Servizio prenotato con successo',
+						hold: 1200
+					});
+				} else {
+					myApp.addNotification({
+						message: 'Modifica Salvata',
+						hold: 1200
+					});
+				}
 			}
 			myApp.hideIndicator();
 			switch (agg) {
@@ -1856,13 +1825,33 @@ function modprofilo(id, campo, tipo, val2, agg) {
 					navigationtxt(25, 0, 'contenutodiv', 13);
 					break;
 				case 2:
-					navigationtxt(24, 0, 'contenutodiv', 0);
-					if (tipo == 7) {
+					azzerastoria();
+					navigation(1,0,0,0);
+					//navigationtxt(24, 0, 'contenutodiv', 0);
+
+					if(val==3){
+						myApp.addNotification({
+							message: 'Prenotazione in attesa di conferma',
+							custom:'<div class="item-title">Prenotazione in attesa di conferma</div>',
+							hold: 2000
+						});
+					}else{
+						myApp.addNotification({
+							message: 'Prenotazione confermata con successo!',
+							custom:'<div class="item-title">Prenotazione confermata con successo!</div>',
+							hold: 2000
+						});
+					}
+						
+
+ 						/*
+
 						myApp.addNotification({
 							message: 'Ha appena ricevuto una copia della mail inviata alla struttura.',
 							hold: 2000
 						});
-					}
+
+ 						*/
 					break;
 				case 3:
 					mainView.router.back();
@@ -1922,12 +1911,20 @@ function modprofilo(id, campo, tipo, val2, agg) {
 						message: 'Prenotazione confermata con successo!',
 						hold: 2000
 					});
+					azzerastoria();
+					navigation(1,0,0,0);
 					
 					//servizio_premuto=data;
 					//filtro_servizio=0;exist=0;sosp=0;
-					//azzerastoria();
-					//navigation2(20,0,9,0);
+					//
+					//
 				break;	
+				case 13:
+					elimina_popup();
+				break;
+				case 14: 	//agg messaggi
+					navigationtxt2(20,0,'messaggi',5,1);
+				break;
 			}
 		},
 		error: function(data) {
@@ -2155,6 +2152,7 @@ function modprenextra(id, campo, tipo, val2, agg) {
 		data: query,
 		success: function(data) {
 			//clearTimeout();
+			//console.log(data);
 			myApp.addNotification({
 				message: 'Modifica effettuata con successo',
 				hold: 1700
@@ -2261,7 +2259,15 @@ function modprenextra(id, campo, tipo, val2, agg) {
 							exist=0;
 						}
 					}
+				break;
+				case 31:
+					ricarica_addebito();
 				break;	
+				case 32:
+					var IDserv=parseInt(data);
+					nascondi_addebito(IDserv);
+				break;	
+					
  
 			}
 			myApp.hideIndicator();
@@ -2338,8 +2344,10 @@ function modprenot(id, campo, tipo, val2, agg, notifica) {
 	var url = baseurl;
 	var url = url + 'config/gestioneprenot.php';
 	//alert(val);
+	//console.log(val,tipo,id);
 	var query = { val: val, tipo: tipo, ID: id, val2: val2 };
 	//alert(url);
+
 	$$.ajax({
 		url: url,
 		method: 'POST',
@@ -2362,6 +2370,7 @@ function modprenot(id, campo, tipo, val2, agg, notifica) {
 					});
 				}
 			}
+			//console.log(data);
 			myApp.hideIndicator();
 			switch (agg) {
 				case 1:
@@ -2426,8 +2435,22 @@ function modprenot(id, campo, tipo, val2, agg, notifica) {
 					chiudimodal();
 					break;
 				case 14://pulizie
-					var tempog=$$('#time').val()+',0';
-					navigationtxt(15,tempog,'puliziediv',0,1);
+					//navigation(6,0,0,2);
+					var schermata_pul=$('#schermata_pul').val();
+
+					if(schermata_pul==0){
+						//$('.button.tab-link.active').attr('onclick');
+						navigationtxt2(23,'','pulizie_div_cont',7);	
+					}else{
+						navigationtxt2(24,'','pulizie_div_cont',7);
+					}
+
+					//var tempog=$$('#time').val()+',0';
+					//navigationtxt(15,tempog,'puliziediv',0,1);
+					//navigationtxt(15,0,'puliziediv',0,1);
+				break;
+				case 15://chat struttura
+					navigationtxt2(22,id,'messaggi',5,1);
 				break;
 			}
 		},
@@ -4260,44 +4283,32 @@ function salvarecensione() {
 }
 
 function azionevideo(id, stato) {
-	/*var statopulizia = $$("#stati").val();
-	var arraystato = statopulizia.split(',');
-	var lun= arraystato.length;*/
-	//perche' scorri due volte questo array se lo hai gia' fatto in PHP?
+ 
 	var buttons = new Array();
 	var buttons2 = new Array();
-	/*for(var i=0; i<lun;i++){
-
-	var arraystato2  = arraystato[i].split('_');
-
-
-	if(stato!=arraystato2['1'])
-	{*/
-	var valorebtn = $$('#valorebtn' + id).val(); //come facevi prima ad identifica un valorebtn senza id? Ne avevi uno per ogni appartamento! sei stato fortunato che ne e' attivo uno - stampava due volte perche' lun e' uguale a 2
+	
+	/*
+	buttons.push({
+			text: '<div>Crea ticket</div>',
+			onClick: function (){}
+	});
+	
+	buttons.push({
+			text: '<div>Visualizza ticket</div>',
+			onClick: function (){}
+	});*/
+ 
+	var valorebtn = $$('#valorebtn' + id).val();  
 	valorebtn = atob(valorebtn);
 	eval(valorebtn);
-	/*  }
-
-	}*/
-	/*
-
-
-	var buttons2 = [
-				{
-				text: '<div>Apri Dettaglio</div>',
-
-				onClick: function () {
-			navigation(23,id,0,0)
-				}
-			}];
-			*/
+ 
 	var buttons3 = [{
 		text: '<div class="lastbutton-modal">Chiudi</div>'
 	}];
 	 
 	
 	if(buttons==1){
-		var groups = [buttons2,  buttons3];
+		var groups = [buttons2, buttons3];
 	}else{
 		var groups = [buttons2,buttons, buttons3];
 	}
@@ -4315,7 +4326,7 @@ function notificaprova() {
 var myCalendar2;
 
 function calen2(id, agg, rel) {
-	//
+	//calen2(6, 4, 2);
 	myCalendar2 = myApp.calendar({
 		header: false,
 		footer: false,
@@ -4343,6 +4354,26 @@ function calen2(id, agg, rel) {
 				datistr = tempo;
 			}
 			*/
+
+			if(id==6){
+				var schermata=$('#schermata_pul').val();
+				var idtxt=23;
+				if(schermata==1){
+					idtxt=24;
+				} 
+				if(tempo!=tempotime){
+					navigationtxt2(idtxt,tempo,'pulizie_div_cont',agg);
+					myCalendar2.close();
+					$('#tempotime').val(tempo); 
+					var datan= new Date(values);
+					var mese=datan.getMonth();
+					var g=datan.getDate();
+					$('#datacalen').html(g+' '+monthNamesShort[mese]);
+				}
+				
+				return false;
+			}
+
 			
 			if (tempotime == 0) {
 				navigation(id, datistr, agg, rel);
@@ -4363,7 +4394,8 @@ function calen2(id, agg, rel) {
 function chiudimodal() {
 	myApp.closeModal();
 	myApp.closePanel();
-	rimuovioverlay();
+	//rimuovioverlay();
+	$('#divsottoover').fadeOut(100);
 }
 
 function pulsservizio(agg) {

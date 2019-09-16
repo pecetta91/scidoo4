@@ -11998,6 +11998,7 @@ return t7;
             // Handle Drop Down Click
             function handleDropdownClick (e) {
                 /*jshint validthis:true */
+               // alert('cc');
                 var clicked = $(this);
                 var clickedItem;
                 for (var i = 0; i < a.items.length; i++) {
@@ -12012,6 +12013,9 @@ return t7;
                     a.input.trigger('input change');
                 }
         
+                //alert('bbb');
+
+
                 if (a.params.onChange) {
                     a.params.onChange(a, clickedItem);
                 }
@@ -12239,7 +12243,9 @@ return t7;
                 if (a.opened) return;
                 a.opened = true;
                 if (a.params.openIn === 'dropdown') {
+
                     if (!a.dropdown) {
+
                         a.dropdown = $(a.dropdownTemplate({
                             preloader: a.params.preloader,
                             preloaderColor: a.params.preloaderColor,
@@ -12322,12 +12328,16 @@ return t7;
                 if (a.params.openIn === 'dropdown' && a.input) {
                     a.input[method]('focus', a.open);
                     a.input[method]('input', handleInputValue);
-                    if (app.device.android) {
+                   // console.log('cc');
+                    //alert();
+                     $('html')[method]('click', closeOnHTMLClick);
+                    /*if (app.device.android) {
+                      alert('ddd');
                         $('html')[method]('click', closeOnHTMLClick);
                     }
                     else {
                         a.input[method]('blur', a.close);
-                    }
+                    }*/
                 }
                 if (detach && a.dropdown) {
                     a.dropdown = null;

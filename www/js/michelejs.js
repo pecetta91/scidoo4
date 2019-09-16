@@ -1,3 +1,27 @@
+
+var tipo_tel=2;
+$(document).ready(function(){
+  var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      // Windows Phone must come first because its UA also contains "Android"
+    if (/windows phone/i.test(userAgent)) {
+       console.log("Windows Phone");
+       tipo_tel=1;
+    }
+
+    if (/android/i.test(userAgent)) {
+      console.log("Android");
+       tipo_tel=2;
+    }
+
+    // iOS detection from: http://stackoverflow.com/a/9039885/177710
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+      console.log("iOS");
+       tipo_tel=3;
+    } 
+});
+
+
+
 function navigationtxt2(id,str,campo,agg,loader){
 	/*if(IDcode=='undefined'){
 		onloadf(1);
@@ -5,8 +29,35 @@ function navigationtxt2(id,str,campo,agg,loader){
 	//reloadnav=0;
 	//alert(id);
 	var url=baseurl+versione+"/config/";
-	
-	var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php','profilo/pren/nuovoserv.inc.php','detaddpren.inc.php','profilo/modificaservospite.inc.php');//19
+	var apriurl=[];
+
+	apriurl[0]='profilo/pren/prenotaservnuovostep1.php';
+	apriurl[1]='profilo/pren/prenotaservnuovostep2.php';
+	apriurl[2]='profilo/pren/prenotaservnuovostep3.php';
+	apriurl[3]='profilo/pren/prenotaservnuovostep4.php';
+	apriurl[4]='profilo/pren/prenotaservnuovostep5.php';
+	apriurl[5]='profilo/pren/prenotaservnuovostep6.php';
+	apriurl[6]='profilo/elencoserv.inc.php';
+	apriurl[7]='profilo/serviziattivi.inc.php';
+	apriurl[8]='profilo/check-in.inc.php';
+	apriurl[9]='profilo/autoricercascript.php';
+	apriurl[10]='profilo/promemoriaserv.inc.php';
+	apriurl[11]='profilo/pren/nuovoserv.php';
+	apriurl[12]='profilo/menurist.inc.php';
+	apriurl[13]='preventivo/step4-agenzia.php';
+	apriurl[14]='detristotav.inc.php';
+	apriurl[15]='aggiungipiatti.inc.php';
+	apriurl[16]='profilo/servizisosp.inc.php';
+	apriurl[17]='profilo/pren/nuovoserv.inc.php';
+	apriurl[18]='detaddpren.inc.php';
+	apriurl[19]='profilo/modificaservospite.inc.php';
+	apriurl[20]='profilo/messaggi_reload.php';
+	apriurl[21]='chat_prenotazione.inc.php';
+	apriurl[22]='messaggi_prenotazione_reload.php';
+	apriurl[23]='pulizie_giorno.php';
+	apriurl[24]='puliziev2.php';
+
+	//var apriurl=new Array('profilo/pren/prenotaservnuovostep1.php','profilo/pren/prenotaservnuovostep2.php','profilo/pren/prenotaservnuovostep3.php','profilo/pren/prenotaservnuovostep4.php','profilo/pren/prenotaservnuovostep5.php','profilo/pren/prenotaservnuovostep6.php','profilo/elencoserv.inc.php','profilo/serviziattivi.inc.php','profilo/check-in.inc.php','profilo/autoricercascript.php','profilo/promemoriaserv.inc.php','profilo/pren/nuovoserv.php','profilo/menurist.php','preventivo/step4-agenzia.php','detristotav.inc.php','aggiungipiatti.inc.php','profilo/servizisosp.inc.php','profilo/pren/nuovoserv.inc.php','detaddpren.inc.php','profilo/modificaservospite.inc.php');//19
 	var url=url+apriurl[id];
 	//alert(id);
 	 //alert(url);
@@ -28,7 +79,10 @@ function navigationtxt2(id,str,campo,agg,loader){
 			query['dato0']=str;
 		}
 	}	
-	myApp.showIndicator();
+	if(loader!=1){
+		myApp.showIndicator();
+	}
+	
 	$$.ajax({
             url: url,
                 method: 'GET',
@@ -64,14 +118,73 @@ function navigationtxt2(id,str,campo,agg,loader){
 							$('.scroll_prenota_data').removeClass('data_scelta');
 							$('#prenota_data'+query['dato1']).addClass('data_scelta');
 							var alt=$('#prenota_data'+query['dato1']).attr('alt');
-							
+									
 							if(alt=='no_prenota'){
-								$('#prenotaora').attr('disabled',true);
+							 
+									$('#prenotaora').fadeOut(200);
 							}else{
-								$('#prenotaora').attr('disabled',false);
+					 
+								$('#prenotaora').fadeIn(200);
 							}
 							
-			 			break;			
+			 			break;	
+			 			case 5://messaggi
+
+							var myMessages = myApp.messages('.messages', {
+   								 autoLayout: true
+							}); 
+
+							myMessages.scrollMessages();
+			 			break;
+			 			case 6:
+			 				var serv_prenotato=$('#serv_prenotato').val();
+
+			 				if(parseInt(serv_prenotato)==0){
+			 					$('#btn_menu').fadeIn(200);
+			 				}else{
+			 					$('#btn_menu').fadeOut(200);
+			 				}
+			 			break;	
+			 			case 7:
+			 				var tipo_schermo=$('#schermata_pul').val();
+
+
+			 				if(tipo_schermo==0){
+		 						$('.sub_tab').fadeIn();
+
+			 						$('.notifiche_tab').each(function(){
+			 							var alt=$(this).attr('alt');
+			 							var val=$(this).val();
+
+			 							if(val>0){
+			 								$('#t'+alt).append('<div class="numero_not_giorn"> '+val+' </div>');
+			 							}else{
+			 								$('#t'+alt+' .numero_not_giorn').remove();
+			 							}
+			 						});
+
+			 						var tabact=$('.button.tab-link.active').attr('alt');	
+
+			 						cambia_tab_pul(tabact);
+			 				}else{
+			 					$('.sub_tab').css('display','none');
+			 					$('#puliziediv .body').scroll(function() {
+									$('#puliziediv .header').scrollLeft($(this).scrollLeft());
+								});
+								$('#puliziediv .body').scroll(function() {
+									$('#puliziediv .side').scrollTop($(this).scrollTop());
+								});
+								
+								var h=parseInt($('.page-content ').innerHeight() - 51);
+								$('#puliziediv').css('height',h+'px');
+
+								console.log(h);
+
+
+			 				}
+   
+			 			break;
+ 
 						
 					}
 					loadstaticios();
@@ -84,7 +197,9 @@ function navigationtxt2(id,str,campo,agg,loader){
      });	
 }
 
+var messaggi_reload=0;
 var servizio_premuto=0;
+var chat_profilo_reload=0;
 
 function navigation2(id,str,agg,rel){
 	
@@ -94,7 +209,41 @@ function navigation2(id,str,agg,rel){
 	
 	id=parseInt(id);	
 	
-	var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php','config/metodipag.php','config/detristotav.php','config/profilo/infoprenotazione.php','config/profilo/servizisosp.php','config/profilo/modificaservospite.php','config/detaddpren.php');
+	var apriurl=[];
+	apriurl[0] = 'config/profilo/metodopag.php';
+	apriurl[1] = 'config/profilo/galleria.php';
+	apriurl[2] = 'config/profilo/fotoalbum.php';
+	apriurl[3] = 'config/profilo/elencoluoghi.php';
+	apriurl[4] = 'config/profilo/pren/prenotaservnuovo.php';
+	apriurl[5] = 'config/profilo/elencoserv2.php';
+	apriurl[6] = 'config/profilo/serviziattivi.php';
+	apriurl[7] = 'config/profilo/infoutili.php';
+	apriurl[8] = 'config/profilo/contatti.php';
+	apriurl[9] = 'config/registrazione.php';
+	apriurl[10] = 'config/profilo/check-in.php';
+	apriurl[11] = 'config/profilo/privacypol.php';
+	apriurl[12] = 'config/profilo/promemoriaserv.php';
+	apriurl[13] = 'config/profilo/pren/nuovoserv.php';
+	apriurl[14] = 'config/profilo/menurist.php';
+	apriurl[15] = 'config/profilo/servizisospesi.php';
+	apriurl[16] = 'config/cambiadatapren.php';
+	apriurl[17] = 'config/metodipag.php';
+	apriurl[18] = 'config/detristotav.php';
+	apriurl[19] = 'config/profilo/infoprenotazione.php';
+	apriurl[20] = 'config/profilo/servizisosp.php';
+	apriurl[21] = 'config/profilo/modificaservospite.php';
+	apriurl[22] = 'config/detaddpren.php';
+	apriurl[23] = 'config/profilo/luoghi.php';
+	apriurl[24] = 'config/profilo/itinerario.php';
+	apriurl[25] = 'config/profilo/elenco_luoghi.php';
+	apriurl[26] = 'config/profilo/elenco_itinerari.php';
+	apriurl[27] = 'config/profilo/elenco_serv_new.php';
+	apriurl[28] = 'config/profilo/elenco_serv_dettaglio.php';
+	apriurl[29] = 'config/profilo/check-in_new.php';
+	apriurl[30] = 'config/profilo/messaggi.php';
+	apriurl[31] = 'config/chat_prenotazione.php';
+	apriurl[32]='config/messaggi_prenotazione.php';
+	//var apriurl=new Array('config/profilo/metodopag.php','config/profilo/galleria.php','config/profilo/fotoalbum.php','config/profilo/elencoluoghi.php','config/profilo/pren/prenotaservnuovo.php','config/profilo/elencoserv2.php','config/profilo/serviziattivi.php','config/profilo/infoutili.php','config/profilo/contatti.php','config/registrazione.php','config/profilo/check-in.php','config/profilo/privacypol.php','config/profilo/promemoriaserv.php','config/profilo/pren/nuovoserv.php' ,'config/profilo/menurist.php','config/profilo/servizisospesi.php','config/cambiadatapren.php','config/metodipag.php','config/detristotav.php','config/profilo/infoprenotazione.php','config/profilo/servizisosp.php','config/profilo/modificaservospite.php','config/detaddpren.php');
 	//last 22
 	
 	var url=url+apriurl[id];
@@ -112,6 +261,7 @@ function navigation2(id,str,agg,rel){
 	//alert(IDcode);
 	var str=new String(str);
 	
+
 	
 	
 	if(str.length>0){
@@ -139,7 +289,8 @@ function navigation2(id,str,agg,rel){
                 data: query,
                 success: function (data) {
 					
-					 //alert(data);
+					//alert(data);	
+					 //console.log(data);
 					
 					myApp.hideIndicator();
 					clearTimeout();
@@ -186,15 +337,26 @@ function navigation2(id,str,agg,rel){
 								scorristep(0,str);
 						break;
 						case 3:
-								var mySwiper=myApp.swiper(' .sw1', {
-									 spaceBetween: 10,
-  									 slidesPerView: 1});
-							
-								var sslide=$$('.giornosel').attr('padre');
-								mySwiper.slideTo(sslide,400);
+							var mySwiper=myApp.swiper(' .sw1', {
+								 spaceBetween: 10,
+									 slidesPerView: 1});
+						
+							var sslide=$$('.giornosel').attr('padre');
+							mySwiper.slideTo(sslide,400);
+
+							var serv_prenotato=$('#sotto'+query['dato0']).attr('alt');
+
+			 				if(parseInt(serv_prenotato)==0){
+			 					$('#btn_menu').fadeIn(200);
+			 				}else{
+			 					$('#btn_menu').fadeOut(200);
+			 				}
+ 	
 						
 						break;
 						case 4:
+
+						/*
 							timeout=0;
 							if(rel==2){
 								timeout=500;
@@ -207,6 +369,7 @@ function navigation2(id,str,agg,rel){
 								var sslide=$$('.giornoselserv').attr('padre');
 								mySwiper.slideTo(sslide,400);
 							},timeout);
+							*/
 						break;	
 						case 5: //load checkin
 							/*
@@ -340,15 +503,202 @@ function navigation2(id,str,agg,rel){
 							filtro_servizio=0;
 						break;	
 						case 12:
-							
-							var alt=$('#serv'+query['dato0']).attr('alt');
-							
+								var alt=$('#serv'+query['dato0']).attr('alt'); 
 								if(alt=='no_prenota'){
-									$('#prenotaora').attr('disabled',true);
+									$('#prenotaora').fadeOut(200);
+								 
 								}else{
-									$('#prenotaora').attr('disabled',false);
+									$('#prenotaora').fadeIn(200);
+									 
 								}
 						break;	
+						case 13:
+
+							$('#luoghi_page').scroll(function() {
+								var off2=Math.round($('#navbar_sotto').offset().top);
+								if(off2<=0){
+										$('#navbar_sopra').removeClass('copri_scritta');
+										$('#navbar_sotto').css('visibility','hidden');
+
+								}else{
+										$('#navbar_sopra').addClass('copri_scritta');
+										$('#navbar_sotto').css('visibility','visible');
+							 
+								}
+							});
+						break;
+						case 14:	
+				$('.dropdown_ajax').each(function() {
+									var idcliente=$(this).attr('data-cliente');
+							        var tipo=$(this).attr('data-tipo');
+									var autocompleteDropdownAjax = myApp.autocomplete({
+								    input: $(this),
+								    openIn: 'dropdown',
+								    preloader: true, //enable preloader
+								    valueProperty: 'id', //object's "value" property name
+								    textProperty: 'name', //object's "text" property name
+								    limit: 20, //limit to 20 results
+								   	dropdownPlaceholderText: 'Ricerca..',
+								    expandInput: true, // expand input
+								   onChange: function (autocomplete, value) {
+								     	//console.log('aa');
+								       
+								        
+								       	salva_autoricerca(value.id,tipo,idcliente);
+								       	$('#'+tipo+'_'+idcliente).val(value.name);
+								        
+								    },
+								    source: function (autocomplete, query, render) {
+								        var results = [];
+								        if (query.length === 0) {
+								            render(results);
+								            return;
+								        }
+								        // Show Preloader
+								        autocomplete.showPreloader();
+								        // Do Ajax request to Autocomplete data
+								        
+								        $.ajax({
+								            url:baseurl+versione+'/config/profilo/alloggiati_dropdown.php',
+								            method: 'GET',
+								            dataType: 'json',
+								            //send "query" to server. Useful in case you generate response dynamically
+								            data: {
+								                query: query,
+								                tipo:tipo
+								            },
+								            success: function (data) {
+								                // Find matched items
+								                for (var i = 0; i < data.length; i++) {
+
+								                    if (data[i].name.toLowerCase().indexOf(query.toLowerCase()) >= 0){
+								                    	results.push(data[i]);
+								                    }
+								                }
+								                autocomplete.hidePreloader();
+
+								                render(results);
+								            }
+								        });
+								    }/*,onChange: function (autocomplete, value) {
+							    		console.log(value);
+								        // Add item text value to item-after
+								        //$$('#autocomplete-standalone').find('.item-after').text(value[0]);
+								       // $$('#autocomplete-standalone').find('input').val(value[0]);
+								    },onClose:function(autocomplete,value){
+								    	console.log(value);
+								    
+								    }*/
+								     
+									    
+								});
+							});
+						
+						break;
+
+						case 15://chat messaggi Profilocli
+							messaggi_reload=setInterval('reload_mess()',10000); 
+
+							var conversationStarted = false;
+
+							var myMessagebar = myApp.messagebar('.messagebar', {
+	    						maxHeight: 200
+							}); 
+
+							var myMessages = myApp.messages('.messages', {
+   								 autoLayout: true
+							});   
+
+
+							myMessages.scrollMessages();
+
+							$('.messagebar .link').on('click', function () {
+								  // Message text
+								  var messageText = myMessagebar.value().trim();
+								  // Exit if empy message
+								  if (messageText.length === 0) return;
+								 
+								  // Empty messagebar
+								  myMessagebar.clear();
+
+
+								 /*
+								  // Add message
+								  myMessages.addMessage({
+								    // Message text
+								    text: messageText,
+								    // Random message type
+								    type: 'sent'
+								    // Avatar and name:
+								 	/*
+									    day: !conversationStarted ? 'Today' : false,
+									    time: !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false
+								   
+								  })
+								  */
+								  modprofilo(0,messageText,46,10,14);
+								 
+								  // Update conversation flag
+								  conversationStarted = true;
+
+								});   
+
+						break;
+						case 16://chat messaggi Profilo
+
+							var IDpren=$('#IDpren').val();
+
+							chat_profilo_reload=setInterval('reload_chat_profilo()',10000); 
+
+							var conversationStarted = false;
+
+							var myMessagebar = myApp.messagebar('.messagebar', {
+	    						maxHeight: 200
+							}); 
+
+							var myMessages = myApp.messages('.messages', {
+   								 autoLayout: true
+							});   
+
+
+							myMessages.scrollMessages();
+
+							$('.messagebar .link').on('click', function () {
+								  // Message text
+								  var messageText = myMessagebar.value().trim();
+								  // Exit if empy message
+								  if (messageText.length === 0) return;
+								 
+								  // Empty messagebar
+								  myMessagebar.clear();
+
+
+								 /*
+								  // Add message
+								  myMessages.addMessage({
+								    // Message text
+								    text: messageText,
+								    // Random message type
+								    type: 'sent'
+								    // Avatar and name:
+								  
+									    day: !conversationStarted ? 'Today' : false,
+									    time: !conversationStarted ? (new Date()).getHours() + ':' + (new Date()).getMinutes() : false
+								     
+								  })
+								  */
+
+								  modprenot(IDpren,messageText,272,10,15);
+								 
+								 
+								  // Update conversation flag
+								  conversationStarted = true;
+								});  
+
+
+						break;
+					 
+						 
 							
 					}
 					loadstaticios();
@@ -359,7 +709,49 @@ function navigation2(id,str,agg,rel){
      });
 }
 
+function reload_mess(){//profilocli
+	navigationtxt2(20,0,'messaggi',5,1);
+}
 
+function reload_chat_profilo(){//profilo
+	var IDpren=$('#IDpren').val();
+	navigationtxt2(22,IDpren,'messaggi',5,1);
+}
+
+function salva_autoricerca(idmod,tipo,idcliente){
+	//console.log(idmod,tipo,idcliente);
+	var campo='';
+	var tipoprenot=0;//modprenot
+	switch(parseInt(tipo)){	
+		case 1:
+			campo='.cittadinanzaver';
+			tipoprenot='48';
+		break;
+		
+		case 2:
+			campo='.luogonasver';
+ 			tipoprenot='49';
+		break;
+			
+		case 3:
+			campo='.residenzaver';
+			tipoprenot='47';
+		break;
+		
+		case 4:
+			campo='.luogorilver';
+			tipoprenot='46';
+		break;
+		
+		case 5:
+			campo='.documentover';
+			tipoprenot='50';
+		break;	
+	}
+
+	modprenot(idcliente,idmod,tipoprenot,10);
+	 
+}
 
 
 function paypalload(ID,acconto,dato1,dato2){
@@ -459,6 +851,7 @@ function spostapren(vettore,vettoremain){
 					if(num!=-1){
 						myApp.addNotification({
 							message: "Non e' stato possibile spostare la prenotazione. Prego Riprovare",
+							custom:'<div class="item-title">Non e'+"' stato possibile spostare la prenotazione. Prego Riprovare"+'</div>',
 							hold:1000
 						});
 					}else{
@@ -501,6 +894,7 @@ function spostapren2(){
 				if(num!=-1){
 					myApp.addNotification({
 						message: 'Prenotazione Spostata con successo',
+						custom:'<div class="item-title">Prenotazione Spostata con successo</div>',
 						hold:1000
 					});
 					mainView.router.back();
@@ -665,6 +1059,7 @@ function controllocarta2(){
 	}else{
 		myApp.addNotification({
 			message: "E' necessario compilare tutti i campi obbligatori.",
+			custom:'<div class="item-title">E'+"' necessario compilare tutti i campi obbligatori."+'</div>',
 			hold:1200
 		});
 		
@@ -1287,6 +1682,10 @@ function backexplode2(tipo){
 			case 3://centro ben
 				navigation(4,0,2,2);
 			break;	
+			case 4:// chat prenotazione
+				clearInterval(chat_profilo_reload);
+				navigation2(31,0,0,2);
+			break;
 	
 
 		}
@@ -1495,13 +1894,11 @@ function autoscrivi(id,tipo,funzagg){
 		break;	
 	}*/
 	
-	
-	
 }
 
 
-function apriacc(num)
-{
+
+function apriacc(num){
 
 	//myApp.accordionOpen($$('#accordion'+num));
 	myApp.accordionToggle($$('#accordion'+num));
@@ -1813,7 +2210,7 @@ function modalfirstentryospiti(){
 	myApp.showIndicator();
 	var url=baseurl+versione+"/";
 	var url=url+'config/firstentryospiti.php'; 
-	$$.ajax({
+	$.ajax({
                 url: url,
                 method: 'GET',
 				dataType: 'text',
@@ -1827,24 +2224,46 @@ function modalfirstentryospiti(){
                 success: function (data) {
 					myApp.hideIndicator();
 					if(data!=1){
-							myApp.popup(data);
+							myApp.pickerModal(data);
+
+							$('.salta-swiper').on('click', function () {
+								setTimeout(function() {
+									aprimodal_share(tipo_tel,0);
+								}, 500);
+							}); 
+
+							//myApp.popup(data);
 							var mySwiper6 = myApp.swiper('.swiper-6', {
 								pagination:'.swiper-6 .swiper-pagination',
 								spaceBetween: 0,
 								slidesPerView: 1,
 								allowSlidePrev:false,
 								nextButton: '.swiper-avanti'});	
-						
+
 							mySwiper6.on('reachEnd', function () {
-								$$('#avanti').removeClass('swiper-button-disabled');
-								$$('#avanti').attr('onclick','myApp.closeModal();');
-								$$('#avanti').children().html('Chiudi');
+								$('#avanti_swiper').removeClass('swiper-button-disabled');
+								$('#avanti_swiper').addClass('salta-swiper');
+								$('#avanti_swiper').attr('onclick','myApp.closeModal();');
+								$('#avanti_swiper').children().html('Chiudi');
+
 							});
+						 
+					}else{
+
+						setTimeout(function() {
+							aprimodal_share(tipo_tel,1);
+						}, 500);
 					}
+
+
 		}
 	});
+		/*	
+		window.addEventListener('appinstalled', (event) => {
+				 alert( 'appinstalled', event);
+		}); */
+ 
 }
-
 
 function pulsantimenu(){
  
@@ -2012,6 +2431,7 @@ function salvascontrino(IDpren,tipo,IDinfop,IDextra,metodo,agg,totale,sconto){
 					case 1:
 						myApp.addNotification({
 						message: 'Pagamento registrato',
+						custom:'<div class="item-title">Pagamento registrato</div>',
 							hold:2000
 						});
 						backexplode(13);
@@ -2183,6 +2603,7 @@ function salvatavportata(portata){
 	}else{
 		myApp.addNotification({
 			message: 'Non è stato selezionato nessun prodotto',
+			custom:'<div class="item-title">Non è stato selezionato nessun prodotto</div>',
 			hold:1700
 		});
 	}
@@ -2345,7 +2766,39 @@ function overlayfab(){
 		$('.fabdiv').addClass('fabdiv-opened');	
 		$('.overlay-speed-dial').addClass('overlay-speed-visible');
 	}
+}
+
+function fab2(tipo){
+	switch(tipo){
+		case 1:
+			var classe='.fb1';
+			var classe2='.fb2 , .fb3';
+		break;
+		case 2:
+			var classe='.fb2';
+			var classe2='.fb1 , .fb3';
+		break;
+		case 3:
+			var classe='.fb3';
+			var classe2='.fb1 , .fb2';
+		break;	
+		case 0:
+			$('.fb1 , .fb2 , .fb3').removeClass('fabdiv-opened');	
+			$('.fb2 , .fb1 , .fb3').removeClass('fab_noview');
+			$('.overlay-speed-dial').removeClass('overlay-speed-visible');
+			return;
+		break;	
+	}
 	
+	if($(classe).hasClass('fabdiv-opened')){
+		$(classe).removeClass('fabdiv-opened');	
+		$(classe2).removeClass('fab_noview');
+		$('.overlay-speed-dial').removeClass('overlay-speed-visible');
+	}else{
+		$(classe).addClass('fabdiv-opened');	
+		$(classe2).addClass('fab_noview');
+		$('.overlay-speed-dial').addClass('overlay-speed-visible');
+	}
 }
 
 function mostraserv(tipo){
@@ -2405,7 +2858,9 @@ function seldatamodal(idpick){
 function setdatamodalpicker(idpicker){
 	
 			var data1=$('#'+idpicker).val();
-			 
+			var data1=$('#'+idpicker).attr('alt');
+
+
 			//alert(data1);
 			var today=adddata(data1,0,2,3);
 			//alert(today);
@@ -2472,8 +2927,10 @@ function formattdatamodalpicker(idpicker){
 	
 	myApp.closeModal();
 	$('#'+idpicker).val(data);
-	$('#'+idpicker+'txt').html(dataform);
+	$('#'+idpicker).attr('alt',data);
+	//$('#'+idpicker+'txt').html(dataform);
 	$('#'+idpicker).trigger('change');
+	$('#'+idpicker).val(dataform);
 	
 }
 
@@ -2499,10 +2956,21 @@ function filtrogenerale(ID,tipo,reset){
 			classe='.statocamere';
 		break;
 		case 4:
-				filtroval='time'+ID;
-				classe='.time';
-		 
+			filtroval='time'+ID;
+			classe='.time';
 		break;	
+		case 5:
+			classe='.giorni_pul';
+			filtroval=ID;
+		break;
+		case 6:
+			filtroval='categoria'+ID;
+			classe='.statocamere';
+		break;	
+		case 7:
+			filtroval='msg_leg';
+			classe='.messaggi_chat';
+		break;
 	}	
  
  
@@ -2576,10 +3044,14 @@ function scriviorario(val){
 }
 
  
-function contattaci(mail,tel){
+function contattaci( ){
 	var buttons=new Array();		
 	
+	var contatti=$('#btn-info').val();
+	contatti=atob(contatti);
+	eval(contatti);
 	
+	/*
  		buttons.push(
 					{
 					text: '<div>Scrivici</div>',
@@ -2596,6 +3068,7 @@ function contattaci(mail,tel){
 					}
 				});
 	
+	*/
 	
 	 var buttons3 = [
 			{
@@ -2734,6 +3207,453 @@ function completapren(IDserv,IDpren){
 	
 	
 	modprofilo(IDpren,stringa,44,10,12);
-
  
 }
+
+function apri_pren_pul(IDpren ) {
+
+ 
+	myApp.showIndicator();
+	var url=baseurl+versione+"/";
+	var url=url+'config/pulizie_dettaglio.php'; 
+	$.ajax({
+			url: url,
+			method: 'GET',
+			dataType: 'text',
+			cache:false,
+			timeout:5000,
+			data: {
+				IDpren:IDpren
+				 
+			},
+			 error: function (data) {
+				 myApp.hideIndicator();
+			},
+			success: function (data) {
+				myApp.hideIndicator();
+				//myApp.popup(data);
+				myApp.pickerModal(data);
+				popoverord();		
+			}
+		
+	});
+}
+
+
+function filtro_pulizie_stati(classe){
+  	$('.statocamere ').fadeIn(200);
+	var IDapp=[];
+	$('.riga_txt').each(function() {
+		 if($(this).hasClass(classe)){
+		 	var id=$(this).attr('alt');
+		 	IDapp.push(id);
+		 } 
+	});
+
+	$('.statocamere ').fadeOut(200);
+ 
+	for (var i = 0; i < IDapp.length; ++i) {
+		$('#'+IDapp[i]).fadeIn(200);
+		$('#riga'+IDapp[i]).fadeIn(200);
+	}
+ 
+ 
+	if($('.fabdiv').hasClass('fabdiv-opened')){
+		$('.fabdiv').removeClass('fabdiv-opened');	
+		$('.overlay-speed-dial').removeClass('overlay-speed-visible');
+	}
+}
+
+function mostra_pren(tipo){
+
+	switch(tipo){
+			case 1:
+				$('.addebiti').addClass('hiddenaddebita');
+				$('.btn_add').addClass('nobtn');
+
+				$('.tab').addClass('selected');	
+				$('.tab_addebita').addClass('selected');
+			break;
+			case 2:
+				$('.tab').removeClass('selected');	
+				$('.tab_addebita').removeClass('selected');
+				$('.addebiti').removeClass('hiddenaddebita');
+				$('.addebiti #add2').removeClass('selected');
+				$('.addebiti  #add1').addClass('selected');
+				$('.addebiti .tab_addebita.1').addClass('selected');
+				$('.btn_add').removeClass('nobtn');
+			break;
+	}
+ 	
+}
+ 
+
+function mostra_tab_addebita(tab){
+	/*
+	var pren_sel=$('.title-tab.selected').attr('alt');
+	*/
+	$('.tab_addebita').removeClass('selected');	
+	$('.title_tab_addebita').removeClass('selected');
+	
+	$('.addebiti  #add'+tab).addClass('selected');
+	$('.addebiti  .tab_addebita.'+tab).addClass('selected');
+	
+	switch(tab){
+		case 1:
+			$('.btn_add').removeClass('nobtn');
+		break;
+		case 2:
+			$('.btn_add').addClass('nobtn');
+		break;	
+	}
+}
+
+function aumenta_serv(metodo,id,tipo){
+	var consta=1;
+	var idpren=$('.title-tab.selected').attr('alt');
+	
+	
+	switch(metodo){
+		case 1:
+			var qta=$('#qta'+id).html();
+			var max=$('#qta'+id).attr('max');
+			var min=$('#qta'+id).attr('min');
+		break;	
+		case 2:
+			var qta=$('#mod'+id).html();
+			var max=$('#mod'+id).attr('max');
+			var min=$('#mod'+id).attr('min');
+		break;	
+	}
+	qta=parseFloat(qta);
+	switch(tipo){
+		case 1:
+			max=parseFloat(max);
+			if(qta<max){qta=qta+consta;}			 	
+		break;
+		case 2:
+			min=parseFloat(min);
+			if(qta>min){qta=qta-consta;}
+		break;	
+	}
+
+	switch(metodo){
+			
+		case 1:
+			$('#qta'+id).html(qta);
+		break;	
+		case 2:
+			$('#mod'+id).html(qta);
+			var idprenextra=$('#mod'+id).attr('alt');
+			modprenextra(idprenextra,id+'_'+tipo+'_'+qta,58,9,32);
+		break;	
+	}
+	
+	
+}
+
+function inserisci_add(){
+	//var time=$('#timesel').val();
+	var idpren=$('#idpren_pul').val();
+	//var idpren=$('.title-tab.selected').attr('alt');
+	var prod_addeb='';
+
+	$('.serv').each(function() {
+		var qta=parseInt($(this).html());
+		if(qta>0){
+			var id=$(this).attr('alt');
+			prod_addeb=prod_addeb+id+'_'+qta+',';
+		}
+	});
+	
+	modprenextra(idpren,prod_addeb,57,9,31);
+}
+
+function apri_legenda(){
+	$('#legenda').fadeToggle(100);
+}
+
+function ricarica_addebito(){
+	
+	var idpren=$('#idpren_pul').val();
+	
+	$('.serv').each(function() {
+		var qta=$(this).html('0');
+	});
+ 
+	myApp.showIndicator();
+	var url=baseurl+versione+"/";
+	var url=url+'config/pulizie_addebito.php'; 
+	$.ajax({
+			url: url,
+			method: 'GET',
+			dataType: 'text',
+			cache:false,
+			timeout:5000,
+			data: {
+				IDpren:idpren
+			},
+			 error: function (data) {
+				 myApp.hideIndicator();
+			},
+			success: function (data) {
+				//console.log(data);
+				myApp.hideIndicator();
+				$('.tab_addebita.2').html(data);
+				mostra_tab_addebita(2);
+				//myApp.pickerModal(data);		
+			}
+		
+	});
+	
+}
+
+function nascondi_addebito(IDserv){
+	$('.item-contentnew.serv'+IDserv).remove();
+}
+
+function contatta_luoghi( ){
+	var buttons=new Array();		
+	
+	var contatti=$('#luoghi_info').val();
+	contatti=atob(contatti);
+	eval(contatti);
+	
+	/*
+ 		buttons.push(
+					{
+					text: '<div>Scrivici</div>',
+					onClick: function () {
+					 location.href='mailto:'+mail;
+					}
+				});
+	
+		buttons.push(
+					{
+					text: '<div>Chiamaci</div>',
+					onClick: function () {
+ 						location.href='tel:'+tel;
+					}
+				});
+	
+	*/
+	
+	 var buttons3 = [
+			{
+				text: '<div class="lastbutton-modal">Chiudi</div>'
+			}
+		];
+		
+		 var groups = [buttons,buttons3];
+  	     myApp.actions(groups);
+}
+
+function aprimodal_info(ID){
+
+	myApp.showIndicator();
+	var url=baseurl+versione+"/";
+	var url=url+'config/profilo/modal_info.php'; 
+	$.ajax({
+			url: url,
+			method: 'GET',
+			dataType: 'text',
+			cache:false,
+			timeout:5000,
+			data: {
+				IDinfo:ID
+			},
+			 error: function (data) {
+				 myApp.hideIndicator();
+			},
+			success: function (data) {
+				//console.log(data);
+				myApp.hideIndicator();
+				//myApp.popup(data);
+				myApp.pickerModal(data);
+				popoverord();		
+			}
+		
+	});
+
+}
+
+ 
+function aprimodal_share(OS,tipo){
+
+	//myApp.showIndicator();
+	var url=baseurl+versione+"/";
+	var url=url+'config/profilo/modal_addtohome.php'; 
+	$.ajax({
+			url: url,
+			method: 'GET',
+			dataType: 'text',
+			cache:false,
+			timeout:5000,
+			data: {
+				operative_sys:OS,start:tipo
+			},
+			 error: function (data) {
+				 myApp.hideIndicator();
+			},
+			success: function (data) {
+			 
+				 if(data!='1'){
+			 		myApp.popup(data,true);
+
+					$('.modal-overlay').attr('onclick','elimina_popup()');
+				 }
+				 	
+			}
+		
+	});
+}
+
+function reload_notifiche_mess(){
+ 
+	var url=baseurl+versione+"/";
+	var url=url+'config/profilo/conta_notifiche.php'; 
+	$.ajax({
+			url: url,
+			method: 'GET',
+			dataType: 'text',
+			cache:false,
+			timeout:5000,
+			data: { 
+				ID:1
+			},
+			 error: function (data) {
+				 myApp.hideIndicator();
+			},
+			success: function (data) {
+				 if(data!='0'){
+			 		 $('.notifiche_chat').html(data);
+			 		 $('.notifiche_chat').addClass('back_red');
+				 }
+			}
+	});
+}
+
+ 
+
+function foto_luoghi(num){
+
+	var photoarr=[]; 
+	$('.luogo_foto').each(function() {
+			var alt=$(this).attr('alt');
+			var num2=$(this).attr('num');
+			photoarr[num2]=alt;
+	});
+
+ 
+	var myPhotoBrowser= myApp.photoBrowser({
+	    photos : photoarr,
+		theme: 'dark',
+		ofText: '/',
+		navbarTemplate:'<div class="navbar navfoto">'+
+	    '<div class="navbar-inner">'+
+	        '<div class="left sliding">'+
+	            '<a href="#" class="link close-popup photo-browser-close-link {{#unless backLinkText}}icon-only{{/unless}} {{js "this.type === \'page\' ? \'back\' : \'\'"}}">'+
+	                '<i class="icon icon-back "></i>'+
+	                '{{#if backLinkText}}<span>{{backLinkText}}</span>{{/if}}'+
+	            '</a>'+
+	        '</div>'+
+	        '<div class="center sliding " style="color: #fff;">'+
+	          '  <span class="photo-browser-current fs14"></span> '+
+	           ' <span class="photo-browser-of fs14">{{ofText}}</span> '+
+	            '<span class="photo-browser-total fs14"></span>'+
+	        '</div>'+
+	       '<div class="right"></div>'+
+	    '</div>'+
+	'</div>  ',
+	toolbarTemplate:'<div class="toolbar tabbar navfoto"><div class="toolbar-inner"><a href="#" class="link photo-browser-prev"><i class="f7-icons  biancotool">chevron_left</i></a><a href="#" class="link photo-browser-next"><i class="f7-icons biancotool">chevron_right</i></a></div></div>'
+	});
+
+
+	myPhotoBrowser.open(num);
+
+}
+
+
+function prova_notifica(){
+	myApp.addNotification({
+		message:'Modifica Salvata',
+		custom:'<div class="item-title">Non e'+"' stato possibile spostare la prenotazione. Prego Riprovare"+'</div>',
+		hold: 12000
+	});
+}
+
+function prenota_rapido(){
+	var tempo=$('#tempo').val();
+	var IDsotto=$('#IDsotto').val();
+
+	apriprenotaora(IDsotto,tempo);
+}
+
+function elimina_popup() {
+	myApp.closeModal();
+	$('.popover').remove();
+}
+
+function scorri_elem(el){
+	$('#'+el).animate( { scrollLeft: '+=70' }, 400);
+}
+
+function schermata_pul(tipo,el){
+	$('.schermata_pul').removeClass('active');
+	$(el).addClass('active');
+
+	$('#schermata_pul').val(tipo);
+	switch(tipo){
+		case 0://giorno	 
+			navigationtxt2(23,'','pulizie_div_cont',7);	
+		break;
+
+		case 1://settimana
+			navigationtxt2(24,'','pulizie_div_cont',7);
+		break;
+	}
+}
+
+function cambia_tab_pul(tipo){
+
+	$('.tab-link').removeClass('active');
+	$('#t'+tipo).addClass('active');
+
+	$('.tab').removeClass('active');
+	$('#tab'+tipo).addClass('active');
+}
+
+ 
+ /*
+//let deferredPrompt;
+const divInstall = document.getElementById('installContainer');
+const butInstall = document.getElementById('butInstall');
+window.addEventListener('beforeinstallprompt', (event) => {
+  console.log('beforeinstallprompt', event);
+  // Stash the event so it can be triggered later.
+  window.deferredPrompt = event;
+  // Remove the 'hidden' class from the install button container
+  divInstall.classList.toggle('hidden', false);
+});
+
+
+butInstall.addEventListener('click', () => {
+  console.log('butInstall-clicked');
+  const promptEvent = window.deferredPrompt
+  if (!promptEvent) {
+    // The deferred prompt isn't available.
+    return;
+  }
+  // Show the install prompt.
+  promptEvent.prompt();
+  // Log the result
+  promptEvent.userChoice.then((result) => {
+    // Reset the deferred prompt variable, since 
+    // prompt() can only be called once.
+    window.deferredPrompt = null;
+    // Hide the install button.
+    divInstall.classList.toggle('hidden', true);
+  });
+});
+*/
+ 
