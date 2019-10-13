@@ -175,7 +175,7 @@ function sendform(tipo) {
 			break;
 	}
 	var url = baseurl + 'config/login.php';
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	$$.ajax({
 		url: url,
 		method: 'POST',
@@ -227,7 +227,7 @@ function sendform2() {
 	var email = $$('input[name="mailcli"]').val();
 	var data = $$('input[id="kscal"]').val();
 	var url = baseurl + 'config/logincli.php';
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	$$.ajax({
 		url: url,
 		method: 'POST',
@@ -356,7 +356,7 @@ function addprenot2(time, app, notti) {
 	//var popupHTML = '<div class="popup" style="padding:0px;" id="contprenot"></div>';
 	//myApp.popup(popupHTML);
 	var query = { time: time, app: app };
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	$$.ajax({
 		url: url,
 		method: 'GET',
@@ -528,7 +528,7 @@ function navigation(id, str, agg, rel) {
 			query['dato0'] = str;
 		}
 	}
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	//alert(url);
 	requestajax = $$.ajax({
 		url: url,
@@ -848,7 +848,7 @@ function avantistep2() {
 function tabconto(tipo) {
 	var url = baseurl + versione + "/config/preventivo/ilconto.php";
 	var query = { tipo: tipo };
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	$$.ajax({
 		url: url,
 		method: 'GET',
@@ -871,7 +871,7 @@ function tabconto(tipo) {
 function tabservizi(tipo, cerca) {
 	var url = baseurl + versione + "/config/preventivo/elencoserv.php";
 	var query = { tipo: tipo, cerca: cerca };
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	$$.ajax({
 		url: url,
 		method: 'GET',
@@ -1029,7 +1029,7 @@ function stepnew(step, str) {
 
 function controllodispo() {
 	var url = baseurl + versione + "/config/preventivo/config/controllodispo.php";
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	query = new Array();
 	query['datai'] = $$('#dataarr').val();
 	query['notti'] = $$('#notti').html();
@@ -1139,7 +1139,7 @@ function navigationtxt(id, str, campo, agg, loader) {
 		}
 	}
 	//console.log(query);
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	requestajax = $$.ajax({
 		url: url,
 		method: 'GET',
@@ -1738,7 +1738,7 @@ function vislogin() {
 	$$('#loaderscidoo').animate({height:"0"},1000);
 	},500);
 	*/
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	setTimeout(function() {
 		myApp.hideIndicator();
 		navigation(37, 0, 0, 1); //indexmobile
@@ -1746,7 +1746,7 @@ function vislogin() {
 }
 
 function modprofilo(id, campo, tipo, val2, agg) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 4500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 4500);
 	switch (val2) {
 		case 0:
 			var val = $$('#' + campo).val();
@@ -2077,7 +2077,7 @@ function riaggvis(txtsend) {
 }
 
 function modprenextra(id, campo, tipo, val2, agg) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	//setTimeout(function(){ hidelo(); }, 5500);
 	var plus = "";
 	//alert(val2);
@@ -2293,7 +2293,7 @@ function aggintoristo(IDprenextra, tipo) {
 }
 
 function modprenot(id, campo, tipo, val2, agg, notifica) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	switch (val2) {
 		case 0:
 			var val = $$('#' + campo).val();
@@ -2567,7 +2567,7 @@ function backexplode(tipo, dato0) {
 
 function ricercaclidetdiv(ID) {
 	//alert(ID);
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/ricercaclidetdiv.php';
 	//alert(url);
@@ -2764,7 +2764,7 @@ function settime1(val, tipo) {
 }
 
 function modificaserv(ID, tipo, time, riagg, popup) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	//alert(time);
 	var url = url + versione + '/config/orarioserv.php';
@@ -2856,7 +2856,7 @@ function addservnote(tipoadd) {
 	//alert(val+'-'prezzo)
 	if ((val.length > 2) && (!isNaN(prezzo))) {
 		var url = baseurl + '/config/addservnote.php';
-		myApp.showIndicator();
+		//myApp.showIndicator(); -- VECCHIO
 		$$.ajax({
 			url: url,
 			method: 'POST',
@@ -2898,7 +2898,7 @@ function selcof(val) {
 	//$('#ricercaserv').val(serviziotxt);
 	$$('.tabindietro').css('display', 'block');
 	arrservice = new Array();
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var query = { ID: servizio11, tipolim: tipolim11 };
 	$$.ajax({
 		url: url,
@@ -2955,7 +2955,7 @@ function selreg(obj) {
 	tipolim11 = '7';
 	var url = baseurl;
 	var url = url + versione + '/config/step2add.php';
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var query = { ID: servizio11, tipolim: tipolim11 };
 	$$.ajax({
 		url: url,
@@ -2999,7 +2999,7 @@ function selectservice(ID, tipolim, IDtipo, durata, agg, time) {
 	$('#ricercaserv').val(serviziotxt);
 	$$('.tabindietro').css('display', 'block');
 	arrservice = new Array();
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var query = { ID: ID, tipolim: tipolim, time: time };
 	$$.ajax({
 		url: url,
@@ -3158,7 +3158,7 @@ function addservice2(agg, tipoadd) {
 		var url = baseurl;
 		//var url = url + 'config/addservice2.php';
 		var url = url + 'config/funzionihome/servizi/inserisci.php';
-		myApp.showIndicator();
+		//myApp.showIndicator(); -- VECCHIO
 		$$.ajax({
 			url: url,
 			method: 'POST',
@@ -3335,7 +3335,7 @@ function addserv(IDpren, popup) {
 
 function addservice(IDpren, popup, tipo) {
 	serviziriep = '';
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/addserv.php';
 	var query = { IDpren: IDpren, tipo: tipo };
@@ -3380,7 +3380,7 @@ function selprenot(popup) {
 			var IDsotto = $$('#IDsottoristogiorno').val();
 			break;
 	}
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/selprenot.php';
 	var query = { time: time, IDsotto: IDsotto };
@@ -3434,7 +3434,7 @@ function cercaprenot(val) {
 }
 
 function setdom(IDdom, manuale, popup) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/setdomotica.php';
 	var query = { IDdom: IDdom, manuale: manuale };
@@ -3458,7 +3458,7 @@ function setdom(IDdom, manuale, popup) {
 }
 
 function addprodotto(IDpren, popup) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/addprodotto.php';
 	var query = { IDpren: IDpren };
@@ -3589,7 +3589,7 @@ function msgboxelimina(id, tipo, altro, id2, url) {
 }
 
 function elimina(id, tipo, altro, agg, url) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + 'config/elimina.php';
 	var query = { ID: id, tipo: tipo, altro: altro };
@@ -3645,7 +3645,7 @@ function elimina(id, tipo, altro, agg, url) {
 
 function detcli(ID) {
 	//alert(ID);
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/detcli.php';
 	var query = { ID: ID };
@@ -3670,7 +3670,7 @@ function detcli(ID) {
 
 function detappunto(ID) {
 	//alert(ID);
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/detappunto.php';
 	var query = { ID: ID };
@@ -3736,7 +3736,7 @@ function esci() {
 		var url = baseurl;
 		var url = url + 'config/logout.php';
 		var query = { ID: '0' };
-		myApp.showIndicator();
+		//myApp.showIndicator(); -- VECCHIO
 		setTimeout(function() {
 			$$.ajax({
 				url: url,
@@ -3777,7 +3777,7 @@ function esci() {
 //profilo
 function menuprofilo() {
 	var h = window.innerHeight;
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + versione + '/config/profilo/menu.php';
 	var query = { h: h };
@@ -3815,7 +3815,7 @@ function titolomenu(titolo) {
 }
 
 function setlocation(lat2, lon2, str) {
-	//myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);
+	////myApp.showIndicator(); -- VECCHIOsetTimeout(function(){ hidelo(); }, 5500);
 	var lat = parseFloat($$('#latstr').val());
 	var lon = parseFloat($$('#lonstr').val());
 	var nomestr = $$('#nomestr').val();
@@ -3889,7 +3889,7 @@ function infopoi(ID) {
 }
 
 function controllocarta() {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var number = $$('#ncarta').val();
 	var annos = $$('#annos').val();
 	var meses = $$('#meses').val();
@@ -3922,13 +3922,13 @@ function controllocarta() {
 }
 
 function prenotaora(IDserv, time, popup) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	navigation(27, IDserv + ',' + time, 0, 1);
 	/*
 	var url=baseurl;
 	var url=url+'mobile/config/profilo/addserv.php';
 	query={IDserv:IDserv,time:time};
-	myApp.showIndicator();setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIOsetTimeout(function(){ hidelo(); }, 5500);
 	$$.ajax({
 	url: url,
 	method: 'GET',
@@ -3989,13 +3989,13 @@ function selorario(obj) {
 }
 
 function modificaorario(ID, tipo, time, popup) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	navigation(25, ID + ',' + time, 0, 1);
 }
 
 function mipiace(ID, tipoobj, agg) {
 	//var val=ID+'_'+tipoobj;
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 5500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 5500);
 	var url = baseurl;
 	var url = url + 'config/gestioneprofilo.php';
 	var query = { ID: ID, val: tipoobj, tipo: 8, val2: 0 };
@@ -4613,7 +4613,7 @@ function presenzaospiti(ID, modprezzo) {
 }
 
 function popovertavoli(IDprenextra, agg) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/allocatavolo.php';
 	$$.ajax({
@@ -4638,7 +4638,7 @@ function popovertavoli(IDprenextra, agg) {
 }
 
 function orariotavolo(IDtavolo) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/orariotavolo.php';
 	$$.ajax({
@@ -4663,7 +4663,7 @@ function orariotavolo(IDtavolo) {
 }
 
 function aggiungipiatti(numport) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var IDtavolo = $$('#IDtavolo').val();
 	numprod = 0;
 	var url = baseurl + versione + "/";
@@ -4692,7 +4692,7 @@ function aggiungipiatti(numport) {
 }
 
 function tavoloordinazione(IDprenextra) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/tavoloordinazione.php';
 	$$.ajax({
@@ -4717,7 +4717,7 @@ function tavoloordinazione(IDprenextra) {
 }
 
 function dettagliotavolo(IDprenextra, vis) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/dettagliotavolo.php';
 	$$.ajax({
@@ -4844,7 +4844,7 @@ function liberatavolo(IDprenextra, agg) {
 
 function stampapren(time, IDsottotip, tavolo, agg) {
 	//tempo e idsottotip
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/prenotazionilinea.php';
 	$$.ajax({
@@ -4873,7 +4873,7 @@ function stampapren(time, IDsottotip, tavolo, agg) {
 
 function nuovotavolo(time, IDsottotip) {
 	//tempo e idsottotip
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/nuovotavolo.php';
 	$$.ajax({
@@ -4900,7 +4900,7 @@ function nuovotavolo(time, IDsottotip) {
 }
 
 function ricercacli() {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/ricercacli.php';
 	$$.ajax({
@@ -4956,7 +4956,7 @@ function nuovtavtasti(time, IDsottotip) {
 }
 
 function ricercaprenotazione(time, IDsottotip) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/ricercaprenotazionetav.php';
 	$$.ajax({
@@ -4983,7 +4983,7 @@ function ricercaprenotazione(time, IDsottotip) {
 }
 
 function selezionaserv(IDsottotip, time) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/selezionaserv.php';
 	$$.ajax({
@@ -5063,7 +5063,7 @@ function prenotaztavolo(tipo, ID) {
 			break;
 	}
 	$$('#personemax').val(npers);
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/prenottavolo.php';
 	$$.ajax({
@@ -5091,7 +5091,7 @@ function prenotaztavolo(tipo, ID) {
 }
 
 function salvatavolo() {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var IDcliente = $('#IDnuovotav').val();
 	var tipopersnuovo = $('#tipopersnuovo').val();
 	var ok = 1;
@@ -5176,7 +5176,7 @@ function salvatavolo() {
 }
 
 function visionepersone(ID, IDclienti) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/visionepersone.php';
 	$$.ajax({
@@ -5234,7 +5234,7 @@ function vedicheckbox(tipo) {
 			break;
 	}
 	if (IDclienti.length > 1) {
-		myApp.showIndicator();
+		//myApp.showIndicator(); -- VECCHIO
 		var url = baseurl + 'config/calcoloprezzoristorantemobile.php';
 		$$.ajax({
 			url: url,
@@ -5314,7 +5314,7 @@ function rimuovioverlay() {
 }
 
 function orariotavolonuovo(idsottotip, time) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/orariotavolnuovo.php';
 	$$.ajax({
@@ -5462,7 +5462,7 @@ function pulsacc(IDdom) {
 }
 
 function profiloclienti(tipo, popup) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/profilocliscopri.php';
 	$$.ajax({
@@ -5492,7 +5492,7 @@ function profiloclienti(tipo, popup) {
 }
 
 function modportate(id, campo, tipo, val2, agg) {
-	myApp.showIndicator(); //setTimeout(function(){ hidelo(); }, 4500);
+	//myApp.showIndicator(); -- VECCHIO //setTimeout(function(){ hidelo(); }, 4500);
 	switch (val2) {
 		case 0:
 			var val = $$('#' + campo).val();
@@ -5571,7 +5571,7 @@ function modportate(id, campo, tipo, val2, agg) {
 }
 
 function nuovopiatto(portata) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/nuovopiatto.php';
 	$$.ajax({
@@ -5622,7 +5622,7 @@ function ricaricapagserv(tipo, dato0) {
 }
 
 function verificapersonenuovoserv(stringaid) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/profilo/pren/sceglipersone.php';
 	$$.ajax({
@@ -5665,7 +5665,7 @@ function contapersnuovoserv(tipo) {
 }
 
 function calcolaprezzofin(restr, nump) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var IDserv = parseInt($$('#IDservadd').val());
 	var Giorno = parseInt($$('#time').val());
 	var url = baseurl + versione + "/";
@@ -5701,7 +5701,7 @@ function calcolaprezzofin(restr, nump) {
 }
 
 function selezionasaleserv(IDserv) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/profilo/pren/selezionasaleserv.php';
 	$$.ajax({
@@ -5731,7 +5731,7 @@ function cambiasala(IDsala, nomesala) {
 
 
 function apriprenotaora(IDsotto, tempo) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/profilo/prenservpopup.php';
 	$$.ajax({
@@ -5767,7 +5767,7 @@ function apriprenotaora(IDsotto, tempo) {
 }
 
 function cambiomesi(mese) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/";
 	var url = url + 'config/cambiomesecal.php';
 	$$.ajax({
@@ -5790,7 +5790,7 @@ function cambiomesi(mese) {
 }
 
 function aprimenusx() {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	var url = baseurl + versione + "/" + 'config/menusx.php';
 	$$.ajax({
 		url: url,
@@ -5811,7 +5811,7 @@ function aprimenusx() {
 }
 
 function modimpo(id, campo, tipo, val2, agg) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	switch (val2) {
 		case 0:
 			var val = $$('#' + campo).val();
@@ -5900,7 +5900,7 @@ function modificaalloggio(IDapp, IDcat) {
 }
 
 function modproserv(tipo, id, campo, val2, agg, notifica) {
-	myApp.showIndicator();
+	//myApp.showIndicator(); -- VECCHIO
 	switch (val2) {
 		case 0:
 			var val = $$('#' + campo).val();
