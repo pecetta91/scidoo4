@@ -1696,8 +1696,9 @@ function onloadf(time) {
 			}
 		},
 		error: function(data) {
-			vislogin();
+			
 			myApp.hideIndicator();
+			vislogin();
 		}
 	});
 
