@@ -1,84 +1,57 @@
-<!DOCTYPE html>
 <html>
     <head>
-
-        <!--<meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">-->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-
-        <link rel="stylesheet" href="css/framework7.ios.css">
-        <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
-        <link rel="stylesheet" href="css/material-icons.css">
-        <link rel="stylesheet" href="css/framework7-icons.css">
-        <link rel="stylesheet" href="css/kitchen-sink.css">
-        <link rel="stylesheet" href="css/ionicons.css">
-        <link rel="stylesheet" href="css/michelecss.css">
-
         <title>Scidoo</title>
 
-		<script type="text/javascript" src="jquery-3.2.1.min.js"></script>
-		<script type="text/javascript" src="js/framework7.js"></script>
-		<script type="text/javascript" src="js/fontawesome-all.js"></script>
-		<script type="text/javascript" src="js/jquery.pep.js"></script>
+        <meta name="apple-mobile-web-app-title" content="Scidoo">
+        <meta name="description" content="Scidoo">
 
-		<script src="https://www.paypalobjects.com/api/checkout.js"></script>
-
-
-		<script type="text/javascript" src="js/fastclick.js"></script>
-		<script>
-		if ('addEventListener' in document) {
-			document.addEventListener('DOMContentLoaded', function() {
-				FastClick.attach(document.body);
-			}, false);
-		}
-		document.addEventListener('touchstart', handler, {passive: true});
-		</script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="target-densityDpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no , viewport-fit=cover" />
 
 
+
+        <link rel="stylesheet" href="https://www.scidoo.com/app_uikit/css/uikit.min.css" />
+
+        <link rel="stylesheet" href="https://www.scidoo.com/app_uikit/css/main.css" />
+
+
+        <script  src="https://code.jquery.com/jquery-3.4.1.js"  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="  crossorigin="anonymous"></script>
+
+
+        <script src="https://www.scidoo.com/preventivo_picker/js/preventivo_main.js?r=' . $rand; ?> " data-infinito="0" data-unica="0" data-indietro="1" data-anni="1" data-giorni-passati="1" id="script_preventivo"></script>
+
+
+         <link rel="stylesheet" href="https://www.scidoo.com/preventivo_picker/css/preventivo_picker.css" />
+
+
+         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+        <script src="https://www.scidoo.com/config/dropzone/dropzone.js"></script>
+        <script src="https://www.scidoo.com/app_uikit/js/uikit.js"></script>
+        <script src="https://www.scidoo.com/pp_uikit/js/uikit-icons.min.js"></script>
+        <script src="https://www.scidoo.com/app_uikit/js/main.js"></script>
 
     </head>
-    <body>
-    <input type="hidden" id="IDnotpush" value="0">
+    <body >
 
-    <div class="statusbar-overlay"></div>
-     <div id="divsottoover" class="divsottoover" onclick="chiudimodal();"></div>
-
-  	<div class="panel-overlay"  onClick="chiudimodal();" ></div>
-
-  <div class="panel panel-left  panel-cover">
-    <div class="content-block" id="contentpanelsx">
-
-    </div>
-  </div>
+        <span uk-spinner="ratio:4.5" id="loader" style="display: none;position:fixed;  top: 50%;  left: 50%;z-index: 99;translate(-50%,-50%);
+        color:#a2a2a2; border-radius: 10px;transform: translate(-50%,-50%);"></span>
 
 
-    	<div class="views">
-    	  <div class="view view-main">
-
-    		<div class="pages navbar-fixed">
-          <div data-page="indice" class="page bcw" >
-
-        <div id="loaderscidoo" style="position: fixed; left: 0; top: 0; z-index: 999; width: 100%; height: 100%; overflow:visible;background: url(scidoologo1.png) no-repeat 50% 40%;background-color:#212dab; background-color:#fff; background-size:96px 95px;"></div>
-
-        <div class="preloader-indicator-modal" style="margin-top: 50px"><span class="preloader preloader-white"><span class="preloader-inner"><span class="preloader-inner-gap"></span><span class="preloader-inner-left"><span class="preloader-inner-half-circle"></span></span><span class="preloader-inner-right"><span class="preloader-inner-half-circle"></span></span></span></span></div>
-
-    
+        <div id="overlay_ricerca_preventivo" style="height:100%; position: fixed;  top: 0;
+         bottom: 0; left: 0;    right: 0;  background: rgba(0,0,0,.5);  z-index: 1001;  transition: opacity .15s linear;display: none;">
+        	<span uk-spinner="ratio:4.5"   style="position:fixed;  top: 50%;  left: 50%;z-index: 1002;color:#fff; border-radius: 10px;transform: translate(-50%,-50%);"></span>
+    	</div>
 
 
-
-       </div></div> </div></div>
-
-        <script type="text/javascript" src="js/kitchen-sink.js"></script>
-
-		<script type="text/javascript" src="cordova.js"></script>
-		<script type="text/javascript" src="js/index.js"></script>
-
-    	<script type="text/javascript" src="js/funzioniprev.js"></script>
-		<script type="text/javascript" src="js/michelejs.js"></script>
+    	<div id="pagina_principale" >
 
 
-
+	   </div>
 
     </body>
+
+
 </html>
+
+
