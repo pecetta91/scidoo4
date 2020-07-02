@@ -20,11 +20,15 @@ $stampa_portata = function ($ordinazione, $prodotti) {
 	foreach ($prodotti as $IDprodotto) {
 		$info = $ordinazione['prodotti'][$IDprodotto];
 		$nome = $info['IDservizio'] ? $info['servizio'] : 'SELEZIONA PIATTO';
-		$out .= '<div class="risto-ordinazione-prodotto" data-id="' . $info['ID'] . '">
+		$out .= '<div class="risto-ordinazione-prodotto" data-id="' . $info['ID'] . '" data-serv="' . $info['IDservizio'] . '" data-tipo="' . $info['tipo'] . '" data-menu="' . $info['IDmenu'] . '" data-riga="' . $info['riga'] . '">
 		<span class="prezzo" style="width: 50px;">' . float_format($info['prezzo']) . '€</span>
 		<span class="nome" style="flex: 1;">' . $nome . '</span>
-		<span class="qta" style="width: 40px;" data-qta="' . $info['qta'] . '">' . $info['qta'] . '</span>
-		</div>';
+		<span class="qta" style="width: 40px;" data-qta="' . $info['qta'] . '">' . $info['qta'] . '</span>';
+		foreach ($info['variazioni'] ?? [] as $variazione) {
+			$tipo = $variazione['tipo'] == TipoProdotto::variazione_positiva ? '+' : '-';
+			$out .= '<div>' . $tipo . $variazione['servizio'] . '</div>';
+		}
+		$out .= '</div>';
 	}
 	return $out;
 };
@@ -65,7 +69,7 @@ if (!$IDtavolo and $IDprenotazione and $numero_tavolo) {
 }
 
 $ordinazione = ristorante_get_ordinazione($IDstruttura, $IDtavolo);
-usort($ordinazione['prodotti'], function ($a, $b) {
+uasort($ordinazione['prodotti'], function ($a, $b) {
 	return ($a['portata'] - $b['portata']) ?: ($a['ID'] - $b['ID']);
 });
 $portata = $portata_selezionata ?? 1; //(count($ordinazione['prodotti']) ? max(array_column($ordinazione['prodotti'], 'portata')) : 1);
@@ -73,6 +77,7 @@ $pagina_html = '';
 $pagina_html .= '<div id="ristorante-ordinazione" style="display: flex; flex-direction: column; height: calc(100vh - 50px);">';
 $pagina_html .= sprintf('<div style="display:none;" id="ristorante-info-ordinazione" data-tavolo="%s" data-portata="%s" data-prenotazione="%s" data-sottotip="%s" data-numero="%s"></div>', $IDtavolo, $portata, $IDprenotazione, $IDsottotip, $numero_tavolo);
 
+//html da copiare nel picker
 $azioni_piatto = '<div id="ristorante-opzioni-piatto-template" style="display: none;">
 <div class="nome" style="background: #2574ec; color: #fff; font-size: 16px; text-align: center;"></div>
 <ul class="uk-list uk-list-divider uk-picker-bot ristorante-opzioni-piatto">
@@ -138,14 +143,29 @@ $pagina_html .= '</div>';
 
 foreach ($prodotti_portate as $portata => $prodotti) {
 	$pagina_html .= '<div class="ordinazione-portata" data-portata="' . $portata . '">';
+	//funzione definita a inizio file
 	$pagina_html .= $stampa_portata($ordinazione, $prodotti);
 	$pagina_html .= '</div>';
 }
 $pagina_html .= '</div>';
-$pagina_html .= '<div id="ristorante-selezione-prodotti" style="height: 45%; overflow: hidden; display: flex;">
-	<div id="ristorante-selezione-sottotip" class="risto-container-selezione" style="overflow-y: auto; flex: 1; display: flex; flex-direction: column; border-right: 2px solid #888;"></div>
-	<div id="ristorante-selezione-piatti" class="risto-container-selezione" style="overflow-y: auto; flex: 2; display: grid; grid-template-columns: 1fr 1fr; align-content: start;"></div>
-	<div id="ristorante-selezione-variazioni" class="risto-container-selezione" style="overflow-y: auto; flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; align-content: start;"></div>
+$pagina_html .= '<div id="ristorante-selezione-prodotti" class="risto-selezione" style="height: 45%; overflow: hidden; border-top: 1px solid #888;">
+	<div class="pannello piatti" style="display: flex;">
+		<div id="ristorante-selezione-sottotip" class="risto-container-selezione" style="overflow-y: auto; flex: 1; display: flex; flex-direction: column; border-right: 1px solid #888;"></div>
+		<div id="ristorante-selezione-piatti" class="risto-container-selezione" style="overflow-y: auto; flex: 2; display: grid; grid-template-columns: 1fr 1fr; align-content: start;"></div>
+	</div>
+	<div class="pannello variazioni" style="display: none;">
+		<div id="ordinazione-modo-variazione" class="ordinazione-select-mode">
+			<div data-value="0" class="selected"><i class="fas fa-minus"></i></div>
+			<div data-value="1"><i class="fas fa-plus"></i></div>
+		</div>
+		<div id="ristorante-selezione-variazioni" class="risto-container-selezione" style="overflow-y: auto; flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; align-content: start;"></div>
+	</div>
+	<div class="pannello scelta-menu" style="display: none;">
+		<div id="ristorante-selezione-piatti-menu" class="risto-container-selezione" style="overflow-y: auto; flex: 1; display: grid; grid-template-columns: 1fr 1fr 1fr; align-content: start;"></div>
+	</div>
+	<div class="pannello impostazioni" style="display: flex;">
+
+	</div>
 </div>';
 $pagina_html .= '</div>';
 if ($refresh) {
@@ -155,7 +175,6 @@ if ($refresh) {
 }
 ?>
 <script>
-ristorante.selezione_piatti(0,0,$('#ristorante-selezione-sottotip'));
 (() => {
 function abilita_stepper(container) {
 	$(container).find('.stepper').on('click', function(event) {
@@ -178,7 +197,20 @@ function abilita_stepper(container) {
 	});
 }
 
-$('#ristorante-elenco-prodotti .risto-ordinazione-prodotto').on('click', function() {
+function selezione_menu(elem) {
+	let menu = elem.dataset.menu;
+	let riga = elem.dataset.riga;
+	$.post('struttura/ristorante/piatti_menu.php', {menu, riga}, (data) => {
+		ristorante.selezione_piatti(5, [menu, riga], $('#ristorante-selezione-piatti-menu'), data);
+	}, 'json');
+}
+
+$('#ristorante-elenco-prodotti .risto-ordinazione-prodotto').off().on('click', function() {
+	let $this = $(this);
+	if ($this.data('serv') == 0 && $this.data('tipo') == 2) {
+		return selezione_menu(this);
+	}
+
 	let picker = crea_picker();
 	picker = $('#' + picker);
 	picker.html($('#ristorante-opzioni-piatto-template').html());
@@ -201,20 +233,32 @@ $('#ristorante-elenco-prodotti .risto-ordinazione-prodotto').on('click', functio
 			});
 			break;
 		case 'varia':
-			ristorante.selezione_piatti(4, id, picker);
+			chiudi_picker();
+			ristorante.selezione_piatti(4, id, $('#ristorante-selezione-variazioni'));
 			break;
 		}
 	});
 });
 <?php if ($refresh) {
+	//in caso di refresh, si ferma qui
 	echo '})()
 	</script>';
 	return;
 }
 ?>
+ristorante.selezione_piatti(0,0,$('#ristorante-selezione-sottotip'));
+
 $('#ordinazione-selettore-portate li').on('click', function() {
 	let info = $('#ristorante-info-ordinazione');
 	info.data('portata', this.dataset.index);
+});
+
+$('#ordinazione-modo-variazione').on('click', function(event) {
+	let target = $(event.target).closest('div');
+    if (target.data('value') !== undefined) {
+        $(this).find('div').removeClass('selected');
+        target.addClass('selected');
+    }
 });
 })();
 </script>
@@ -228,6 +272,11 @@ $('#ordinazione-selettore-portate li').on('click', function() {
     height: 38px;
     align-items: center;
     font-size: 16px;
+}
+
+.risto-selezione .pannello {
+	height: 100%;
+	overflow: hidden;
 }
 
 .risto-ordinazione-prodotto > span {

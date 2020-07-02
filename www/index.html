@@ -1,36 +1,24 @@
 <html>
     <head>
-        <title>Scidoo</title>
+        <title>SCIDOO - Gestionale Hotel</title>
 
-        <meta name="apple-mobile-web-app-title" content="Scidoo">
-        <meta name="description" content="Scidoo">
+        <meta name="apple-mobile-web-app-title" content="SCIDOO">
+        <meta name="description" content="Applicazione Concierge - SCIDOO">
 
         <meta charset="utf-8">
         <meta name="viewport" content="target-densityDpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no , viewport-fit=cover" />
-
-
-
-        <link rel="stylesheet" href="https://www.scidoo.com/app_uikit/css/uikit.min.css" />
-
-        <link rel="stylesheet" href="https://www.scidoo.com/app_uikit/css/main.css" />
+ 
 
 
         <script  src="https://code.jquery.com/jquery-3.4.1.js"  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="  crossorigin="anonymous"></script>
-
-
-        <script src="https://www.scidoo.com/preventivo_picker/js/preventivo_main.js?r=' . $rand; ?> " data-infinito="0" data-unica="0" data-indietro="1" data-anni="1" data-giorni-passati="1" id="script_preventivo"></script>
-
-
-         <link rel="stylesheet" href="https://www.scidoo.com/preventivo_picker/css/preventivo_picker.css" />
-
+        <script  src="js/get_script_scidoo.js" ></script>
+ 
 
          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+ 
 
-        <script src="https://www.scidoo.com/config/dropzone/dropzone.js"></script>
-        <script src="https://www.scidoo.com/app_uikit/js/uikit.js"></script>
-        <script src="https://www.scidoo.com/pp_uikit/js/uikit-icons.min.js"></script>
-        <script src="https://www.scidoo.com/app_uikit/js/main.js"></script>
-
+        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+ 
     </head>
     <body >
 
@@ -44,10 +32,11 @@
     	</div>
 
 
-    	<div id="pagina_principale" >
+    	<div id="pagina_principale" > 
 
-
-	   </div>
+               <div id="loaderscidoo" style="   overflow:visible;background: url(https://scidoo.com/sito_scidoo/logo.png) no-repeat 50% 40%;  background-color:#fff; background-size:96px 95px;background-size: 250px;
+    position: absolute;  top: 0;  left: 0; right: 0;  bottom: 0; margin: auto;"></div>
+        </div>
 
     </body>
 

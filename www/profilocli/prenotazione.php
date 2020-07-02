@@ -117,10 +117,14 @@ if (isset($dettaglio_prenotazione['depositi'])) {
 	}
 }
 
-$foto_cat = getfoto($IDalloggio_principale, 2);
+$foto_principale = getfoto($IDalloggio_principale, 2);
+
+if ($foto_principale == 'camera.jpg') {
+	$foto_principale = getfoto($IDstruttura, 9);
+}
 
 $testo = '
-<div style="height:235px;background-image:url(' . base_url() . '/immagini/big' . $foto_cat . ');background-size:cover;background-repeat:no-repeat; width:100%;border-bottom-left-radius: 30px;position:relative;margin-bottom:70px">
+<div style="height:235px;background-image:url(' . base_url() . '/immagini/big' . $foto_principale . ');background-size:cover;background-repeat:no-repeat; width:100%;border-bottom-left-radius: 30px;position:relative;margin-bottom:70px">
 	<img src="' . base_url() . '/immagini/big' . $logo_struttura . '" style=" max-width: 100px;  max-height: 100px;margin:10px">
 
 	<div style="    width: 95%;  background: #fff; border-bottom-left-radius: 25px;  border-top-left-radius: 25px;   box-shadow: 0 0 5px 1px #a5a5a5;  position: absolute;
@@ -199,7 +203,7 @@ $messaggi = estrai_messaggi([['IDprenotazione' => $IDprenotazione]], '', $IDstru
 
 $lista_servizi = get_dati_conto_riferimento($IDprenotazione, 0, [], $IDstruttura)['arr_servizi'];
 $servizi_da_impostare = array_filter($lista_servizi, function ($arg) {
-	if (!in_array($arg['tipolim'], [4, 5, 6, 7, 8, 10])) {
+	if (!in_array($arg['tipolim'], [4, 5, 6, 7, 8, 10, 14])) {
 		return $arg['modi'] == 0;
 	}
 });

@@ -859,26 +859,27 @@ function aggiorna_menu(id,val){
 function det_info_cli(IDcliente,IDinfo_prenonatizione,el){
 
     var btn=' ';
-    var tel=$(el).data('telefono');
-    var cell=$(el).data('cellulare');
+    var tel=$(el).data('telefono').toString();
+    var cell=$(el).data('cellulare').toString();
     var mail=$(el).data('mail');
 
-     var btn=btn+`<li  onclick="navigation(7,{IDcliente:`+IDcliente+`});chiudi_picker();">Apri Dettaglio </li>`;
+     var btn=btn+'<li  onclick="navigation(7,{IDcliente:'+IDcliente+'});chiudi_picker();">Apri Dettaglio </li>';
 
      if(cell.length>2){
-        btn=btn+`<li onclick="location.href ='tel:`+cell+`';chiudi_picker(); ">Chiama `+cell+`</li>`;
+        btn=btn+'<li onclick="location.href = \'tel:'+cell+'\';chiudi_picker(); ">Chiama '+cell+'</li>';
      }
 
     if(tel.length>2){
-        btn=btn+` <li  onclick="location.href ='tel:`+tel+`';chiudi_picker(); ">Chiama `+tel+` </li>`;
+        btn=btn+'<li onclick="location.href = \'tel:'+tel+'\';chiudi_picker(); ">Chiama '+tel+'</li>';
      }
 
     if(mail.length>2){
-        btn=btn+` <li  onclick="location.href ='mailto:`+mail+`';chiudi_picker(); ">Scrivi a `+mail+` </li>`;
+        btn=btn+'<li onclick="location.href = \'mailto:'+mail+'\';chiudi_picker(); ">Scrivi a '+mail+'</li>'  ;
      }
      picker_modal_action(btn)
 }
 
+/*
 function  crea_modal_action(group_btn1,group_btn2=0,group_btn3=0){//versione con i pulsanti
     var content='';
 
@@ -908,9 +909,8 @@ dialog.show();
       });
 
     },200);
-
-
 }
+*/
 
 /*
 function modservice(obj) {
@@ -1520,8 +1520,8 @@ function apri_annullate(time) {
 function funzioni_det_pren(IDprenotazione){
 
 
-     var btn=`<li onclick="navigation(19,{IDprenotazione:`+IDprenotazione+`});chiudi_picker();">Sposta Prenotazione</li>`;
-     btn=btn+`<li onclick="msgboxelimina(`+IDprenotazione+`,1,0,2);chiudi_picker();openp=0" style="color:#d80404">Annulla Prenotazione</li>`;
+     var btn='<li onclick="navigation(19,{IDprenotazione:'+IDprenotazione+'});chiudi_picker();">Sposta Prenotazione</li>';
+     btn=btn+'<li onclick="msgboxelimina('+IDprenotazione+',1,0,2);chiudi_picker();openp=0" style="color:#d80404">Annulla Prenotazione</li>';
 
      picker_modal_action(btn)
 
@@ -2273,7 +2273,7 @@ function mostra_giornaliero_preventivo(tipo){
 
           //btn+=`<li  onclick=" chiudi_picker();">Apri Dettaglio </li>`;
         if(modifica_prezzo==1){
-            btn+=`<li  onclick="chiudi_picker();" id="mod_prezzo" >Modifica Prezzo</li>`;
+            btn+='<li  onclick="chiudi_picker();" id="mod_prezzo" >Modifica Prezzo</li>';
               setTimeout(function(){
                 UIkit.util.on('#mod_prezzo', 'click', function (e){
                   UIkit.modal.prompt('Modifica il Prezzo:',prezzo).then(function (prezzo) {
@@ -2298,7 +2298,7 @@ function mostra_giornaliero_preventivo(tipo){
 
 
         if (elimina == 1) {
-            btn+=`<li   onclick="chiudi_picker();mod_riferimento(1,[`+IDriferimento+`,`+tipo_riferimento+`],'`+lista_addebiti_collegati+`',10,()=>{`+callback+`});" style="color:#d80404">Elimina</li>`;
+            btn+='<li   onclick="chiudi_picker();mod_riferimento(1,['+IDriferimento+','+tipo_riferimento+'],\''+lista_addebiti_collegati+'\',10,()=>{'+callback+'});" style="color:#d80404">Elimina</li>';
         }
 
 
@@ -4478,7 +4478,7 @@ ristorante.carica_prodotti = function(callback = null) {
     }, "json");
 };
 
-ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = null) {
+ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = null, parametri = null) {
     await new Promise((resolve, reject) => {
         ristorante.carica_prodotti(() => {
             resolve();
@@ -4530,7 +4530,7 @@ ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = nu
                ristorante.mostra_prodotti(3, sottotip, _target);
             }
         }];
-
+        ristorante.switch_pannello_ordinazione('piatti');
         break;
     case 1:
         //prodotti
@@ -4553,6 +4553,7 @@ ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = nu
         //     colore: '#4B81DD',
         //     click: () => {ristorante.mostra_prodotti(0, 0, target_div);}
         // }];
+        ristorante.switch_pannello_ordinazione('piatti');
         break;
     case 3:
         //menu
@@ -4579,13 +4580,14 @@ ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = nu
         //     colore: '#4B81DD',
         //     click: () => {ristorante.mostra_prodotti(0, 0, target_div);}
         // }];
+        ristorante.switch_pannello_ordinazione('piatti');
         break;
     case 4:
         //variazioni
         soggetto = ristorante.servizi.variazioni;
         lista = ristorante.servizi.variazioni.lista;
         elementi = soggetto.ordine;
-        class_default = soggetto.classe;
+        class_default = soggetto.classe || '';
         click = function(arg) {
             ristorante.seleziona_prodotto.call(id_selezionato, arg, 'variazione', 1);
         };
@@ -4596,6 +4598,25 @@ ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = nu
             click: () => {ristorante.mostra_prodotti(0, 0, target_div);}
         }];
 
+        ristorante.switch_pannello_ordinazione('variazioni');
+        break;
+    case 5:
+        //piatti menu
+        soggetto = {};
+        lista = parametri;
+        elementi = Object.keys(parametri);
+        class_default = soggetto.classe || '';
+        click = function(arg) {
+            ristorante.seleziona_prodotto.call(id_selezionato, arg, 'piatto_menu', 1);
+        };
+        soggetto.navigazione = [{
+            nome: '<i class="fas fa-arrow-left"></i> INDIETRO',
+            classe: 'ordinazione-btn-back',
+            colore: '#4B81DD',
+            click: () => {ristorante.mostra_prodotti(0, 0, target_div);}
+        }];
+
+        ristorante.switch_pannello_ordinazione('scelta-menu');
         break;
     default:
         console.log("missing case");
@@ -4648,7 +4669,16 @@ ristorante.mostra_prodotti = async function(tipo, id_selezionato, container = nu
     }
 };
 
-ristorante.reload_ordinazione = function() {
+ristorante.switch_pannello_ordinazione = function(classe_pannello) {
+    let target = $('#ristorante-selezione-prodotti .' + classe_pannello);
+    if (!target.length) {
+        return;
+    }
+    $('#ristorante-selezione-prodotti > div').hide();
+    target.show();
+}
+
+ristorante.reload_ordinazione = function(restart_navigation = true) {
     let info = $('#ristorante-info-ordinazione');
     var IDtav = info.data('tavolo');
     var IDpren = info.data('prenotazione');
@@ -4658,31 +4688,20 @@ ristorante.reload_ordinazione = function() {
     let args = {tavolo: IDtav, pren: IDpren, sottotip: IDsottotip, num_tavolo: numero_tavolo, portata: portata, refresh: 1};
     $.post('struttura/ristorante/ordinazione.php', {arr_dati: args}, (data) => {
         $(`#ristorante-elenco-prodotti .ordinazione-portata[data-portata="${portata}"]`).html(data);
+        if (restart_navigation) {
+            ristorante.selezione_piatti(0,0,$('#ristorante-selezione-sottotip'));
+        }
     });
     // navigation(28, args);
 }
 
-ristorante.selezione_piatti = function(tipo, id, container) {
+ristorante.selezione_piatti = function(tipo, id, container, data = {}) {
     let info = $('#ristorante-info-ordinazione');
 
     container = $(container);
     let actions = $('<div></div>');
     let confirm = $('<button>CONFERMA</button>');
     let cancel = $('<button>CHIUDI</button>');
-    let mode = $('<div></div>').addClass('ordinazione-select-mode');
-    if (tipo == 4) {
-        let b = $('<div><i class="fas fa-minus"></i></div>').attr('value', 0);
-        b.addClass('selected');
-        mode.append(b);
-        b = $('<div><i class="fas fa-plus"></i></div>').attr('value', 1);
-        mode.append(b);
-        mode.on('click', function(event) {
-            if ($(event.target).attr('value') !== undefined) {
-                mode.find('div').removeClass('selected');
-                $(event.target).addClass('selected');
-            }
-        });
-    }
 
     // container.addClass('ordinazione-pannello-prodotti');
     container.html('');
@@ -4694,7 +4713,7 @@ ristorante.selezione_piatti = function(tipo, id, container) {
     //         ristorante.reload_ordinazione();
     //     })
     // });
-    ristorante.mostra_prodotti(tipo, id, container);
+    ristorante.mostra_prodotti(tipo, id, container, data);
 }
 
 ristorante.popup_sottotip = function() {
@@ -4742,20 +4761,24 @@ ristorante.seleziona_prodotto = function(IDprod, tipo, quantita = false) {
     let info = $('#ristorante-info-ordinazione');
     var IDtav = info.data('tavolo');
     var portata = $('#ordinazione-selettore-portate .uk-active').data('index');
-    var mode = $('.ordinazione-select-mode .selected').attr('value'); //per variazioni
+    var mode = $('#ordinazione-modo-variazione .selected').data('value'); //per variazioni
 
     let arg;
     if (tipo == 'prodotto') {
         arg = IDprod+'_'+portata+'_'+amount;
         modordinazione(7, IDtav, arg, 10, () => {ristorante.reload_ordinazione();});
     } else if (tipo == 'menu') {
-        arg = [IDprod, amount];
+        arg = [[IDprod, amount]];
         modordinazione(10, IDtav, arg, 10, () => {ristorante.reload_ordinazione();});
     } else if (tipo == 'variazione') {
         //this viene passato con .call ed è un id
-        arg = [IDprod, this, mode, amount];
-        console.log(arg);
-        modordinazione(8, IDtav, arg, 10, () => {ristorante.reload_ordinazione();});
+        arg = [[IDprod, this, mode, amount]];
+        modordinazione(8, IDtav, arg, 10, () => {ristorante.reload_ordinazione(false);});
+    } else if (tipo == 'piatto_menu') {
+        //this viene passato con .call ed è un id
+        //modordinazione(IDtav, IDserv+'_'+IDmenu+'_'+riga, 15, 10, 2);
+        arg = IDprod+'_'+this[0]+'_'+this[1];
+        modordinazione(15, IDtav, arg, 10, () => {ristorante.reload_ordinazione();});
     }
 };
 
@@ -5034,7 +5057,7 @@ function modifica_allegato(elem){
 
 
     if (elimina == 1) {
-        btn+=`<li   onclick="chiudi_picker();" style="color:#d80404">Elimina</li>`;
+        btn+='<li   onclick="chiudi_picker();" style="color:#d80404">Elimina</li>';
     }
 
   picker_modal_action(btn);
@@ -5368,14 +5391,14 @@ function visualizza_elenco_piatti_portate(elem,callback=null){
   });
 }
 
-function collega_piatto_menu(IDservizio){
+function collega_piatto_menu(IDservizio,riga){
     var parent=$('#parent').val();
     var time=$('#time_servizio').val();
     var menu=$('#IDmenu_servizio').val();
     var IDaddebito=$('#IDaddebito_selezionato').val();
 
 
-    mod_ospite(27,IDservizio,[parent,menu,time],10,()=>{chiudi_picker();stampa_menu_addebito_web_app(IDaddebito,1)});
+    mod_ospite(27,IDservizio,[IDaddebito,menu,time,riga],10,()=>{stampa_menu_addebito_web_app(IDaddebito,0);visualizza_riepilogo_inline(IDaddebito);});
 }
 
 
@@ -5462,7 +5485,6 @@ function visualizza_servizio_ordinazione_web_app(IDservizio,callback=null){
 
 
 function visualizza_menu_addebito_webapp(IDaddebito,onclose=null){
-
     $.ajax({
         url: baseurl+versione+'/profilocli/menu/menu_servizio_ristorante.php',
         method: 'POST',
@@ -5473,16 +5495,39 @@ function visualizza_menu_addebito_webapp(IDaddebito,onclose=null){
         error: function(html) {
            loader();
         },
-
         success: function(html) {
            loader();
-           var IDpicker=crea_picker(()=>{if(onclose){onclose()}},{'height':'85%'});
+           var IDpicker=crea_picker(()=>{if(onclose){onclose()}},{'height':'90%'});
            $('#'+IDpicker+'.stampa_contenuto_picker').html(html);
-
-
         }
-      });
+    });
 }
+
+
+function visualizza_riepilogo_inline(IDaddebito){
+    $.ajax({
+        url: baseurl+versione+'/profilocli/menu/riepilogo_inline_ordinazione.php',
+        method: 'POST',
+        dataType: 'text',
+        cache: false,
+        timeout: 5000,
+        data: { IDaddebito:IDaddebito},
+        error: function(html) {
+           loader();
+        },
+        success: function(html) {
+           loader();
+           $('#riepilogo_ordinazione').html('');
+           $('#riepilogo_ordinazione').removeClass('riepilogo_ordine_menu');
+           if(html!=''){
+            $('#riepilogo_ordinazione').html(html);
+            $('#riepilogo_ordinazione').addClass('riepilogo_ordine_menu');
+           }
+          
+        }
+    });
+}
+
 
 function stampa_menu_addebito_web_app(IDaddebito,tipo){
     $.ajax({
@@ -5499,6 +5544,7 @@ function stampa_menu_addebito_web_app(IDaddebito,tipo){
         success: function(html) {
            loader();
             $('#stampa_menu').html(html);
+             UIkit.tab('.uk-tab').show(tipo);
         }
       });
 }
@@ -5737,3 +5783,41 @@ function registra_nuova_struttura(){
             }
     });
 }
+
+
+function carica_recupero_password(){
+    $.ajax({
+            url:  baseurl+versione+'/recupera_password.php',
+            method: 'POST',
+            dataType: 'text',
+            cache:false,
+            timeout:5000,
+            data: '',
+            success: function (data) {
+            $('#pagina_principale').html(data);
+     },
+    error:function(data){
+        loader();
+    }
+ });
+}
+
+function recupero_password_gestionale(){
+    loader(1);
+    var email=$('#email_recupero').val();
+
+
+    $.post(baseurl+'/sito_scidoo/richiesta_recupero_password_gestionale.php',{email:email,app_scidoo:1},function(html){
+        loader();
+        switch(html){
+            case 'errore':
+               apri_notifica({'messaggio':"Email non valida. Prego riprovare",'status':'danger'});
+            break;
+            default:
+             apri_notifica({'messaggio':"A breve riceverà una email per la modifica della password",'status':'success'});
+             break;
+        }
+
+    });
+}
+

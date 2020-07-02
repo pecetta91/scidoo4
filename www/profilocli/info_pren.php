@@ -130,14 +130,14 @@ foreach ($time_line as $time => $val) {
 		}
 
 		$testo_time .= '
-		<div style="background: #fff; font-size: 15px; min-height: 70px; padding: 0 5px;  border-radius: 2px;margin-bottom:15px;color:#000">
+		<div style="background: #fff; font-size: 15px; min-height: 70px; padding: 0 5px;  border-radius: 2px;margin-bottom:5px;color:#000">
 	   			 <div style="margin-top:5px">' . $descrizione . '</div>
 		</div>';
 	}
 
 	$time_line_txt .= '
 
-	<div style="margin-bottom:20px;padding-left:20px;position:relative">
+	<div style="margin-bottom:10px;padding-left:20px;position:relative">
 			<div style="position: absolute; width: 20px; 	height: 20px; border-radius: 50%; 	font-size: 15px; border: 1px solid #2574ec ;text-align: center;  background: #fff;    top: 2px;"> </div>
 
 			<div style="padding-left:40px">
@@ -151,7 +151,10 @@ foreach ($time_line as $time => $val) {
 }
 
 $infop = '';
-$pagamenti = get_pagamenti_webapp($IDstruttura);
+$pagamenti_webapp = get_pagamenti_webapp($IDstruttura);
+
+$pagamenti = (!empty($pagamenti_webapp) ? $pagamenti_webapp : get_pagamenti_struttura_online($IDstruttura));
+
 if (!empty($pagamenti)) {
 	foreach ($pagamenti as $IDpagamento => $dati) {
 		$nome_pagamento = $dati['nome_pagamento'];

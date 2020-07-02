@@ -30,7 +30,7 @@ if ($IDinfo_prenonatizione) {
 
 if ($IDcliente == 0) {
 	$array_info_cli[0] = ['prefissotel' => $prefisso, 'prefissocell' => $prefisso];
-	$IDscheda = inscerisci_schedina($IDstruttura, $array_info_cli)[0];
+	$IDscheda = inserisci_schedina($IDstruttura, $array_info_cli)[0];
 	$query2 = "UPDATE infopren SET IDcliente='$IDscheda' WHERE ID='$IDinfo_prenonatizione' LIMIT 1";
 	$result = mysqli_query($link2, $query2);
 	$IDcliente = $IDscheda;

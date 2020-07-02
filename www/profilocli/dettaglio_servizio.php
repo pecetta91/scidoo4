@@ -135,7 +135,7 @@ $informazioni_prenota = '
 	    <div class="uk-width-expand uk-text-right lista_grid_right"> ' . dataita($time_selezionato) . '   <i class="fas fa-chevron-right"></i>	 </div>
 	</div>';
 $txt_restrizione = '';
-if ($dati_serv['IDtipo'] != 10) {
+if (!in_array($dati_serv['IDtipo'], [6, 10])) {
 
 	$lista_restrizioni = get_restrizioni($IDstruttura)['lista_restrizioni'];
 	foreach ($lista_restrizioni as $IDrestrizione => $val) {
@@ -263,31 +263,24 @@ function crea_popup_script(el){
 		var nome=$(this).data('nome');
 		var IDrestrizione=$(this).data('id');
 		var valore=$(this).val();
-		restrizioni+=`
-		<div class="div_list_uk uk_grid_div" uk-grid>
-		    <div class="uk-width-1-2 lista_grid_nome uk-first-column"> `+nome+`</div>
-    		<div class="uk-width-expand uk-text-right lista_grid_right ">
-	   			<div class="stepper  stepper-init stepperrestr">
-    				<div class="stepper-button-minus" style="color:#0075ff;border:none"  onclick="selezionainfo(\'restr`+IDrestrizione+`\',2,0)"  ><i class="fas fa-minus"></i></div>
-				   <div class="stepper-value  restrizione" min="0"  data-id="`+IDrestrizione+`"   id="restr`+IDrestrizione+`"    max="99" style="border-bottom:1px solid #d6d6d6" >`+valore+`     </div>
-				   <div class="stepper-button-plus" style="color:#0075ff;border:none" onclick="selezionainfo(\'restr`+IDrestrizione+`\',1,0)"  ><i class="fas fa-plus"></i></div>
-				 </div>
-		    </div>
-		</div>`;
+		restrizioni+='\
+		<div class="div_list_uk uk_grid_div" uk-grid>\
+		    <div class="uk-width-1-2 lista_grid_nome uk-first-column"> '+nome+'</div>\
+    		<div class="uk-width-expand uk-text-right lista_grid_right ">\
+	   			<div class="stepper  stepper-init stepperrestr">\
+    				<div class="stepper-button-minus" style="color:#0075ff;border:none"  onclick="selezionainfo(\'restr'+IDrestrizione+'\',2,0)"  ><i class="fas fa-minus"></i></div>\
+				   <div class="stepper-value  restrizione" min="0"  data-id="'+IDrestrizione+'"   id="restr'+IDrestrizione+'"    max="99" style="border-bottom:1px solid #d6d6d6" >'+valore+'</div>\
+				   <div class="stepper-button-plus" style="color:#0075ff;border:none" onclick="selezionainfo(\'restr'+IDrestrizione+'\',1,0)"  ><i class="fas fa-plus"></i></div>\
+				 </div>\
+		    </div>\
+		</div>';
 	});
 
-		var html=`
-
-		<div class="nav navbar_picker_flex" >
-		 	<div onclick="chiudi_picker()"><i class="fas fa-times icona_chiudi" ></i></div>
-		 	<div style="margin-top:5px;padding-right:10px"> </div>
-		</div>
-
-
-		<div class="content picker" style="margin-top:0;padding-top:5px;">
-				`+restrizioni+`
-
-		</div>`;
+		var html='\ <div class="nav navbar_picker_flex" >\
+		 	<div onclick="chiudi_picker()"><i class="fas fa-times icona_chiudi" ></i></div>\
+		 	<div style="margin-top:5px;padding-right:10px"> </div>\
+		</div>\
+ 		<div class="content picker" style="margin-top:0;padding-top:5px;">'+restrizioni+'</div>';
 
 
 	    var IDpicker=crea_picker(()=>{},{'height':'50%'});

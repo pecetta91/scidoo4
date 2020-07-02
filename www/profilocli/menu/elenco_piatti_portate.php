@@ -125,24 +125,6 @@ function pulsanti_piatti_portate(IDservizio){
 }
 
 
-function visualizza_informazioni_servizio_menu(IDservizio){
-    $.ajax({
-        url: baseurl+'app_uikit/profilocli/menu/informazioni_servizio_menu.php',
-        method: 'POST',
-        dataType: 'text',
-        cache: false,
-        timeout: 5000,
-        data: { IDservizio:IDservizio},
-        error: function(html) {
-           loader();
-        },
 
-        success: function(html) {
-           loader();
-   	      var IDpicker=crea_picker(()=>{},{'height':'85%'});
-           $('#'+IDpicker+'.stampa_contenuto_picker').html(html);
-        }
-      });
-}
 
 </script>

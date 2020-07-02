@@ -23,13 +23,13 @@ $time = time0($menu['time']);
 $testo = '
 <div class="nav navbar_picker_flex" >
  	<div onclick="chiudi_picker()"><i class="fas fa-times icona_chiudi" ></i></div>
- 	<div style="margin-top:5px;padding-right:10px">
- 		<ul uk-tab="connect: #switcher;animation: uk-animation-fade;swiping:false" class="no_before menu_uk_picker_icona uk-tab" style="border: none;">
-			<li class="uk-active"  style="margin:0 10px;width:auto;" onclick="stampa_menu_addebito_web_app(' . $IDaddebito . ',0)"><div class="fs15" style="padding:5px 0">' . traduci('Menu Giornaliero', $lang) . '</div></li>
-	        <li  style="margin:0 10px;width:auto;" onclick="stampa_menu_addebito_web_app(' . $IDaddebito . ',1)"><div class="fs15" style="padding:5px 0">' . traduci('Ordinazione', $lang) . '</div></li>
-   		 </ul>
+  <div>
+   <ul uk-tab="connect: #switcher;animation: uk-animation-fade;swiping:false" class="no_before menu_uk_picker_icona uk-tab" style="border: none;">
+    <li class="uk-active"  style="margin:0 10px;width:auto;" onclick="stampa_menu_addebito_web_app(' . $IDaddebito . ',0)"><div class="fs15" style="padding:5px 0">' . traduci('Prodotti e Menu', $lang) . '</div></li>
 
- 	</div>
+    <li  style="margin:0 10px;width:auto;" onclick="stampa_menu_addebito_web_app(' . $IDaddebito . ',1)"><div class="fs15" style="padding:5px 0">' . traduci('Menu', $lang) . '</div></li>
+  </ul>
+  </div>
 </div>
 <div>
 
@@ -37,16 +37,19 @@ $testo = '
 
 <input type="hidden" value="' . $IDaddebito . '" id="IDaddebito_selezionato">
 <input type="hidden" value="' . $time . '" id="time_servizio">
-<div class="content" style="margin-top:0;height: calc(100% - 125px);">
-	<div  style="padding-top:5px;" id="stampa_menu">
+<input type="hidden" value="' . $IDservizio . '" id="IDmenu_servizio">
 
 
-	</div>
-	<script > stampa_menu_addebito_web_app(' . $IDaddebito . ',0) </script>
+<div class="content" style="margin-top:0;height: calc(100% - 75px);">
+	<div  style="padding-top:5px;padding-bottom: 70px;" id="stampa_menu"> </div>
+
+  <div id="riepilogo_ordinazione"> </div>
 
 </div>
 
-';
+
+
+  <script > stampa_menu_addebito_web_app(' . $IDaddebito . ',0);visualizza_riepilogo_inline(' . $IDaddebito . ')</script>';
 
 echo $testo;
 
@@ -58,22 +61,28 @@ echo $testo;
 
 function pulsanti_modifica_piatto(elem){
     var btn='';
+
     var IDaddebito_menu=$('#IDaddebito_selezionato').val();
-    var idaddebito_collegati=$(elem).data('idaddebito_collegati');
+
+    var idaddebito_collegato=$(elem).data('idaddebito_collegato');
     var IDaddebito=$(elem).data('idaddebito');
 
+    var IDservizio=$(elem).data('idservizio');
 
+    var variazioni=$(elem).data('variazioni');
+    btn+='<li onclick="chiudi_picker(); visualizza_informazioni_servizio_menu('+IDservizio+')"> Informazioni</li> ';
 
-    btn+='<li onclick="chiudi_picker();modifica_piatto_ristorante('+IDaddebito+ ')"> Variazioni</li> ';
-    btn+='<li onclick="" class="sostituisci"> Sostituisci </li> ';
+    if(variazioni==1){
+      btn+='<li onclick="chiudi_picker();modifica_piatto_ristorante('+IDaddebito+ ')"> Variazioni</li> ';
 
-    if($('#variazioni'+IDaddebito).length>0){
-      btn+=atob($('#variazioni'+IDaddebito).val());
+      if($('#variazioni'+IDaddebito).length>0){
+
+         btn+=atob($('#variazioni'+IDaddebito).val());
+      }
     }
 
 
-
-  	btn+='<li onclick="chiudi_picker();mod_ospite(28,'+idaddebito_collegati+ ',0,10,()=>{stampa_menu_addebito_web_app('+IDaddebito_menu+',1)});" style="color:#d80404">Elimina</li>';
+  	btn+='<li onclick="chiudi_picker();mod_ospite(28,'+idaddebito_collegato+ ',0,10,()=>{stampa_menu_addebito_web_app('+IDaddebito_menu+',1)});" style="color:#d80404">Elimina</li>';
 
 
 	  picker_modal_action(btn);
@@ -83,6 +92,7 @@ function pulsanti_modifica_piatto(elem){
 	});
 
 }
+
 
 function modifica_piatto_ristorante(IDaddebito){
     $.ajax({
@@ -106,6 +116,52 @@ function modifica_piatto_ristorante(IDaddebito){
       });
 
 }
+
+
+function visualizza_informazioni_servizio_menu(IDservizio,riga){
+    var IDaddebito=$('#IDaddebito_selezionato').val();
+    $.ajax({
+        url: baseurl+'app_uikit/profilocli/menu/informazioni_servizio_menu.php',
+        method: 'POST',
+        dataType: 'text',
+        cache: false,
+        timeout: 5000,
+        data: { IDservizio:IDservizio,riga:riga,IDaddebito:IDaddebito},
+        error: function(html) {
+           loader();
+        },
+
+        success: function(html) {
+           loader();
+          var IDpicker=crea_picker(()=>{stampa_menu_addebito_web_app(IDaddebito,0);visualizza_riepilogo_inline(IDaddebito)},{'height':'45%'});
+           $('#'+IDpicker+'.stampa_contenuto_picker').html(html);
+        }
+      });
+}
+
+
+function modifica_piatto_menu(tipo_aggiunta){
+  /*
+
+  0 rimozione
+  1 aggiunta
+  */
+
+    var IDservizio=$('#IDpiatto').val();
+
+    var time=$('#time_servizio').val();
+
+    var menu=$('#IDmenu_servizio').val();
+
+    var IDaddebito=$('#IDaddebito_selezionato').val();
+
+    var riga=$('#riga_menu').val();
+
+
+    mod_ospite(27,[IDservizio,tipo_aggiunta],[IDaddebito,menu,time,riga],10,()=>{});
+}
+
+
 
 </script>
 

@@ -11,7 +11,7 @@ $lista_servizi = get_dati_conto_riferimento($IDprenotazione, 0, [], $IDstruttura
 $serv_orari = [];
 if (!empty($lista_servizi)) {
 	foreach ($lista_servizi as $IDaddebito => $dati) {
-		if (in_array($dati['tipolim'], [4, 5, 6, 7, 8, 10])) {continue;}
+		if (in_array($dati['tipolim'], [4, 5, 6, 7, 8, 10, 14])) {continue;}
 
 		$qta = array_sum(array_column($dati['componenti'], 'qta'));
 
@@ -22,12 +22,11 @@ if (!empty($lista_servizi)) {
 	        <div class="uk-width-auto  uk-text-right lista_grid_right c000"> ' . ($dati['modi'] != 0 ? date('H:i', $dati['time']) : '--.--') . '  <i class="fas fa-chevron-right"></i> </div>
 		</div> ';
 
-		if (isset($serv_orari[time0($dati['time'])])) {
-			$serv_orari[time0($dati['time'])] .= $textserv;
-		} else {
-			$serv_orari[time0($dati['time'])] = $textserv;
+		if (!isset($serv_orari[time0($dati['time'])])) {
+			$serv_orari[time0($dati['time'])] = '';
 		}
 
+		$serv_orari[time0($dati['time'])] .= $textserv;
 	}
 }
 

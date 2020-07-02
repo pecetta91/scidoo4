@@ -23,7 +23,7 @@ while ($row = mysqli_fetch_row($result)) {
 	$IDschedina = $row[1];
 
 	if ($IDschedina == 0) {
-		$IDschedina = inscerisci_schedina($IDstruttura, [['prefissotel' => $prefisso, 'prefissocell' => $prefisso]])[0];
+		$IDschedina = inserisci_schedina($IDstruttura, [['prefissotel' => $prefisso, 'prefissocell' => $prefisso]])[0];
 		$query = "UPDATE infopren SET IDcliente=$IDschedina WHERE ID=$IDinfo_pren LIMIT 1";
 		$result = mysqli_query($link2, $query);
 	}

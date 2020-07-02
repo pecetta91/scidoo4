@@ -15,10 +15,10 @@ if (!empty($numeri)) {
 	foreach ($numeri as $dati) {
 
 		$lista_numeri .= '
-		<div class="uk_grid_div div_list_uk  "  uk-grid  >
+		<div class="uk_grid_div div_list_uk  "  uk-grid  onclick="location.href=' . "'tel:" . $dati['numero'] . "'" . '">
 			    <div class="uk-width-expand lista_grid_nome uk-text-truncate" >' . $dati['testo'] . '<br/>
 			  		<span class="uk-text-muted uk-text-small" >' . $dati['descrizione'] . '</span></div>
-		        <div class="uk-width-auto  uk-text-right lista_grid_right c000"> ' . $dati['numero'] . '  </div>
+		        <div class="uk-width-auto  uk-text-right lista_grid_right c000"> ' . $dati['numero'] . '  <i class="fas fa-chevron-right"></i></div>
 		</div>';
 
 	}
@@ -41,18 +41,18 @@ $testo = '
 
 			 <div class=" uk_grid_div div_list_uk" uk-grid   onclick="location.href=' . "'tel:" . $dati_struttura['telefono'] . "'" . '">
 			    <div class="uk-width-auto lista_grid_nome">' . traduci('Telefono', $lang) . '</div>
-			    <div class="uk-width-expand uk-text-right lista_grid_right" > ' . $dati_struttura['telefono'] . ' <i class="fas fa-chevron-right"></i> </div>
+			    <div class="uk-width-expand uk-text-right lista_grid_right c000" > ' . $dati_struttura['telefono'] . ' <i class="fas fa-chevron-right"></i> </div>
 			</div>
 
 
  			<div class=" uk_grid_div div_list_uk" uk-grid  onclick="location.href=' . "'mailto:" . $dati_struttura['email'] . "'" . '" >
 			    <div class="uk-width-auto lista_grid_nome">Email</div>
-			    <div class="uk-width-expand uk-text-right lista_grid_right" > ' . $dati_struttura['email'] . '  <i class="fas fa-chevron-right"></i>  </div>
+			    <div class="uk-width-expand uk-text-right lista_grid_right c000" > ' . $dati_struttura['email'] . '  <i class="fas fa-chevron-right"></i>  </div>
 			</div>
 
 			<div class=" uk_grid_div div_list_uk" uk-grid   onclick="location.href=' . "'https://" . $dati_struttura['sito'] . "'" . '" >
 			    <div class="uk-width-auto lista_grid_nome">' . traduci('Sito Web', $lang) . '</div>
-			    <div class="uk-width-expand uk-text-right lista_grid_right" > ' . $dati_struttura['sito'] . '   <i class="fas fa-chevron-right"></i> </div>
+			    <div class="uk-width-expand uk-text-right lista_grid_right c000" > ' . $dati_struttura['sito'] . '   <i class="fas fa-chevron-right"></i> </div>
 			</div>
 
 	</div>
@@ -63,19 +63,19 @@ $testo = '
 
  			<div class=" uk_grid_div div_list_uk" uk-grid    onclick="location.href=' . "' https://maps.google.com/?q=" . $dati_struttura['indirizzo'] . "'" . '">
 			    <div class="uk-width-auto lista_grid_nome">' . traduci('Indirizzo', $lang) . '</div>
-			    <div class="uk-width-expand uk-text-right lista_grid_right" >  ' . $dati_struttura['indirizzo'] . '    <i class="fas fa-chevron-right"></i></div>
+			    <div class="uk-width-expand uk-text-right lista_grid_right c000" >  ' . $dati_struttura['indirizzo'] . '    <i class="fas fa-chevron-right"></i></div>
 			</div>
 
 
 
 			<div class=" uk_grid_div div_list_uk" uk-grid   onclick="location.href=' . "' https://maps.google.com/?q=" . $dati_struttura['indirizzo'] . "'" . '" >
 			    <div class="uk-width-auto lista_grid_nome">' . traduci('Latitudine', $lang) . '</div>
-			    <div class="uk-width-expand uk-text-right lista_grid_right" > ' . $dati_struttura['latitudine'] . '    <i class="fas fa-chevron-right"></i></div>
+			    <div class="uk-width-expand uk-text-right lista_grid_right c000" > ' . $dati_struttura['latitudine'] . '    <i class="fas fa-chevron-right"></i></div>
 			</div>
 
  			<div class=" uk_grid_div div_list_uk" uk-grid  onclick="location.href=' . "' https://maps.google.com/?q=" . $dati_struttura['indirizzo'] . "'" . '">
 			    <div class="uk-width-auto lista_grid_nome">' . traduci('Longitudine', $lang) . '</div>
-			    <div class="uk-width-expand uk-text-right lista_grid_right" >  ' . $dati_struttura['longitudine'] . '   <i class="fas fa-chevron-right"></i></div>
+			    <div class="uk-width-expand uk-text-right lista_grid_right c000" >  ' . $dati_struttura['longitudine'] . '   <i class="fas fa-chevron-right"></i></div>
 			</div>
 
 

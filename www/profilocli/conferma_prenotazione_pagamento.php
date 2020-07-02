@@ -20,6 +20,7 @@ foreach ($dettaglio_prenotazione['depositi'] as $dati) {
 	$prezzo_deposito = $dati['prezzo'];
 }
 
+$prezzo_paypal = number_format($prezzo_deposito, 2, '.', '');
 $carta = '
 
 <div id="anno" style="display:none;">
@@ -67,72 +68,52 @@ $carta = '
 $testo_pagamento = '';
 switch ($tipo_pagamento) {
 case 2:
-
-/*
+	$pagamenti_proprieta = get_dati_pagamenti($IDstruttura, [['IDpagamento' => $IDpagamento]]);
+	$codice_cliente = $pagamenti_proprieta[$IDpagamento]['proprieta']['CODICE_CLIENTE']['valore'] ?? '';
 //codice paypal
-$testo_pagamento = '
+	$testo_pagamento = '
 <div style="text-align:center">
 <span style="font-size:15px;">Paga con Paypal o Carta di Credito/Bancomat</span>
 <div id="paypal-button-container" style="z-index:2;position:relative"></div>
 </div>';
-$testo_pagamento .= "
+	$testo_pagamento .= "
 <script>
-paypal.Button.render({
-env: 'production', // sandbox | production
+		paypal.Button.render({
+		env: 'production', // sandbox | production
+			style: {
+			label: 'buynow',
+			fundingicons: true, // optional
+			branding: true, // optional
+			size:  'large', // small | medium | large | responsive
+			shape: 'rect',   // pill | rect
+			color: 'gold'   // gold | blue | silve | black
+		},
 
-style: {
-label: 'buynow',
-fundingicons: true, // optional
-branding: true, // optional
-size:  'large', // small | medium | large | responsive
-shape: 'rect',   // pill | rect
-color: 'gold'   // gold | blue | silve | black
-},
+		client: {
+			sandbox:    'AQxQqDiaa1zCbQ2sM6VTbaTYdXrCNPNv26xgtTiN3Q5Y7pMu9UWp0MKdH6YJ2sld7LsXG84CADOlqocD',
+			production: '" . $codice_cliente . "'
+		},
 
-client: {
-sandbox:    'AUU5djpGmLVeRO6nT-njYN95WsURRkoq7v4FbypEZRVraWheDgL00tw4_C_1U1s_-13DR_RCXDm7F3ZD',
-production: '" . $codice_cliente . "'
-},
+		payment: function(data, actions) {
+			return actions.payment.create({
+				payment: {
+					transactions: [ { amount: { total: '" . $prezzo_paypal . "', currency: 'EUR' } } ]
+				}
+			});
+		},
 
-payment: function(data, actions) {
-return actions.payment.create({
-payment: {
-transactions: [
-{
-amount: { total: '" . $totale_vendita . "', currency: 'EUR' }
-}
-]
-}
-});
-},
+		onAuthorize: function(data, actions) {
 
-onAuthorize: function(data, actions) {
 
-var IDstruttura=$('#IDstruttura').val();
-var IDvendita=leggiCookie_pac('IDvendita_pacchetti');
+		return actions.payment.execute().then(function() {
+			controllo_pagamento();
 
-//var EXECUTE_URL = '" . base_url() . "/config/vendita/concludi_vendita_online.php';
+		});
 
-var data = {
-paymentID: data.paymentID,
-payerID: data.payerID,
-IDvendita: IDvendita,
-IDstruttura: IDstruttura,
-IDpagamento:'" . $IDpagamento . "',
-tipopag:'2'
-};
+		}
 
-return actions.payment.execute().then(function() {
-$.post(EXECUTE_URL,data,function(html){
-//scorri_carrello(5);
-});
-});
-
-}
-
-}, '#paypal-button-container');
+		}, '#paypal-button-container');
 </script>";
- */
 
 	break;
 

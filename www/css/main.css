@@ -940,3 +940,6 @@ input[type=number]::-webkit-outer-spin-button {
 
 .toolbar_dashboard{box-shadow:0 0 5px 1px #e1e1e1;    position: fixed;  bottom: 0;   height: 50px;  background: #fff;   width: 100%;    margin: 0;   padding: 0; 
 right: 0;margin-bottom: constant(safe-area-inset-bottom); /* iOS 11.0 */ margin-bottom: env(safe-area-inset-bottom); /* iOS 11.2 */}
+
+.riepilogo_ordine_menu{height: 45px;   position: absolute;  bottom: 5px;  left: 0;
+background: #ffffff;  box-shadow: 0 0 4px 4px #e1e1e1;     width: 100%;  border-top-left-radius: 10px;  border-top-right-radius: 10px;}
