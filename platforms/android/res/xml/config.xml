@@ -1,17 +1,81 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.Scidoo" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.scidoo" version="2.3.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="OneSignalPush">
+        <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
+    </feature>
+    <feature name="Battery">
+        <param name="android-package" value="org.apache.cordova.batterystatus.BatteryListener" />
+    </feature>
+    <feature name="Camera">
+        <param name="android-package" value="org.apache.cordova.camera.CameraLauncher" />
+    </feature>
+    <feature name="Device">
+        <param name="android-package" value="org.apache.cordova.device.Device" />
+    </feature>
+    <feature name="Compass">
+        <param name="android-package" value="org.apache.cordova.deviceorientation.CompassListener" />
+    </feature>
+    <feature name="Notification">
+        <param name="android-package" value="org.apache.cordova.dialogs.Notification" />
+    </feature>
+    <feature name="File">
+        <param name="android-package" value="org.apache.cordova.file.FileUtils" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="FileTransfer">
+        <param name="android-package" value="org.apache.cordova.filetransfer.FileTransfer" />
+    </feature>
+    <feature name="Geolocation">
+        <param name="android-package" value="org.apache.cordova.geolocation.Geolocation" />
+    </feature>
+    <feature name="Globalization">
+        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
+    </feature>
+    <feature name="InAppBrowser">
+        <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="org.apache.cordova.networkinformation.NetworkManager" />
+    </feature>
+    <feature name="SplashScreen">
+        <param name="android-package" value="org.apache.cordova.splashscreen.SplashScreen" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
+    </feature>
+    <feature name="Vibration">
+        <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
+    </feature>
     <name>Scidoo</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        Gestionale in Cloud per Strutture Ricettive
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="info@webcoom.com" href="https://www.webcoom.com">
+        Scidoo Team
     </author>
     <content src="index.html" />
+    <gap:splash source="npm" src="cordova-plugin-statusbar" />
+    <icon src="icon.png" />
+    <icon gap:platform="android" gap:qualifier="ldpi" src="res/icon/android/36.png" />
+    <icon gap:platform="android" gap:qualifier="mdpi" src="res/icon/android/mipmap-mdpi/ic_launcher.png" />
+    <icon gap:platform="android" gap:qualifier="hdpi" src="res/icon/android/mipmap-hdpi/ic_launcher.png" />
+    <icon gap:platform="android" gap:qualifier="xhdpi" src="res/icon/android/mipmap-xhdpi/ic_launcher.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-ldpi" src="res/screen/android/drawable-ldpi/screen.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-mdpi" src="res/screen/android/drawable-mdpi/screen.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-hdpi" src="res/screen/android/drawable/screen.png" />
+    <gap:splash gap:platform="android" gap:qualifier="port-xhdpi" src="res/screen/android/drawable-xhdpi/screen.png" />
+    <edit-config file="*-Info.plist" mode="overwrite" target="NSPhotoLibraryUsageDescription">
+        <string>We Could use the Camera for capture photo for Hotels</string>
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="UIViewControllerBasedStatusBarAppearance">
+        <false />
+    </edit-config>
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -19,9 +83,27 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <splash density="land-hdpi" src="res/screen/android/drawable-land-hdpi/screen.png" />
+    <splash density="land-ldpi" src="res/screen/android/drawable-land-ldpi/screen.png" />
+    <splash density="land-mdpi" src="res/screen/android/drawable-land-mdpi/screen.png" />
+    <splash density="land-xhdpi" src="res/screen/android/drawable-land-xhdpi/screen.png" />
+    <splash density="port-hdpi" src="res/screen/android/drawable-hdpi/screen.png" />
+    <splash density="port-ldpi" src="res/screen/android/drawable-ldpi/screen.png" />
+    <splash density="port-mdpi" src="res/screen/android/drawable-mdpi/screen.png" />
+    <splash density="port-xhdpi" src="res/screen/android/drawable-xhdpi/screen.png" />
     <allow-intent href="market:*" />
     <preference name="loglevel" value="DEBUG" />
-    <feature name="OneSignalPush">
-        <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
-    </feature>
+    <preference name="android-build-tool" value="gradle" />
+    <preference name="android-minSdkVersion" value="12" />
+    <preference name="android-maxSdkVersion" value="28" />
+    <preference name="android-targetSdkVersion" value="28" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="android-windowSoftInputMode" value="adjustResize" />
+    <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <preference name="phonegap-version" value="cli-9.0.0" />
+    <preference name="StatusBarBackgroundColor" value="#f8f9f8" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="webviewbounce" value="false" />
+    <preference name="StatusBarOverlaysWebView" value="false" />
+    <preference name="UIWebViewBounce" value="false" />
 </widget>
