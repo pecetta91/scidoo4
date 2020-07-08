@@ -1,41 +1,33 @@
 <html>
     <head>
         <title>SCIDOO - Gestionale Hotel</title>
-
         <meta name="apple-mobile-web-app-title" content="SCIDOO">
         <meta name="description" content="Applicazione Concierge - SCIDOO">
-
         <meta charset="utf-8">
+
         <meta name="viewport" content="target-densityDpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no , viewport-fit=cover" />
- 
+        <link rel="icon" href="https://www.scidoo.com/favicon.png">
 
+        <script src="https://app.scidoo.com/js/jquery-3.5.1.min.js"    crossorigin="anonymous"></script>
 
-        <script  src="https://code.jquery.com/jquery-3.4.1.js"  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="  crossorigin="anonymous"></script>
-        <script  src="js/get_script_scidoo.js" ></script>
- 
+        <script src="https://app.scidoo.com/js/get_script_scidoo.js?r=1" ></script>
+        <script src="https://app.scidoo.com/js/js.php"></script>
+        <link rel="stylesheet" type="text/css" href="https://app.scidoo.com/css/css.php">
 
-         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
- 
-
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
         <script src="https://www.paypalobjects.com/api/checkout.js"></script>
- 
+
     </head>
-    <body >
+    <body>
 
         <span uk-spinner="ratio:4.5" id="loader" style="display: none;position:fixed;  top: 50%;  left: 50%;z-index: 99;translate(-50%,-50%);
         color:#a2a2a2; border-radius: 10px;transform: translate(-50%,-50%);"></span>
-
-
         <div id="overlay_ricerca_preventivo" style="height:100%; position: fixed;  top: 0;
          bottom: 0; left: 0;    right: 0;  background: rgba(0,0,0,.5);  z-index: 1001;  transition: opacity .15s linear;display: none;">
-        	<span uk-spinner="ratio:4.5"   style="position:fixed;  top: 50%;  left: 50%;z-index: 1002;color:#fff; border-radius: 10px;transform: translate(-50%,-50%);"></span>
-    	</div>
-
-
-    	<div id="pagina_principale" > 
-
-               <div id="loaderscidoo" style="   overflow:visible;background: url(https://scidoo.com/sito_scidoo/logo.png) no-repeat 50% 40%;  background-color:#fff; background-size:96px 95px;background-size: 250px;
-    position: absolute;  top: 0;  left: 0; right: 0;  bottom: 0; margin: auto;"></div>
+            <span uk-spinner="ratio:4.5"   style="position:fixed;  top: 50%;  left: 50%;z-index: 1002;color:#fff; border-radius: 10px;transform: translate(-50%,-50%);"></span>
+        </div>
+        <div id="pagina_principale" >
+         <div id="loaderscidoo" style="overflow:visible;background: url(https://scidoo.com/sito_scidoo/logo.png) no-repeat 50% 40%;  background-color:#fff; background-size:96px 95px;background-size: 250px; position: absolute;  top: 0;  left: 0; right: 0;  bottom: 0; margin: auto;"></div>
         </div>
 
     </body>
