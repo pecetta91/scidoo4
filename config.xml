@@ -111,4 +111,5 @@
         </feature>
         <preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     </platform>
+    <access origin="*" />
 </widget>
