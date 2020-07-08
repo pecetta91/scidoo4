@@ -1,7 +1,7 @@
 /**
  * Modified MIT License
- * 
- * Copyright 2017 OneSignal
+ *
+ * Copyright 2019 OneSignal
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -9,13 +9,13 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * 1. The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * 2. All copies of substantial portions of the Software may only be used in connection
  * with services provided by OneSignal.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -25,13 +25,13 @@
  * THE SOFTWARE.
  */
 
-
 var OneSignal = function() {
     var _appID = "";
     var _googleProjectNumber = "";
     var _iOSSettings = {};
     var _notificationReceivedDelegate = function() {};
     var _notificationOpenedDelegate = function() {};
+    var _inAppMessageClickDelegate = function () {};
 };
 
 OneSignal.prototype.OSInFocusDisplayOption = {
@@ -50,11 +50,11 @@ OneSignal._displayOption = OneSignal.prototype.OSInFocusDisplayOption.InAppAlert
 
 OneSignal._permissionObserverList = [];
 OneSignal._subscriptionObserverList = [];
+OneSignal._emailSubscriptionObserverList = [];
 
 
 // You must call init before any other OneSignal function.
-// options is a JSON object that includes:
-//  Android - googleProjectNumber: is required.
+//  Android - googleProjectNumber: Deprecated; pulled from dashboard, local value is ignored
 OneSignal.prototype.startInit = function(appId, googleProjectNumber) {
     OneSignal._appID = appId;
     OneSignal._googleProjectNumber = googleProjectNumber;
@@ -68,6 +68,11 @@ OneSignal.prototype.handleNotificationReceived = function(handleNotificationRece
 
 OneSignal.prototype.handleNotificationOpened = function(handleNotificationOpenedCallback) {
     OneSignal._notificationOpenedDelegate = handleNotificationOpenedCallback;
+    return this;
+};
+
+OneSignal.prototype.handleInAppMessageClicked = function(handler) {
+    OneSignal._inAppMessageClickDelegate = handler;
     return this;
 };
 
@@ -89,58 +94,66 @@ OneSignal.prototype.endInit = function() {
     //Pass notification received handler
     cordova.exec(OneSignal._notificationReceivedDelegate, function(){}, "OneSignalPush", "setNotificationReceivedHandler", []);
     cordova.exec(OneSignal._notificationOpenedDelegate, function(){}, "OneSignalPush", "setNotificationOpenedHandler", []);
-
+    cordova.exec(OneSignal._inAppMessageClickDelegate, function() {}, "OneSignalPush", "setInAppMessageClickHandler", []);
     //Call Init
     cordova.exec(function() {}, function(){}, "OneSignalPush", "init", [OneSignal._appID, OneSignal._googleProjectNumber, OneSignal._iOSSettings, OneSignal._displayOption]);
 };
 
 OneSignal._processFunctionList = function(array, param) {
     for (var i = 0; i < array.length; i++)
-      array[i](param);
+        array[i](param);
 };
 
 OneSignal._formatPermissionObj = function(state) {
     // If Android format, match it to the iOS format
     if ("undefined" !== typeof state.enabled) {
-      state.hasPrompted = true;
-      state.state = state.enabled ? OneSignal.prototype.OSNotificationPermission.Authorized : OneSignal.prototype.OSNotificationPermission.Denied;
-      delete state.enabled
+        state.hasPrompted = true;
+        state.state = state.enabled ? OneSignal.prototype.OSNotificationPermission.Authorized : OneSignal.prototype.OSNotificationPermission.Denied;
+        delete state.enabled
     }
 };
 
 OneSignal.prototype.addPermissionObserver = function(callback) {
-  OneSignal._permissionObserverList.push(callback);
-  var permissionCallBackProcessor = function(state) {
-    OneSignal._formatPermissionObj(state.to);
-    OneSignal._formatPermissionObj(state.from);
-    OneSignal._processFunctionList(OneSignal._permissionObserverList, state);
-  };
-  cordova.exec(permissionCallBackProcessor, function(){}, "OneSignalPush", "addPermissionObserver", []);
+    OneSignal._permissionObserverList.push(callback);
+    var permissionCallBackProcessor = function(state) {
+        OneSignal._formatPermissionObj(state.to);
+        OneSignal._formatPermissionObj(state.from);
+        OneSignal._processFunctionList(OneSignal._permissionObserverList, state);
+    };
+    cordova.exec(permissionCallBackProcessor, function(){}, "OneSignalPush", "addPermissionObserver", []);
 };
 
 OneSignal.prototype.addSubscriptionObserver = function(callback) {
-  OneSignal._subscriptionObserverList.push(callback);
-  var subscriptionCallBackProcessor = function(state) {
-    OneSignal._processFunctionList(OneSignal._subscriptionObserverList, state);
-  };
-  cordova.exec(subscriptionCallBackProcessor, function(){}, "OneSignalPush", "addSubscriptionObserver", []);
+    OneSignal._subscriptionObserverList.push(callback);
+    var subscriptionCallBackProcessor = function(state) {
+        OneSignal._processFunctionList(OneSignal._subscriptionObserverList, state);
+    };
+    cordova.exec(subscriptionCallBackProcessor, function(){}, "OneSignalPush", "addSubscriptionObserver", []);
+};
+
+OneSignal.prototype.addEmailSubscriptionObserver = function(callback) {
+    OneSignal._emailSubscriptionObserverList.push(callback);
+    var emailSubscriptionCallbackProcessor = function(state) {
+        OneSignal._processFunctionList(OneSignal._emailSubscriptionObserverList, state);
+    };
+    cordova.exec(emailSubscriptionCallbackProcessor, function(){}, "OneSignalPush", "addEmailSubscriptionObserver", []);
 };
 
 OneSignal.prototype.setInFocusDisplaying = function(displayType) {
-  OneSignal._displayOption = displayType;
-  cordova.exec(function(){}, function(){}, "OneSignalPush", "setInFocusDisplaying", [displayType]);
+    OneSignal._displayOption = displayType;
+    cordova.exec(function(){}, function(){}, "OneSignalPush", "setInFocusDisplaying", [displayType]);
 };
 
 OneSignal.prototype.getPermissionSubscriptionState = function(callback) {
-  var internalCallBackProcessor = function(state) {
-    OneSignal._formatPermissionObj(state.permissionStatus);
-    callback(state);
-  };
-  cordova.exec(internalCallBackProcessor, function(){}, "OneSignalPush", "getPermissionSubscriptionState", []);
+    var internalCallBackProcessor = function(state) {
+        OneSignal._formatPermissionObj(state.permissionStatus);
+        callback(state);
+    };
+    cordova.exec(internalCallBackProcessor, function(){}, "OneSignalPush", "getPermissionSubscriptionState", []);
 };
 
 OneSignal.prototype.getIds = function(IdsReceivedCallBack) {
-  cordova.exec(IdsReceivedCallBack, function(){}, "OneSignalPush", "getIds", []);
+    cordova.exec(IdsReceivedCallBack, function(){}, "OneSignalPush", "getIds", []);
 };
 
 OneSignal.prototype.getTags = function(tagsReceivedCallBack) {
@@ -211,7 +224,7 @@ OneSignal.prototype.postNotification = function(jsonData, onSuccess, onFailure) 
 };
 
 OneSignal.prototype.promptLocation = function() {
-  cordova.exec(function(){}, function(){}, "OneSignalPush", "promptLocation", []);
+    cordova.exec(function(){}, function(){}, "OneSignalPush", "promptLocation", []);
 };
 
 OneSignal.prototype.syncHashedEmail = function(email) {
@@ -222,6 +235,164 @@ OneSignal.prototype.setLogLevel = function(logLevel) {
     cordova.exec(function(){}, function(){}, "OneSignalPush", "setLogLevel", [logLevel]);
 };
 
+OneSignal.prototype.setLocationShared = function(shared) {
+    cordova.exec(function() {}, function() {}, "OneSignalPush", "setLocationShared", [shared]);
+};
+
+//email
+
+OneSignal.prototype.setEmail = function(email, emailAuthToken, onSuccess, onFailure) {
+    if (onSuccess == null)
+        onSuccess = function() {};
+
+    if (onFailure == null)
+        onFailure = function() {};
+
+    if (typeof emailAuthToken == 'function') {
+        onFailure = onSuccess;
+        onSuccess = emailAuthToken;
+
+        cordova.exec(onSuccess, onFailure, "OneSignalPush", "setUnauthenticatedEmail", [email]);
+    } else if (emailAuthToken == undefined) {
+        cordova.exec(onSuccess, onFailure, "OneSignalPush", "setUnauthenticatedEmail", [email]);
+    } else {
+        cordova.exec(onSuccess, onFailure, "OneSignalPush", "setEmail", [email, emailAuthToken]);
+    }
+};
+
+OneSignal.prototype.logoutEmail = function(onSuccess, onFailure) {
+    if (onSuccess == null)
+        onSuccess = function() {};
+
+
+    if (onFailure == null)
+        onFailure = function() {};
+
+    cordova.exec(onSuccess, onFailure, "OneSignalPush", "logoutEmail", []);
+};
+
+OneSignal.prototype.userProvidedPrivacyConsent = function(callback) {
+    cordova.exec(callback, function(){}, "OneSignalPush", "userProvidedPrivacyConsent", []);
+};
+
+OneSignal.prototype.setRequiresUserPrivacyConsent = function(required) {
+    cordova.exec(function() {}, function() {}, "OneSignalPush", "setRequiresUserPrivacyConsent", [required]);
+};
+
+OneSignal.prototype.provideUserConsent = function(granted) {
+    cordova.exec(function() {}, function() {}, "OneSignalPush", "provideUserConsent", [granted]);
+};
+
+OneSignal.prototype.setExternalUserId = function(externalId, externalUserIdCallback) {
+    if (externalId == undefined)
+        externalId = null;
+
+    if (externalUserIdCallback == undefined)
+        externalUserIdCallback = function() {};
+
+    cordova.exec(externalUserIdCallback, function() {}, "OneSignalPush", "setExternalUserId", [externalId]);
+};
+
+OneSignal.prototype.removeExternalUserId = function(externalUserIdCallback) {
+    if (externalUserIdCallback == undefined)
+        externalUserIdCallback = function() {};
+
+    cordova.exec(externalUserIdCallback, function() {}, "OneSignalPush", "removeExternalUserId", []);
+};
+
+/**
+ * in app messaging
+ */
+
+OneSignal.prototype.addTriggers = function(triggers) {
+    Object.keys(triggers).forEach(function(key){
+        // forces values to be string types
+        if (typeof triggers[key] !== "string") {
+            triggers[key] = JSON.stringify(triggers[key]);
+        }
+    });
+    cordova.exec(function() {}, function() {}, "OneSignalPush", "addTriggers", [triggers]);
+};
+
+OneSignal.prototype.addTrigger = function(key, value) {
+    var obj = {};
+    obj[key] = value;
+    OneSignal.prototype.addTriggers(obj);
+};
+
+OneSignal.prototype.removeTriggerForKey = function(key) {
+    OneSignal.prototype.removeTriggersForKeys([key]);
+};
+
+OneSignal.prototype.removeTriggersForKeys = function(keys) {
+    if (!Array.isArray(keys)){
+        console.error("OneSignal: removeTriggersForKeys: argument must be of type Array")
+    }
+    cordova.exec(function() {}, function() {}, "OneSignalPush", "removeTriggersForKeys", [keys]);
+};
+
+OneSignal.prototype.getTriggerValueForKey = function(key, callback) {
+    var getTriggerValueForKeyCallback = function(obj) {
+        callback(obj.value);
+    };
+    cordova.exec(getTriggerValueForKeyCallback, function() {}, "OneSignalPush", "getTriggerValueForKey", [key]);
+};
+
+OneSignal.prototype.pauseInAppMessages = function(pause) {
+    cordova.exec(function() {}, function() {}, "OneSignalPush", "pauseInAppMessages", [pause]);
+};
+
+/**
+ * outcomes
+ */
+
+OneSignal.prototype.sendOutcome = function(name, callback) {
+    if (typeof callback === "undefined")
+        callback = function() {};
+
+    if (typeof callback !== "function") {
+        console.error("OneSignal: sendOutcome: must provide a valid callback");
+        return;
+    }
+
+    const sendOutcomeCallback = function(result) {
+        callback(result);
+    };
+
+    cordova.exec(sendOutcomeCallback, function() {}, "OneSignalPush", "sendOutcome", [name]);
+};
+
+OneSignal.prototype.sendUniqueOutcome = function(name, callback) {
+    if (typeof callback === "undefined")
+        callback = function() {};
+
+    if (typeof callback !== "function") {
+        console.error("OneSignal: sendUniqueOutcome: must provide a valid callback");
+        return;
+    }
+
+    const sendUniqueOutcomeCallback = function(result) {
+        callback(result);
+    };
+
+    cordova.exec(sendUniqueOutcomeCallback, function() {}, "OneSignalPush", "sendUniqueOutcome", [name]);
+};
+
+OneSignal.prototype.sendOutcomeWithValue = function(name, value, callback) {
+    if (typeof callback === "undefined")
+        callback = function() {};
+
+    if (typeof callback !== "function") {
+        console.error("OneSignal: sendOutcomeWithValue: must provide a valid callback");
+        return;
+    }
+
+    const sendOutcomeWithValueCallback = function(result) {
+        callback(result);
+    };
+
+    cordova.exec(sendOutcomeWithValueCallback, function() {}, "OneSignalPush", "sendOutcomeWithValue", [name, Number(value)]);
+};
 
 //-------------------------------------------------------------------
 

@@ -1,8 +1,12 @@
 {
-    "OneSignal": {
-        "name": "OneSignal",
-        "type": "podspec",
-        "spec": "2.5.4",
-        "count": 1
+    "declarations": {},
+    "sources": {},
+    "libraries": {
+        "OneSignal": {
+            "name": "OneSignal",
+            "type": "podspec",
+            "spec": "2.14.2",
+            "count": 1
+        }
     }
 }

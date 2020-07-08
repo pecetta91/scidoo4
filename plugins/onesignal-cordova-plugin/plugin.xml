@@ -2,11 +2,10 @@
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="onesignal-cordova-plugin"
-    version="2.1.2">
-
+    version="2.10.1">
 
   <name>OneSignal Push Notifications</name>
-  <author>Josh Kasten</author>
+  <author>Josh Kasten, Bradley Hesse, Rodrigo Gomez-Palacio</author>
 
   <description>OneSignal is a high volume Push Notification service for mobile apps. In addition to basic notification delivery, OneSignal also provides tools to localize, target, schedule, A/B test, and automate notifications that you send.</description>
 
@@ -21,19 +20,15 @@
   <engines>
     <engine name="cordova" version=">=6.4.0" />
     <engine name="cordova-ios" version=">=4.3.0" />
-    <engine name="cordova-android" version=">=4.0.0" />
+    <engine name="cordova-android" version=">=5.1.0" />
     <engine name="apple-xcode" version=">=8.0.0" />
     <engine name="apple-ios" version=">=7.0.0" />
   </engines>
-  
+
   <platform name="android">
-    <framework src="com.onesignal:OneSignal:3.5.7" />
+    <framework src="com.onesignal:OneSignal:3.14.1" />
     <framework src="build-extras-onesignal.gradle" custom="true" type="gradleReference" />
-    
-    <!-- Overrides com.onesignal:OneSignal dependencies to avoid GMS version conflicts with other plugins as most rely on + as well. -->
-    <framework src="com.google.android.gms:play-services-gcm:+" />
-    <framework src="com.google.android.gms:play-services-location:+" />
-    
+
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="OneSignalPush" >
         <param name="android-package" value="com.plugin.gcm.OneSignalPush" />
@@ -59,10 +54,16 @@
         </intent-filter>
       </receiver>
     </config-file>
-    
+
     <source-file src="src/android/com/plugin/gcm/OneSignalPush.java" target-dir="src/com/plugin/gcm/" />
+    <source-file src="src/android/com/plugin/gcm/OneSignalController.java" target-dir="src/com/plugin/gcm/" />
+    <source-file src="src/android/com/plugin/gcm/OneSignalEmailController.java" target-dir="src/com/plugin/gcm/" />
+    <source-file src="src/android/com/plugin/gcm/OneSignalObserverController.java" target-dir="src/com/plugin/gcm/" />
+    <source-file src="src/android/com/plugin/gcm/OneSignalOutcomeController.java" target-dir="src/com/plugin/gcm/" />
+    <source-file src="src/android/com/plugin/gcm/OneSignalInAppMessagingController.java" target-dir="src/com/plugin/gcm/" />
+    <source-file src="src/android/com/plugin/gcm/CallbackHelper.java" target-dir="src/com/plugin/gcm/" />
   </platform>
-  
+
   <!-- ios -->
   <platform name="ios">
 
@@ -87,12 +88,12 @@
       <string>production</string>
     </config-file>
 
-    <framework src="OneSignal" type="podspec" spec="2.5.4" />
+    <framework src="OneSignal" type="podspec" spec="2.14.2" />
     <header-file src="src/ios/OneSignalPush.h" />
     <source-file src="src/ios/OneSignalPush.m" />
 
   </platform>
-  
+
   <!-- Windows Phone 8.1 -->
   <platform name="windows">
     <config-file target="config.xml" parent="/*">
@@ -100,11 +101,11 @@
         <param name="ios-package" value="OneSignalPush"/>
       </feature>
     </config-file>
-    
+
     <js-module src="src/windows/OneSignalPushProxy.js" name="OneSignalPushProxy">
       <merges target="" />
     </js-module>
-    
+
     <framework src="src/windows/OneSignalSDK_WP_WNS_WRTC.winmd" custom="true" />
     <framework src="src/windows/OneSignalSDK_WP_WNS.dll" custom="true" />
     <framework src="src/windows/Newtonsoft.Json.dll" custom="true" />
